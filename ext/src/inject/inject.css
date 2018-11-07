@@ -1,0 +1,33 @@
+
+.np-ext {
+  position: fixed;
+  display: flex;
+  padding: 10px;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: 300px;
+  width: 400px;
+  top: 100px;
+  right: 0;
+}
+
+.np-ext .np-btn {
+  bottom: 20px;
+  right: 20px;
+}
+
+.np-ext .tags {
+  padding: 5px;
+  background: #fff;
+  width: 100px;
+  bottom: 30px;
+
+  border-radius: 4px;
+
+  transform: scale(0);
+  transition: 0.2s all;
+}
+
+.np-ext .tags.open {
+  transform: scale(1);
+}
