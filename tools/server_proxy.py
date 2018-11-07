@@ -7,16 +7,20 @@ from sanic import Sanic
 from sanic.response import json
 from sanic.exceptions import InvalidUsage
 from sanic_cors import cross_origin
+from walrus import Walrus
 
 from kekette import get_env
 
 
 config = get_env(prefix='ILEARN_DEV_')
-
 app = Sanic()
+
+wdb = Walrus()
+cache = wdb.cache()
 
 parse_number = lambda x: float(re.findall(r'[\d\.]+', x)[0])
 
+@cache.cached(timeout=1200)
 def fetch_data(endpoint, **params):
   remote_url = f'http://{config.x_server}/{endpoint}'
   headers = {'Host': config.x_server}
