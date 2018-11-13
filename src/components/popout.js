@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { List } from 'immutable'
 import { hot } from 'react-hot-loader'
+import autoBind from 'react-autobind'
 
 import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent } from '@blueprintjs/core'
 import { MultiSelect } from '@blueprintjs/select'
@@ -8,6 +9,14 @@ import { MultiSelect } from '@blueprintjs/select'
 
 import { get_concepts } from './remote'
 import './popout.sass'
+
+
+class OptionsList {
+  constructor (data) {
+  }
+
+
+}
 
 
 class ConceptsField extends Component {
@@ -19,6 +28,10 @@ class ConceptsField extends Component {
       concepts: List(),
       selected: List(),
     }
+    autoBind(this)
+    this.didSelectOption = this.didSelectOption.bind(this)
+    this.didRemoveTag = this.didRemoveTag.bind(this)
+    this.isSelected = this.isSelected.bind(this)
   }
 
   componentDidMount () {
@@ -35,7 +48,23 @@ class ConceptsField extends Component {
   }
 
   isSelected (item) {
-    return this.state.selected.indexOf(item) !== -1
+    return this.state.selected.filter((i) => i.label === item.label).size === 1
+  }
+
+  didSelectOption (item, event) {
+    let selected
+    if (this.isSelected(item)) {
+      // Deselect this item.
+      selected = this.state.selected.filterNot((i) => i.label === item.label)
+    } else {
+      selected = this.state.selected.push(item)
+    }
+    this.setState({ selected })
+  }
+
+  didRemoveTag (event, tag) {
+    const selected = this.state.selected.filterNot((i) => i.label === tag.children)
+    this.setState({ selected })
   }
 
   renderTag (item) {
@@ -51,14 +80,15 @@ class ConceptsField extends Component {
     )
   }
 
-  renderOption (item) {
-    const active = this.state.selected.find((x) => x.label === item.label)
+  renderOption (item, { modifiers, handleClick }) {
     return (
       <MenuItem
         key={item.label}
         text={item.label}
         shouldDismissPopover={false}
-        icon={active ? 'tick' : 'blank'}
+        onClick={handleClick}
+        active={modifiers.active}
+        icon={this.isSelected(item) ? 'tick' : 'blank'}
       />)
   }
 
@@ -76,17 +106,20 @@ class ConceptsField extends Component {
             rightElement: <Button icon='plus' minimal/>,
             tagProps: {
               interactive: true,
+              onRemove: this.didRemoveTag,
               minimal: true,
             }
           }}
+          popoverProps={{
+            position: 'bottom-left',
+
+          }}
+          openOnKeyDown
           items={this.state.concepts.toJS()}
           selectedItems={this.state.selected}
           tagRenderer={(x) => x.label}
-          onItemSelect={(x) => {
-            const selected = [...this.state.selected, x]
-            this.setState({ selected })
-          }}
-          itemRenderer={(x) => this.renderOption(x)}
+          onItemSelect={this.didSelectOption}
+          itemRenderer={this.renderOption}
           />
       </FormGroup>
     )
@@ -109,6 +142,7 @@ class Popout extends Component {
           <Button icon='book' />
           <div className='ext popover'>
             <h2>iLearn</h2>
+            <Button icon='endorsed' intent={Intent.PRIMARY}>Milestone</Button>
             <ConceptsField />
           </div>
         </Popover>

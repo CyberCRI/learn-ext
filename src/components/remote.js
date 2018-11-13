@@ -1,7 +1,7 @@
 import { request, getCanonicalUrl } from './utils'
 
 
-const ENDPOINT = 'https://api-ilearn.zen.noop.pw/concepts'
+const ENDPOINT = 'https://ilearn.cri-paris.org/ext/api/v0.1.0/concepts'
 
 
 const get_concepts = () => {
