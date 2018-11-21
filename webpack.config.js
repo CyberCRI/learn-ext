@@ -1,5 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const WebpackBar = require('webpackbar')
+const DashboardPlugin = require('webpack-dashboard/plugin')
 
 
 module.exports = {
@@ -23,14 +26,25 @@ module.exports = {
       },
       {
         test: /\.s(c|a)ss$/,
+        exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       }
     ]
   },
 
   plugins: [
+    new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
+    new DashboardPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new UglifyJsPlugin({ cache: true, parallel: 4, sourceMap: true }),
   ],
+
+  optimization: {
+    // splitChunks: {
+    //   chunks: 'all',
+    // },
+    usedExports: true,
+  },
 
   devtool: 'inline-source-map',
   devServer: {
