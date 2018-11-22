@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader'
 import autoBind from 'react-autobind'
 
 import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent } from '@blueprintjs/core'
+import { Slider } from '@blueprintjs/core'
 import { MultiSelect } from '@blueprintjs/select'
 
 
@@ -14,7 +15,6 @@ import './popout.sass'
 class OptionsList {
   constructor (data) {
   }
-
 
 }
 
@@ -35,13 +35,14 @@ class ConceptsField extends Component {
   }
 
   componentDidMount () {
+    // Once the component mounts, we'll request the server for tags/concepts.
     get_concepts().then((data) => {
       const keywords = List(data.keywords)
       const concepts = List(data.concepts)
       this.setState({
         keywords,
         concepts,
-        selected: concepts.slice(1),
+        selected: concepts.slice(2),
       })
 
     })
@@ -62,22 +63,11 @@ class ConceptsField extends Component {
     this.setState({ selected })
   }
 
-  didRemoveTag (event, tag) {
-    const selected = this.state.selected.filterNot((i) => i.label === tag.children)
+  didRemoveTag (value, index) {
+    // Handle tag removal
+    // Filters the `selected` state container to remove the tags
+    const selected = this.state.selected.filterNot((i) => i.label === value)
     this.setState({ selected })
-  }
-
-  renderTag (item) {
-    return (
-      <Tag
-        className='bp3-skeleton'
-        key={item.label}
-        intent={Intent.PRIMARY}
-        interactive
-        minimal>
-        {item.label}
-      </Tag>
-    )
   }
 
   renderOption (item, { modifiers, handleClick }) {
@@ -100,13 +90,13 @@ class ConceptsField extends Component {
 
         <MultiSelect
           tagInputProps={{
-            // leftIcon: 'tag',
             fill: true,
             large: true,
-            rightElement: <Button icon='plus' minimal/>,
+            rightElement: <Button icon='plus' minimal onClick={() => this.tagInputRef.setState({ isOpen: true })} />,
+            ref: (r) => this.tagInputRef = r,
+            onRemove: this.didRemoveTag,
             tagProps: {
               interactive: true,
-              onRemove: this.didRemoveTag,
               minimal: true,
             }
           }}
@@ -116,11 +106,11 @@ class ConceptsField extends Component {
           }}
           openOnKeyDown
           items={this.state.concepts.toJS()}
-          selectedItems={this.state.selected}
+          selectedItems={this.state.selected.toJS()}
           tagRenderer={(x) => x.label}
           onItemSelect={this.didSelectOption}
           itemRenderer={this.renderOption}
-          />
+        />
       </FormGroup>
     )
   }
@@ -138,12 +128,19 @@ class Popout extends Component {
   render () {
     return (
       <div className='ext--root'>
-        <Popover position='left-top' defaultIsOpen>
+        <Popover position='left-top'>
           <Button icon='book' />
           <div className='ext popover'>
             <h2>iLearn</h2>
-            <Button icon='endorsed' intent={Intent.PRIMARY}>Milestone</Button>
+            <Button icon='endorsed' intent={Intent.PRIMARY}></Button>
             <ConceptsField />
+
+            <Slider
+              min={0}
+              max={3}
+              vertical
+              labelRenderer={(x) => ['Irrelevant', 'Easy', 'Medium', 'Difficult'][x]}
+            />
           </div>
         </Popover>
       </div>
