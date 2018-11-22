@@ -13,6 +13,12 @@ module.exports = {
   },
   mode: 'development',
 
+  resolve: {
+    alias: {
+      mixins: path.resolve(__dirname, 'src/mixins'),
+    }
+  },
+
   module: {
     rules: [
       {
@@ -50,5 +56,7 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     hot: true,
+    noInfo: true,
+    stats: 'minimal',
   },
 }
