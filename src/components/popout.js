@@ -8,7 +8,7 @@ import { Slider } from '@blueprintjs/core'
 import { MultiSelect } from '@blueprintjs/select'
 
 
-import { get_concepts } from './remote'
+import { get_concepts } from '~mixins/remote'
 import './popout.sass'
 
 
