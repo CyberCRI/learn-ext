@@ -4,18 +4,26 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const WebpackBar = require('webpackbar')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 
+const { package_env } = require('./package.config.js')
+
+
+// Add a helper for resolving absolute directory paths relative to git root.
+const abspath = (x) => path.resolve(__dirname, x)
+
 
 module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: abspath('dist'),
   },
   mode: 'development',
 
   resolve: {
+    // Alias allows importing modules independent of base paths.
     alias: {
-      mixins: path.resolve(__dirname, 'src/mixins'),
+      '~mixins': abspath('src/mixins'),
+      '~components': abspath('src/components'),
     }
   },
 
@@ -43,6 +51,13 @@ module.exports = {
     new DashboardPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new UglifyJsPlugin({ cache: true, parallel: 4, sourceMap: true }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.DEBUG': JSON.stringify(process.env.DEBUG)
+    }),
+    new webpack.DefinePlugin({
+      env: package_env,
+    }),
   ],
 
   optimization: {
