@@ -1,10 +1,15 @@
 import React from 'react'
-import reqwest from 'reqwest'
 import ReactDOM from 'react-dom'
+import reqwest from 'reqwest'
 import $ from 'jquery'
+import uuid_v5 from 'uuid/v5'
 
 
 const request = (params) => {
+  // Wrap `reqwest` with common flags and parameters.
+  // Additionally, a `cancel` method is attached allowing distinguishing errors
+  // from a cancelled AJAX request.
+
   const defaults = {
     type: 'json',
     method: 'get',
@@ -36,6 +41,12 @@ const getCanonicalUrl = () => {
   }
 }
 
+const nsuuid = (param) => {
+  // Read as: Namespace UUID.
+  // Generate a uuid within application namespace appending the parameters.
+  return uuid_v5(`${env.uuid5_namespace}/${param}`, uuid_v5.URL)
+}
+
 const renderReactComponent = (selector, component, props) => {
   const el = document.getElementById(selector)
 
@@ -48,4 +59,4 @@ const renderReactComponent = (selector, component, props) => {
 }
 
 
-export { request, renderReactComponent, getCanonicalUrl }
+export { request, renderReactComponent, getCanonicalUrl, nsuuid }
