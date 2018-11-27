@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
-import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent } from '@blueprintjs/core'
+import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent, Spinner, Icon } from '@blueprintjs/core'
 import { Suggest } from '@blueprintjs/select'
+
+import _ from 'lodash'
+
+import Wiki from '~mixins/wikipedia'
+
 
 
 class TagSuggest extends Component {
@@ -8,38 +13,74 @@ class TagSuggest extends Component {
     super(props)
 
     this.state = {
+      query: '',
       items: [
-        { label: 'Root' },
-        { label: 'Noot' },
-        { label: 'Boot' },
-        { label: 'Boop' },
-        { label: 'Doop' },
+        { id: 1, title: 'Root' },
+        { id: 2, title: 'Noot' },
+        { id: 3, title: 'Boot' },
+        { id: 4, title: 'Boop' },
+        { id: 5, title: 'Doop' },
       ],
     }
+
+    this.queryDidChange = this.queryDidChange.bind(this)
+  }
+
+  componentDidMount () {
+  }
+
+  queryDidChange (q, event) {
+    this.setState({ inflight: true })
+
+    Wiki.opensearch(q).then((items) => {
+      if (items.length >= 1) {
+        this.setState({ items, inflight: false })
+      } else {
+        this.setState({ items: [], inflight: false})
+      }
+    })
   }
 
   itemRenderer (item, { modifiers, index, query, handleClick }) {
     return (
-      <div>
+      <div key={item.id}>
         <Tag
           interactive
           active={modifiers.active}
           onClick={handleClick}
           intent={modifiers.active ? Intent.PRIMARY : Intent.DEFAULT }>
-          {item.label}
+          {item.title}
         </Tag>
       </div>
     )
+  }
+
+  getInputProps () {
+    // Return props and loading element for `Input`
+    let inflightSpinner
+
+    if (this.state.inflight) {
+      inflightSpinner = <Spinner intent={Intent.PRIMARY}/>
+    } else {
+      inflightSpinner = <Icon icon='blank'/>
+    }
+
+    return {
+      leftIcon: 'search',
+      rightElement: inflightSpinner,
+    }
   }
 
   render () {
     return (
       <Suggest
         items={this.state.items}
-        inputValueRenderer={(item) => item.label}
+        inputProps={this.getInputProps()}
+        inputValueRenderer={(item) => item.title}
         itemRenderer={this.itemRenderer}
-        itemPredicate={(query, item) => item.label.includes(query)}
+        itemPredicate={(query, item) => true}
         onItemSelect={(item) => console.log(item)}
+        onQueryChange={this.queryDidChange}
         noResults={<NonIdealState title='No Matches' icon='offline'
         popoverProps={{ minimal: true }}/>}
       />
