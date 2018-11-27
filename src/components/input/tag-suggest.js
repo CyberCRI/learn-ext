@@ -60,7 +60,7 @@ class TagSuggest extends Component {
     let inflightSpinner
 
     if (this.state.inflight) {
-      inflightSpinner = <Spinner intent={Intent.PRIMARY}/>
+      inflightSpinner = <Spinner intent={Intent.PRIMARY} size={Spinner.SIZE_SMALL}/>
     } else {
       inflightSpinner = <Icon icon='blank'/>
     }
