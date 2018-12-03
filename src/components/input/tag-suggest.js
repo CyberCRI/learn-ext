@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent, Spinner, Icon } from '@blueprintjs/core'
 import { Suggest } from '@blueprintjs/select'
+import { hot } from 'react-hot-loader'
 
 import _ from 'lodash'
 
@@ -19,7 +20,6 @@ class TagSuggest extends Component {
         { id: 2, title: 'Noot' },
         { id: 3, title: 'Boot' },
         { id: 4, title: 'Boop' },
-        { id: 5, title: 'Doop' },
       ],
     }
 
@@ -30,7 +30,11 @@ class TagSuggest extends Component {
   }
 
   queryDidChange (q, event) {
-    this.setState({ inflight: true })
+    if (q.length <= 3) {
+      this.setState({ waiting: true })
+      return
+    }
+    this.setState({ inflight: true, waiting: false })
 
     Wiki.opensearch(q).then((items) => {
       if (items.length >= 1) {
@@ -62,7 +66,7 @@ class TagSuggest extends Component {
     if (this.state.inflight) {
       inflightSpinner = <Spinner intent={Intent.PRIMARY} size={Spinner.SIZE_SMALL}/>
     } else {
-      inflightSpinner = <Icon icon='blank'/>
+      inflightSpinner = <Icon icon={this.state.waiting ? 'more' : 'blank'}/>
     }
 
     return {
@@ -90,4 +94,4 @@ class TagSuggest extends Component {
 }
 
 
-export { TagSuggest }
+export default hot(module)(TagSuggest)

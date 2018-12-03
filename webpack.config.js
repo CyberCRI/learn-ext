@@ -14,7 +14,7 @@ const abspath = (x) => path.resolve(__dirname, x)
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: 'main.js',
+    filename: '[name].js',
     path: abspath('dist'),
   },
   mode: 'development',
@@ -50,11 +50,11 @@ module.exports = {
     new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
     new DashboardPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new UglifyJsPlugin({ cache: true, parallel: 4, sourceMap: true }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.DEBUG': JSON.stringify(process.env.DEBUG)
-    }),
+    // new UglifyJsPlugin({ cache: true, parallel: 4, sourceMap: true }),
+    // new webpack.DefinePlugin({
+    //   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    //   'process.env.DEBUG': JSON.stringify(process.env.DEBUG)
+    // }),
     new webpack.DefinePlugin({
       env: package_env,
     }),
@@ -64,14 +64,25 @@ module.exports = {
     // splitChunks: {
     //   chunks: 'all',
     // },
-    usedExports: true,
+    // usedExports: true,
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\\/]node_modules[\\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    },
   },
+
 
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
     hot: true,
-    noInfo: true,
+    noInfo: false,
     stats: 'minimal',
   },
 }
