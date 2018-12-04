@@ -5,9 +5,13 @@
 // Environment variables that are prefixed with `ILRN_` are available under
 // `config` and are replaced during webpack build.
 const _ = require('lodash')
+const path = require('path')
+
 
 const ENV_PREFIX = 'ILRN_'
 
+// Add a helper for resolving absolute directory paths relative to git root.
+const abspath = (x) => path.resolve(__dirname, x)
 
 // Predicate for filtering env variables.
 const envPredicate = (v, key) => _.startsWith(key, ENV_PREFIX)
@@ -31,4 +35,4 @@ const package_env = _(process.env)
 
 console.log('[ᴇɴᴠ] Package:', package_env)
 
-module.exports = { package_env }
+module.exports = { package_env, abspath }
