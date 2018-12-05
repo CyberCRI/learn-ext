@@ -214,3 +214,9 @@ pip-selfcheck.json
 
 
 # End of https://www.gitignore.io/api/python,virtualenv,jupyternotebook,node
+
+### Ignore pre-compiled files for now ###
+./ext/js/main.js
+
+### Ignore .docz builds
+.docz
