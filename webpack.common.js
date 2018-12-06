@@ -1,15 +1,29 @@
 const webpack = require('webpack')
 const WebpackBar = require('webpackbar')
 const DashboardPlugin = require('webpack-dashboard/plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-const { package_env, abspath } = require('./package.config.js')
+const { PackageEnv, abspath } = require('./package.config.js')
+
+
+// Files that should be copied into the extension directory.
+const copySourceBundleRules = [
+  { from: './src/manifest.json', to: './' },
+]
 
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    app_root: './src/index.js',
+    background: './src/procs/background.js',
+    // content_scripts: './src/procs/content_scripts.js',
+    // page_action: '',
+    // browser_action: '',
+    // options: '',
+  },
   output: {
     filename: '[name].js',
-    path: abspath('dist'),
+    path: abspath('./ext'),
   },
 
   resolve: {
@@ -42,8 +56,7 @@ module.exports = {
   plugins: [
     new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
     new DashboardPlugin(),
-    new webpack.DefinePlugin({
-      env: package_env,
-    }),
+    new CopyWebpackPlugin(copySourceBundleRules),
+    PackageEnv.webpackPlugin,
   ],
 }
