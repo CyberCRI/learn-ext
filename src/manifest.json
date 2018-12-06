@@ -1,0 +1,47 @@
+{
+  "name": "ilearn Proto",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "ilearn prototype",
+  "homepage_url": "https://noop.pw",
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+
+  "page_action": {
+    "default_icon": "highlights.svg",
+    "browser_style": true,
+    "default_title": "IL"
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "notifications",
+    "https://*/*",
+    "http://*/*"
+  ],
+  "omnibox": {
+    "keyword": "ilearn"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ],
+      "js": [
+        "vendors.js",
+        "app_root.js"
+      ]
+    }
+  ]
+}
