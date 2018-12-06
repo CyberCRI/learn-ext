@@ -85,8 +85,8 @@ class TagSuggest extends Component {
         itemPredicate={(query, item) => true}
         onItemSelect={(item) => console.log(item)}
         onQueryChange={this.queryDidChange}
-        noResults={<NonIdealState title='No Matches' icon='offline'
-        popoverProps={{ minimal: true }}/>}
+        noResults={<NonIdealState title='No Matches' icon='offline'/>}
+        popoverProps={{ minimal: true, position: 'bottom' }}
       />
 
     )

@@ -52,7 +52,7 @@ class WikiAPI {
 
     return request({
       url: env.wikiapi_endpoint,
-      type: 'jsonp',
+      type: 'json',
       data: req_payload,
       headers: HEADERS,
     }).then(this.transformOpenSearch)

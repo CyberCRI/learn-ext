@@ -4,12 +4,15 @@ import { hot } from 'react-hot-loader'
 import autoBind from 'react-autobind'
 
 import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent } from '@blueprintjs/core'
-import { Slider } from '@blueprintjs/core'
+import { Slider, Overlay, Card, Elevation } from '@blueprintjs/core'
 import { MultiSelect } from '@blueprintjs/select'
 
 
 import { get_concepts } from '~mixins/remote'
+import TagSuggest from '~components/input/tag-suggest'
+
 import './popout.sass'
+import './card.scss'
 
 
 class OptionsList {
@@ -147,5 +150,46 @@ class Popout extends Component {
     )
   }
 }
+
+class ActionCard extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      isOpen: false,
+    }
+  }
+
+  componentDidMount () {
+    browser.runtime.onMessage.addListener((message, sender, respond) => {
+      if (message.activate) {
+        this.setState({ isOpen: true })
+        console.log(message, sender)
+      }
+    })
+  }
+
+  render () {
+    return (
+      <Overlay
+        hasBackdrop={true}
+        isOpen={this.state.isOpen}
+        usePortal={true}
+        className='np-ext--card'
+        transitionName='np-ext--card-transition'>
+
+        <Card elevation={Elevation.THREE} className='np-ext--card'>
+          <h5>iLearn</h5>
+          <ConceptsField />
+          <TagSuggest />
+        </Card>
+
+      </Overlay>
+
+    )
+  }
+}
+
+export { ActionCard }
 
 export default hot(module)(Popout)
