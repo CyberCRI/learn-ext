@@ -4,6 +4,7 @@
 //
 // Environment variables that are prefixed with `ILRN_` are available under
 // `config` and are replaced during webpack build.
+const webpack = require('webpack')
 const _ = require('lodash')
 const path = require('path')
 
@@ -25,14 +26,23 @@ const transformKey = (v, key, o) => {
     .value()
 }
 
-
 // Collect all the package environment variables.
-const package_env = _(process.env)
+const env_vars = _(process.env)
   .pickBy(envPredicate)
   .mapKeys(transformKey)
-  .mapValues(JSON.stringify)
   .value()
 
-console.log('[ᴇɴᴠ] Package:', package_env)
+// Print env variables, skipping anything that might be an API key.
+const printVariables = () => {
+  // TODO!
+}
 
-module.exports = { package_env, abspath }
+const PackageEnv = {
+  webpackPlugin: new webpack.DefinePlugin({
+    env: _.mapValues(env_vars, JSON.stringify),
+  }),
+  vars: env_vars,
+  rootDir: abspath('.'),
+}
+
+module.exports = { PackageEnv, abspath }
