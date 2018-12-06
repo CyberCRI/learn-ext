@@ -60,9 +60,7 @@ export default {
         },
       },
       plugins: [
-        new webpack.DefinePlugin({
-          env: package_env,
-        }),
+        PackageEnv.webpackPlugin,
       ]
     })
   },
