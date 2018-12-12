@@ -19,7 +19,6 @@ class ILearnAPI {
     return request({
       url: endpointFor('api/learn'),
       method: 'post',
-      type: 'json',
       data: params,
     })
   }
@@ -31,8 +30,15 @@ class ILearnAPI {
     })
   }
 
-  crowdSourcing () {
-    // [TODO]
+  crowdSourcing (params) {
+    // Call the /api/crowdsourcing endpoint.
+    // Request params include:
+    // ressource_url, concept_title, reliability_variation
+    return request({
+      url: endpointFor('api/crowdsourcing'),
+      method: 'put',
+      data: params,
+    })
   }
 }
 
