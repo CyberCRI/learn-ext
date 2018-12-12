@@ -1,0 +1,29 @@
+---
+name: Cards
+---
+import { Playground, PropsTable } from 'docz'
+import { BasicCard, InteractiveCard } from '~components/cards'
+
+import '@blueprintjs/core/lib/css/blueprint.css'
+
+
+# A simple card
+
+<PropsTable of={BasicCard} />
+
+## Basic Usage
+
+
+<Playground>
+  <BasicCard title='A Simple Card'>
+    <p>Child content passed through for simple state management.</p>
+  </BasicCard>
+</Playground>
+
+## Info Cards
+
+<Playground>
+  <InteractiveCard title='A Simple Card' info>
+    <p>Child content passed through for simple state management.</p>
+  </InteractiveCard>
+</Playground>

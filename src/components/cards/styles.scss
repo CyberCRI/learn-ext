@@ -1,0 +1,92 @@
+
+$transition-timing-overshoot: cubic-bezier(0.670, -0.540, 0.500, 1.650);
+
+
+.effect-down {
+  &-appear {
+
+  }
+  &-appear-active {
+
+  }
+  &-enter {
+
+  }
+  &-enter-active {
+
+  }
+  &-enter-done {
+
+  }
+  &-exit {
+
+  }
+  &-exit-active {
+
+  }
+  &-exit-done {
+
+  }
+
+}
+
+
+div.np-card {
+  display: block;
+  border-radius: 8px;
+  padding: 15px;
+
+  width: 400px;
+  height: auto;
+
+  h1, h2, h3, h4, h5 {
+    margin: 0 0 5px 0;
+  }
+
+  header, footer, main {
+    position: relative;
+    display: flex;
+    padding: 5px 10px;
+  }
+
+  main {
+    flex-direction: column;
+  }
+
+  &.info {
+    background: #394B59;
+    color: #fff;
+  }
+
+  &.interactive {
+    padding: 0;
+    transition: all 0.2s $transition-timing-overshoot;
+    transform: scale(1, 1) translate(0, 0);
+  }
+
+  .icon-float {
+    $size: 20px;
+    $pad: 10px;
+    $dimension: $size + (2 * $pad);
+
+    background: #ccc;
+    color: #000;
+    padding: $pad;
+    width: $dimension;
+    height: $dimension;
+    size: $size;
+    border-radius: 10px;
+    margin-top: $dimension / -2;
+
+    svg {
+      width: $size;
+      height: $size;
+    }
+  }
+
+  &.np-card-down {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+  }
+}
