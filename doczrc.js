@@ -2,7 +2,7 @@ const merge = require('webpack-merge')
 const webpack = require('webpack')
 const { css } = require('docz-plugin-css')
 
-const { package_env, abspath } = require('./package.config.js')
+const { PackageEnv, abspath } = require('./package.config.js')
 
 
 export default {
