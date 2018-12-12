@@ -18,6 +18,10 @@ const request = (params) => {
 
   let payload = {...defaults, ...params}
 
+  if (payload.method !== 'get' && payload.data) {
+    payload.data = JSON.stringify(payload.data)
+  }
+
   const r = reqwest(payload)
 
   r.cancel = () => {
