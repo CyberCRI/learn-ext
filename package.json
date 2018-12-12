@@ -25,6 +25,7 @@
     "autobind-decorator": "^2.3.1",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
+    "classnames": "^2.2.6",
     "connect": "^3.6.6",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^1.0.0",
@@ -56,6 +57,7 @@
     "build:prod": "webpack --config webpack.prod.js",
     "start:dev-server": "webpack-dev-server --config webpack.dev.js",
     "start:dev": "webpack --config webpack.dev.js --watch",
+    "start:web-ext--run": "web-ext run",
     "start:docz": "docz dev"
   }
 }

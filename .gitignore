@@ -222,3 +222,5 @@ pip-selfcheck.json
 .docz
 ext
 
+### Ignore web-ext stuff
+web-ext-artifacts
