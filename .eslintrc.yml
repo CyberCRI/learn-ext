@@ -5,11 +5,9 @@ env:
   protractor: true
   mocha: true
 globals:
-  Agora: true
-  expect: true
-  trest: true
-  EC: true
+  browser: true
   _: true
+  env: true
   browser_screenshot: true
 extends: 'eslint:recommended'
 parser: 'babel-eslint'
