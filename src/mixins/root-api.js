@@ -18,7 +18,8 @@ class ILearnAPI {
     // └──────────────────────────────────────────────────────────┘
     return request({
       url: endpointFor('api/learn'),
-      method: 'POST',
+      method: 'post',
+      type: 'json',
       data: params,
     })
   }
