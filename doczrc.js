@@ -18,23 +18,25 @@ export default {
       },
       code: {
         fontFamily: 'Fira Code',
-      }
-    }
+      },
+    },
   },
 
   htmlContext: {
     head: {
-      links: []
+      links: [],
     }
   },
 
   src: './src',
+  public: './ext',
 
   indexHtml: './docs/docz-assets/index.html',
 
   codeSandbox: false,
 
   debug: true,
+
   modifyBabelRc: (babelrc) => {
     return {...babelrc, plugins: [] }
   },
@@ -61,7 +63,7 @@ export default {
       },
       plugins: [
         PackageEnv.webpackPlugin,
-      ]
+      ],
     })
   },
 }
