@@ -2,35 +2,6 @@
 $transition-timing-overshoot: cubic-bezier(0.670, -0.540, 0.500, 1.650);
 
 
-.effect-down {
-  &-appear {
-
-  }
-  &-appear-active {
-
-  }
-  &-enter {
-
-  }
-  &-enter-active {
-
-  }
-  &-enter-done {
-
-  }
-  &-exit {
-
-  }
-  &-exit-active {
-
-  }
-  &-exit-done {
-
-  }
-
-}
-
-
 div.np-card {
   display: block;
   border-radius: 8px;
@@ -60,8 +31,10 @@ div.np-card {
 
   &.interactive {
     padding: 0;
-    transition: all 0.2s $transition-timing-overshoot;
-    transform: scale(1, 1) translate(0, 0);
+    // transition: all 1s $transition-timing-overshoot;
+    transform-origin: top center;
+    // filter: blur(0px);
+    // transform: scale(1, 1) translate(0, 0);
   }
 
   .icon-float {
@@ -83,10 +56,9 @@ div.np-card {
       height: $size;
     }
   }
+}
 
-  &.np-card-down {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-  }
+
+.np-basic-card {
+  background: url('/public/banners/Artboard.png') cover;
 }
