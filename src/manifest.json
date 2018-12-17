@@ -5,9 +5,9 @@
   "description": "ilearn prototype",
   "homepage_url": "https://noop.pw",
   "icons": {
-    "16": "assets/icon16.png",
-    "48": "assets/icon48.png",
-    "128": "assets/icon128.png"
+    "16": "icons/icon-active-16.png",
+    "48": "icons/icon-active-48.png",
+    "128": "icons/icon-active-128.png"
   },
 
   "background": {
@@ -17,19 +17,25 @@
   },
 
   "page_action": {
-    "default_icon": "highlights.svg",
+    "default_icon": "icons/icon-idle-48.png",
     "browser_style": true,
     "default_title": "IL"
   },
   "permissions": [
     "tabs",
     "activeTab",
+    "options",
     "notifications",
     "https://*/*",
     "http://*/*"
   ],
   "omnibox": {
     "keyword": "ilearn"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "browser_style": false,
+    "chrome_style": false
   },
 
   "content_scripts": [
