@@ -9,6 +9,8 @@ const { PackageEnv, abspath } = require('./package.config.js')
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
   { from: './src/manifest.json', to: './' },
+  { from: './src/pages', to: './' },
+  { from: './assets', to: './' },
 ]
 
 
