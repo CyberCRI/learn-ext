@@ -2,13 +2,35 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Elevation, Icon, Button } from '@blueprintjs/core'
 import clsx from 'classnames'
+import posed, { PoseGroup } from 'react-pose'
 
 import './styles.scss'
 
 
+const CardBox = posed.div({
+  open: {
+    y: 0,
+    opacity: 1,
+    scaleY: 1,
+    transition: {
+      y: { type: 'spring', stiffness: 1000, damping: 25 },
+      default: { duration: 200 },
+    },
+    applyAtStart: { display: 'block' },
+  },
+  closed: {
+    y: -50,
+    opacity: 0,
+    scaleY: 1.2,
+    transition: { duration: 200 },
+    applyAtEnd: { display: 'none' },
+  },
+})
+
+
 class BasicCard extends Component {
   render () {
-    const cardClasses = clsx('np-card', {
+    const cardClasses = clsx('np-card', 'np-basic-card', {
       info: this.props.info,
     })
 
@@ -32,17 +54,34 @@ BasicCard.propTypes = {
 
 
 class InteractiveCard extends Component {
-  render () {
-    const cardClasses = clsx('np-card', 'np-card-down', 'interactive', {
-      info: this.props.info,
-    })
+  constructor (props) {
+    super(props)
 
+    this.state = {
+      isOpen: props.isOpen || false,
+    }
+
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.isOpen !== prevProps.isOpen) {
+      this.setState({ isOpen: this.props.isOpen })
+    }
+  }
+
+  render () {
     return (
-      <Card interactive={true} elevation={Elevation.THREE} className={cardClasses}>
-        <header><Icon icon='book' className='icon-float'/></header>
-        <main>{this.props.children}</main>
-        <footer><Button icon='chevron-down' intent='primary'>DIFFICULT!</Button></footer>
-      </Card>
+      <CardBox pose={this.state.isOpen ? 'open' : 'closed'}>
+
+        <Card
+          elevation={Elevation.THREE}
+          className={clsx('np-card', 'interactive')}>
+          <header></header>
+          <main>{this.props.children}</main>
+          <footer></footer>
+        </Card>
+
+      </CardBox>
     )
   }
 }

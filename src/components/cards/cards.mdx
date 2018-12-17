@@ -3,6 +3,7 @@ name: Cards
 ---
 import { Playground, PropsTable } from 'docz'
 import { BasicCard, InteractiveCard } from '~components/cards'
+import { Button } from '@blueprintjs/core'
 
 import '@blueprintjs/core/lib/css/blueprint.css'
 
@@ -23,7 +24,22 @@ import '@blueprintjs/core/lib/css/blueprint.css'
 ## Info Cards
 
 <Playground>
-  <InteractiveCard title='A Simple Card' info>
-    <p>Child content passed through for simple state management.</p>
-  </InteractiveCard>
+  {() => {
+    let componentState = false;
+    const toggleHandler = () => {
+      componentState = !componentState
+      console.log(componentState)
+    }
+
+    return (
+      <div>
+        <InteractiveCard isOpen={componentState}>
+          <h4>An interactive card</h4>
+        </InteractiveCard>
+
+        <Button icon='random' minimal onClick={toggleHandler}>Toggle</Button>
+      </div>
+    )
+  }}
+
 </Playground>
