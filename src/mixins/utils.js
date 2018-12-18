@@ -1,35 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import reqwest from 'reqwest'
 import $ from 'jquery'
 import uuid_v5 from 'uuid/v5'
-
-
-const request = (params) => {
-  // Wrap `reqwest` with common flags and parameters.
-  // Additionally, a `cancel` method is attached allowing distinguishing errors
-  // from a cancelled AJAX request.
-
-  const defaults = {
-    type: 'json',
-    method: 'get',
-    contentType: 'application/json',
-  }
-
-  let payload = {...defaults, ...params}
-
-  if (payload.method !== 'get' && payload.data) {
-    payload.data = JSON.stringify(payload.data)
-  }
-
-  const r = reqwest(payload)
-
-  r.cancel = () => {
-    r.request.cancelled = true
-    r.abort()
-  }
-  return r
-}
 
 
 const getMetaAttribute = (name) => {
@@ -63,4 +35,4 @@ const renderReactComponent = (selector, component, props) => {
 }
 
 
-export { request, renderReactComponent, getCanonicalUrl, nsuuid }
+export { renderReactComponent, getCanonicalUrl, nsuuid }

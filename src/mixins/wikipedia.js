@@ -1,5 +1,5 @@
 // Wrapper implementing the API calls to wikipedia for searches.
-import { request, nsuuid } from '~mixins/utils'
+import { request, nsuuid } from '~mixins'
 import _ from 'lodash'
 
 const HEADERS = {

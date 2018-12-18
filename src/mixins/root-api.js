@@ -1,5 +1,5 @@
 // Wrapper implementing the API calls to the ilearn api.
-import { request } from '~mixins/utils'
+import { request } from '~mixins'
 
 
 // Get the absolute url for specific api routes.
