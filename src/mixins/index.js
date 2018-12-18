@@ -1,2 +1,2 @@
-export { request, NETSTATE } from './request'
+export { request, NetState } from './request'
 export { nsuuid } from './utils'

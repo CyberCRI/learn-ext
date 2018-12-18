@@ -17,13 +17,13 @@ import Enum from 'enum'
 //                 │  ┌──────────┐ └────▶│  Failed  ││
 //                 └─▶│Cancelled │      │└──────────┘│
 //                    └──────────┘      └────────────┘
-export const NETSTATE = new Enum([
+export const NetState = new Enum([
   'idle',
   'inflight',
   'failed',
   'cancelled',
   'complete',
-])
+], { name: 'NetworkState', ignoreCase: true })
 
 
 export const request = (params) => {
