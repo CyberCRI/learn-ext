@@ -8,7 +8,8 @@ globals:
   browser: true
   _: true
   env: true
-  browser_screenshot: true
+  runtime: true
+  chrome: true
 extends: 'eslint:recommended'
 parser: 'babel-eslint'
 parserOptions:
