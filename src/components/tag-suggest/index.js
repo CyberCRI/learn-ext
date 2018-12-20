@@ -2,11 +2,17 @@ import React, { Component } from 'react'
 import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent, Spinner, Icon } from '@blueprintjs/core'
 import { Suggest } from '@blueprintjs/select'
 import { hot } from 'react-hot-loader'
+import posed, { PoseGroup } from 'react-pose'
 
 import _ from 'lodash'
 
 import Wiki from '~mixins/wikipedia'
 
+
+const SuggestedTag = posed(Tag)({
+  open: { opacity: 1 },
+  closed: { opacity: 0 },
+})
 
 
 class TagSuggest extends Component {
@@ -15,12 +21,7 @@ class TagSuggest extends Component {
 
     this.state = {
       query: '',
-      items: [
-        { id: 1, title: 'Root' },
-        { id: 2, title: 'Noot' },
-        { id: 3, title: 'Boot' },
-        { id: 4, title: 'Boop' },
-      ],
+      items: [],
     }
 
     this.queryDidChange = this.queryDidChange.bind(this)
@@ -30,7 +31,7 @@ class TagSuggest extends Component {
   }
 
   queryDidChange (q, event) {
-    if (q.length <= 3) {
+    if (q.length <= 2) {
       this.setState({ waiting: true })
       return
     }
@@ -70,9 +71,20 @@ class TagSuggest extends Component {
     }
 
     return {
-      leftIcon: 'search',
       rightElement: inflightSpinner,
+
     }
+  }
+
+  renderEmptyState () {
+    return (
+      <NonIdealState
+        title='Type to find concepts.'
+        icon='path-search'
+        description='We will suggest relevant concepts to tag this resource with as you type.'
+        className='np--tags-non-ideal'
+      />
+    )
   }
 
   render () {
@@ -85,10 +97,9 @@ class TagSuggest extends Component {
         itemPredicate={(query, item) => true}
         onItemSelect={(item) => console.log(item)}
         onQueryChange={this.queryDidChange}
-        noResults={<NonIdealState title='No Matches' icon='offline'/>}
+        noResults={this.renderEmptyState()}
         popoverProps={{ minimal: true, position: 'bottom' }}
       />
-
     )
   }
 }
