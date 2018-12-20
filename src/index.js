@@ -1,10 +1,7 @@
 import '@blueprintjs/core/lib/css/blueprint.css'
 import $ from 'jquery'
 
-import Popout from '~components/popout'
-import TagSuggest from '~components/input/tag-suggest'
 import { renderReactComponent } from '~mixins/utils'
-import { WikiAPI } from '~mixins/wikipedia'
 import { ActionCard } from '~components/popout'
 
 
@@ -20,14 +17,4 @@ const injectContent = () => {
   renderReactComponent(EXT_ROOT_ID, ActionCard)
 }
 
-
 injectContent()
-
-// document.addEventListener('DOMContentLoaded', () => {
-  // mountRootContainer()
-  // renderReactComponent(EXT_ROOT_ID, Popout)
-
-  // renderReactComponent('proto', TagSuggest)
-// })
-
-// mountRootContainer()
