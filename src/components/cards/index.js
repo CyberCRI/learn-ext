@@ -12,6 +12,7 @@ const CardBox = posed.div({
     y: 0,
     opacity: 1,
     scaleY: 1,
+    filter: 'blur(0px)',
     transition: {
       y: { type: 'spring', stiffness: 1000, damping: 25 },
       default: { duration: 200 },
@@ -21,6 +22,7 @@ const CardBox = posed.div({
   closed: {
     y: -50,
     opacity: 0,
+    filter: 'blur(10px)',
     scaleY: 1.2,
     transition: { duration: 200 },
     applyAtEnd: { display: 'none' },
@@ -74,8 +76,8 @@ class InteractiveCard extends Component {
       <CardBox pose={this.state.isOpen ? 'open' : 'closed'}>
 
         <Card
-          elevation={Elevation.THREE}
-          className={clsx('np-card', 'interactive')}>
+          elevation={Elevation.FOUR}
+          className={clsx('np-card', 'interactive', this.props.className)}>
           <header></header>
           <main>{this.props.children}</main>
           <footer></footer>

@@ -60,5 +60,9 @@ div.np-card {
 
 
 .np-basic-card {
-  background: url('/public/banners/Artboard.png') cover;
+  background: url('http://127.0.0.1:3000/public/banners/Artboard.png');
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 10px;
+  min-height: 180px;
 }
