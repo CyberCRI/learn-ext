@@ -20,6 +20,10 @@ div.np-card {
     padding: 5px 10px;
   }
 
+  header {
+    justify-content: space-between;
+  }
+
   main {
     flex-direction: column;
   }

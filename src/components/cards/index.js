@@ -78,9 +78,7 @@ class InteractiveCard extends Component {
         <Card
           elevation={Elevation.FOUR}
           className={clsx('np-card', 'interactive', this.props.className)}>
-          <header></header>
-          <main>{this.props.children}</main>
-          <footer></footer>
+          {this.props.children}
         </Card>
 
       </CardBox>
