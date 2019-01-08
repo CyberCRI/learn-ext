@@ -54,5 +54,3 @@ class ActionCard extends Component {
 }
 
 export { ActionCard }
-
-export default hot(module)(Popout)
