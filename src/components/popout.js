@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { List } from 'immutable'
-import { hot } from 'react-hot-loader'
-import autoBind from 'react-autobind'
 
 import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent } from '@blueprintjs/core'
 import { Slider, Overlay, Card, Elevation } from '@blueprintjs/core'
@@ -14,15 +12,6 @@ import { BasicCard, InteractiveCard } from '~components/cards'
 import ConceptsField from '~components/input/concepts'
 
 import './popout.sass'
-import './card.scss'
-
-
-class OptionsList {
-  constructor (data) {
-  }
-
-}
-
 
 
 class ActionCard extends Component {
