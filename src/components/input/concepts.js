@@ -3,11 +3,13 @@ import { CSSTransition } from 'react-transition-group'
 import { List } from 'immutable'
 import { Button, NonIdealState, Tag, MenuItem, FormGroup, Intent, Icon, Spinner } from '@blueprintjs/core'
 import { MultiSelect } from '@blueprintjs/select'
+import posed, { PoseGroup } from 'react-pose'
 
 
 import { getCanonicalUrl } from '~mixins/utils'
 import RootAPI from '~mixins/root-api'
 
+const FluidTag = posed.li()
 
 
 class ConceptsField extends Component {
@@ -56,16 +58,8 @@ class ConceptsField extends Component {
     this.setState({ concepts }, () => this.props.onRemove(item, concepts))
   }
 
-  renderOption (item, { modifiers, handleClick }) {
+  renderTag (item) {
     return (
-      <MenuItem
-        key={item.label}
-        text={item.label}
-        shouldDismissPopover={false}
-        onClick={handleClick}
-        active={modifiers.active}
-        icon={this.isSelected(item) ? 'tick' : 'blank'}
-      />)
   }
 
   renderRightElement () {
@@ -78,6 +72,17 @@ class ConceptsField extends Component {
       return <Icon icon='automatic-updates' size={24} intent={Intent.SUCCESS} />
     }
     return <Icon icon='blank' />
+      <FluidTag key={item.label}>
+        <Tag
+          interactive
+          minimal
+          large
+          className='np--concept-tag'
+          onRemove={() => this.didRemoveTag(item)}>
+          {item.label}
+        </Tag>
+      </FluidTag>
+    )
   }
 
   render () {
