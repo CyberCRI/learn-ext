@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { List } from 'immutable'
 
-import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent } from '@blueprintjs/core'
-import { Slider, Overlay, Card, Elevation } from '@blueprintjs/core'
-import { MultiSelect } from '@blueprintjs/select'
+import { Button, ButtonGroup, Popover, FormGroup, Intent } from '@blueprintjs/core'
+import { Spinner, ProgressBar } from '@blueprintjs/core'
 
-
-import { get_concepts } from '~mixins/remote'
-import TagSuggest from '~components/input/tag-suggest'
+import RootAPI from '~mixins/root-api'
 import { getCanonicalUrl } from '~mixins/utils'
+import TagSuggest from '~components/tag-suggest'
 import { BasicCard, InteractiveCard } from '~components/cards'
 import ConceptsField from '~components/input/concepts'
 
@@ -27,13 +25,15 @@ class ActionCard extends Component {
       inflight: false,
       isOpen: false,
     }
+
+    this.didAddConcept = this.didAddConcept.bind(this)
+    this.didRemoveConcept = this.didRemoveConcept.bind(this)
   }
 
   componentDidMount () {
     browser.runtime.onMessage.addListener((message, sender, respond) => {
       if (message.activate) {
-        this.setState({ isOpen: true })
-        console.log(message, sender)
+        this.setState({ isOpen: !this.state.isOpen }, this.shouldFetchConcepts())
       }
     })
   }
