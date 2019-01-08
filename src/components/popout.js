@@ -24,36 +24,6 @@ class OptionsList {
 }
 
 
-class Popout extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      ...props.value,
-    }
-  }
-
-  render () {
-    return (
-      <div className='ext--root'>
-        <Popover position='left-top'>
-          <Button icon='books' />
-          <div className='ext popover'>
-            <h2>iLearn</h2>
-            <Button icon='endorsed' intent={Intent.PRIMARY}></Button>
-            <ConceptsField />
-
-            <Slider
-              min={0}
-              max={3}
-              vertical
-              labelRenderer={(x) => ['Irrelevant', 'Easy', 'Medium', 'Difficult'][x]}
-            />
-          </div>
-        </Popover>
-      </div>
-    )
-  }
-}
 
 class ActionCard extends Component {
   constructor (props) {
