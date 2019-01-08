@@ -31,32 +31,6 @@ class ConceptsField extends Component {
     this.renderRightElement = this.renderRightElement.bind(this)
   }
 
-  componentDidMount () {
-    // Once the component mounts, we'll request the server for tags/concepts.
-    RootAPI
-      .fetchConcepts(this.state.pageUrl)
-      .then((data) => {
-        const concepts = List(data.concepts)
-        this.setState({
-          concepts,
-          selected: concepts,
-        })
-      })
-      .then(() => {
-        // Now we make another call to the server with fake user "nuggets" to
-        // add the data to ilearn.
-        RootAPI.learn({
-          url: this.state.pageUrl,
-          concepts: this.state.selected.toJS(),
-          username: 'Nuggets',    // [XXX] Fix this to be configurable.
-          knowledge_progression: 0.5,
-          title: document.title,
-        }).then(() => {
-          this.setState({ learned: true, inflight: false, errored: false })
-        }).fail(() => {
-          this.setState({ inflight: false, errored: true })
-        })
-      })
   }
 
   isSelected (item) {
