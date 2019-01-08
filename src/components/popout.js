@@ -38,6 +38,52 @@ class ActionCard extends Component {
     })
   }
 
+  shouldFetchConcepts () {
+    if (this.state.fetched) {
+      return
+    }
+    this.setState({ inflight: true })
+    RootAPI
+      .fetchConcepts(this.state.pageUrl)
+      .then((data) => {
+        const concepts = List(data.concepts)
+        this.setState({
+          concepts,
+          selected: concepts,
+          fetched: true,
+          inflight: false,
+        })
+      })
+  }
+
+  shouldPushChanges () {
+    this.setState({ inflight: true })
+    RootAPI.learn({
+      url: this.state.pageUrl,
+      concepts: this.state.selected.toJS(),
+      username: 'Nuggets',    // [XXX] Fix this to be configurable.
+      knowledge_progression: 0.5,
+      title: document.title,
+    }).then(() => {
+      this.setState({ learned: true, inflight: false, errored: false })
+    }).fail(() => {
+      this.setState({ inflight: false, errored: true })
+    })
+  }
+
+  shouldUpdateConcept (item) {
+    this.setState({ inflight: true })
+    RootAPI.crowdSourcing({
+      ressource_url: this.state.pageUrl,
+      concept_title: item.label,
+      reliability_variation: -1,
+    }).then(() => {
+      this.setState({ inflight: false, errored: false })
+    }).fail(() => {
+      this.setState({ inflight: false, errored: true })
+    })
+  }
+
   render () {
     return (
       <Overlay
