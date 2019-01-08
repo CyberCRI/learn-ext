@@ -95,21 +95,38 @@ class ActionCard extends Component {
 
   render () {
     return (
-      <Overlay
-        hasBackdrop={false}
-        isOpen={this.state.isOpen}
-        usePortal={true}
-        className='np-ext--card'
-        transitionName='np-ext--card-transition'>
-
-        <InteractiveCard>
-          <h5>iLearn</h5>
-          <ConceptsField />
-          <TagSuggest />
+      <div className='card-container'>
+        <InteractiveCard isOpen={this.state.isOpen && !this.state.fetched} className='np-basic-card'>
+          <div><Spinner/></div>
         </InteractiveCard>
 
-      </Overlay>
+        <InteractiveCard isOpen={this.state.isOpen && this.state.fetched}>
+          <header>
+            <h5>iLearn</h5>
+            <ButtonGroup minimal className='np--popover-actions'>
+              <Button icon='map' intent={Intent.PRIMARY}/>
+              <Button icon='cog' intent={Intent.PRIMARY}/>
+            </ButtonGroup>
+          </header>
 
+          <main>
+            <p>Concepts on this Page</p>
+            <ConceptsField
+              concepts={this.state.selected}
+              onRemove={this.didRemoveConcept}/>
+            <TagSuggest
+              onSelect={this.didAddConcept}/>
+
+            <h5>Resource Rating</h5>
+            <p>Pick a rating for this resource to indicate its quality</p>
+            <ButtonGroup fill minimal>
+              <Button>Easy</Button>
+              <Button>Alright</Button>
+              <Button>Too Hard!</Button>
+            </ButtonGroup>
+          </main>
+        </InteractiveCard>
+      </div>
     )
   }
 }
