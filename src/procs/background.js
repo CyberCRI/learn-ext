@@ -1,3 +1,8 @@
+import { RuntimeHook } from './runtime-hooks'
+
+const cmd_hook = new RuntimeHook((x) => console.log(x), browser.commands.onCommand).attach()
+
+
 browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
   if (tab.url.includes('en.wikipedia')) {
     browser.pageAction
