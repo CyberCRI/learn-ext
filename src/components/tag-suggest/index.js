@@ -48,11 +48,19 @@ class TagSuggest extends Component {
     })
   }
 
+  didSelectItem (item) {
+    this.setState({ selected: item, query: '' })
+    // Publish to the parent component
+    this.props.onSelect({ label: item.title })
+  }
+
   itemRenderer (item, { modifiers, index, query, handleClick }) {
     return (
-      <div key={item.id}>
+      <div key={item.title}>
         <Tag
           interactive
+          large
+          minimal
           active={modifiers.active}
           onClick={handleClick}
           intent={modifiers.active ? Intent.PRIMARY : Intent.DEFAULT }>
@@ -60,22 +68,6 @@ class TagSuggest extends Component {
         </Tag>
       </div>
     )
-  }
-
-  getInputProps () {
-    // Return props and loading element for `Input`
-    let inflightSpinner
-
-    if (this.state.inflight) {
-      inflightSpinner = <Spinner intent={Intent.PRIMARY} size={Spinner.SIZE_SMALL}/>
-    } else {
-      inflightSpinner = <Icon icon={this.state.waiting ? 'more' : 'blank'}/>
-    }
-
-    return {
-      rightElement: inflightSpinner,
-
-    }
   }
 
   renderEmptyState () {
