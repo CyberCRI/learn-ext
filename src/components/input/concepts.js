@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
-import { CSSTransition } from 'react-transition-group'
 import { List } from 'immutable'
 import { Button, NonIdealState, Tag, MenuItem, FormGroup, Intent, Icon, Spinner } from '@blueprintjs/core'
-import { MultiSelect } from '@blueprintjs/select'
 import posed, { PoseGroup } from 'react-pose'
 
-
-import { getCanonicalUrl } from '~mixins/utils'
-import RootAPI from '~mixins/root-api'
 
 const FluidTag = posed.li()
 
