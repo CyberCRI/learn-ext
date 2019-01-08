@@ -27,6 +27,7 @@ class TagSuggest extends Component {
     this.inputFieldRef = React.createRef()
 
     this.queryDidChange = this.queryDidChange.bind(this)
+    this.shouldFocusInput = this.shouldFocusInput.bind(this)
     this.didSelectItem = this.didSelectItem.bind(this)
   }
 
@@ -54,6 +55,12 @@ class TagSuggest extends Component {
     this.setState({ selected: item, query: '' })
     // Publish to the parent component
     this.props.onSelect({ label: item.title })
+  }
+
+  shouldFocusInput () {
+    if (this.inputFieldRef) {
+      this.inputFieldRef.focus()
+    }
   }
 
   itemRenderer (item, { modifiers, index, query, handleClick }) {
@@ -103,6 +110,7 @@ class TagSuggest extends Component {
 
     return (
       <ControlGroup className='np--tag-suggest'>
+        <Button icon='plus' minimal onClick={this.shouldFocusInput} />
         <Suggest
           items={this.state.items}
           inputProps={inputFieldProps}
@@ -116,6 +124,7 @@ class TagSuggest extends Component {
           resetOnSelect
           popoverProps={popoverProps}
         />
+        <Button icon='blank' minimal onClick={this.shouldFocusInput} loading={this.state.inflight}/>
       </ControlGroup>
     )
   }
