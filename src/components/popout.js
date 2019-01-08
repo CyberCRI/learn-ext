@@ -84,6 +84,15 @@ class ActionCard extends Component {
     })
   }
 
+  didAddConcept (item) {
+    const selected = this.state.selected.push(item)
+    this.setState({ selected })
+  }
+
+  didRemoveConcept (item, selected) {
+    this.setState({ selected }, this.shouldPushChanges)
+  }
+
   render () {
     return (
       <Overlay
