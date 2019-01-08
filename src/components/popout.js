@@ -8,6 +8,7 @@ import { MultiSelect } from '@blueprintjs/select'
 
 import { get_concepts } from '~mixins/remote'
 import TagSuggest from '~components/input/tag-suggest'
+import { getCanonicalUrl } from '~mixins/utils'
 import { BasicCard, InteractiveCard } from '~components/cards'
 import ConceptsField from '~components/input/concepts'
 
@@ -19,6 +20,11 @@ class ActionCard extends Component {
     super(props)
 
     this.state = {
+      pageUrl: getCanonicalUrl(),
+      concepts: List(),
+      selected: List(),
+      fetched: false,
+      inflight: false,
       isOpen: false,
     }
   }
