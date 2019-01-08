@@ -26,8 +26,8 @@ class RuntimeHook {
 }
 
 const RuntimeEvents = {
-  onInstall: runtime.onInstalled,
-  onStartup: runtime.onStartup,
+  onInstall: browser.runtime.onInstalled,
+  onStartup: browser.runtime.onStartup,
 }
 
 
