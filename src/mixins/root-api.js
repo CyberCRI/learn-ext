@@ -25,7 +25,7 @@ class ILearnAPI {
 
   fetchConcepts (url) {
     return request({
-      url: endpointFor('api/enhancedconcepts'),
+      url: endpointFor('api/concepts'),
       data: { url },
     })
   }
