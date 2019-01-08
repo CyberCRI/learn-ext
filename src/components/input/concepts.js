@@ -41,18 +41,6 @@ class ConceptsField extends Component {
 
   renderTag (item) {
     return (
-  }
-
-  renderRightElement () {
-    if (this.state.inflight) {
-      return <Spinner intent={Intent.PRIMARY} size={24} />
-    } else if (this.state.errored) {
-      return <Icon icon='offline' size={24} intent={Intent.DANGER} />
-    }
-    if (this.state.learned) {
-      return <Icon icon='automatic-updates' size={24} intent={Intent.SUCCESS} />
-    }
-    return <Icon icon='blank' />
       <FluidTag key={item.label}>
         <Tag
           interactive
@@ -69,7 +57,6 @@ class ConceptsField extends Component {
   render () {
     return (
       <div data-role='concepts-input' className='np--input-concepts'>
-        <div>{this.renderRightElement()}</div>
 
         <MultiSelect
           tagInputProps={{
