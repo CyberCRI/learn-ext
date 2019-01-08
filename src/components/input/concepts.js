@@ -17,7 +17,6 @@ class ConceptsField extends Component {
 
     this.didRemoveTag = this.didRemoveTag.bind(this)
     this.isSelected = this.isSelected.bind(this)
-    this.renderRightElement = this.renderRightElement.bind(this)
     this.renderTag = this.renderTag.bind(this)
   }
 
@@ -56,31 +55,11 @@ class ConceptsField extends Component {
 
   render () {
     return (
-      <div data-role='concepts-input' className='np--input-concepts'>
-
-        <MultiSelect
-          tagInputProps={{
-            fill: true,
-            large: true,
-            ref: (r) => this.tagInputRef = r,
-            onRemove: this.didRemoveTag,
-            tagProps: {
-              interactive: true,
-              minimal: true,
-            },
-          }}
-          popoverProps={{
-            position: 'bottom-left',
-
-          }}
-          openOnKeyDown
-          items={this.state.concepts.toJS()}
-          selectedItems={this.state.selected.toJS()}
-          tagRenderer={(x) => x.label}
-          onItemSelect={this.didSelectOption}
-          itemRenderer={this.renderOption}
-        />
-      </div>
+      <ul data-role='concepts-input' className='np--concepts-list'>
+        <PoseGroup animateOnMount>
+          {this.state.concepts.map(this.renderTag)}
+        </PoseGroup>
+      </ul>
     )
   }
 }
