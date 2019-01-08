@@ -22,10 +22,12 @@ class TagSuggest extends Component {
 
     this.state = {
       query: '',
-      items: [],
+      items: props.items || [],
     }
+    this.inputFieldRef = React.createRef()
 
     this.queryDidChange = this.queryDidChange.bind(this)
+    this.didSelectItem = this.didSelectItem.bind(this)
   }
 
   componentDidMount () {
@@ -82,18 +84,39 @@ class TagSuggest extends Component {
   }
 
   render () {
+    const popoverProps = {
+      position: 'bottom',
+      usePortal: false,
+      className: 'np--tags-popover',
+      modifiers: {
+        arrow: { enabled: false },
+        flip: { enabled: false },
+      }
+    }
+    const inputFieldProps = {
+      className: 'np--input-tags-field',
+      placeholder: 'Add Concept',
+      inputRef: (r) => {
+        this.inputFieldRef = r
+      },
+    }
+
     return (
-      <Suggest
-        items={this.state.items}
-        inputProps={this.getInputProps()}
-        inputValueRenderer={(item) => item.title}
-        itemRenderer={this.itemRenderer}
-        itemPredicate={(query, item) => true}
-        onItemSelect={(item) => console.log(item)}
-        onQueryChange={this.queryDidChange}
-        noResults={this.renderEmptyState()}
-        popoverProps={{ minimal: true, position: 'bottom' }}
-      />
+      <ControlGroup className='np--tag-suggest'>
+        <Suggest
+          items={this.state.items}
+          inputProps={inputFieldProps}
+          inputValueRenderer={(item) => item.title}
+          itemRenderer={this.itemRenderer}
+          itemPredicate={(query, item) => true}
+          onItemSelect={this.didSelectItem}
+          onQueryChange={this.queryDidChange}
+          noResults={this.renderEmptyState()}
+          selectedItem={null}
+          resetOnSelect
+          popoverProps={popoverProps}
+        />
+      </ControlGroup>
     )
   }
 }
