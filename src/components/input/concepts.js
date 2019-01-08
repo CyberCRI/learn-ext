@@ -12,20 +12,13 @@ class ConceptsField extends Component {
     super(props)
 
     this.state = {
-      pageUrl: getCanonicalUrl(),
-      concepts: List(),
-      selected: List(),
-      inflight: true,
-      learned: false,
-      errored: false,
-      ...props.value,
+      concepts: props.concepts,
     }
 
-    this.didSelectOption = this.didSelectOption.bind(this)
     this.didRemoveTag = this.didRemoveTag.bind(this)
     this.isSelected = this.isSelected.bind(this)
-    this.renderOption = this.renderOption.bind(this)
     this.renderRightElement = this.renderRightElement.bind(this)
+    this.renderTag = this.renderTag.bind(this)
   }
 
   }
