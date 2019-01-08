@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent, Spinner, Icon } from '@blueprintjs/core'
+import { Button, ControlGroup, NonIdealState, Tag, Intent, Spinner, Icon } from '@blueprintjs/core'
 import { Suggest } from '@blueprintjs/select'
 import { hot } from 'react-hot-loader'
 import posed, { PoseGroup } from 'react-pose'
 
-import _ from 'lodash'
 
 import Wiki from '~mixins/wikipedia'
+
+import './suggest.sass'
 
 
 const SuggestedTag = posed(Tag)({
@@ -31,6 +32,7 @@ class TagSuggest extends Component {
   }
 
   queryDidChange (q, event) {
+    this.setState({ query: q })
     if (q.length <= 2) {
       this.setState({ waiting: true })
       return
