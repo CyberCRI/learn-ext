@@ -1,6 +1,4 @@
 const merge = require('webpack-merge')
-const webpack = require('webpack')
-const { css } = require('docz-plugin-css')
 
 const { PackageEnv, abspath } = require('./package.config.js')
 
@@ -25,7 +23,7 @@ export default {
   htmlContext: {
     head: {
       links: [],
-    }
+    },
   },
 
   src: './src',
@@ -52,7 +50,7 @@ export default {
             test: /\.s(c|a)ss$/,
             exclude: /node_modules/,
             use: ['style-loader', 'css-loader', 'sass-loader'],
-          }
+          },
         ],
       },
       resolve: {

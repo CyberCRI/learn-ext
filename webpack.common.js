@@ -33,7 +33,7 @@ module.exports = {
     alias: {
       '~mixins': abspath('src/mixins'),
       '~components': abspath('src/components'),
-    }
+    },
   },
 
   module: {
@@ -51,8 +51,8 @@ module.exports = {
         test: /\.s(c|a)ss$/,
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
-      }
-    ]
+      },
+    ],
   },
 
   plugins: [
