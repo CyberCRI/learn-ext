@@ -84,7 +84,7 @@ class TagSuggest extends Component {
       <NonIdealState
         title='Type to find concepts.'
         icon='path-search'
-        description='We will suggest relevant concepts to tag this resource with as you type.'
+        description='We will suggest relevant concepts to tag this resource with.'
         className='np--tags-non-ideal'
       />
     )
