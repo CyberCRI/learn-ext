@@ -31,17 +31,6 @@ class ConceptsField extends Component {
     return this.state.selected.filter((i) => i.label === item.label).size === 1
   }
 
-  didSelectOption (item, event) {
-    let selected
-    if (this.isSelected(item)) {
-      // Deselect this item.
-      selected = this.state.selected.filterNot((i) => i.label === item.label)
-    } else {
-      selected = this.state.selected.push(item)
-    }
-    this.setState({ selected })
-  }
-
   didRemoveTag (item) {
     // Handle tag removal
     // Filters the `selected` state container to remove the tags
