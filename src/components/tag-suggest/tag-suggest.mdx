@@ -15,5 +15,12 @@ import '@blueprintjs/core/lib/css/blueprint.css'
 ## Basic Usage
 
 <Playground>
-  <TagSuggest />
+  {() => {
+    const items = [{ title: 'boop' }, { title: 'noop' }]
+    return (
+      <div style={{height: 300}}>
+        <TagSuggest items={items} onSelect={console.log}/>
+      </div>
+    )
+  }}
 </Playground>
