@@ -21,6 +21,10 @@ class ConceptsField extends Component {
     this.renderTag = this.renderTag.bind(this)
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.concepts !== prevProps.concepts) {
+      this.setState({ concepts: this.props.concepts })
+    }
   }
 
   isSelected (item) {
