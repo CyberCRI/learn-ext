@@ -48,24 +48,12 @@ class ConceptsField extends Component {
     this.setState({ selected })
   }
 
-  didRemoveTag (value, index) {
+  didRemoveTag (item) {
     // Handle tag removal
     // Filters the `selected` state container to remove the tags
-    const selected = this.state.selected.filterNot((i) => i.label === value)
-    const tag = this.state.concepts.find((i) => i.label === value)
+    const concepts = this.state.concepts.filterNot((i) => i.label === item.label)
 
-    this.setState({ selected, inflight: true }, () => {
-      RootAPI.crowdSourcing({
-        ressource_url: this.state.pageUrl,
-        concept_title: tag.label,
-        reliability_variation: -1,
-      }).then(() => {
-        this.setState({ inflight: false, errored: false })
-      }).fail(() => {
-        this.setState({ inflight: false, errored: true })
-      })
-    })
-
+    this.setState({ concepts }, () => this.props.onRemove(item, concepts))
   }
 
   renderOption (item, { modifiers, handleClick }) {
