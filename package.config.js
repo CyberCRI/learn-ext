@@ -7,12 +7,44 @@
 const webpack = require('webpack')
 const _ = require('lodash')
 const path = require('path')
+const yaml = require('js-yaml')
 
 
 const ENV_PREFIX = 'ILRN_'
 
 // Add a helper for resolving absolute directory paths relative to git root.
 const abspath = (x) => path.resolve(__dirname, x)
+
+
+// Flatten Locale object. See assets/locales for details.
+const flattenLocaleObject = (target) => {
+  let output = {}
+  const step = (object, prev) => {
+    Object.keys(object).forEach((key) => {
+      let value = object[key]
+      let newKey = prev
+        ? prev + '_' + key
+        : key
+      if (!_.has(value, 'message')) {
+        return step(value, newKey)
+      }
+      output[newKey] = value
+    })
+  }
+  step(target)
+
+  return output
+}
+
+// Transform a Locale file buffer to JSON string
+const transpileLocaleFile = (buffer) => {
+  return _(buffer)
+    .thru((b) => b.toString('utf-8'))
+    .thru(yaml.safeLoad)
+    .thru(flattenLocaleObject)
+    .thru(JSON.stringify)
+    .value()
+}
 
 // Predicate for filtering env variables.
 const envPredicate = (v, key) => _.startsWith(key, ENV_PREFIX)
@@ -45,4 +77,4 @@ const PackageEnv = {
   rootDir: abspath('.'),
 }
 
-module.exports = { PackageEnv, abspath }
+module.exports = { PackageEnv, abspath, transpileLocaleFile }
