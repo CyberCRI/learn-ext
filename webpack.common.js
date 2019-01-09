@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const WebpackBar = require('webpackbar')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const { PackageEnv, abspath, transpileLocaleFile } = require('./package.config.js')
 
@@ -61,9 +62,28 @@ module.exports = {
     ],
   },
 
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+        client: {
+          test: /[\\/]node_modules[\\/](react|@blueprintjs|pose|popper).*/,
+          name: 'client',
+          chunks: 'all',
+          priority: 1,
+        },
+      },
+    },
+  },
+
   plugins: [
     new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
     new DashboardPlugin(),
+    new BundleAnalyzerPlugin(),
     new CopyWebpackPlugin(copySourceBundleRules),
     PackageEnv.webpackPlugin,
   ],
