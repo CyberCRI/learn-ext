@@ -1,14 +1,16 @@
 {
-  "name": "ilearn Proto",
+  "name": "__MSG_extension_name__",
   "version": "0.0.1",
   "manifest_version": 2,
-  "description": "ilearn prototype",
+  "description": "__MSG_extension_description__",
   "homepage_url": "https://noop.pw",
   "icons": {
     "16": "icons/icon-active-16.png",
     "48": "icons/icon-active-48.png",
     "128": "icons/icon-active-128.png"
   },
+
+  "default_locale": "en",
 
   "background": {
     "scripts": [
@@ -22,14 +24,14 @@
         "default": "Ctrl+Shift+E",
         "mac": "Command+Shift+E"
       },
-      "description": "Add the resource to your ilearn library"
+      "description": "__MSG_command_toggle_action"
     }
   },
 
   "page_action": {
     "default_icon": "icons/icon-idle-48.png",
     "browser_style": true,
-    "default_title": "IL"
+    "default_title": "__MSG_actions_page_title__"
   },
 
   "browser_action": {
