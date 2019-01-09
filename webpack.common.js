@@ -25,6 +25,7 @@ module.exports = {
   entry: {
     app_root: './src/index.js',
     background: './src/procs/background.js',
+    ext_pages: './src/pages/common.js',
     // content_scripts: './src/procs/content_scripts.js',
     // page_action: '',
     // browser_action: '',
