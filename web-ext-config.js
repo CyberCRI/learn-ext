@@ -10,6 +10,8 @@ console.log('[!] Using Environment:', PackageEnv.vars)
 // tool expects them to be in format of `key=value`, hence we apply a map to
 // format this object.
 const browser_prefs = _({
+  'intl.locale.requested': 'fr',
+  'intl.locale.matchOS': false,
   'lightweightThemes.selectedThemeID': 'firefox-compact-light@mozilla.org',
   'browser.uidensity': 1,
   'browser.EULA.override': true,
