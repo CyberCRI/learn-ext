@@ -3,14 +3,20 @@ const WebpackBar = require('webpackbar')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-const { PackageEnv, abspath } = require('./package.config.js')
+const { PackageEnv, abspath, transpileLocaleFile } = require('./package.config.js')
 
 
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
   { from: './src/manifest.json', to: './' },
-  { from: './src/pages', to: './' },
-  { from: './assets', to: './' },
+  { from: './src/pages', to: './pages' },
+  { from: './assets', to: './', ignore: [ 'locales/*', '.DS_Store' ] },
+  {
+    from: './assets/locales/*.yml',
+    to: './_locales/[name]/messages.json',
+    toType: 'template',
+    transform: transpileLocaleFile,
+  },
 ]
 
 
