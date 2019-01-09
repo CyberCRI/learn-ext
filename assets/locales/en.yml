@@ -1,0 +1,15 @@
+extension:
+  name:
+    message: 'iLearn Extension'
+  description:
+    message: 'Collaborative Learning with iLearn'
+
+command:
+  toggle_action:
+    message: 'Add the resource to your ilearn library'
+
+actions:
+  page:
+    # Page action appears in address bar
+    title:
+      message: 'Add to iLearn'
