@@ -2,7 +2,7 @@
 class RuntimeHook {
   // Manage runtime event hooks and attach/remove handlers as required.
   // Keeps track of hook states.
-  constructor (hook, anchorEvent) {
+  constructor (anchorEvent, hook) {
     this.hook = hook
     this.anchor = anchorEvent
     this.attached = false
@@ -28,6 +28,7 @@ class RuntimeHook {
 const RuntimeEvents = {
   onInstall: browser.runtime.onInstalled,
   onStartup: browser.runtime.onStartup,
+  onMessage: browser.runtime.onMessage,
 }
 
 
