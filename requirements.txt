@@ -10,8 +10,8 @@ lxml==4.2.5
 multidict==4.4.2
 pydash==4.7.3
 pyquery==1.4.0
-PyYAML==3.13
-requests==2.19.1
+PyYAML>=4.2b1
+requests>=2.20
 sanic==0.8.3
 ujson==1.35
 urllib3==1.23
