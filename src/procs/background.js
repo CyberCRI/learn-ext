@@ -1,7 +1,19 @@
-import { RuntimeHook } from './runtime-hooks'
+import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
 
-const cmd_hook = new RuntimeHook((x) => console.log(x), browser.commands.onCommand).attach()
+const messageConsumer = (msg) => {
+  if (msg.action == 'showOptions') {
+    browser.runtime.openOptionsPage()
+  }
+}
 
+const messageHook = new RuntimeHook(RuntimeEvents.onMessage, messageConsumer).attach()
+
+browser.runtime.onInstalled.addListener(({ reason, temporary }) => {
+  if (reason == 'install') {
+    const url = browser.runtime.getURL('pages/onboarding.html')
+    browser.tabs.create({ url }).then(console.log, console.error)
+  }
+})
 
 browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
   if (tab.url.includes('en.wikipedia')) {
