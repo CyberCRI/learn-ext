@@ -105,7 +105,7 @@ class ActionCard extends Component {
             <h5>iLearn</h5>
             <ButtonGroup minimal className='np--popover-actions'>
               <Button icon='map' intent={Intent.PRIMARY}/>
-              <Button icon='cog' intent={Intent.PRIMARY}/>
+              <Button icon='cog' intent={Intent.PRIMARY} onClick={() => browser.runtime.sendMessage({ action: 'showOptions' })}/>
             </ButtonGroup>
           </header>
 
