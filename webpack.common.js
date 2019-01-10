@@ -1,4 +1,3 @@
-const webpack = require('webpack')
 const WebpackBar = require('webpackbar')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -70,21 +69,29 @@ module.exports = {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
           chunks: 'all',
+          reuseExistingChunk: true,
         },
         client: {
           test: /[\\/]node_modules[\\/](react|@blueprintjs|pose|popper).*/,
           name: 'client',
           chunks: 'all',
           priority: 1,
+
         },
       },
     },
   },
 
+  stats: {
+    entrypoints: false,
+    modules: false,
+    warnings: false,
+  },
+
   plugins: [
     new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
     new DashboardPlugin(),
-    new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
     new CopyWebpackPlugin(copySourceBundleRules),
     PackageEnv.webpackPlugin,
   ],
