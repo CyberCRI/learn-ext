@@ -51,7 +51,8 @@
     "keyword": "ilearn"
   },
   "options_ui": {
-    "page": "options.html",
+    "page": "pages/options.html",
+    "open_in_tab": true,
     "browser_style": false,
     "chrome_style": false
   },
