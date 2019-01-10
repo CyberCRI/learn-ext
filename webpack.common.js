@@ -1,15 +1,38 @@
-const webpack = require('webpack')
 const WebpackBar = require('webpackbar')
 const DashboardPlugin = require('webpack-dashboard/plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-const { package_env, abspath } = require('./package.config.js')
+const { PackageEnv, abspath, transpileLocaleFile } = require('./package.config.js')
+
+
+// Files that should be copied into the extension directory.
+const copySourceBundleRules = [
+  { from: './src/manifest.json', to: './' },
+  { from: './src/pages', to: './pages' },
+  { from: './assets', to: './', ignore: [ 'locales/*', '.DS_Store' ] },
+  {
+    from: './assets/locales/*.yml',
+    to: './_locales/[name]/messages.json',
+    toType: 'template',
+    transform: transpileLocaleFile,
+  },
+]
 
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    app_root: './src/index.js',
+    background: './src/procs/background.js',
+    ext_pages: './src/pages/common.js',
+    // content_scripts: './src/procs/content_scripts.js',
+    // page_action: '',
+    // browser_action: '',
+    // options: '',
+  },
   output: {
     filename: '[name].js',
-    path: abspath('dist'),
+    path: abspath('./ext'),
   },
 
   resolve: {
@@ -17,7 +40,7 @@ module.exports = {
     alias: {
       '~mixins': abspath('src/mixins'),
       '~components': abspath('src/components'),
-    }
+    },
   },
 
   module: {
@@ -35,15 +58,41 @@ module.exports = {
         test: /\.s(c|a)ss$/,
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
-      }
-    ]
+      },
+    ],
+  },
+
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+          reuseExistingChunk: true,
+        },
+        client: {
+          test: /[\\/]node_modules[\\/](react|@blueprintjs|pose|popper).*/,
+          name: 'client',
+          chunks: 'all',
+          priority: 1,
+
+        },
+      },
+    },
+  },
+
+  stats: {
+    entrypoints: false,
+    modules: false,
+    warnings: false,
   },
 
   plugins: [
     new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
     new DashboardPlugin(),
-    new webpack.DefinePlugin({
-      env: package_env,
-    }),
+    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
+    new CopyWebpackPlugin(copySourceBundleRules),
+    PackageEnv.webpackPlugin,
   ],
 }

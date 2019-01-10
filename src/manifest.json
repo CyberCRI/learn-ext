@@ -1,0 +1,73 @@
+{
+  "name": "__MSG_extension_name__",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "__MSG_extension_description__",
+  "homepage_url": "https://noop.pw",
+  "icons": {
+    "16": "icons/icon-active-16.png",
+    "48": "icons/icon-active-48.png",
+    "128": "icons/icon-active-128.png"
+  },
+
+  "default_locale": "en",
+
+  "background": {
+    "scripts": [
+      "client.js",
+      "vendors.js",
+      "background.js"
+    ]
+  },
+
+  "commands": {
+    "toggle-action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+E",
+        "mac": "Command+Shift+E"
+      },
+      "description": "__MSG_command_toggle_action"
+    }
+  },
+
+  "page_action": {
+    "default_icon": "icons/icon-idle-48.png",
+    "browser_style": true,
+    "default_title": "__MSG_actions_page_title__"
+  },
+
+  "browser_action": {
+    "default_icon": "icons/icon-idle-48.png"
+  },
+
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "notifications",
+    "https://*/*",
+    "http://*/*"
+  ],
+  "omnibox": {
+    "keyword": "ilearn"
+  },
+  "options_ui": {
+    "page": "pages/options.html",
+    "open_in_tab": true,
+    "browser_style": false,
+    "chrome_style": false
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ],
+      "js": [
+        "vendors.js",
+        "client.js",
+        "app_root.js"
+      ]
+    }
+  ]
+}

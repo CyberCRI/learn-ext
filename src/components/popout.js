@@ -1,151 +1,134 @@
 import React, { Component } from 'react'
 import { List } from 'immutable'
-import { hot } from 'react-hot-loader'
-import autoBind from 'react-autobind'
 
-import { Button, Popover, NonIdealState, Tag, MenuItem, FormGroup, Intent } from '@blueprintjs/core'
-import { Slider } from '@blueprintjs/core'
-import { MultiSelect } from '@blueprintjs/select'
+import { Button, ButtonGroup, Popover, FormGroup, Intent } from '@blueprintjs/core'
+import { Spinner, ProgressBar } from '@blueprintjs/core'
 
+import RootAPI from '~mixins/root-api'
+import { getCanonicalUrl } from '~mixins/utils'
+import TagSuggest from '~components/tag-suggest'
+import { BasicCard, InteractiveCard } from '~components/cards'
+import ConceptsField from '~components/input/concepts'
 
-import { get_concepts } from '~mixins/remote'
 import './popout.sass'
 
 
-class OptionsList {
-  constructor (data) {
-  }
-
-}
-
-
-class ConceptsField extends Component {
+class ActionCard extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      keywords: List(),
+      pageUrl: getCanonicalUrl(),
       concepts: List(),
       selected: List(),
+      fetched: false,
+      inflight: false,
+      isOpen: false,
     }
-    autoBind(this)
-    this.didSelectOption = this.didSelectOption.bind(this)
-    this.didRemoveTag = this.didRemoveTag.bind(this)
-    this.isSelected = this.isSelected.bind(this)
+
+    this.didAddConcept = this.didAddConcept.bind(this)
+    this.didRemoveConcept = this.didRemoveConcept.bind(this)
   }
 
   componentDidMount () {
-    // Once the component mounts, we'll request the server for tags/concepts.
-    get_concepts().then((data) => {
-      const keywords = List(data.keywords)
-      const concepts = List(data.concepts)
-      this.setState({
-        keywords,
-        concepts,
-        selected: concepts.slice(2),
-      })
-
+    browser.runtime.onMessage.addListener((message, sender, respond) => {
+      if (message.activate) {
+        this.setState({ isOpen: !this.state.isOpen }, this.shouldFetchConcepts())
+      }
     })
   }
 
-  isSelected (item) {
-    return this.state.selected.filter((i) => i.label === item.label).size === 1
-  }
-
-  didSelectOption (item, event) {
-    let selected
-    if (this.isSelected(item)) {
-      // Deselect this item.
-      selected = this.state.selected.filterNot((i) => i.label === item.label)
-    } else {
-      selected = this.state.selected.push(item)
+  shouldFetchConcepts () {
+    if (this.state.fetched) {
+      return
     }
+    this.setState({ inflight: true })
+    RootAPI
+      .fetchConcepts(this.state.pageUrl)
+      .then((data) => {
+        const concepts = List(data.concepts)
+        this.setState({
+          concepts,
+          selected: concepts,
+          fetched: true,
+          inflight: false,
+        })
+      })
+  }
+
+  shouldPushChanges () {
+    this.setState({ inflight: true })
+    RootAPI.learn({
+      url: this.state.pageUrl,
+      concepts: this.state.selected.toJS(),
+      username: 'Nuggets',    // [XXX] Fix this to be configurable.
+      knowledge_progression: 0.5,
+      title: document.title,
+    }).then(() => {
+      this.setState({ learned: true, inflight: false, errored: false })
+    }).fail(() => {
+      this.setState({ inflight: false, errored: true })
+    })
+  }
+
+  shouldUpdateConcept (item) {
+    this.setState({ inflight: true })
+    RootAPI.crowdSourcing({
+      ressource_url: this.state.pageUrl,
+      concept_title: item.label,
+      reliability_variation: -1,
+    }).then(() => {
+      this.setState({ inflight: false, errored: false })
+    }).fail(() => {
+      this.setState({ inflight: false, errored: true })
+    })
+  }
+
+  didAddConcept (item) {
+    const selected = this.state.selected.push(item)
     this.setState({ selected })
   }
 
-  didRemoveTag (value, index) {
-    // Handle tag removal
-    // Filters the `selected` state container to remove the tags
-    const selected = this.state.selected.filterNot((i) => i.label === value)
-    this.setState({ selected })
-  }
-
-  renderOption (item, { modifiers, handleClick }) {
-    return (
-      <MenuItem
-        key={item.label}
-        text={item.label}
-        shouldDismissPopover={false}
-        onClick={handleClick}
-        active={modifiers.active}
-        icon={this.isSelected(item) ? 'tick' : 'blank'}
-      />)
+  didRemoveConcept (item, selected) {
+    this.setState({ selected }, this.shouldPushChanges)
   }
 
   render () {
     return (
-      <FormGroup
-        helperText='Add or update tags'
-        label='Keywords'>
+      <div className='card-container'>
+        <InteractiveCard isOpen={this.state.isOpen && !this.state.fetched} className='np-basic-card'>
+          <div><Spinner/></div>
+        </InteractiveCard>
 
-        <MultiSelect
-          tagInputProps={{
-            fill: true,
-            large: true,
-            rightElement: <Button icon='plus' minimal onClick={() => this.tagInputRef.setState({ isOpen: true })} />,
-            ref: (r) => this.tagInputRef = r,
-            onRemove: this.didRemoveTag,
-            tagProps: {
-              interactive: true,
-              minimal: true,
-            }
-          }}
-          popoverProps={{
-            position: 'bottom-left',
+        <InteractiveCard isOpen={this.state.isOpen && this.state.fetched}>
+          <header>
+            <h5>iLearn</h5>
+            <ButtonGroup minimal className='np--popover-actions'>
+              <Button icon='map' intent={Intent.PRIMARY}/>
+              <Button icon='cog' intent={Intent.PRIMARY} onClick={() => browser.runtime.sendMessage({ action: 'showOptions' })}/>
+            </ButtonGroup>
+          </header>
 
-          }}
-          openOnKeyDown
-          items={this.state.concepts.toJS()}
-          selectedItems={this.state.selected.toJS()}
-          tagRenderer={(x) => x.label}
-          onItemSelect={this.didSelectOption}
-          itemRenderer={this.renderOption}
-        />
-      </FormGroup>
-    )
-  }
-}
+          <main>
+            <p>Concepts on this Page</p>
+            <ConceptsField
+              concepts={this.state.selected}
+              onRemove={this.didRemoveConcept}/>
+            <TagSuggest
+              onSelect={this.didAddConcept}/>
 
-
-class Popout extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      ...props.value,
-    }
-  }
-
-  render () {
-    return (
-      <div className='ext--root'>
-        <Popover position='left-top'>
-          <Button icon='book' />
-          <div className='ext popover'>
-            <h2>iLearn</h2>
-            <Button icon='endorsed' intent={Intent.PRIMARY}></Button>
-            <ConceptsField />
-
-            <Slider
-              min={0}
-              max={3}
-              vertical
-              labelRenderer={(x) => ['Irrelevant', 'Easy', 'Medium', 'Difficult'][x]}
-            />
-          </div>
-        </Popover>
+            <h5>Resource Rating</h5>
+            <p>Pick a rating for this resource to indicate its quality</p>
+            <ButtonGroup fill minimal>
+              <Button>Easy</Button>
+              <Button>Alright</Button>
+              <Button>Too Hard!</Button>
+            </ButtonGroup>
+          </main>
+        </InteractiveCard>
       </div>
     )
   }
 }
 
-export default hot(module)(Popout)
+export { ActionCard }

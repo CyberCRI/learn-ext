@@ -7,13 +7,16 @@
   "dependencies": {
     "@blueprintjs/core": "^3.7.0",
     "@blueprintjs/select": "^3.2.1",
+    "enum": "^2.5.0",
     "immutable": "^4.0.0-rc.12",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "react": "^16.5.2",
     "react-autobind": "^1.0.6",
     "react-dom": "^16.5.2",
+    "react-pose": "^4.0.4",
     "reqwest": "^2.0.5",
+    "tachyons": "^4.11.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -23,14 +26,21 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "autobind-decorator": "^2.3.1",
+    "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
+    "classnames": "^2.2.6",
+    "clean-webpack-plugin": "^1.0.0",
     "connect": "^3.6.6",
+    "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^1.0.0",
     "docz": "^0.12.13",
     "docz-plugin-css": "^0.11.0",
     "dotenv-webpack": "^1.5.7",
+    "eslint": "^5.10.0",
+    "eslint-plugin-react": "^7.11.1",
     "harmon": "^1.4.3",
     "http-proxy": "^1.17.0",
+    "js-yaml": "^3.12.1",
     "mini-css-extract-plugin": "^0.4.5",
     "node-sass": "^4.9.4",
     "react-hot-loader": "^4.3.12",
@@ -50,7 +60,9 @@
   "scripts": {
     "build:dev": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
-    "start:dev": "webpack-dev-server --config webpack.dev.js",
+    "start:dev-server": "webpack-dev-server --config webpack.dev.js",
+    "start:dev": "webpack --config webpack.dev.js --watch",
+    "start:web-ext--run": "web-ext run",
     "start:docz": "docz dev"
   }
 }

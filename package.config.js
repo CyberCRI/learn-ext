@@ -4,14 +4,47 @@
 //
 // Environment variables that are prefixed with `ILRN_` are available under
 // `config` and are replaced during webpack build.
+const webpack = require('webpack')
 const _ = require('lodash')
 const path = require('path')
+const yaml = require('js-yaml')
 
 
 const ENV_PREFIX = 'ILRN_'
 
 // Add a helper for resolving absolute directory paths relative to git root.
 const abspath = (x) => path.resolve(__dirname, x)
+
+
+// Flatten Locale object. See assets/locales for details.
+const flattenLocaleObject = (target) => {
+  let output = {}
+  const step = (object, prev) => {
+    Object.keys(object).forEach((key) => {
+      let value = object[key]
+      let newKey = prev
+        ? prev + '_' + key
+        : key
+      if (!_.has(value, 'message')) {
+        return step(value, newKey)
+      }
+      output[newKey] = value
+    })
+  }
+  step(target)
+
+  return output
+}
+
+// Transform a Locale file buffer to JSON string
+const transpileLocaleFile = (buffer) => {
+  return _(buffer)
+    .thru((b) => b.toString('utf-8'))
+    .thru(yaml.safeLoad)
+    .thru(flattenLocaleObject)
+    .thru(JSON.stringify)
+    .value()
+}
 
 // Predicate for filtering env variables.
 const envPredicate = (v, key) => _.startsWith(key, ENV_PREFIX)
@@ -25,14 +58,23 @@ const transformKey = (v, key, o) => {
     .value()
 }
 
-
 // Collect all the package environment variables.
-const package_env = _(process.env)
+const env_vars = _(process.env)
   .pickBy(envPredicate)
   .mapKeys(transformKey)
-  .mapValues(JSON.stringify)
   .value()
 
-console.log('[ᴇɴᴠ] Package:', package_env)
+// Print env variables, skipping anything that might be an API key.
+const printVariables = () => {
+  // TODO!
+}
 
-module.exports = { package_env, abspath }
+const PackageEnv = {
+  webpackPlugin: new webpack.DefinePlugin({
+    env: _.mapValues(env_vars, JSON.stringify),
+  }),
+  vars: env_vars,
+  rootDir: abspath('.'),
+}
+
+module.exports = { PackageEnv, abspath, transpileLocaleFile }

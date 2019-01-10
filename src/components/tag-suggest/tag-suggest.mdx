@@ -1,0 +1,26 @@
+---
+name: Tag Suggest
+---
+
+import { Playground, PropsTable } from 'docz'
+import { Button } from '@blueprintjs/core'
+import TagSuggest from '~components/tag-suggest'
+
+import '@blueprintjs/core/lib/css/blueprint.css'
+
+# Tag Suggestions
+
+<PropsTable of={TagSuggest} />
+
+## Basic Usage
+
+<Playground>
+  {() => {
+    const items = [{ title: 'boop' }, { title: 'noop' }]
+    return (
+      <div style={{height: 300}}>
+        <TagSuggest items={items} onSelect={console.log}/>
+      </div>
+    )
+  }}
+</Playground>

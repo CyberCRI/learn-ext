@@ -1,8 +1,6 @@
 const merge = require('webpack-merge')
-const webpack = require('webpack')
-const { css } = require('docz-plugin-css')
 
-const { package_env, abspath } = require('./package.config.js')
+const { PackageEnv, abspath } = require('./package.config.js')
 
 
 export default {
@@ -18,23 +16,25 @@ export default {
       },
       code: {
         fontFamily: 'Fira Code',
-      }
-    }
+      },
+    },
   },
 
   htmlContext: {
     head: {
-      links: []
-    }
+      links: [],
+    },
   },
 
   src: './src',
+  public: './ext',
 
   indexHtml: './docs/docz-assets/index.html',
 
   codeSandbox: false,
 
   debug: true,
+
   modifyBabelRc: (babelrc) => {
     return {...babelrc, plugins: [] }
   },
@@ -50,7 +50,7 @@ export default {
             test: /\.s(c|a)ss$/,
             exclude: /node_modules/,
             use: ['style-loader', 'css-loader', 'sass-loader'],
-          }
+          },
         ],
       },
       resolve: {
@@ -60,10 +60,8 @@ export default {
         },
       },
       plugins: [
-        new webpack.DefinePlugin({
-          env: package_env,
-        }),
-      ]
+        PackageEnv.webpackPlugin,
+      ],
     })
   },
 }
