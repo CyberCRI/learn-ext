@@ -47,7 +47,16 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          {
+            loader: 'postcss-loader',
+            options: { plugins: [
+              require('autoprefixer'),
+              require('cssnano'),
+            ] },
+          },
+        ],
       },
       {
         test: /\.jsx?$/,
@@ -57,7 +66,25 @@ module.exports = {
       {
         test: /\.s(c|a)ss$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          {
+            loader: 'postcss-loader',
+            options: { plugins: [
+              require('autoprefixer'),
+              require('cssnano'),
+            ] },
+          },
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.(eot|ttf|woff|woff2|svg|png|gif|jpe?g)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]',
+          outputPath: 'rawassets/',
+        },
       },
     ],
   },
@@ -76,7 +103,6 @@ module.exports = {
           name: 'client',
           chunks: 'all',
           priority: 1,
-
         },
       },
     },
@@ -92,7 +118,7 @@ module.exports = {
     new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
     new DashboardPlugin(),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
-    new CopyWebpackPlugin(copySourceBundleRules),
+    new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
     PackageEnv.webpackPlugin,
   ],
 }
