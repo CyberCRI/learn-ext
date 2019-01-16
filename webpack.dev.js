@@ -1,13 +1,10 @@
 const webpack = require('webpack')
-const merge = require('webpack-merge')
 
 const base_config = require('./webpack.common')
+const { smartMerge } = require('./package.config.js')
 
-const merge_conf = {
-  'module.rules.use': 'prepend',
-}
 
-module.exports = merge.smartStrategy(merge_conf)(base_config, {
+module.exports = smartMerge(base_config, {
   mode: 'development',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -29,9 +26,12 @@ module.exports = merge.smartStrategy(merge_conf)(base_config, {
 
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: './dist',
-    hot: true,
+    contentBase: './ext',
+    hot: false,
     noInfo: false,
     stats: 'minimal',
+    open: false,
+    inline: true,
+    watchContentBase: true,
   },
 })

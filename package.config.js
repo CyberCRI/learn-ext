@@ -8,6 +8,7 @@ const webpack = require('webpack')
 const _ = require('lodash')
 const path = require('path')
 const yaml = require('js-yaml')
+const webpack_merge = require('webpack-merge')
 
 
 const ENV_PREFIX = 'ILRN_'
@@ -77,4 +78,7 @@ const PackageEnv = {
   rootDir: abspath('.'),
 }
 
-module.exports = { PackageEnv, abspath, transpileLocaleFile }
+// Pre-configured webpack-merge instance
+const smartMerge = webpack_merge.smartStrategy({ 'module.rules.use': 'prepend' })
+
+module.exports = { PackageEnv, abspath, transpileLocaleFile, smartMerge }
