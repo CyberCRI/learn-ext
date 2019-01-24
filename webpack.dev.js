@@ -27,11 +27,13 @@ module.exports = smartMerge(base_config, {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './ext',
-    hot: false,
+    hot: true,
+    hotOnly: true,
     noInfo: false,
     stats: 'minimal',
-    open: false,
     inline: true,
     watchContentBase: true,
+    open: false,
+    overlay: true,
   },
 })
