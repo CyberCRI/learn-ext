@@ -1,2 +1,2 @@
-import 'tachyons/css/tachyons.css'
+// import '../styles/index.sass'
 import './style.sass'
