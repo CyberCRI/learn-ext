@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "manifest_version": 2,
   "description": "__MSG_extension_description__",
   "homepage_url": "https://noop.pw",
@@ -26,7 +26,7 @@
         "default": "Ctrl+Shift+E",
         "mac": "Command+Shift+E"
       },
-      "description": "__MSG_command_toggle_action"
+      "description": "__MSG_command_toggle_action__"
     }
   },
 
