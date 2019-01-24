@@ -1,6 +1,7 @@
 const WebpackBar = require('webpackbar')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const { PackageEnv, abspath, transpileLocaleFile } = require('./package.config.js')
@@ -9,7 +10,6 @@ const { PackageEnv, abspath, transpileLocaleFile } = require('./package.config.j
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
   { from: './src/manifest.json', to: './' },
-  { from: './src/pages', to: './pages' },
   { from: './assets', to: './', ignore: [ 'locales/*', '.DS_Store' ] },
   {
     from: './assets/locales/*.yml',
@@ -19,16 +19,31 @@ const copySourceBundleRules = [
   },
 ]
 
+// Setup html generator plugin using HtmlWebpackPlugin
+const HtmlGenerator = ({ name, chunks, template='layout.pug' }) => {
+  return new HtmlWebpackPlugin({
+    filename: `pages/${name}.html`,
+    template: `src/pages/${name}/index.pug`,
+    chunks: [ 'client', 'vendors', ...chunks ],
+  })
+}
+
+// Link entry points with the chunks defined here.
+const staticPages = [
+  HtmlGenerator({ name: 'options', chunks: ['pages_options'] }),
+  HtmlGenerator({ name: 'settings', chunks: ['pages_settings'] }),
+]
+
 
 module.exports = {
   entry: {
     app_root: './src/index.js',
     background: './src/procs/background.js',
-    ext_pages: './src/pages/common.js',
-    // content_scripts: './src/procs/content_scripts.js',
-    // page_action: '',
-    // browser_action: '',
-    // options: '',
+
+    pages_options: './src/pages/options/index.js',
+    pages_settings: './src/pages/settings/index.js',
+    // pages_onboarding: './src/pages/onboarding.js',
+    // pages_cartography: './src/pages/cartography.js',
   },
   output: {
     filename: '[name].js',
@@ -40,6 +55,8 @@ module.exports = {
     alias: {
       '~mixins': abspath('src/mixins'),
       '~components': abspath('src/components'),
+      '~styles': abspath('src/styles'),
+      '~pug-partials': abspath('src/pages/partials'),
     },
   },
 
@@ -80,11 +97,17 @@ module.exports = {
       },
       {
         test: /\.(eot|ttf|woff|woff2|svg|png|gif|jpe?g)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-          outputPath: 'rawassets/',
-        },
+        use: [ {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'rawassets/',
+          },
+        } ],
+      },
+      {
+        test: /\.pug$/,
+        use: ['pug-loader'],
       },
     ],
   },
@@ -120,5 +143,6 @@ module.exports = {
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
     new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
     PackageEnv.webpackPlugin,
+    ...staticPages,
   ],
 }
