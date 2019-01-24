@@ -113,11 +113,83 @@ class MapCard extends Component {
       fakeTags: [],
     }
 
+    this.canvasRef = React.createRef()
+    this.didToggleZoom = this.didToggleZoom.bind(this)
+    this.refreshAtlas = this.refreshAtlas.bind(this)
+    this.updateAtlas = this.updateAtlas.bind(this)
   }
+
   componentDidMount () {
+    request({ url: 'http://glacier.zen.noop.pw/etc/vismodel.json' })
+      .then((points) => {
+        this.setState({ atlasReady: true, fakeTags: ['Boop', 'Noot', 'BMO'] })
+        this.atlas = drawCartography(points, this.canvasRef)
+      })
   }
+
+  didToggleZoom () {
+    const pose = this.state.pose === 'zoomed' ? 'init' : 'zoomed'
+
+    // this.atlas.fx.pullback().then(() => {
+    // })
+    // this.setState({ pose })
+
+    this.setState({ atlasReady: false }, () => this.setState({ pose }))
+  }
+
+  refreshAtlas () {
+    this.atlas.map.resize()
+    this.atlas.fx.rollout(this.atlas.data)
+    this.setState({ atlasReady: true })
+    // this.atlas.resize()
+  }
+
+  updateAtlas ({ key, value }) {
+    this.atlas.set(key, value)
+    this.atlas.redraw()
+  }
+
   render () {
     return (
+      <CardBox pose={this.state.pose} onPoseComplete={this.refreshAtlas}>
+        <Card elevation={Elevation.FOUR} className='map-card'>
+          <div className='header'>
+            <h3>Your Knowledge Map</h3>
+            <div className='tools'>
+              <Button
+                icon={this.state.pose == 'init' ? 'maximize' : 'minimize' }
+                minimal
+                onClick={this.didToggleZoom}
+              />
+              <Popover usePortal={false} position='bottom-right'>
+                <Button icon='more' minimal/>
+                <Menu>
+                  <MenuItem text='Customize' icon=''/>
+                  <MenuItem text='Option'/>
+                </Menu>
+              </Popover>
+            </div>
+          </div>
+
+          <ul className='contents'>
+            <PoseGroup animateOnMount={true}>
+              {this.state.fakeTags.map((id) => {
+                return (
+                  <InfoCard key={id}>
+                    <Tag>{id}</Tag>
+                  </InfoCard>
+                )
+              })}
+            </PoseGroup>
+          </ul>
+
+          <div
+            className={clsx('mapbox', { loading: !this.state.atlasReady })}
+            ref={(el) => this.canvasRef = el}
+          />
+
+        </Card>
+      </CardBox>
     )
   }
 }
