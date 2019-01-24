@@ -1,0 +1,20 @@
+extends ./base.pug
+include ./mixins.pug
+
+block append body
+  body
+    header
+      nav.bp3-dark
+        block navbar
+          +nav-link('Home')
+          +nav-link('Cartography')
+          +nav-link('Discover')
+
+          +nav-link('Account')
+
+    main
+      block main
+
+    footer
+      block footer
+        a(href='#') Boop
