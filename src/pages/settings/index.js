@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Callout, Divider, Intent, Tabs, Tab, Elevation } from '@blueprintjs/core'
+import { FormGroup, InputGroup } from '@blueprintjs/core'
+import { RadioGroup, Radio, Switch } from '@blueprintjs/core'
 
 import { renderReactComponent } from '~mixins/utils'
 
@@ -12,6 +14,11 @@ const PanelGeneral = () => (
       <p>Hey there! This is the general settings panel.</p>
       <p></p>
     </Callout>
+
+    <RadioGroup label='Dr. Who?'>
+      <Radio label='The Doctor' value='dr'/>
+      <Radio label='Timey Wimey' value='dr'/>
+    </RadioGroup>
   </div>
 )
 
@@ -21,6 +28,9 @@ const PanelAccount = () => (
       <p>Hey there! This is the account settings panel.</p>
       <p></p>
     </Callout>
+    <FormGroup label='Email' labelInfo='Primary'>
+      <InputGroup leftIcon='id-number' />
+    </FormGroup>
   </div>
 )
 
