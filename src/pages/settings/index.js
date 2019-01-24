@@ -8,21 +8,37 @@ import './_settings.sass'
 
 const PanelGeneral = () => (
   <div>
+    <Callout icon='asterisk' title='Heads up!'>
+      <p>Hey there! This is the general settings panel.</p>
+      <p></p>
+    </Callout>
   </div>
 )
 
 const PanelAccount = () => (
   <div>
+    <Callout icon='id-number' title='Account' intent={Intent.PRIMARY}>
+      <p>Hey there! This is the account settings panel.</p>
+      <p></p>
+    </Callout>
   </div>
 )
 
 const PanelPrivacy = () => (
   <div>
+    <Callout icon='shield' title='Privacy' intent={Intent.PRIMARY}>
+      <p>Hey there! This is the privacy settings panel.</p>
+      <p></p>
+    </Callout>
   </div>
 )
 
 const PanelSupport = () => (
   <div>
+    <Callout icon='help' title='Help and Support' intent={Intent.PRIMARY}>
+      <p>Hey there! This is the support settings panel.</p>
+      <p></p>
+    </Callout>
   </div>
 )
 
