@@ -73,6 +73,37 @@ function drawCartography (points, container) {
   return { map: dotatlas, fx: dotatlasFx, data: dataObject };
 }
 
+
+const CardBox = posed.div({
+  init: {
+    width: 'auto',
+    height: 'auto',
+    position: 'static',
+    flip: true,
+    staggerChildren: 100,
+    // delay: 100,
+  },
+  zoomed: {
+    position: 'fixed',
+    top: 10,
+    left: 10,
+    right: 10,
+    bottom: 10,
+    flip: true,
+    staggerChildren: 100,
+    applyAtStart: {
+      position: 'fixed',
+    },
+    transition: {
+      type: 'spring',
+    },
+    // delay: 300,
+  },
+})
+
+const InfoCard = posed.li()
+
+
 class MapCard extends Component {
   constructor (props) {
     super(props)
