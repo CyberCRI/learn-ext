@@ -1,9 +1,9 @@
-import '@blueprintjs/core/lib/css/blueprint.css'
 import $ from 'jquery'
 
 import { renderReactComponent } from '~mixins/utils'
 import { ActionCard } from '~components/popout'
 
+import './styles/index.sass'
 
 const EXT_ROOT_ID = 'ilearn-ext'
 
