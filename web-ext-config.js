@@ -12,6 +12,7 @@ console.log('[!] Using Environment:', PackageEnv.vars)
 const browser_prefs = _({
   'intl.locale.requested': 'fr',
   'intl.locale.matchOS': false,
+  'general.useragent.locale': 'fr',
   'lightweightThemes.selectedThemeID': 'firefox-compact-light@mozilla.org',
   'browser.uidensity': 1,
   'browser.EULA.override': true,
@@ -25,6 +26,8 @@ const browser_prefs = _({
   'devtools.browserconsole.filter.net': true,
   'devtools.browserconsole.filter.netxhr': true,
   'browser.uitour.enabled': false,
+  'security.csp.enable': false,
+  'security.mixed_content.block_active_content': false,
 }).map((value, key) => `${key}=${value}`)
   .value()
 
@@ -34,7 +37,9 @@ module.exports = {
 
   run: {
     firefox: PackageEnv.vars.webext_firefox_version,
-    browserConsole: true,
+    browserConsole: false,
+    keepProfileChanges: true,
+    firefoxProfile: 'web-ext-dev',
     pref: browser_prefs,
     noReload: false,
     startUrl: ['https://en.wikipedia.org/wiki/Solar_System', 'https://en.wikipedia.org'],
