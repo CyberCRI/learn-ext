@@ -80,7 +80,7 @@ const CardBox = posed.div({
     height: 'auto',
     position: 'static',
     flip: true,
-    staggerChildren: 100,
+    // staggerChildren: 100,
     // delay: 100,
   },
   zoomed: {
@@ -90,12 +90,10 @@ const CardBox = posed.div({
     right: 10,
     bottom: 10,
     flip: true,
-    staggerChildren: 100,
-    applyAtStart: {
-      position: 'fixed',
-    },
+    // staggerChildren: 100,
     transition: {
-      type: 'spring',
+      // type: 'spring',
+      duration: 100,
     },
     // delay: 300,
   },
@@ -151,45 +149,47 @@ class MapCard extends Component {
 
   render () {
     return (
-      <CardBox pose={this.state.pose} onPoseComplete={this.refreshAtlas}>
-        <Card elevation={Elevation.FOUR} className='map-card'>
-          <div className='header'>
-            <h3>Your Knowledge Map</h3>
-            <div className='tools'>
-              <Button
-                icon={this.state.pose == 'init' ? 'maximize' : 'minimize' }
-                minimal
-                onClick={this.didToggleZoom}
-              />
-              <Popover usePortal={false} position='bottom-right'>
-                <Button icon='more' minimal/>
-                <Menu>
-                  <MenuItem text='Customize' icon=''/>
-                  <MenuItem text='Option'/>
-                </Menu>
-              </Popover>
+      <div className='map-card-container'>
+        <CardBox pose={this.state.pose} onPoseComplete={this.refreshAtlas}>
+          <Card elevation={Elevation.FOUR} className='map-card'>
+            <div className='header'>
+              <h3>Your Knowledge Map</h3>
+              <div className='tools'>
+                <Button
+                  icon={this.state.pose == 'init' ? 'maximize' : 'minimize' }
+                  minimal
+                  onClick={this.didToggleZoom}
+                />
+                <Popover usePortal={true} position='bottom-right'>
+                  <Button icon='more' minimal/>
+                  <Menu>
+                    <MenuItem text='Customize' icon=''/>
+                    <MenuItem text='Option'/>
+                  </Menu>
+                </Popover>
+              </div>
             </div>
-          </div>
 
-          <ul className='contents'>
-            <PoseGroup animateOnMount={true}>
-              {this.state.fakeTags.map((id) => {
-                return (
-                  <InfoCard key={id}>
-                    <Tag>{id}</Tag>
-                  </InfoCard>
-                )
-              })}
-            </PoseGroup>
-          </ul>
+            <ul className='contents'>
+              <PoseGroup animateOnMount={true}>
+                {this.state.fakeTags.map((id) => {
+                  return (
+                    <InfoCard key={id}>
+                      <Tag>{id}</Tag>
+                    </InfoCard>
+                  )
+                })}
+              </PoseGroup>
+            </ul>
 
-          <div
-            className={clsx('mapbox', { loading: !this.state.atlasReady })}
-            ref={(el) => this.canvasRef = el}
-          />
+            <div
+              className={clsx('mapbox', { loading: !this.state.atlasReady })}
+              ref={(el) => this.canvasRef = el}
+            />
 
-        </Card>
-      </CardBox>
+          </Card>
+        </CardBox>
+      </div>
     )
   }
 }
