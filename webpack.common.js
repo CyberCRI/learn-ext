@@ -20,10 +20,10 @@ const copySourceBundleRules = [
 ]
 
 // Setup html generator plugin using HtmlWebpackPlugin
-const HtmlGenerator = ({ name, chunks, template='layout.pug' }) => {
+const HtmlGenerator = ({ name, chunks }) => {
   return new HtmlWebpackPlugin({
     filename: `pages/${name}.html`,
-    template: `src/pages/${name}/index.pug`,
+    template: `src/pages/${name}/_${name}.pug`,
     chunks: [ 'client', 'vendors', ...chunks ],
   })
 }
@@ -32,6 +32,7 @@ const HtmlGenerator = ({ name, chunks, template='layout.pug' }) => {
 const staticPages = [
   HtmlGenerator({ name: 'options', chunks: ['pages_options'] }),
   HtmlGenerator({ name: 'settings', chunks: ['pages_settings'] }),
+  HtmlGenerator({ name: 'onboarding', chunks: ['pages_onboarding'] }),
 ]
 
 
@@ -42,8 +43,7 @@ module.exports = {
 
     pages_options: './src/pages/options/index.js',
     pages_settings: './src/pages/settings/index.js',
-    // pages_onboarding: './src/pages/onboarding.js',
-    // pages_cartography: './src/pages/cartography.js',
+    pages_onboarding: './src/pages/onboarding/index.js',
   },
   output: {
     filename: '[name].js',
