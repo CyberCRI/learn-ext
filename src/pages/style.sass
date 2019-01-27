@@ -13,19 +13,25 @@ body
 .root-container
   padding: 0 10%
 
+body
+  > header
+    @extend .root-container
+    background: #363959
+    height: 128px
+    margin-bottom: -20px
+    color: #f9f9fa
 
-header
-  @extend .root-container
-  background: #363959
-  height: 128px
-  margin-bottom: -20px
-  color: #f9f9fa
+    nav
+      padding: 6px 0
 
+  > main
+    @extend .root-container
+    flex-grow: 2
 
-
-main
-  @extend .root-container
-  padding: 0 10%
+  > footer
+    @extend .root-container
+    background: #d7d7db
+    color: #f9f9fa
 
 section.card
   position: relative

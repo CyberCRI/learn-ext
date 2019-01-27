@@ -1,13 +1,21 @@
 @import '~styles/index.sass'
 @import '../style.sass'
 
-.map-card
+.map-card-container
   position: relative
   min-height: 50vh
-  height: 100%
+  display: flex
+  margin-bottom: 20px
+
+  > div
+    display: flex
+    flex: 1
+
+.map-card
+  position: relative
+  flex: 1
   overflow: hidden
   padding: 0
-  margin-bottom: 20px
 
   .header
     position: relative
@@ -51,11 +59,11 @@
     background: #8cc0e9
 
     canvas
-      transition: 0.05s all
-      // filter: blur(0px)
+      transition: 0.05s filter
+      filter: blur(0px)
       // opacity: 1
 
     &.loading
       canvas
         // opacity: 0
-        // filter: blur(10px)
+        filter: blur(10px)
