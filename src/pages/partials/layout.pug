@@ -6,11 +6,11 @@ block append body
     header
       nav.bp3-dark
         block navbar
-          +nav-link('Home')
-          +nav-link('Cartography')
-          +nav-link('Discover')
+          +nav-link('Home', '/pages/options.html', 'arrow-left')
+          +nav-link('Cartography', '/pages/options.html', 'map')
+          +nav-link('Discover', '#', 'mountain')
 
-          +nav-link('Account')
+          +nav-link('Account', '/pages/settings.html', 'wrench')
 
     main
       block main
