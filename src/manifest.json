@@ -1,7 +1,8 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.0.2",
+  "version": "0.0.7",
   "manifest_version": 2,
+  "id": "pw.noop.dev.ilearn-cri-paris",
   "description": "__MSG_extension_description__",
   "homepage_url": "https://noop.pw",
   "icons": {
@@ -11,6 +12,7 @@
   },
 
   "default_locale": "en",
+  "content_security_policy": "script-src 'self' https://noop-pub.s3.amazonaws.com; object-src 'self'",
 
   "background": {
     "scripts": [
@@ -36,14 +38,11 @@
     "default_title": "__MSG_actions_page_title__"
   },
 
-  "browser_action": {
-    "default_icon": "icons/icon-idle-48.png"
-  },
-
   "permissions": [
     "tabs",
     "activeTab",
     "notifications",
+    "storage",
     "https://*/*",
     "http://*/*"
   ],
@@ -56,6 +55,10 @@
     "browser_style": false,
     "chrome_style": false
   },
+
+  "web_accessible_resources": [
+    "pages/*"
+  ],
 
   "content_scripts": [
     {
