@@ -24,6 +24,15 @@ body
     nav
       padding: 6px 0
 
+    .bp3-navbar.np-navbar
+      background: transparent
+      box-shadow: none
+      z-index: unset
+
+      a
+        text-transform: uppercase
+        letter-spacing: 1px
+
   > main
     @extend .root-container
     flex-grow: 2
@@ -32,6 +41,8 @@ body
     @extend .root-container
     background: #d7d7db
     color: #f9f9fa
+
+
 
 section.card
   position: relative
