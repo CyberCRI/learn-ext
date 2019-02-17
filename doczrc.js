@@ -57,6 +57,8 @@ export default {
         alias: {
           '~mixins': abspath('src/mixins'),
           '~components': abspath('src/components'),
+          '~pages': abspath('src/pages'),
+          '~page-commons': abspath('src/pages/_commons'),
         },
       },
       plugins: [
