@@ -9,13 +9,13 @@ const { dotenv, abspath, locale, manifest } = require('./tools/node-plugins')
 
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
-  { from: './src/manifest.json', to: './' },
+  { from: './src/manifest.json', to: './', transform: manifest.transform },
   { from: './assets', to: './', ignore: [ 'locales/*', '.DS_Store' ] },
   {
     from: './assets/locales/*.yml',
     to: './_locales/[name]/messages.json',
     toType: 'template',
-    transform: transpileLocaleFile,
+    transform: locale.transpile,
   },
 ]
 

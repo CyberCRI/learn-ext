@@ -73,7 +73,3 @@ To avoid unnecessary complexity, the transformation function is opinionated.
 It only transforms the object if there's a `message` key in it. Rest of the contents
 of the element are copied as is, hence all the advance keys such as `placeholder`
 and `examples` are supported as long as they're in the same object.
-
-
-Check out `package.config.js` for the implementation of this function which uses lodash
-and `js-yaml` to transform `yml` blobs to `json` and writes them to the proper location.
