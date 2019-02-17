@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Elevation, Icon, Button, Popover, Menu, MenuItem, Tag } from '@blueprintjs/core'
+import Iframe from 'react-iframe'
 import posed, { PoseGroup } from 'react-pose'
 import clsx from 'classnames'
 import { renderReactComponent } from '~mixins/utils'
@@ -67,24 +68,42 @@ function drawCartography (points, container) {
     ]
   }
   const dotatlasFx = new DotAtlasEffects(dotatlas)
-
-  dotatlasFx.rollout(dataObject)
-
   return { map: dotatlas, fx: dotatlasFx, data: dataObject };
 }
 
 
 const CardBox = posed.div({
+  preMount: {
+    y: 50,
+    opacity: 0,
+    transition: {
+      duration: 100,
+    },
+  },
+
   init: {
-    width: 'auto',
-    height: 'auto',
-    position: 'static',
+    opacity: 1,
+    y: 0,
+    // width: 'auto',
+    // height: 'auto',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    position: 'relative',
     flip: true,
     // staggerChildren: 100,
+    transition: {
+      // duration: 2000,
+      // ease: 'easeIn',
+      // delay: 100,
+    },
     // delay: 100,
   },
   zoomed: {
     position: 'fixed',
+    y: 0,
+    opacity: 1,
     top: 10,
     left: 10,
     right: 10,
@@ -93,9 +112,11 @@ const CardBox = posed.div({
     // staggerChildren: 100,
     transition: {
       // type: 'spring',
-      duration: 100,
+      // duration: 2000,
+      // delay: 100,
+      // ease: 'easeIn',
     },
-    // delay: 300,
+    // delay: 100,
   },
 })
 
@@ -118,7 +139,7 @@ class MapCard extends Component {
   }
 
   componentDidMount () {
-    request({ url: 'http://glacier.zen.noop.pw/etc/vismodel.json' })
+    request({ url: 'https://noop-pub.s3.amazonaws.com/opt/vismodel.json' })
       .then((points) => {
         this.setState({ atlasReady: true, fakeTags: ['Boop', 'Noot', 'BMO'] })
         this.atlas = drawCartography(points, this.canvasRef)
@@ -128,18 +149,17 @@ class MapCard extends Component {
   didToggleZoom () {
     const pose = this.state.pose === 'zoomed' ? 'init' : 'zoomed'
 
-    // this.atlas.fx.pullback().then(() => {
-    // })
-    // this.setState({ pose })
+    this.atlas.fx.pullback()
+    this.setState({ atlasReady: false, pose })
 
-    this.setState({ atlasReady: false }, () => this.setState({ pose }))
   }
 
   refreshAtlas () {
+    // this.atlas.fx.pullback().then(() => {
     this.atlas.map.resize()
     this.atlas.fx.rollout(this.atlas.data)
     this.setState({ atlasReady: true })
-    // this.atlas.resize()
+    // })
   }
 
   updateAtlas ({ key, value }) {
@@ -150,8 +170,8 @@ class MapCard extends Component {
   render () {
     return (
       <div className='map-card-container'>
-        <CardBox pose={this.state.pose} onPoseComplete={this.refreshAtlas}>
-          <Card elevation={Elevation.FOUR} className='map-card'>
+        <CardBox pose={this.state.pose} initialPose='preMount' onPoseComplete={this.refreshAtlas}>
+          <Card elevation={Elevation.FOUR} className={clsx('map-card', {loading: !this.state.atlasReady})}>
             <div className='header'>
               <h3>Your Knowledge Map</h3>
               <div className='tools'>
@@ -183,7 +203,7 @@ class MapCard extends Component {
             </ul>
 
             <div
-              className={clsx('mapbox', { loading: !this.state.atlasReady })}
+              className={clsx('mapbox', { loadisng: !this.state.atlasReady })}
               ref={(el) => this.canvasRef = el}
             />
 
@@ -194,8 +214,26 @@ class MapCard extends Component {
   }
 }
 
-window.addEventListener('load', () => {
-  // const mountroot = document.getElementById('cartography')
-  renderReactComponent('cartography', MapCard)
-})
 
+const FramedCard = (props) => (
+    <CardBox initialPose='preMount' pose='init' className='frame-container'>
+      <Card elevation={Elevation.FOUR} className=''>
+        <Iframe
+          url={`https://ilearn.cri-paris.org/dash/dashboard/${props.username}`}
+          display='block'
+          position='relative'
+          />
+      </Card>
+    </CardBox>
+)
+
+document.addEventListener('apploaded', () => {
+  renderReactComponent('cartography', MapCard)
+
+  browser.storage.local
+    .get('user')
+    .then(({ user }) => {
+      renderReactComponent('iframes', FramedCard, user)
+    })
+
+})

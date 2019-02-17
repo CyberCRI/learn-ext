@@ -1,21 +1,39 @@
 @import '~styles/index.sass'
-@import '../style.sass'
 
 .map-card-container
   position: relative
-  min-height: 50vh
+  height: 50vh
   display: flex
-  margin-bottom: 20px
+  margin-bottom: 30px
+  z-index: 10
 
   > div
     display: flex
     flex: 1
+
+.frame-container
+  position: relative
+  display: flex
+  margin-bottom: 30px
+  z-index: 1
+
+  > div
+    display: flex
+    flex: 1
+    padding: 0
+    height: 300px
+
 
 .map-card
   position: relative
   flex: 1
   overflow: hidden
   padding: 0
+  // transition: 0.1s filter
+  // filter: blur(0px)
+
+  // &.loading
+    // filter: blur(10px)
 
   .header
     position: relative
@@ -27,6 +45,8 @@
     flex-direction: row
     justify-content: space-between
     align-items: center
+
+    background-image: linear-gradient(0deg, rgba(17,8,36,0.00) 3%, rgba(15,8,38,0.12) 22%, rgba(13,9,40,0.23) 41%, rgba(12,9,43,0.35) 59%, rgba(10,10,45,0.46) 78%, rgba(8,10,47,0.58) 97%)
 
     h3
       margin: 0
@@ -59,11 +79,11 @@
     background: #8cc0e9
 
     canvas
-      transition: 0.05s filter
-      filter: blur(0px)
-      // opacity: 1
+      transition: 0.1s opacity
+      // filter: blur(0px)
+      opacity: 1
 
     &.loading
       canvas
-        // opacity: 0
-        filter: blur(10px)
+        opacity: 0
+        // filter: blur(10px)
