@@ -24,7 +24,7 @@ const HtmlGenerator = ({ name, chunks }) => {
   return new HtmlWebpackPlugin({
     filename: `pages/${name}.html`,
     template: `src/pages/${name}/_${name}.pug`,
-    chunks: [ 'client', 'vendors', ...chunks ],
+    chunks: [ 'client', 'vendors', 'pages_root', ...chunks ],
   })
 }
 
@@ -33,7 +33,10 @@ const staticPages = [
   HtmlGenerator({ name: 'options', chunks: ['pages_options'] }),
   HtmlGenerator({ name: 'settings', chunks: ['pages_settings'] }),
   HtmlGenerator({ name: 'onboarding', chunks: ['pages_onboarding'] }),
+  HtmlGenerator({ name: 'popover', chunks: ['pages_popover'] }),
 ]
+
+const pageEntryPoint = (chunk) => `./src/pages/${chunk}/index.js`
 
 
 module.exports = {
@@ -41,9 +44,11 @@ module.exports = {
     app_root: './src/index.js',
     background: './src/procs/background.js',
 
-    pages_options: './src/pages/options/index.js',
-    pages_settings: './src/pages/settings/index.js',
-    pages_onboarding: './src/pages/onboarding/index.js',
+    pages_root: './src/pages/index.js',
+    pages_popover: pageEntryPoint('popover'),
+    pages_options: pageEntryPoint('options'),
+    pages_settings: pageEntryPoint('settings'),
+    pages_onboarding: pageEntryPoint('onboarding'),
   },
   output: {
     filename: '[name].js',
@@ -57,6 +62,8 @@ module.exports = {
       '~components': abspath('src/components'),
       '~styles': abspath('src/styles'),
       '~pug-partials': abspath('src/pages/partials'),
+      '~pages': abspath('src/pages'),
+      '~page-commons': abspath('src/pages/_commons'),
     },
   },
 
