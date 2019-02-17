@@ -29,10 +29,15 @@ const renderReactComponent = (selector, component, props) => {
   if (el) {
     const dataAttrs = $(el).data() || {}
     const extraProps = props || {}
+
+    // [!] We must capture the `component` object in this closure. Otherwise,
+    //     minification would "optimise" it and it won't work. :(
     const ReactComponent = component
     return ReactDOM.render(<ReactComponent {...dataAttrs} {...extraProps} />, el)
+  } else {
+    console.info(`Component <${component.name}> not mounted. <${selector}> missing.`)
   }
 }
 
 
-export { renderReactComponent, getCanonicalUrl, nsuuid }
+export { renderReactComponent, getCanonicalUrl, nsuuid, getMetaAttribute }
