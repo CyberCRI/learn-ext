@@ -1,10 +1,23 @@
 import React, { Component } from 'react'
-import { List } from 'immutable'
-import { Button, NonIdealState, Tag, MenuItem, FormGroup, Intent, Icon, Spinner } from '@blueprintjs/core'
+import { Tag, Tooltip } from '@blueprintjs/core'
 import posed, { PoseGroup } from 'react-pose'
 
 
-const FluidTag = posed.li()
+const FluidTag = posed.li({
+  exit: {
+    opacity: 0,
+    x: -30,
+    scale: .2,
+  },
+  enter: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+  },
+  flip: {
+    transition: 'tween',
+  },
+})
 
 
 class ConceptsField extends Component {
@@ -47,7 +60,9 @@ class ConceptsField extends Component {
           large
           className='np--concept-tag'
           onRemove={() => this.didRemoveTag(item)}>
-          {item.label}
+          <Tooltip content={item.label} usePortal={false}>
+            <span className='concept-label'>{item.label}</span>
+          </Tooltip>
         </Tag>
       </FluidTag>
     )
