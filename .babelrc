@@ -4,5 +4,8 @@
     "@babel/preset-react"
   ],
   "ignore": ["node_modules"],
-  "plugins": ["react-hot-loader/babel"]
+  "plugins": [
+    "react-hot-loader/babel",
+    "@babel/plugin-proposal-export-default-from"
+  ]
 }

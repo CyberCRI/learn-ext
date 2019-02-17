@@ -1,0 +1,82 @@
+@import '../styles/index.sass'
+
+body
+  font:
+    family: 'Karla'
+    weight: 300
+  display: flex
+  flex-direction: column
+  background: #f9f9fa
+  margin: 0
+  min-height: 100vh
+
+.root-container
+  padding: 0 10%
+
+body
+  > header
+    @extend .root-container
+    background: #363959
+    height: 128px
+    margin-bottom: -20px
+    color: #f9f9fa
+
+    nav
+      padding: 6px 0
+
+    .bp3-navbar.np-navbar
+      background: transparent
+      box-shadow: none
+      z-index: unset
+
+      a
+        text-transform: uppercase
+        letter-spacing: 1px
+
+  > main
+    @extend .root-container
+    flex-grow: 2
+
+  > footer
+    @extend .root-container
+    background: #d7d7db
+    color: #f9f9fa
+
+
+
+section.card
+  position: relative
+  border-radius: 5px
+  margin-bottom: 25px
+  box-shadow: 0 0 2rem #100e17
+
+  min-height: 250px
+
+  background:
+    color: #f9f9fa
+    image: url('https://glacier.zen.noop.pw/screenshots/map-ex.png')
+    size: cover
+    position: center
+
+  overflow: hidden
+
+  div.header
+    background: linear-gradient(#051027 4%, #0c0c26 50% , #000000 95%)
+    padding: 18px
+    display: flex
+    justify-content: space-between
+
+    div.tools
+
+    h1, h2, h3, h4
+      text-transform: uppercase
+      letter-spacing: .5px
+      color: #fff
+
+      font:
+        weight: 300
+        size: 1.6rem
+
+
+h1, h2, h3, h4, h5
+  margin: 0 0 5px 0

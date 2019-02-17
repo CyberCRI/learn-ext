@@ -1,9 +1,16 @@
 // Configuration for web-ext cli.
 // References at https://github.com/mozilla/web-ext
-const { PackageEnv } = require('./package.config.js')
+const { dotenv } = require('./tools/node-plugins')
 const _ = require('lodash')
 
-console.log('[!] Using Environment:', PackageEnv.vars)
+console.log('[!] Using Environment:', dotenv.PackageEnv.vars)
+
+
+// Additional Preferences
+const browser_prefs_extra = {
+  'security.csp.enable': false,
+  'security.mixed_content.block_active_content': false,
+}
 
 // Collect the preferences overriden above to the correct format.
 // Essentially, these parameters are added in the `about:config` page. The cli
@@ -12,6 +19,7 @@ console.log('[!] Using Environment:', PackageEnv.vars)
 const browser_prefs = _({
   'intl.locale.requested': 'fr',
   'intl.locale.matchOS': false,
+  'general.useragent.locale': 'fr',
   'lightweightThemes.selectedThemeID': 'firefox-compact-light@mozilla.org',
   'browser.uidensity': 1,
   'browser.EULA.override': true,
@@ -31,17 +39,24 @@ const browser_prefs = _({
 
 module.exports = {
   sourceDir: './ext',
+  ignoreFiles: [
+    'report.html',
+  ],
 
   run: {
-    firefox: PackageEnv.vars.webext_firefox_version,
-    browserConsole: true,
+    firefox: dotenv.PackageEnv.vars.webext_firefox_version,
+    browserConsole: false,
+    keepProfileChanges: false,
+    firefoxProfile: 'web-ext-dev',
     pref: browser_prefs,
     noReload: false,
-    startUrl: ['https://en.wikipedia.org/wiki/Solar_System', 'https://en.wikipedia.org'],
+    startUrl: [
+      'https://en.wikipedia.org/wiki/Special:Random',
+      'https://en.wikipedia.org/wiki/Special:Random',
+    ],
   },
 
-  sign: {
-    apiKey: PackageEnv.vars.webext_dev_api_key,
-    apiSecret: PackageEnv.vars.webext_dev_api_secret,
+  build: {
+    overwriteDest: true,
   },
 }

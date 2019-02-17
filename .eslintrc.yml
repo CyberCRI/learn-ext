@@ -10,6 +10,8 @@ globals:
   env: true
   runtime: true
   chrome: true
+  DotAtlas: true
+  DotAtlasEffects: true
 extends: 'eslint:recommended'
 parser: 'babel-eslint'
 parserOptions:

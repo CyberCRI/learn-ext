@@ -1,34 +1,54 @@
 const WebpackBar = require('webpackbar')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-const { PackageEnv, abspath, transpileLocaleFile } = require('./package.config.js')
+const { dotenv, abspath, locale, manifest } = require('./tools/node-plugins')
 
 
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
-  { from: './src/manifest.json', to: './' },
-  { from: './src/pages', to: './pages' },
+  { from: './src/manifest.json', to: './', transform: manifest.transform },
   { from: './assets', to: './', ignore: [ 'locales/*', '.DS_Store' ] },
   {
     from: './assets/locales/*.yml',
     to: './_locales/[name]/messages.json',
     toType: 'template',
-    transform: transpileLocaleFile,
+    transform: locale.transpile,
   },
 ]
+
+// Setup html generator plugin using HtmlWebpackPlugin
+const HtmlGenerator = ({ name, chunks }) => {
+  return new HtmlWebpackPlugin({
+    filename: `pages/${name}.html`,
+    template: `src/pages/${name}/_${name}.pug`,
+    chunks: [ 'client', 'vendors', 'pages_root', ...chunks ],
+  })
+}
+
+// Link entry points with the chunks defined here.
+const staticPages = [
+  HtmlGenerator({ name: 'options', chunks: ['pages_options'] }),
+  HtmlGenerator({ name: 'settings', chunks: ['pages_settings'] }),
+  HtmlGenerator({ name: 'onboarding', chunks: ['pages_onboarding'] }),
+  HtmlGenerator({ name: 'popover', chunks: ['pages_popover'] }),
+]
+
+const pageEntryPoint = (chunk) => `./src/pages/${chunk}/index.js`
 
 
 module.exports = {
   entry: {
     app_root: './src/index.js',
     background: './src/procs/background.js',
-    ext_pages: './src/pages/common.js',
-    // content_scripts: './src/procs/content_scripts.js',
-    // page_action: '',
-    // browser_action: '',
-    // options: '',
+
+    pages_root: './src/pages/index.js',
+    pages_popover: pageEntryPoint('popover'),
+    pages_options: pageEntryPoint('options'),
+    pages_settings: pageEntryPoint('settings'),
+    pages_onboarding: pageEntryPoint('onboarding'),
   },
   output: {
     filename: '[name].js',
@@ -40,6 +60,10 @@ module.exports = {
     alias: {
       '~mixins': abspath('src/mixins'),
       '~components': abspath('src/components'),
+      '~styles': abspath('src/styles'),
+      '~pug-partials': abspath('src/pages/partials'),
+      '~pages': abspath('src/pages'),
+      '~page-commons': abspath('src/pages/_commons'),
     },
   },
 
@@ -47,7 +71,16 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          {
+            loader: 'postcss-loader',
+            options: { plugins: [
+              require('autoprefixer'),
+              require('cssnano'),
+            ] },
+          },
+        ],
       },
       {
         test: /\.jsx?$/,
@@ -57,7 +90,31 @@ module.exports = {
       {
         test: /\.s(c|a)ss$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          {
+            loader: 'postcss-loader',
+            options: { plugins: [
+              require('autoprefixer'),
+              require('cssnano'),
+            ] },
+          },
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.(eot|ttf|woff|woff2|svg|png|gif|jpe?g)$/,
+        use: [ {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'rawassets/',
+          },
+        } ],
+      },
+      {
+        test: /\.pug$/,
+        use: ['pug-loader'],
       },
     ],
   },
@@ -76,7 +133,6 @@ module.exports = {
           name: 'client',
           chunks: 'all',
           priority: 1,
-
         },
       },
     },
@@ -92,7 +148,8 @@ module.exports = {
     new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
     new DashboardPlugin(),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
-    new CopyWebpackPlugin(copySourceBundleRules),
-    PackageEnv.webpackPlugin,
+    new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
+    dotenv.PackageEnv.webpackPlugin,
+    ...staticPages,
   ],
 }

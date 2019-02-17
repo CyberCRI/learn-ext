@@ -1,0 +1,15 @@
+extends ./base.pug
+include ./mixins.pug
+
+block append body
+  body
+    header
+      div#navbar
+        block navbar
+
+    main
+      block main
+
+    footer
+      block footer
+        a(href='#') Boop

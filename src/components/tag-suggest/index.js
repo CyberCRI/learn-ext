@@ -54,7 +54,7 @@ class TagSuggest extends Component {
   didSelectItem (item) {
     this.setState({ selected: item, query: '' })
     // Publish to the parent component
-    this.props.onSelect({ label: item.title })
+    this.props.onSelect({ label: item.title, weight: 1, ...item })
   }
 
   shouldFocusInput () {

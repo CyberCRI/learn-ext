@@ -1,11 +1,11 @@
 const merge = require('webpack-merge')
 
-const { PackageEnv, abspath } = require('./package.config.js')
+const { dotenv, abspath } = require('./tools/node-plugins')
 
 
 export default {
   title: 'iLearn UI Components',
-  theme: 'docz-theme-default',
+  // theme: 'docz-theme-default',
   themeConfig: {
     // mode: 'dark',
     codemirrorTheme: 'solarized',
@@ -57,10 +57,12 @@ export default {
         alias: {
           '~mixins': abspath('src/mixins'),
           '~components': abspath('src/components'),
+          '~pages': abspath('src/pages'),
+          '~page-commons': abspath('src/pages/_commons'),
         },
       },
       plugins: [
-        PackageEnv.webpackPlugin,
+        dotenv.PackageEnv.webpackPlugin,
       ],
     })
   },

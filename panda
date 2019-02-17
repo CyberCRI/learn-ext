@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+_VERSION='0.1.1'
+_ME=$(basename "${0}")
+BANNER=$(cat <<HEREDOC
+iLearn Ext Panda! (@,@)
+
+Usage:
+  ${_ME} <command> [--command-options] [<arguments>]
+  ${_ME} -?
+  ${_ME} --version
+
+Options:
+  -?  Display this help information.
+  --version  Display version information.
+
+Version: ${_VERSION}
+
+Help:
+  ${_ME} help [<command>]
+
+HEREDOC
+)
+
+source ./tools/pandalib.sh
+
+# Ensure that webpack binaries are in path too.
+PATH="$PATH:./node_modules/.bin"
+
+# ... and that the local .env file is also sourced.
+source ./.env
+
+__sigint () {
+  printf '\n'
+  _abort 'Cancelled'
+}
+trap __sigint SIGINT
+
+#================================================
+desc 'dev:docs' << BOOP
+Usage:
+  ${_ME} docz
+
+Description:
+  Start Docz Server.
+BOOP
+dev:docs () {
+  _info 'Start Docz Server'
+  docz dev
+}
+
+dev:watch () {
+  webpack --config webpack.dev.js --watch
+}
+
+dev:webext () {
+  web-ext run
+  _info 'Closing Firefox'
+}
+
+#================================================
+_main

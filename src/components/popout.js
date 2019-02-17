@@ -13,29 +13,50 @@ import ConceptsField from '~components/input/concepts'
 import './popout.sass'
 
 
+// const browser = {
+//   runtime: {
+//     onMessage: {
+//       addListener: () => {}
+//     }
+//   }
+// }
+
+
 class ActionCard extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      pageUrl: getCanonicalUrl(),
+      pageUrl: props.pageUrl,
       concepts: List(),
       selected: List(),
       fetched: false,
       inflight: false,
       isOpen: false,
+      knowledgeProg: 0.5,
     }
 
     this.didAddConcept = this.didAddConcept.bind(this)
     this.didRemoveConcept = this.didRemoveConcept.bind(this)
+    this.shouldClosePopout = this.shouldClosePopout.bind(this)
   }
 
   componentDidMount () {
-    browser.runtime.onMessage.addListener((message, sender, respond) => {
-      if (message.activate) {
-        this.setState({ isOpen: !this.state.isOpen }, this.shouldFetchConcepts())
+    browser.runtime.onMessage.addListener((msg) => {
+      if (msg.action == 'togglePopout') {
+        this.setState({ tabId: msg.tabId, isOpen: !this.state.isOpen }, this.shouldFetchConcepts())
       }
+
+      // if (msg.action == 'closePopout') {
+      //   this.setState({ isOpen: false })
+      // }
     })
+  }
+
+  shouldClosePopout () {
+    const message = { action: 'closePopout', tabId: this.state.tabId }
+
+    browser.runtime.sendMessage(message)
   }
 
   shouldFetchConcepts () {
@@ -52,23 +73,27 @@ class ActionCard extends Component {
           selected: concepts,
           fetched: true,
           inflight: false,
-        })
+        }, this.shouldPushChanges)
       })
   }
 
   shouldPushChanges () {
     this.setState({ inflight: true })
-    RootAPI.learn({
-      url: this.state.pageUrl,
-      concepts: this.state.selected.toJS(),
-      username: 'Nuggets',    // [XXX] Fix this to be configurable.
-      knowledge_progression: 0.5,
-      title: document.title,
-    }).then(() => {
-      this.setState({ learned: true, inflight: false, errored: false })
-    }).fail(() => {
-      this.setState({ inflight: false, errored: true })
-    })
+    browser.storage.local
+      .get('user')
+      .then(({ user }) => {
+        RootAPI.learn({
+          url: this.state.pageUrl,
+          concepts: this.state.selected.toJS(),
+          username: user.username,
+          knowledge_progression: this.state.knowledgeProg,
+          title: document.title,
+        }).then(() => {
+          this.setState({ learned: true, inflight: false, errored: false })
+        }).fail(() => {
+          this.setState({ inflight: false, errored: true })
+        })
+      })
   }
 
   shouldUpdateConcept (item) {
@@ -86,11 +111,12 @@ class ActionCard extends Component {
 
   didAddConcept (item) {
     const selected = this.state.selected.push(item)
-    this.setState({ selected })
+    this.setState({ selected }, this.shouldPushChanges)
   }
 
   didRemoveConcept (item, selected) {
-    this.setState({ selected }, this.shouldPushChanges)
+    console.log('REMOVED', item)
+    this.setState({ selected }, () => this.shouldUpdateConcept(item))
   }
 
   render () {
@@ -120,9 +146,9 @@ class ActionCard extends Component {
             <h5>Resource Rating</h5>
             <p>Pick a rating for this resource to indicate its quality</p>
             <ButtonGroup fill minimal>
-              <Button>Easy</Button>
-              <Button>Alright</Button>
-              <Button>Too Hard!</Button>
+              <Button onClick={() => this.setState({ knowledgeProg: 1 }, this.shouldClosePopout) }>Easy</Button>
+              <Button onClick={() => this.setState({ knowledgeProg: 0.5 }, this.shouldClosePopout) }>Alright</Button>
+              <Button onClick={() => this.setState({ knowledgeProg: 0 }, this.shouldClosePopout) }>Too Hard!</Button>
             </ButtonGroup>
           </main>
         </InteractiveCard>
