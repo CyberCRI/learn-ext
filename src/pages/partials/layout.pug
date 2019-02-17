@@ -4,13 +4,8 @@ include ./mixins.pug
 block append body
   body
     header
-      nav.bp3-dark
+      div#navbar
         block navbar
-          +nav-link('Home', '/pages/options.html', 'arrow-left')
-          +nav-link('Cartography', '/pages/options.html', 'map')
-          +nav-link('Discover', '#', 'mountain')
-
-          +nav-link('Account', '/pages/settings.html', 'wrench')
 
     main
       block main
