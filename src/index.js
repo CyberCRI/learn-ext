@@ -1,20 +1,22 @@
 import $ from 'jquery'
-
 import { renderReactComponent } from '~mixins/utils'
-import { ActionCard } from '~components/popout'
 
-import './styles/index.sass'
+import FrameContainer from '~components/iframe'
 
-const EXT_ROOT_ID = 'ilearn-ext'
+
+const EXT_ROOT_ID = 'ilearn-ext-frame'
+
+const pageUrl = window.location.toString()
+const frameUrl = browser.runtime.getURL('pages/popover.html')
+
 
 const mountRootContainer = () => {
-  return ($(`<div id="${EXT_ROOT_ID}"></div>`)
-    .appendTo('body'))
+  const frameSrc = `${frameUrl}#${pageUrl}`
+
+  const el = $(`<div id="${EXT_ROOT_ID}"></div>`)
+    .appendTo('body')
+
+  renderReactComponent(EXT_ROOT_ID, FrameContainer, { src: frameSrc })
 }
 
-const injectContent = () => {
-  mountRootContainer()
-  renderReactComponent(EXT_ROOT_ID, ActionCard)
-}
-
-injectContent()
+mountRootContainer()
