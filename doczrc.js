@@ -1,6 +1,6 @@
 const merge = require('webpack-merge')
 
-const { PackageEnv, abspath } = require('./package.config.js')
+const { dotenv, abspath } = require('./tools/node-plugins')
 
 
 export default {
@@ -60,7 +60,7 @@ export default {
         },
       },
       plugins: [
-        PackageEnv.webpackPlugin,
+        dotenv.PackageEnv.webpackPlugin,
       ],
     })
   },

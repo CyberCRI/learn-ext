@@ -3,7 +3,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const base_config = require('./webpack.common')
-const { smartMerge } = require('./package.config.js')
+const { smartMerge } = require('./tools/node-plugins')
 
 
 module.exports = smartMerge(base_config, {

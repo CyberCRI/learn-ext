@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-const { PackageEnv, abspath, transpileLocaleFile } = require('./package.config.js')
+const { dotenv, abspath, locale, manifest } = require('./tools/node-plugins')
 
 
 // Files that should be copied into the extension directory.
@@ -142,7 +142,7 @@ module.exports = {
     new DashboardPlugin(),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
     new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
-    PackageEnv.webpackPlugin,
+    dotenv.PackageEnv.webpackPlugin,
     ...staticPages,
   ],
 }
