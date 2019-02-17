@@ -5,7 +5,7 @@ const { dotenv, abspath } = require('./tools/node-plugins')
 
 export default {
   title: 'iLearn UI Components',
-  theme: 'docz-theme-default',
+  // theme: 'docz-theme-default',
   themeConfig: {
     // mode: 'dark',
     codemirrorTheme: 'solarized',
