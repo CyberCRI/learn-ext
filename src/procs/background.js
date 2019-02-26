@@ -57,6 +57,29 @@ const updatePageActionIcon = (tabId) => {
 
 
 browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
+  if (tabState[id]) {
+    // Keeping previous state, replace only the `tab` update status.
+    const prevState = tabState[id]
+    tabState[id] = { ...prevState, ...tab }
+  } else {
+    // No old state here -- we'll initialise the new state.
+    tabState[id] = { ...tab, popOutShown: false }
+  }
+
+  // Take the reference to current tab state.
+  // [!] Note that we must not take this reference before the initialisation
+  //     step earlier, because the tabState is assigned a _new_ object there
+  //     in either cases.
+  const state = tabState[id]
+
+  if (changeInfo.status === 'loading') {
+    // Either the tab was reloaded or user navigated. We need to make sure
+    // that the popOutShown is reset.
+    state.popOutShown = false
+    // Also notify the tab to close the popOut if not already closed.
+    notifyTabAction(id, 'closePopout')
+  }
+
   if (!tab.url.includes('google.')) {
     // Weird, but okay. If its not a google search page, then we show the icon.
     browser.pageAction.show(tab.id)
