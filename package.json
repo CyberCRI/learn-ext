@@ -7,6 +7,7 @@
   "dependencies": {
     "@blueprintjs/core": "^3.7.0",
     "@blueprintjs/select": "^3.2.1",
+    "cash-dom": "^2.3.9",
     "docz-theme-default": "^0.13.7",
     "enum": "^2.5.0",
     "immutable": "^4.0.0-rc.12",
