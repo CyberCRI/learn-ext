@@ -44,11 +44,6 @@ const PanelGeneral = () => (
       <p>Hey there! This is the general settings panel.</p>
       <p></p>
     </Callout>
-
-    <RadioGroup label='Dr. Who?'>
-      <Radio label='The Doctor' value='dr'/>
-      <Radio label='Timey Wimey' value='who'/>
-    </RadioGroup>
   </PosedCard>
 )
 
@@ -99,8 +94,8 @@ const TabTitle = ({ title, icon }) => (
 const SettingsTabs = (props) => {
   return (
     <Tabs large vertical id='pages-settings' className='np-tabs-settings' renderActiveTabPanelOnly>
-      <Tab title={<TabTitle title='General' icon={<FiIcon.FiSettings/>}/>} id='general' panel={<PanelGeneral/>}/>
       <Tab title={<TabTitle title='Account' icon={<FiIcon.FiUser/>}/>} id='account' panel={<PanelAccount/>}/>
+      <Tab title={<TabTitle title='General' icon={<FiIcon.FiSettings/>}/>} id='general' panel={<PanelGeneral/>}/>
       <Tab title={<TabTitle title='Privacy' icon={<FiIcon.FiShield/>}/>} id='privacy' panel={<PanelPrivacy/>}/>
       <Divider/>
       <Tab title={<TabTitle title='Support' icon={<FiIcon.FiLifeBuoy/>}/>} id='support' panel={<PanelSupport/>}/>
