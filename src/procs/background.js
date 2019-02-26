@@ -1,15 +1,22 @@
 import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
 
+const tabState = {}
+
 const messageConsumer = (msg) => {
-  if (msg.action == 'showOptions') {
+  if (msg.action == 'openCartography') {
+    const url = browser.runtime.getURL('pages/options.html')
+    browser.tabs.create({ url }).then(console.log, console.error)
+  }
+  if (msg.action == 'openSettings') {
     browser.runtime.openOptionsPage()
   }
-
   if (msg.action == 'closePopout') {
-    browser.tabs.sendMessage(msg.tabId, { tabId: msg.tabId, activate: true, action: 'closePopout', pose: 'close' })
+    tabState[msg.tabId].popOutShown = false
+    updatePageActionIcon(msg.tabId)
+    notifyTabAction(msg.tabId, 'closePopout')
   }
 
-  console.info('Message!', msg)
+  console.info(`Consuming action=<${msg.action}>`, msg)
 }
 
 const reactOnInstalled = ({ reason, temporary }) => {
@@ -30,9 +37,26 @@ const reactOnInstalled = ({ reason, temporary }) => {
 new RuntimeHook(RuntimeEvents.onMessage, messageConsumer).attach()
 new RuntimeHook(RuntimeEvents.onInstall, reactOnInstalled).attach()
 
+const notifyTabAction = (tabId, action) => {
+  const state = tabState[tabId]
+  return browser.tabs.sendMessage(tabId, { tabId, action, state })
+}
+
+const updatePageActionIcon = (tabId) => {
+  const state = tabState[tabId]
+
+  const icons = {
+    active: 'icons/icon-active-128.png',
+    idle: 'icons/icon-idle-48.png',
+  }
+
+  const iconPath = state.popOutShown ? icons.active : icons.idle
+
+  return browser.pageAction.setIcon({ tabId, path: iconPath })
+}
+
 
 browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
-  console.log(tab, changeInfo)
   if (!tab.url.includes('google.')) {
     browser.pageAction
       .show(tab.id)
