@@ -10,8 +10,8 @@ module.exports = smartMerge(base_config, {
   mode: 'production',
 
   plugins: [
-    // Remove contents of build directory and clear out web-ext-artifacts.
-    new CleanWebpackPlugin([ 'ext', 'web-ext-artifacts' ]),
+    // Remove contents of build directory
+    new CleanWebpackPlugin([ 'ext' ]),
     new MiniCssExtractPlugin({ filename: '[name].css' }),
   ],
 
