@@ -139,7 +139,7 @@ class MapCard extends Component {
   }
 
   componentDidMount () {
-    request({ url: 'https://noop-pub.s3.amazonaws.com/opt/vismodel.json' })
+    request({ url: 'https://noop-pub.s3.amazonaws.com/opt/dotatlas_c1c2c3.json' })
       .then((points) => {
         this.setState({ atlasReady: true, fakeTags: ['Boop', 'Noot', 'BMO'] })
         this.atlas = drawCartography(points, this.canvasRef)
@@ -192,7 +192,7 @@ class MapCard extends Component {
 
             <ul className='contents'>
               <PoseGroup animateOnMount={true}>
-                {this.state.fakeTags.map((id) => {
+                {false && this.state.fakeTags.map((id) => {
                   return (
                     <InfoCard key={id}>
                       <Tag>{id}</Tag>
