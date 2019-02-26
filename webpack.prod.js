@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const base_config = require('./webpack.common')
 const { smartMerge } = require('./tools/node-plugins')
 
+console.log('[!] Production Build')
 
 module.exports = smartMerge(base_config, {
   mode: 'production',

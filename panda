@@ -64,6 +64,7 @@ release:bump () {
 }
 
 release:pack () {
+  export FLAGS_VERBOSE='yes'
   _info 'Packing Extension'
   web-ext lint
   _info '[i] Building'
@@ -84,6 +85,7 @@ release:build () {
 }
 
 release () {
+  export FLAGS_VERBOSE='no'
   _info '[!!] Building the release version.'
 
   release:build
