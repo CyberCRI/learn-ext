@@ -5,7 +5,6 @@
   ],
   "ignore": ["node_modules"],
   "plugins": [
-    "react-hot-loader/babel",
     "@babel/plugin-proposal-export-default-from"
   ]
 }
