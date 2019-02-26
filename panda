@@ -57,5 +57,40 @@ dev:webext () {
   _info 'Closing Firefox'
 }
 
+
+release:bump () {
+  # Bump the extension version!
+  _info 'Bumping version'
+}
+
+release:pack () {
+  _info 'Packing Extension'
+  web-ext lint
+  _info '[i] Building'
+  web-ext build --overwrite-dest
+}
+
+release:sign () {
+  _info '[!] Signing Extension'
+  web-ext sign \
+    --api-key $DEV_WEBEXT_API_KEY \
+    --api-secret $DEV_WEBEXT_API_SECRET \
+    --id $DEV_WEBEXT_EXTENSION_ID
+}
+
+release:build () {
+  _info '[!] Compiling using Production flag'
+  webpack --config webpack.prod.js
+}
+
+release () {
+  _info '[!!] Building the release version.'
+
+  release:build
+  release:pack
+  release:sign
+  _info '-> Done!'
+}
+
 #================================================
 _main
