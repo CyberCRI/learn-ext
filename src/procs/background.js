@@ -58,21 +58,24 @@ const updatePageActionIcon = (tabId) => {
 
 browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
   if (!tab.url.includes('google.')) {
-    browser.pageAction
-      .show(tab.id)
-      .then(() => {
-        browser.pageAction.setIcon({ tabId: tab.id, path: 'icons/icon-idle-48.png' })
-      })
+    // Weird, but okay. If its not a google search page, then we show the icon.
+    browser.pageAction.show(tab.id)
   } else {
     browser.pageAction.hide(tab.id)
   }
 
-  browser.pageAction.setTitle({ tabId: tab.id, title: browser.i18n.getMessage('actions_page_title') })
+  updatePageActionIcon(id)
 })
 
 browser.pageAction.onClicked.addListener((e) => {
-  browser.pageAction
-    .setIcon({ tabId: e.id, path: 'icons/icon-active-128.png' })
-
-  browser.tabs.sendMessage(e.id, { tabId: e.id, action: 'togglePopout' })
+  const state = tabState[e.id]
+  if (state.popOutShown) {
+    state.popOutShown = false
+    notifyTabAction(e.id, 'closePopout')
+      .then(() => updatePageActionIcon(e.id))
+  } else {
+    state.popOutShown = true
+    notifyTabAction(e.id, 'openPopout')
+      .then(() => updatePageActionIcon(e.id))
+  }
 })
