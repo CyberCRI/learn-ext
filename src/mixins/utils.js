@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import $ from 'jquery'
+import $ from 'cash-dom'
 import uuid_v5 from 'uuid/v5'
 
 
