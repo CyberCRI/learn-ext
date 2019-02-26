@@ -13,15 +13,6 @@ import ConceptsField from '~components/input/concepts'
 import './popout.sass'
 
 
-// const browser = {
-//   runtime: {
-//     onMessage: {
-//       addListener: () => {}
-//     }
-//   }
-// }
-
-
 class ActionCard extends Component {
   constructor (props) {
     super(props)
@@ -115,7 +106,6 @@ class ActionCard extends Component {
   }
 
   didRemoveConcept (item, selected) {
-    console.log('REMOVED', item)
     this.setState({ selected }, () => this.shouldUpdateConcept(item))
   }
 
@@ -144,7 +134,7 @@ class ActionCard extends Component {
               onSelect={this.didAddConcept}/>
 
             <h5>Resource Rating</h5>
-            <p>Pick a rating for this resource to indicate its quality</p>
+            <p>How difficult was this page?</p>
             <ButtonGroup fill minimal>
               <Button onClick={() => this.setState({ knowledgeProg: 1 }, this.shouldClosePopout) }>Easy</Button>
               <Button onClick={() => this.setState({ knowledgeProg: 0.5 }, this.shouldClosePopout) }>Alright</Button>

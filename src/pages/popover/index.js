@@ -1,4 +1,3 @@
-import React, { Component } from 'react'
 import { renderReactComponent } from '~mixins/utils'
 import { ActionCard } from '~components/popout'
 
