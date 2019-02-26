@@ -29,18 +29,25 @@ class ActionCard extends Component {
 
     this.didAddConcept = this.didAddConcept.bind(this)
     this.didRemoveConcept = this.didRemoveConcept.bind(this)
-    this.shouldClosePopout = this.shouldClosePopout.bind(this)
+    this.didChooseRating = this.didChooseRating.bind(this)
+    this.shouldFetchConcepts = this.shouldFetchConcepts.bind(this)
+    this.shouldPushChanges = this.shouldPushChanges.bind(this)
   }
 
   componentDidMount () {
+    this.shouldFetchConcepts()
     browser.runtime.onMessage.addListener((msg) => {
-      if (msg.action == 'togglePopout') {
-        this.setState({ tabId: msg.tabId, isOpen: !this.state.isOpen }, this.shouldFetchConcepts())
+      if (msg.action == 'openPopout') {
+        this.setState({
+          tabId: msg.tabId,
+          pageTitle: msg.state.title,
+          isOpen: true,
+        }, this.shouldPushChanges)
       }
 
-      // if (msg.action == 'closePopout') {
-      //   this.setState({ isOpen: false })
-      // }
+      if (msg.action == 'closePopout') {
+        this.setState({ isOpen: false })
+      }
     })
   }
 
@@ -64,7 +71,7 @@ class ActionCard extends Component {
           selected: concepts,
           fetched: true,
           inflight: false,
-        }, this.shouldPushChanges)
+        })
       })
   }
 
@@ -78,7 +85,7 @@ class ActionCard extends Component {
           concepts: this.state.selected.toJS(),
           username: user.username,
           knowledge_progression: this.state.knowledgeProg,
-          title: document.title,
+          title: this.state.pageTitle,
         }).then(() => {
           this.setState({ learned: true, inflight: false, errored: false })
         }).fail(() => {
@@ -101,12 +108,26 @@ class ActionCard extends Component {
   }
 
   didAddConcept (item) {
-    const selected = this.state.selected.push(item)
-    this.setState({ selected }, this.shouldPushChanges)
+    const isDuplicate = this.state.selected
+      .filter((i) => i.label === item.label)
+      .size === 1
+    if (!isDuplicate) {
+      const selected = this.state.selected.push(item)
+      this.setState({ selected }, this.shouldPushChanges)
+    }
   }
 
   didRemoveConcept (item, selected) {
     this.setState({ selected }, () => this.shouldUpdateConcept(item))
+  }
+
+  didChooseRating () {
+    this.dispatchAction('closePopout')
+    this.shouldPushChanges()
+  }
+
+  dispatchAction (action) {
+    browser.runtime.sendMessage({ action, tabId: this.state.tabId })
   }
 
   render () {
@@ -120,8 +141,14 @@ class ActionCard extends Component {
           <header>
             <h5>iLearn</h5>
             <ButtonGroup minimal className='np--popover-actions'>
-              <Button icon='map' intent={Intent.PRIMARY}/>
-              <Button icon='cog' intent={Intent.PRIMARY} onClick={() => browser.runtime.sendMessage({ action: 'showOptions' })}/>
+              <Button
+                icon='map'
+                intent={Intent.PRIMARY}
+                onClick={() => this.dispatchAction('openCartography')}/>
+              <Button
+                icon='cog'
+                intent={Intent.PRIMARY}
+                onClick={() => this.dispatchAction('openSettings')}/>
             </ButtonGroup>
           </header>
 
@@ -136,9 +163,9 @@ class ActionCard extends Component {
             <h5>Resource Rating</h5>
             <p>How difficult was this page?</p>
             <ButtonGroup fill minimal>
-              <Button onClick={() => this.setState({ knowledgeProg: 1 }, this.shouldClosePopout) }>Easy</Button>
-              <Button onClick={() => this.setState({ knowledgeProg: 0.5 }, this.shouldClosePopout) }>Alright</Button>
-              <Button onClick={() => this.setState({ knowledgeProg: 0 }, this.shouldClosePopout) }>Too Hard!</Button>
+              <Button onClick={() => this.setState({ knowledgeProg: 1 }, this.didChooseRating) }>Easy</Button>
+              <Button onClick={() => this.setState({ knowledgeProg: 0.5 }, this.didChooseRating) }>Alright</Button>
+              <Button onClick={() => this.setState({ knowledgeProg: 0 }, this.didChooseRating) }>Too Hard!</Button>
             </ButtonGroup>
           </main>
         </InteractiveCard>
