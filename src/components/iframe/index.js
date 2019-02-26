@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import posed from 'react-pose'
 
 import './iframe.sass'
@@ -25,22 +25,18 @@ const PosedFrame = posed.iframe({
 
 const FrameContainer = (props) => {
   const [pose, changePose] = useState('closed')
-  const prevPose = useRef(pose)
 
   const onPoseChange = (msg) => {
-    if (msg.action == 'togglePopout') {
-      const nextPose = prevPose === 'open' ? 'closed' : 'open'
-      prevPose.current = nextPose
-      changePose(nextPose)
+    if (msg.action == 'openPopout') {
+      changePose('open')
     }
     if (msg.action == 'closePopout') {
       changePose('closed')
     }
-    console.log(msg)
   }
+
   useEffect(() => {
     browser.runtime.onMessage.addListener(onPoseChange)
-
     return () => {
       browser.runtime.onMessage.removeListener(onPoseChange)
     }
