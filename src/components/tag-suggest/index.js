@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Button, ControlGroup, NonIdealState, Tag, Intent, Spinner, Icon } from '@blueprintjs/core'
+import { Button, ControlGroup, NonIdealState, Tag, Intent } from '@blueprintjs/core'
 import { Suggest } from '@blueprintjs/select'
-import { hot } from 'react-hot-loader'
-import posed, { PoseGroup } from 'react-pose'
+import posed from 'react-pose'
 
 
 import Wiki from '~mixins/wikipedia'
@@ -98,7 +97,7 @@ class TagSuggest extends Component {
       modifiers: {
         arrow: { enabled: false },
         flip: { enabled: false },
-      }
+      },
     }
     const inputFieldProps = {
       className: 'np--input-tags-field',
@@ -131,4 +130,4 @@ class TagSuggest extends Component {
 }
 
 
-export default hot(module)(TagSuggest)
+export default TagSuggest

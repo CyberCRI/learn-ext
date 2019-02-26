@@ -3,10 +3,11 @@ env:
   es6: true
   node: true
   protractor: true
+  webextensions: true
   mocha: true
 globals:
-  browser: true
   _: true
+  browser: true
   env: true
   runtime: true
   chrome: true
@@ -61,4 +62,5 @@ rules:
   react/jsx-uses-vars: error
   no-unused-vars:
     - warn
-    - varsIgnorePattern: React
+    - varsIgnorePattern: ^_
+      args: none

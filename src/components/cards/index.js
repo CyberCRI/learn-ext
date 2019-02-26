@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Card, Elevation, Icon, Button } from '@blueprintjs/core'
+import { Card, Elevation } from '@blueprintjs/core'
 import clsx from 'classnames'
-import posed, { PoseGroup } from 'react-pose'
+import posed from 'react-pose'
 
 import './styles.scss'
 
