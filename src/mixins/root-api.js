@@ -3,7 +3,7 @@ import { request } from '~mixins'
 
 
 // Get the absolute url for specific api routes.
-const endpointFor = (path) => `${env.rootapi_url}/${path}`
+const endpointFor = (path) => `${env.rootapi_host}/${path}`
 
 
 class ILearnAPI {
@@ -17,7 +17,7 @@ class ILearnAPI {
     // │  knowledge_progression │ {0, 0.5, 1} = 0.5               │
     // └──────────────────────────────────────────────────────────┘
     return request({
-      url: endpointFor('api/learn'),
+      url: endpointFor('ext/api/learn'),
       method: 'post',
       data: params,
     })
@@ -25,7 +25,7 @@ class ILearnAPI {
 
   fetchConcepts (url) {
     return request({
-      url: endpointFor('api/enhancedconcepts'),
+      url: endpointFor('ext/api/enhancedconcepts'),
       data: { url },
     })
   }
@@ -35,8 +35,15 @@ class ILearnAPI {
     // Request params include:
     // ressource_url, concept_title, reliability_variation
     return request({
-      url: endpointFor('api/crowdsourcing'),
+      url: endpointFor('ext/api/crowdsourcing'),
       method: 'put',
+      data: params,
+    })
+  }
+
+  fetchPortfolio (params) {
+    return request({
+      url: endpointFor('udev/api/portfolio'),
       data: params,
     })
   }
