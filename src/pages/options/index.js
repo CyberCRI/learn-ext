@@ -203,13 +203,7 @@ class MapCard extends Component {
                   minimal
                   onClick={this.didToggleZoom}
                 />
-                <Popover usePortal={true} position='bottom-right'>
-                  <Button icon='more' minimal/>
-                  <Menu>
-                    <MenuItem text='Customize' icon=''/>
-                    <MenuItem text='Option'/>
-                  </Menu>
-                </Popover>
+                <Button icon='more' minimal/>
               </div>
             </div>
 
