@@ -5,6 +5,7 @@ import posed, { PoseGroup } from 'react-pose'
 import clsx from 'classnames'
 import { renderReactComponent } from '~mixins/utils'
 import { request } from '~mixins'
+import RootAPI from '~mixins/root-api'
 
 
 import './_options.sass'
@@ -120,7 +121,29 @@ const CardBox = posed.div({
   },
 })
 
-const InfoCard = posed.li()
+const ResourcesList = posed.ul({
+  open: {
+    y: '0%',
+    delayChildren: 200,
+    staggerChildren: 50,
+  },
+  closed: {
+    y: '-100%',
+    delay: 300,
+  },
+  initialPose: 'closed',
+})
+
+const InfoCard = posed.li({
+  open: {
+    y: 0,
+    opacity: 1,
+  },
+  closed: {
+    y: 20,
+    opacity: 0,
+  },
+})
 
 
 class MapCard extends Component {
@@ -214,6 +237,39 @@ class MapCard extends Component {
   }
 }
 
+const ResourceCard = (props) => (
+  <InfoCard>
+    <Card elevation={Elevation.TWO} interactive>
+      <h4>{props.Title}</h4>
+      <p>{props.Record_date}</p>
+    </Card>
+  </InfoCard>
+)
+
+class Resources extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      resources: [],
+      pose: 'closed',
+    }
+  }
+
+  componentDidMount () {
+    RootAPI.fetchPortfolio({ username: this.props.username })
+      .then((data) => {
+        this.setState({ resources: data.portfolio, pose: 'open' })
+      })
+  }
+
+  render () {
+    return (
+      <ResourcesList pose={this.state.pose}>
+        { this.state.resources.map((x, i) => <ResourceCard key={i} {...x} />)}
+      </ResourcesList>
+    )
+  }
+}
 
 const FramedCard = (props) => (
     <CardBox initialPose='preMount' pose='init' className='frame-container'>
