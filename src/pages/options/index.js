@@ -56,7 +56,7 @@ function drawCartography (points, container) {
   // Initialize dotAtlas
   const dotatlas = new DotAtlas({
     element: container,
-    pixelRatio: window.devicePixelRatio || 1,
+    pixelRatio: 2,
     maxRadiusDivider: 10,
     mapLightAzimuth: 0.4,
     mapLightIntensity: 0.5,
