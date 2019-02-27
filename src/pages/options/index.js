@@ -166,13 +166,15 @@ class MapCard extends Component {
       .then((points) => {
         this.setState({ atlasReady: true, fakeTags: ['Boop', 'Noot', 'BMO'] })
         this.atlas = drawCartography(points, this.canvasRef)
+        this.atlas.fx.rollout(this.atlas.data)
+        window.atlas = this.atlas
       })
   }
 
   didToggleZoom () {
     const pose = this.state.pose === 'zoomed' ? 'init' : 'zoomed'
 
-    this.atlas.fx.pullback()
+    // this.atlas.fx.pullback()
     this.setState({ atlasReady: false, pose })
 
   }
@@ -180,7 +182,7 @@ class MapCard extends Component {
   refreshAtlas () {
     // this.atlas.fx.pullback().then(() => {
     this.atlas.map.resize()
-    this.atlas.fx.rollout(this.atlas.data)
+    // this.atlas.fx.rollout(this.atlas.data)
     this.setState({ atlasReady: true })
     // })
   }
@@ -220,7 +222,7 @@ class MapCard extends Component {
             </ul>
 
             <div
-              className={clsx('mapbox', { loadisng: !this.state.atlasReady })}
+              className={clsx('mapbox', { loading: !this.state.atlasReady })}
               ref={(el) => this.canvasRef = el}
             />
 
