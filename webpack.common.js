@@ -17,6 +17,10 @@ const copySourceBundleRules = [
     toType: 'template',
     transform: locale.transpile,
   },
+  {
+    from: './node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
+    to: './browser-polyfill.js',
+  },
 ]
 
 // Setup html generator plugin using HtmlWebpackPlugin
