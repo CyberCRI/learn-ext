@@ -52,6 +52,11 @@ dev:watch () {
   webpack --config webpack.dev.js --watch
 }
 
+dev:build () {
+  _info 'Building [target dev]'
+  webpack --config webpack.dev.js
+}
+
 dev:webext () {
   web-ext run
   _info 'Closing Firefox'
