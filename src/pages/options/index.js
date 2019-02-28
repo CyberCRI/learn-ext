@@ -177,6 +177,11 @@ class MapCard extends Component {
     // this.atlas.fx.pullback()
     this.setState({ atlasReady: false, pose })
 
+    this.xid = setInterval(() => {
+      console.log('resize!')
+      this.atlas.map.resize()
+    }, 20)
+
   }
 
   refreshAtlas () {
@@ -184,6 +189,10 @@ class MapCard extends Component {
     this.atlas.map.resize()
     // this.atlas.fx.rollout(this.atlas.data)
     this.setState({ atlasReady: true })
+    if (this.xid) {
+      console.log('clearing', this.xid)
+      clearInterval(this.xid)
+    }
     // })
   }
 
@@ -195,7 +204,10 @@ class MapCard extends Component {
   render () {
     return (
       <div className='map-card-container'>
-        <CardBox pose={this.state.pose} initialPose='preMount' onPoseComplete={this.refreshAtlas}>
+        <CardBox
+          pose={this.state.pose}
+          initialPose='preMount'
+          onPoseComplete={this.refreshAtlas}>
           <Card elevation={Elevation.FOUR} className={clsx('map-card', {loading: !this.state.atlasReady})}>
             <div className='header'>
               <h3>Your Knowledge Map</h3>
