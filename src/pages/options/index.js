@@ -5,6 +5,7 @@ import posed, { PoseGroup } from 'react-pose'
 import clsx from 'classnames'
 import { renderReactComponent } from '~mixins/utils'
 import { request } from '~mixins'
+import RootAPI from '~mixins/root-api'
 
 
 import './_options.sass'
@@ -31,7 +32,7 @@ function drawCartography (points, container) {
     // Marker size on the 0..1 scale. Zero marker size will draw markers
     // of very small sizes, near to 1 pixel. This might be useful for
     // drawing hundreds of thousands of markers.
-    p.markerSize = 0;
+    p.markerSize = 0.2;
 
     // Color of the marker. The required format is a 4-element RGBA array,
     // with each component value in the 0..255 range.
@@ -55,7 +56,7 @@ function drawCartography (points, container) {
   // Initialize dotAtlas
   const dotatlas = new DotAtlas({
     element: container,
-    pixelRatio: window.devicePixelRatio || 1,
+    pixelRatio: 2,
     maxRadiusDivider: 10,
     mapLightAzimuth: 0.4,
     mapLightIntensity: 0.5,
@@ -64,7 +65,7 @@ function drawCartography (points, container) {
   const dataObject = {
     layers: [
       elevations, // Currently, elevation layer must always be at index 0
-      // markers,
+      markers,
     ]
   }
   const dotatlasFx = new DotAtlasEffects(dotatlas)
@@ -84,26 +85,31 @@ const CardBox = posed.div({
   init: {
     opacity: 1,
     y: 0,
-    // width: 'auto',
-    // height: 'auto',
+    // width: '100%',
+    // height: '100%',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    position: 'relative',
     flip: true,
+    beforeChildren: true,
     // staggerChildren: 100,
     transition: {
-      // duration: 2000,
+      duration: 300,
       // ease: 'easeIn',
       // delay: 100,
+    },
+    applyAtStart: {
+      position: 'relative',
     },
     // delay: 100,
   },
   zoomed: {
-    position: 'fixed',
+    // position: 'fixed',
     y: 0,
     opacity: 1,
+    // width: '95vw',
+    // height: '95vh',
     top: 10,
     left: 10,
     right: 10,
@@ -112,15 +118,41 @@ const CardBox = posed.div({
     // staggerChildren: 100,
     transition: {
       // type: 'spring',
-      // duration: 2000,
+      duration: 300,
       // delay: 100,
       // ease: 'easeIn',
+    },
+    applyAtStart: {
+      position: 'fixed',
+
     },
     // delay: 100,
   },
 })
 
-const InfoCard = posed.li()
+const ResourcesList = posed.ul({
+  open: {
+    y: '0%',
+    delayChildren: 200,
+    staggerChildren: 50,
+  },
+  closed: {
+    y: '-100%',
+    delay: 300,
+  },
+  initialPose: 'closed',
+})
+
+const InfoCard = posed.li({
+  open: {
+    y: 0,
+    opacity: 1,
+  },
+  closed: {
+    y: 20,
+    opacity: 0,
+  },
+})
 
 
 class MapCard extends Component {
@@ -142,23 +174,39 @@ class MapCard extends Component {
     request({ url: 'https://noop-pub.s3.amazonaws.com/opt/dotatlas_c1c2c3.json' })
       .then((points) => {
         this.setState({ atlasReady: true, fakeTags: ['Boop', 'Noot', 'BMO'] })
-        this.atlas = drawCartography(points, this.canvasRef)
+        setTimeout(() => {
+          this.atlas = drawCartography(points, this.canvasRef)
+          this.atlas.fx.rollout(this.atlas.data)
+          window.atlas = this.atlas
+        }, 200)
       })
   }
 
   didToggleZoom () {
     const pose = this.state.pose === 'zoomed' ? 'init' : 'zoomed'
 
-    this.atlas.fx.pullback()
+    // this.atlas.fx.pullback()
     this.setState({ atlasReady: false, pose })
+
+    this.xid = setInterval(() => {
+      console.log('resize!')
+      this.atlas.map.resize()
+    }, 20)
 
   }
 
   refreshAtlas () {
     // this.atlas.fx.pullback().then(() => {
-    this.atlas.map.resize()
-    this.atlas.fx.rollout(this.atlas.data)
+    setTimeout(() => {
+      this.atlas.map.resize()
+    }, 10)
+    // this.atlas.map.resize()
+    // this.atlas.fx.rollout(this.atlas.data)
     this.setState({ atlasReady: true })
+    if (this.xid) {
+      console.log('clearing', this.xid)
+      clearInterval(this.xid)
+    }
     // })
   }
 
@@ -170,7 +218,10 @@ class MapCard extends Component {
   render () {
     return (
       <div className='map-card-container'>
-        <CardBox pose={this.state.pose} initialPose='preMount' onPoseComplete={this.refreshAtlas}>
+        <CardBox
+          pose={this.state.pose}
+          initialPose='preMount'
+          onPoseComplete={this.refreshAtlas}>
           <Card elevation={Elevation.FOUR} className={clsx('map-card', {loading: !this.state.atlasReady})}>
             <div className='header'>
               <h3>Your Knowledge Map</h3>
@@ -180,13 +231,7 @@ class MapCard extends Component {
                   minimal
                   onClick={this.didToggleZoom}
                 />
-                <Popover usePortal={true} position='bottom-right'>
-                  <Button icon='more' minimal/>
-                  <Menu>
-                    <MenuItem text='Customize' icon=''/>
-                    <MenuItem text='Option'/>
-                  </Menu>
-                </Popover>
+                <Button icon='more' minimal/>
               </div>
             </div>
 
@@ -203,7 +248,7 @@ class MapCard extends Component {
             </ul>
 
             <div
-              className={clsx('mapbox', { loadisng: !this.state.atlasReady })}
+              className={clsx('mapbox', { xloading: !this.state.atlasReady })}
               ref={(el) => this.canvasRef = el}
             />
 
@@ -214,6 +259,39 @@ class MapCard extends Component {
   }
 }
 
+const ResourceCard = (props) => (
+  <InfoCard>
+    <Card elevation={Elevation.TWO} interactive>
+      <h4>{props.Title}</h4>
+      <p>{props.Record_date}</p>
+    </Card>
+  </InfoCard>
+)
+
+class Resources extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      resources: [],
+      pose: 'closed',
+    }
+  }
+
+  componentDidMount () {
+    RootAPI.fetchPortfolio({ username: this.props.username })
+      .then((data) => {
+        this.setState({ resources: data.portfolio, pose: 'open' })
+      })
+  }
+
+  render () {
+    return (
+      <ResourcesList pose={this.state.pose}>
+        { this.state.resources.map((x, i) => <ResourceCard key={i} {...x} />)}
+      </ResourcesList>
+    )
+  }
+}
 
 const FramedCard = (props) => (
     <CardBox initialPose='preMount' pose='init' className='frame-container'>

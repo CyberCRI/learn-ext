@@ -29,8 +29,9 @@
 
   "background": {
     "scripts": [
-      "client.js",
+      "browser-polyfill.js",
       "vendors.js",
+      "client.js",
       "background.js"
     ]
   },
@@ -80,6 +81,7 @@
         "http://*/*"
       ],
       "js": [
+        "browser-polyfill.js",
         "vendors.js",
         "client.js",
         "app_root.js"

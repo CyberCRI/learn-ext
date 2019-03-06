@@ -9,6 +9,7 @@ if (dotenv.flags.verbose == 'yes') {
 
 const prefs = {
   'browser.EULA.override': true,
+  'browser.EULA.3.accepted': true,
   'browser.uidensity': 1,
   'browser.uitour.enabled': false,
   'devtools.browserconsole.filter.net': true,
@@ -50,11 +51,12 @@ module.exports = {
   ignoreFiles: [
     'report.html',
   ],
+  verbose: false,
 
   run: {
     firefox: dotenv.PackageEnv.vars.webext_firefox_version,
     browserConsole: false,
-    keepProfileChanges: false,
+    keepProfileChanges: true,
     firefoxProfile: 'web-ext-dev',
     pref: browser_prefs,
     noReload: false,
