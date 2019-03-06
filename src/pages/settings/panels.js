@@ -61,8 +61,8 @@ const Privacy = () => (
     <p>We believe that your data belongs to you and only you.</p>
 
     <RadioGroup label='Choose what you share' alignIndicator={Alignment.RIGHT}>
-      <Radio label={<TabTitle title='Only me' icon={<FiIcon.FiLock/>}/>} alignIndicator={Alignment.RIGHT} value='me'/>
-      <Radio label={<TabTitle title='Public' icon={<FiIcon.FiGlobe/>}/>} alignIndicator={Alignment.RIGHT} value='all'/>
+      <Radio label={<FiIcon.FiLock/>} alignIndicator={Alignment.RIGHT} value='me'/>
+      <Radio label={<FiIcon.FiGlobe/>} alignIndicator={Alignment.RIGHT} value='all'/>
     </RadioGroup>
 
     <h1>Mentorship</h1>
