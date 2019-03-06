@@ -38,6 +38,7 @@ const staticPages = [
   HtmlGenerator({ name: 'settings', chunks: ['pages_settings'] }),
   HtmlGenerator({ name: 'onboarding', chunks: ['pages_onboarding'] }),
   HtmlGenerator({ name: 'popover', chunks: ['pages_popover'] }),
+  HtmlGenerator({ name: 'landing', chunks: ['pages_landing'] }),
 ]
 
 const pageEntryPoint = (chunk) => `./src/pages/${chunk}/index.js`
@@ -53,6 +54,7 @@ module.exports = {
     pages_options: pageEntryPoint('options'),
     pages_settings: pageEntryPoint('settings'),
     pages_onboarding: pageEntryPoint('onboarding'),
+    pages_landing: pageEntryPoint('landing'),
   },
   output: {
     filename: '[name].js',
