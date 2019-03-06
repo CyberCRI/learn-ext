@@ -32,7 +32,7 @@ function drawCartography (points, container) {
     // Marker size on the 0..1 scale. Zero marker size will draw markers
     // of very small sizes, near to 1 pixel. This might be useful for
     // drawing hundreds of thousands of markers.
-    p.markerSize = 0;
+    p.markerSize = 0.2;
 
     // Color of the marker. The required format is a 4-element RGBA array,
     // with each component value in the 0..255 range.
@@ -65,7 +65,7 @@ function drawCartography (points, container) {
   const dataObject = {
     layers: [
       elevations, // Currently, elevation layer must always be at index 0
-      // markers,
+      markers,
     ]
   }
   const dotatlasFx = new DotAtlasEffects(dotatlas)
@@ -85,26 +85,31 @@ const CardBox = posed.div({
   init: {
     opacity: 1,
     y: 0,
-    // width: 'auto',
-    // height: 'auto',
+    // width: '100%',
+    // height: '100%',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    position: 'relative',
     flip: true,
+    beforeChildren: true,
     // staggerChildren: 100,
     transition: {
-      // duration: 2000,
+      duration: 300,
       // ease: 'easeIn',
       // delay: 100,
+    },
+    applyAtStart: {
+      position: 'relative',
     },
     // delay: 100,
   },
   zoomed: {
-    position: 'fixed',
+    // position: 'fixed',
     y: 0,
     opacity: 1,
+    // width: '95vw',
+    // height: '95vh',
     top: 10,
     left: 10,
     right: 10,
@@ -113,9 +118,13 @@ const CardBox = posed.div({
     // staggerChildren: 100,
     transition: {
       // type: 'spring',
-      // duration: 2000,
+      duration: 300,
       // delay: 100,
       // ease: 'easeIn',
+    },
+    applyAtStart: {
+      position: 'fixed',
+
     },
     // delay: 100,
   },
@@ -165,9 +174,11 @@ class MapCard extends Component {
     request({ url: 'https://noop-pub.s3.amazonaws.com/opt/dotatlas_c1c2c3.json' })
       .then((points) => {
         this.setState({ atlasReady: true, fakeTags: ['Boop', 'Noot', 'BMO'] })
-        this.atlas = drawCartography(points, this.canvasRef)
-        this.atlas.fx.rollout(this.atlas.data)
-        window.atlas = this.atlas
+        setTimeout(() => {
+          this.atlas = drawCartography(points, this.canvasRef)
+          this.atlas.fx.rollout(this.atlas.data)
+          window.atlas = this.atlas
+        }, 200)
       })
   }
 
@@ -186,7 +197,10 @@ class MapCard extends Component {
 
   refreshAtlas () {
     // this.atlas.fx.pullback().then(() => {
-    this.atlas.map.resize()
+    setTimeout(() => {
+      this.atlas.map.resize()
+    }, 10)
+    // this.atlas.map.resize()
     // this.atlas.fx.rollout(this.atlas.data)
     this.setState({ atlasReady: true })
     if (this.xid) {
@@ -234,7 +248,7 @@ class MapCard extends Component {
             </ul>
 
             <div
-              className={clsx('mapbox', { loading: !this.state.atlasReady })}
+              className={clsx('mapbox', { xloading: !this.state.atlasReady })}
               ref={(el) => this.canvasRef = el}
             />
 
