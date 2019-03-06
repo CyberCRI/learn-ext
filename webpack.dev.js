@@ -35,5 +35,6 @@ module.exports = smartMerge(base_config, {
     watchContentBase: true,
     open: false,
     overlay: true,
+    writeToDisk: true,
   },
 })
