@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import clsx from 'classnames'
 
 
-class AtlasBox extends Component {
+class Atlas extends Component {
   constructor (props) {
     super(props)
 
@@ -14,7 +14,10 @@ class AtlasBox extends Component {
   componentDidMount () {
     this.atlas = new DotAtlas({
       element: this.canvasRef,
-      pixelRatio: window.devicePixelRatio || 1,
+      pixelRatio: 2,
+      maxRadiusDivider: 10,
+      mapLightAzimuth: 0.4,
+      mapLightIntensity: 0.5,
     })
     this.atlasFx = new DotAtlasEffects(this.atlas)
   }
@@ -22,10 +25,24 @@ class AtlasBox extends Component {
   componentDidUpdate (prevProps, prevState) {
     if (this.props.ready !== prevState.ready) {
       // Ready state changed, so we'll need to refresh the data points and redraw
-      this.setState({ ready: })
       this.drawAtlas()
     }
+  }
 
+  processPoints () {
+    // Implement logic for processing the datapoints.
+    const red = [200, 0, 0, 255]
+    this.props.dataPoints.map((p, ix) => {
+      p.elevation = ix === 0 ? 1 : 0.2
+      p.marker = 'circle'
+      p.markerSize = 0
+      p.markerColor = red
+      return p
+    })
+  }
+
+  resize () {
+    this.map.resize()
   }
 
   drawAtlas () {
@@ -39,8 +56,11 @@ class AtlasBox extends Component {
   }
 
   render () {
+    const boxClasses = clsx('atlas', {
+      loading: !this.state.ready,
+    })
     return (
-      <div className={clsx('atlas')} ref={(el) => this.canvasRef = el} />
+      <div className={boxClasses} ref={(el) => this.canvasRef = el}/>
     )
   }
 }
