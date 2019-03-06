@@ -52,6 +52,10 @@ dev:watch () {
   webpack --config webpack.dev.js --watch
 }
 
+dev:server () {
+  webpack-dev-server --config webpack.dev.js --hot
+}
+
 dev:build () {
   _info 'Building [target dev]'
   webpack --config webpack.dev.js
