@@ -10,7 +10,8 @@ const { dotenv, abspath, locale, manifest } = require('./tools/node-plugins')
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
   { from: './src/manifest.json', to: './', transform: manifest.transform },
-  { from: './assets', to: './', ignore: [ 'locales/*', '.DS_Store' ] },
+  { from: './assets/icons', to: './icons' },
+  { from: './assets/banners', to: './banners' },
   {
     from: './assets/locales/*.yml',
     to: './_locales/[name]/messages.json',
@@ -24,9 +25,10 @@ const copySourceBundleRules = [
 ]
 
 // Setup html generator plugin using HtmlWebpackPlugin
-const HtmlGenerator = ({ name, chunks }) => {
+const HtmlGenerator = ({ name, chunks, webroot=false }) => {
+  const filename = webroot ? `${name}.html` : `pages/${name}.html`
   return new HtmlWebpackPlugin({
-    filename: `pages/${name}.html`,
+    filename,
     template: `src/pages/${name}/_${name}.pug`,
     chunks: [ 'client', 'vendors', 'pages_root', ...chunks ],
   })
@@ -38,7 +40,7 @@ const staticPages = [
   HtmlGenerator({ name: 'settings', chunks: ['pages_settings'] }),
   HtmlGenerator({ name: 'onboarding', chunks: ['pages_onboarding'] }),
   HtmlGenerator({ name: 'popover', chunks: ['pages_popover'] }),
-  HtmlGenerator({ name: 'landing', chunks: ['pages_landing'] }),
+  HtmlGenerator({ name: 'landing', chunks: ['pages_landing'], webroot: true }),
 ]
 
 const pageEntryPoint = (chunk) => `./src/pages/${chunk}/index.js`
@@ -70,6 +72,7 @@ module.exports = {
       '~pug-partials': abspath('src/pages/partials'),
       '~pages': abspath('src/pages'),
       '~page-commons': abspath('src/pages/_commons'),
+      '~media': abspath('assets/media'),
     },
   },
 
@@ -109,18 +112,22 @@ module.exports = {
         ],
       },
       {
-        test: /\.(eot|ttf|woff|woff2|svg|png|gif|jpe?g)$/,
+        test: /\.(eot|ttf|woff|woff2)$/,
         use: [ {
           loader: 'file-loader',
           options: {
             name: '[name].[ext]',
-            outputPath: 'rawassets/',
+            outputPath: 'fonts/',
           },
         } ],
       },
       {
         test: /\.pug$/,
         use: ['pug-loader'],
+      },
+      {
+        test: /\.svg$/,
+        use: [ 'svg-inline-loader' ],
       },
     ],
   },
@@ -152,7 +159,6 @@ module.exports = {
 
   plugins: [
     new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
-    new DashboardPlugin(),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
     new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
     dotenv.PackageEnv.webpackPlugin,
