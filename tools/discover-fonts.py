@@ -1,3 +1,7 @@
+'''Find webfonts and generate corresponding css file ready to be imported.
+
+Requires fontconfig to be installed.
+'''
 import io
 import re
 import hues
@@ -11,22 +15,6 @@ from pydash import py_
 
 def process_fontlist(df, urlprefix):
   '''Use the dataframe to transform the fontlist so it's css compliant.'''
-  def transform_weight(weight):
-    # Fontconfig weights are a bit different than CSS weights we're used to.
-    transformers = [
-      (100, range(0, 55)),
-      (200, range(55, 85)),
-      (300, range(85, 105)),
-      (500, range(105, 185)),
-      (600, range(185, 205)),
-      (800, range(205, 300)),
-    ]
-    for w, r in transformers:
-      if weight in r:
-        return w
-    # By default, we'll assume it's 800
-    return 800
-
   def transform_fontname(name):
     # In CSS, it's quite annoying to use various "Medium", "SemiBold", and
     # "Light" suffixes. Here we just remove them from names.
@@ -36,39 +24,56 @@ def process_fontlist(df, urlprefix):
     except AttributeError:
       return name
 
-  def transform_slant(slant):
-    # Interpret font-style from the `slant` value.
-    if slant > 0:
-      return 'italic'
-    return 'normal'
-
-  def transform_url(path, version):
+  def transform_url(version):
     # Since fontconfig only interprets the `woff` fonts, we'll just add `woff2`
     # as well.
-    filename, _ = os.path.splitext(os.path.basename(path))
-    return f'{urlprefix}/{filename}.{version}'
+    # Returns a function with version in closure.
+    def transformer(path):
+      filename, _ = os.path.splitext(os.path.basename(path))
+      return f'{urlprefix}/{filename}.{version}'
+    return transformer
 
   df['fname'] = df.family.apply(transform_fontname)
-  df['fweight'] = df.weight.apply(transform_weight)
-  df['style'] = df.slant.apply(transform_slant)
-  df['url'] = df.file.apply(lambda x: transform_url(path=x, version='woff2'))
-  df['url_alt'] = df.file.apply(lambda x: transform_url(path=x, version='woff'))
+
+  # Fontconfig weights are a bit different than CSS weights we're used to.
+  # Thankfully, we can use the weight in filename to get this.
+  df['weight'] = (df.file
+    .str
+    .extract(r'(\d{3}).*\.woff')
+    .fillna(400))
+
+  # Interpret font-style from the filename pattern
+  df['style'] = (df.file
+    .str
+    .extract(r'(regular|italic)\.woff')
+    .fillna('regular')
+    .replace('regular', 'normal'))
+
+  df['url'] = df.file.apply(transform_url(version='woff2'))
+  df['url_alt'] = df.file.apply(transform_url(version='woff'))
   return df
 
 def discover_fonts(path, urlprefix=''):
-  '''Use font-config to scan and list the properties in a dataframe.'''
-  header = ['family', 'postscriptname', 'weight', 'slant', 'width', 'file']
+  '''Use font-config to scan and list the properties in a dataframe.
+
+  In the scanned directory, font-config optionally accepts an output format
+  string. We use this format for each font files found:
+    >{family}|{postscriptname}|{file}
+  I added the `>` specifier to distinguish additional output (to stderr, but
+  subprocess.getoutput captures both `stdout` and `stderr` together) from
+  warnings.
+  '''
+  header = ['family', 'postscriptname', 'file']
   fc_format = '|'.join([f'%{{{id}}}' for id in header])
+
+  # Uses fc-scan utility from font-config.
   cmd = f'fc-scan {path} -b -f ">{fc_format}\\n"'
 
   return (py_(subprocess.getoutput(cmd))
     .lines()
-    # Each font specific line begins with a `>`, filter them and get the actual
-    # string in next call.
     .filter(lambda s: s[0] == '>')
     .map(lambda s: s[1:])
     .join('\n')
-    # Pandas expect a string buffer in read_csv function.
     .thru(io.StringIO)
     .thru(lambda b: pd.read_csv(b, sep='|', names=header))
     .thru(lambda df: process_fontlist(df, urlprefix))
@@ -83,7 +88,7 @@ def generate_css(df):
     @font-face {{
       font-family: '{row.fname}';
       font-style: {row.style};
-      font-weight: {row.fweight};
+      font-weight: {row.weight};
       src: local('{row.family}'), local('{row.postscriptname}'),
            url('{row.url}') format('woff2'),
            url('{row.url_alt}') format('woff');
