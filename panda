@@ -31,7 +31,7 @@ source ./.env
 
 __sigint () {
   printf '\n'
-  _abort 'Cancelled'
+  _abort 'Ended all sessions'
 }
 trap __sigint SIGINT
 
@@ -49,15 +49,19 @@ dev:docs () {
 }
 
 dev:watch () {
+  gen:webfonts
   webpack --config webpack.dev.js --watch
 }
 
 dev:server () {
+  _info 'Starting dev-server on http://localhost:9889'
+  gen:webfonts
   webpack-dev-server --config webpack.dev.js --hot
 }
 
 dev:build () {
   _info 'Building [target dev]'
+  gen:webfonts
   webpack --config webpack.dev.js
 }
 
@@ -66,6 +70,16 @@ dev:webext () {
   _info 'Closing Firefox'
 }
 
+desc 'gen:webfonts' <<BOOP
+Usage:
+  ${_ME} gen:webfonts
+
+Description:
+  Generates fonts.css in src/styles with the fonts found in assets/fonts.
+BOOP
+gen:webfonts () {
+  python tools/discover-fonts.py
+}
 
 release:bump () {
   # Bump the extension version!
@@ -90,6 +104,7 @@ release:sign () {
 
 release:build () {
   _info '[!] Compiling using Production flag'
+  gen:webfonts
   webpack --config webpack.prod.js
 }
 
