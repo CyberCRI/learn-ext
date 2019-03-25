@@ -1,11 +1,11 @@
 extends ../partials/layout.pug
+include ../partials/mixins.pug
 
 append head
   title Options | iLearn
 
 append scripts
-  script(src='https://noop-pub.s3.amazonaws.com/opt/carrotsearch.dotatlas.js')
-  script(src='https://noop-pub.s3.amazonaws.com/opt/carrotsearch.dotatlas.effects.js')
+  +dotatlas
 
 block append main
   div#cartography
