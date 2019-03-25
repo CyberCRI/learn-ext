@@ -7,6 +7,7 @@ import { RadioGroup, OverflowList, Radio, Switch, Alignment } from '@blueprintjs
 import posed from 'react-pose'
 
 import { AccountSelector } from '~components/input/settings'
+import { BlogCallout } from '../landing/cards'
 
 
 const PosedPanel = posed.div({
@@ -27,6 +28,17 @@ const PosedPanel = posed.div({
     },
   },
 })
+
+const RadioLabel = (props) => {
+  const icon = <props.icon/>
+  return (
+    <Radio
+      label={<span>{icon} {props.label} </span>}
+      value={props.value}
+      alignIndicator={Alignment.RIGHT}/>
+  )
+}
+
 
 const PosedCard = (props) => (
   <PosedPanel initialPose='exit' pose='enter'>
@@ -52,17 +64,12 @@ const Account = () => (
 
 const Privacy = () => (
   <PosedCard>
-    <Callout icon='shield' title='Privacy' intent={Intent.PRIMARY}>
-      <p>Hey there! This is the privacy settings panel.</p>
-      <p></p>
-    </Callout>
-
     <h1>Privacy Levels</h1>
     <p>We believe that your data belongs to you and only you.</p>
 
     <RadioGroup label='Choose what you share' alignIndicator={Alignment.RIGHT}>
-      <Radio label={<FiIcon.FiLock/>} alignIndicator={Alignment.RIGHT} value='me'/>
-      <Radio label={<FiIcon.FiGlobe/>} alignIndicator={Alignment.RIGHT} value='all'/>
+      <RadioLabel label='Only me' icon={FiIcon.FiLock} value='me'/>
+      <RadioLabel label='Public' icon={FiIcon.FiGlobe} value='all'/>
     </RadioGroup>
 
     <h1>Mentorship</h1>
@@ -74,10 +81,7 @@ const Privacy = () => (
 
 const Support = () => (
   <PosedCard>
-    <Callout icon='help' title='Help and Support' intent={Intent.PRIMARY}>
-      <p>Hey there! This is the support settings panel.</p>
-      <p></p>
-    </Callout>
+    <BlogCallout/>
   </PosedCard>
 )
 
