@@ -35,24 +35,36 @@ const DownloadButton = (props) => {
 }
 
 const ChromeLink = (props) => (
-  <DownloadButton>
+  <DownloadButton {...props} url={env.extension_url_chrome}>
     <FaChrome/>
     <h3>Add to <strong>Chrome</strong></h3>
   </DownloadButton>
 )
 
 const FirefoxLink = (props) => (
-  <DownloadButton>
+  <DownloadButton {...props} url={env.extension_url_firefox}>
     <FaFirefox/>
     <h3>Add to <strong>Firefox</strong></h3>
   </DownloadButton>
 )
 
-const DownloadLinks = () => (
-  <div className='download-links'>
-    <FirefoxLink/>
-    <ChromeLink/>
-  </div>
-)
+const DownloadLinks = () => {
+  const browser = detectBrowser()
+  return (
+    <div className='download-links'>
+      {<FirefoxLink/>}
+
+      <Popover position={Position.BOTTOM_LEFT} modifiers={{ offset: '10' }} flip={false}>
+        <Button minimal small icon='compressed'>Download Options</Button>
+        <div className='download-options'>
+          <h4>Using a different browser?</h4>
+          <p>To download extension for a different browser, you may use the links below:</p>
+          <FirefoxLink small/>
+          <ChromeLink small/>
+        </div>
+      </Popover>
+    </div>
+  )
+}
 
 export { ChromeLink, FirefoxLink, DownloadLinks }
