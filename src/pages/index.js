@@ -1,4 +1,5 @@
 import './style.sass'
+import '~styles/fonts.css'
 
 import { NavigationBar } from '~page-commons'
 import { renderReactComponent } from '~mixins/utils'
