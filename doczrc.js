@@ -5,13 +5,13 @@ const { dotenv, abspath } = require('./tools/node-plugins')
 
 export default {
   title: 'iLearn UI Components',
-  // theme: 'docz-theme-default',
+  theme: 'docz-theme-default',
   themeConfig: {
     // mode: 'dark',
     codemirrorTheme: 'solarized',
     styles: {
       body: {
-        fontFamily: 'IBM Plex Mono',
+        fontFamily: 'Roboto',
         fontSize: 12,
       },
       code: {
@@ -33,7 +33,7 @@ export default {
 
   codeSandbox: false,
 
-  debug: true,
+  debug: false,
 
   modifyBabelRc: (babelrc) => {
     return {...babelrc, plugins: [] }
