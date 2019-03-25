@@ -131,27 +131,26 @@ const CardBox = posed.div({
 })
 
 const ResourcesList = posed.ul({
-  open: {
-    y: '0%',
-    delayChildren: 200,
+  enter: {
     staggerChildren: 50,
   },
-  closed: {
-    y: '-100%',
-    delay: 300,
+  exit: {
+    staggerChildren: 20,
+    staggerDirection: -1,
   },
-  initialPose: 'closed',
+  initialPose: 'exit',
 })
 
 const InfoCard = posed.li({
-  open: {
+  enter: {
     y: 0,
     opacity: 1,
   },
-  closed: {
-    y: 20,
+  exit: {
+    y: -20,
     opacity: 0,
   },
+  initialPose: 'exit',
 })
 
 
@@ -171,7 +170,7 @@ class MapCard extends Component {
   }
 
   componentDidMount () {
-    request({ url: 'https://noop-pub.s3.amazonaws.com/opt/dotatlas_c1c2c3.json' })
+    request({ url: 'https://noop-pub.s3.amazonaws.com/opt/dotatlas_tmp.json' })
       .then((points) => {
         this.setState({ atlasReady: true, fakeTags: ['Boop', 'Noot', 'BMO'] })
         setTimeout(() => {
@@ -262,8 +261,8 @@ class MapCard extends Component {
 const ResourceCard = (props) => (
   <InfoCard>
     <Card elevation={Elevation.TWO} interactive>
-      <h4>{props.Title}</h4>
-      <p>{props.Record_date}</p>
+      <h4 className='title'>{props.Title}</h4>
+      <time datetime={props.Record_date}>{props.Record_date}</time>
     </Card>
   </InfoCard>
 )
@@ -273,20 +272,20 @@ class Resources extends Component {
     super(props)
     this.state = {
       resources: [],
-      pose: 'closed',
+      pose: 'exit',
     }
   }
 
   componentDidMount () {
     RootAPI.fetchPortfolio({ username: this.props.username })
       .then((data) => {
-        this.setState({ resources: data.portfolio, pose: 'open' })
+        this.setState({ resources: data.portfolio, pose: 'enter' })
       })
   }
 
   render () {
     return (
-      <ResourcesList pose={this.state.pose}>
+      <ResourcesList pose={this.state.pose} className='resources'>
         { this.state.resources.map((x, i) => <ResourceCard key={i} {...x} />)}
       </ResourcesList>
     )
@@ -311,7 +310,7 @@ document.addEventListener('apploaded', () => {
   browser.storage.local
     .get('user')
     .then(({ user }) => {
-      renderReactComponent('iframes', FramedCard, user)
+      renderReactComponent('iframes', Resources, user)
     })
 
 })
