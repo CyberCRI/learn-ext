@@ -34,8 +34,8 @@ class ActionCard extends Component {
   }
 
   componentDidMount () {
-    this.shouldFetchConcepts()
     browser.runtime.onMessage.addListener((msg) => {
+      this.shouldFetchConcepts()
       if (msg.action == 'openPopout') {
         this.setState({
           tabId: msg.tabId,
