@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'classnames'
-import { Card, Elevation } from '@blueprintjs/core'
+import { Card, Elevation, Popover, Button, Position } from '@blueprintjs/core'
 import { FaChrome, FaFirefox } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
 
@@ -18,12 +18,18 @@ const detectBrowser = () => {
 }
 
 const DownloadButton = (props) => {
-  const modifiers = clsx('np-download-link')
+  const modifiers = clsx('np-download-link', { small: !!props.small })
+
   return (
-    <Card className={modifiers} interactive elevation={Elevation.TWO}>
-      <IconContext.Provider value={{ className: 'browser-icon' }}>
-        { props.children }
-      </IconContext.Provider>
+    <Card
+      className={modifiers}
+      interactive
+      elevation={Elevation.TWO}>
+      <a href={props.url}>
+        <IconContext.Provider value={{ className: 'browser-icon' }}>
+          { props.children }
+        </IconContext.Provider>
+      </a>
     </Card>
   )
 }
