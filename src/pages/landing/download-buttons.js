@@ -5,6 +5,18 @@ import { FaChrome, FaFirefox } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
 
 
+const detectBrowser = () => {
+  // Bare minimum detection of browser using userAgent.
+  // Tests using regex for either chrome or firefox.
+  // [!] NOTE: It is very likely that this won't work well for all the cases
+  //           but, having a simple whitelist we *can* confidently distinguish
+  //           between the browsers we support.
+  const ua = window.navigator.userAgent
+  const firefox = /firefox/i.test(ua)
+  const chrome = /chrome/i.test(ua)
+  return { firefox, chrome }
+}
+
 const DownloadButton = (props) => {
   const modifiers = clsx('np-download-link')
   return (
