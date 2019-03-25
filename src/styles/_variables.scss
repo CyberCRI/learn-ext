@@ -9,10 +9,7 @@
 $pt-grid-size: 10px;
 
 // see https://bitsofco.de/the-new-system-font-stack/
-$pt-font-family: -apple-system,
-                 "BlinkMacSystemFont",
-                 "Segoe UI",
-                 "Roboto",
+$pt-font-family: "Roboto",
                  "Oxygen",
                  "Ubuntu",
                  "Cantarell",
@@ -21,7 +18,7 @@ $pt-font-family: -apple-system,
                  "Icons16", // support inline Palantir icons
                  sans-serif;
 
-$pt-font-family-monospace: monospace;
+$pt-font-family-monospace: "Lekton", monospace;
 
 $pt-font-size: $pt-grid-size * 1.4;
 $pt-font-size-large: $pt-grid-size * 1.6;
