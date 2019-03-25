@@ -11,6 +11,11 @@ const TabTitle = ({ title, icon }) => (
   </span>
 )
 
+//      <Tab
+//        id='general'
+//        title={<TabTitle title='General' icon={<FiIcon.FiSettings/>}/>}
+//        panel={<Panels.General/>}/>
+
 const SettingsTabs = (props) => {
   return (
     <Tabs
@@ -23,10 +28,6 @@ const SettingsTabs = (props) => {
         id='account'
         title={<TabTitle title='Account' icon={<FiIcon.FiUser/>}/>}
         panel={<Panels.Account/>}/>
-      <Tab
-        id='general'
-        title={<TabTitle title='General' icon={<FiIcon.FiSettings/>}/>}
-        panel={<Panels.General/>}/>
       <Tab
         id='privacy'
         title={<TabTitle title='Privacy' icon={<FiIcon.FiShield/>}/>}

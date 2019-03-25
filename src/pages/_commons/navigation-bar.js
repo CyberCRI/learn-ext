@@ -10,10 +10,10 @@ const NavigationBar = () => (
       <Navbar.Divider/>
 
       <AnchorButton
-        text='Home'
+        text='My Learning Map'
         minimal
         href='/pages/options.html'
-        icon={<FiIcon.FiArrowLeft/>}/>
+        icon={<FiIcon.FiCompass/>}/>
 
       <AnchorButton
         text='Discover'
@@ -24,6 +24,11 @@ const NavigationBar = () => (
     <Navbar.Group align={Alignment.RIGHT}>
       <AnchorButton
         text='Settings'
+        minimal
+        href='/pages/settings.html'
+        icon={<FiIcon.FiSettings/>}/>
+      <AnchorButton
+        text='Help'
         minimal
         href='/pages/settings.html'
         icon={<FiIcon.FiSettings/>}/>
