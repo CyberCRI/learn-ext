@@ -108,7 +108,10 @@ module.exports = {
               require('cssnano'),
             ] },
           },
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: { includePaths: [ abspath('./src') ] },
+          },
         ],
       },
       {
