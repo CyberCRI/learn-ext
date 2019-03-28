@@ -52,10 +52,26 @@ class WikiAPI {
 
     return request({
       url: env.wikiapi_endpoint,
-      type: 'json',
+      type: 'jsonp',
       data: req_payload,
+      crossOrigin: true,
       headers: HEADERS,
     }).then(this.transformOpenSearch)
+  }
+
+  summary (title) {
+    // Fetch the summary of a wikipedia page given the title.
+    // Note that we won't use the regular endpoint as used in opensearch, since
+    // this endpoint is the rest API, and different than the other wikimedia
+    // API.
+    const endpoint = 'https://en.wikipedia.org/api/rest_v1/page/summary'
+
+    return request({
+      url: `${endpoint}/${title}`,
+      type: 'json',
+      crossOrigin: true,
+      headers: HEADERS,
+    })
   }
 }
 
