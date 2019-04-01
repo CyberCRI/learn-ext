@@ -1,3 +1,5 @@
+@import 'styles/colors';
+@import 'styles/mixins';
 
 $transition-timing-overshoot: cubic-bezier(0.670, -0.540, 0.500, 1.650);
 
@@ -69,4 +71,57 @@ div.np-card {
   background-position: center;
   margin-bottom: 10px;
   min-height: 180px;
+}
+
+div.info-card {
+
+  width: 270px;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  background: $background;
+  color: $white;
+  font-size: 14px;
+  padding: 0;
+  // transition: .2s all ease;
+  // transform: scale(1);
+
+  .thumbnail {
+    position: absolute;
+    width: 100%;
+    min-block-size: 100%;
+    top: 0;
+    left: 0;
+
+    filter: blur(1px);
+    transform: scale(1.2) translate(0, 0);
+    z-index: -2;
+    transition: 1s all ease;
+  }
+  .title {
+    font: {
+      size: 1.4em;
+      weight: 400;
+    }
+    margin: 0 0 .5em 0;
+
+    cite {
+      font: {
+        size: 12px;
+        style: normal;
+      }
+      display: block;
+    }
+  }
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba($dark-gray1, .4);
+    z-index: -1;
+  }
 }
