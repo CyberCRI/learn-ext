@@ -6,6 +6,7 @@ import clsx from 'classnames'
 import { renderReactComponent } from '~mixins/utils'
 import { request } from '~mixins'
 import RootAPI from '~mixins/root-api'
+import ConceptsField from '~components/input/concepts'
 
 
 import './_options.sass'
@@ -262,7 +263,8 @@ const ResourceCard = (props) => (
   <InfoCard>
     <Card elevation={Elevation.TWO} interactive>
       <h4 className='title'>{props.Title}</h4>
-      <time datetime={props.Record_date}>{props.Record_date}</time>
+      <time dateTime={props.Record_date}>{props.Record_date}</time>
+      <ConceptsField concepts={props.Concepts.map((x) => ({ label: x.Name }))} onRemove={console.log}/>
     </Card>
   </InfoCard>
 )
