@@ -74,6 +74,10 @@ div.np-card {
 }
 
 div.info-card {
+  $background: $dark-gray1;
+  $running-text-size: 1em;
+  $line-height: $running-text-size + 0.3;
+  $max-lines: 5;
 
   width: 270px;
   position: relative;
@@ -85,6 +89,20 @@ div.info-card {
   padding: 0;
   // transition: .2s all ease;
   // transform: scale(1);
+
+  .content {
+    position: relative;
+    padding: {
+      left: 15px;
+      right: 15px;
+      top: 15px;
+      bottom: 0;
+    }
+  }
+  .tools {
+    background: $cobalt1;
+    padding: 5px 0;
+  }
 
   .thumbnail {
     position: absolute;
@@ -112,6 +130,27 @@ div.info-card {
       }
       display: block;
     }
+  }
+  .summary {
+    font: {
+      size: $running-text-size;
+      weight: 300;
+    }
+    line-height: $line-height;
+    max-height: $line-height * $max-lines;
+    overflow: hidden;
+    margin: 0;
+
+    // &:after {
+    //   content: '';
+    //   display: block;
+    //   position: absolute;
+    //   bottom: 0;
+    //   left: 0;
+    //   right: 0;
+    //   height: 10px;
+    //   background: red;
+    // }
   }
   &:before {
     content: '';
