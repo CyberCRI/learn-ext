@@ -138,7 +138,6 @@ class ActionCard extends Component {
 
         <InteractiveCard isOpen={this.state.isOpen && this.state.fetched}>
           <header>
-            <h5>iLearn</h5>
             <ButtonGroup minimal className='np--popover-actions'>
               <Button
                 icon='map'
@@ -159,8 +158,6 @@ class ActionCard extends Component {
             <TagSuggest
               onSelect={this.didAddConcept}/>
 
-            <h5>Resource Rating</h5>
-            <p>How difficult was this page?</p>
             <ButtonGroup fill minimal>
               <Button onClick={() => this.setState({ knowledgeProg: 1 }, this.didChooseRating) }>Easy</Button>
               <Button onClick={() => this.setState({ knowledgeProg: 0.5 }, this.didChooseRating) }>Alright</Button>
