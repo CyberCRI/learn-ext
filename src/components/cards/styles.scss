@@ -171,6 +171,18 @@ div.info-card {
     //   background: red;
     // }
   }
+
+  &:hover {
+    .thumbnail {
+      filter: blur(5px);
+      transform: scale(1.3) translate(0, -5px);
+    }
+  }
+
+  &:active, &:focus {
+    opacity: 1;
+  }
+
   &:before {
     content: '';
     display: block;
