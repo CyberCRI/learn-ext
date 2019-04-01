@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Elevation, AnchorButton, ButtonGroup } from '@blueprintjs/core'
+import { FaWikipediaW } from 'react-icons/fa'
+import clsx from 'classnames'
 import _ from 'lodash'
 
 import Wiki from '~mixins/wikipedia'
