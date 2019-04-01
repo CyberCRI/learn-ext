@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, ControlGroup, NonIdealState, Tag, Intent } from '@blueprintjs/core'
 import { Suggest } from '@blueprintjs/select'
 import posed from 'react-pose'
-
+import Fuse from 'fuse.js'
 
 import Wiki from '~mixins/wikipedia'
 
@@ -13,6 +13,15 @@ const SuggestedTag = posed(Tag)({
   open: { opacity: 1 },
   closed: { opacity: 0 },
 })
+
+const reFuse = (items, keys) => {
+  const options = {
+    shouldSort: true,
+    threshold: .5,
+    keys,
+  }
+  return new Fuse(items, options)
+}
 
 
 class TagSuggest extends Component {
@@ -89,14 +98,19 @@ class TagSuggest extends Component {
     )
   }
 
+  itemListPredicate (query, items) {
+    const fuse = reFuse(items, [ 'title' ])
+    return fuse.search(query)
+  }
+
   render () {
     const popoverProps = {
       position: 'bottom',
       usePortal: false,
       className: 'np--tags-popover',
       modifiers: {
-        arrow: { enabled: false },
-        flip: { enabled: false },
+        arrow: { enabled: true },
+        flip: { enabled: true },
       },
     }
     const inputFieldProps = {
@@ -115,15 +129,15 @@ class TagSuggest extends Component {
           inputProps={inputFieldProps}
           inputValueRenderer={(item) => item.title}
           itemRenderer={this.itemRenderer}
-          itemPredicate={(query, item) => true}
+          itemListPredicate={this.itemListPredicate}
           onItemSelect={this.didSelectItem}
           onQueryChange={this.queryDidChange}
           noResults={this.renderEmptyState()}
           selectedItem={null}
           resetOnSelect
+          resetOnClose
           popoverProps={popoverProps}
         />
-        <Button icon='blank' minimal onClick={this.shouldFocusInput} loading={this.state.inflight}/>
       </ControlGroup>
     )
   }
