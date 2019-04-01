@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
-import { Tag, Tooltip } from '@blueprintjs/core'
+import { Tag, Popover, PopoverInteractionKind, Position } from '@blueprintjs/core'
 import posed, { PoseGroup } from 'react-pose'
+
+import { WikiCard } from '~components/cards'
+
+import './styles.sass'
 
 
 const FluidTag = posed.li({
@@ -60,9 +64,14 @@ class ConceptsField extends Component {
           large
           className='np--concept-tag'
           onRemove={() => this.didRemoveTag(item)}>
-          <Tooltip content={item.label} usePortal={false}>
-            <span className='concept-label'>{item.label}</span>
-          </Tooltip>
+          <Popover
+            content={<WikiCard title={item.label}/>}
+            target={<span>{item.label}</span>}
+            interactionKind={PopoverInteractionKind.HOVER}
+            hoverCloseDelay={500}
+            hoverOpenDelay={200}
+            inheritDarkTheme={false}
+            position={Position.LEFT_TOP}/>
         </Tag>
       </FluidTag>
     )
