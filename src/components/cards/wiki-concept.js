@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useEffectOnce } from 'react-use'
 import { Card, Elevation, AnchorButton, ButtonGroup } from '@blueprintjs/core'
 import { FaWikipediaW } from 'react-icons/fa'
 import clsx from 'classnames'
@@ -23,12 +24,10 @@ const SkeletonCard = () => (
 const WikiCard = (props) => {
   const [ pageInfo, setPageInfo ] = useState(null)
 
-  if (!pageInfo) {
+  useEffectOnce(() => {
     Wiki.summary(props.title)
-      .then((data) => {
-        setPageInfo(data)
-      })
-  }
+      .then(setPageInfo)
+  })
 
   if (!pageInfo) {
     return <SkeletonCard />
