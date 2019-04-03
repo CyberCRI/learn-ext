@@ -1,13 +1,25 @@
 // Wrapper implementing the API calls to wikipedia for searches.
 import { request, nsuuid } from '~mixins'
+import { context, Runtime } from '~mixins/utils'
+import Enum from 'enum'
 import _ from 'lodash'
 
 const HEADERS = {
   'Api-User-Agent': env.wikiapi_user_agent,
 }
 
+export const WikiPageTypes = new Enum([
+  'standard',
+  'stub',
+  'disambiguation',
+  'empty',
+], { name: 'WikiPageType', ignoreCase: true })
+
 
 class WikiAPI {
+  constructor () {
+  }
+
   transformOpenSearch (response) {
     // Transform opensearch flat array list to a collection.
     // r: [ <query>, [ <titles> ], [ <descriptions> ], [ <urls> ]]
@@ -50,9 +62,13 @@ class WikiAPI {
       search: query,
     }
 
+    const requestType = context() === Runtime.extension
+      ? 'json'
+      : 'jsonp'
+
     return request({
       url: env.wikiapi_endpoint,
-      type: 'jsonp',
+      type: requestType,
       data: req_payload,
       crossOrigin: true,
       headers: HEADERS,
@@ -65,13 +81,26 @@ class WikiAPI {
     // this endpoint is the rest API, and different than the other wikimedia
     // API.
     const endpoint = 'https://en.wikipedia.org/api/rest_v1/page/summary'
+    const transformSummary = (response) => {
+      const r = _(response)
 
+      return {
+        wikibaseId: r.get('wikibase_item'),
+        lang: r.get('lang'),
+        url: r.get('content_urls.desktop.page'),
+
+        title: r.get('title'),
+        description: r.get('description'),
+        extract: r.get('extract'),
+        thumbnail: r.get('thumbnail.source', null),
+      }
+    }
     return request({
       url: `${endpoint}/${title}`,
       type: 'json',
       crossOrigin: true,
       headers: HEADERS,
-    })
+    }).then(transformSummary)
   }
 }
 
