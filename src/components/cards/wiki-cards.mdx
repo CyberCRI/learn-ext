@@ -3,18 +3,63 @@ name: Wikipedia Info Cards
 menu: Components
 ---
 import { Playground, Props } from 'docz'
-import { WikiCard } from '~components/cards'
+import { WikiCard, SkeletonCard, ErrorCard, PageInfoCard } from '~components/cards/wiki-concept'
 import { WikiPopoverCard } from './_docs'
 import '~pages/style.sass'
+import './styles.scss'
 
 
-# Wikipedia Info Card
+# Wikipedia Cards
+
+## Typical Layout
+
+The basic use case handles requests to the server, and layout automatically.
+Only required prop is the wikipedia page title.
+
+Usage:
+
+```js
+import { WikiCard } from '~components/cards'
+
+<WikiCard title={page-title}/>
+```
 
 <Playground>
   <WikiCard title='Interlace_(art)'/>
 </Playground>
 
-# Popover Card
+
+### Elements
+
+There are three states for a card:
+
+<Playground>
+  <h3>Skeleton</h3>
+  <SkeletonCard />
+  <br/>
+  <h3>Info Card</h3>
+  <PageInfoCard title='Some title' url='#' extract='Description of the content'/>
+  <br/>
+  <h3>Error</h3>
+  <ErrorCard />
+</Playground>
+
+## Popover Card
+
+Rendering the card inside popover is just as straightforward. Juse provide the
+`WikiCard` object into the `content` element.
+
 <Playground>
   <WikiPopoverCard label='Formation and evolution of the Solar System'/>
 </Playground>
+
+
+## States and Skeletons
+
+While the component is stateless, we still have "loading" states. When in-flight,
+this skeleton card is shown:
+
+<Playground>
+  <SkeletonCard />
+</Playground>
+
