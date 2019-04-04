@@ -8,23 +8,36 @@ import _ from 'lodash'
 import Wiki from '~mixins/wikipedia'
 
 
-export const SkeletonCard = () => (
-  <Card interactive elevation={Elevation.TWO} className='info-card'>
-    <h3 role='title' className='bp3-skeleton'>Boop</h3>
-    <p role='text'>
-      {_.range(20).map((i) =>
-        <span className='bp3-skeleton' key={i}>Boop </span>
+const skeletonFiller = (count = 1) => {
+  // Some text to fill in the elements inside the skeleton.
+  // Use count to get words.
+  const fillers = ['we', 'boop', 'kittens', 'and', 'doges']
+  return (
+    <span className='skels'>
+      {_.range(count).map((i) =>
+        <span className='skel' key={i}>{`${_.sample(fillers)} `}</span>
       )}
-    </p>
-    <div role='image' className='bp3-skeleton'/>
+    </span>
+  )
+}
+
+export const SkeletonCard = () => (
+  <Card elevation={Elevation.TWO} className='info-card skeleton'>
+    <div className='content'>
+      <h3 className='title'>{skeletonFiller(3)}</h3>
+      <p className='summary'>{skeletonFiller(20)}</p>
+    </div>
+    <div className='tools'>
+    </div>
   </Card>
 )
 
 export const ErrorCard = () => (
-  <Card className='info-card bp3-dark'>
+  <Card className='info-card error bp3-dark'>
     <NonIdealState
       icon={<FaBandAid/>}
-      description='Wikipedia seems to not have any page for this concept.'/>
+      description='Wikipedia does not seem to have a page for this concept.'
+      className='reason'/>
   </Card>
 )
 
