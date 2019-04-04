@@ -173,6 +173,38 @@ div.info-card {
     // }
   }
 
+  &.error {
+    padding: 15px;
+    .reason {
+      & > * {
+        margin-bottom: 0;
+      }
+
+      svg {
+        fill: $light-gray1;
+        width: 4rem;
+        height: 4rem;
+      }
+    }
+  }
+
+  &.skeleton {
+    // Skeleton Cards replace as placeholders while request is inflight.
+    .skels {
+      opacity: .5;
+    }
+    .skel {
+      border-radius: 3px;
+      color: transparent;
+      background: $light-gray1;
+      margin-right: -4px;
+      font-size: 80%;
+
+      pointer-events: none;
+      user-select: none;
+    }
+  }
+
   &:hover {
     .thumbnail {
       filter: blur(5px);
