@@ -17,6 +17,9 @@ export default {
       code: {
         fontFamily: 'Fira Code',
       },
+      h1: {
+
+      },
     },
   },
 
@@ -32,6 +35,7 @@ export default {
   indexHtml: './docs/docz-assets/index.html',
 
   codeSandbox: false,
+  propsParser: false,
 
   debug: false,
 
