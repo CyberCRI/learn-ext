@@ -19,4 +19,37 @@ const WikiPopoverCard = (props) => {
       position={Position.RIGHT}/>)
 }
 
+export const resourceDataSample = {
+  concepts: [
+    {
+      label: 'Weak heap',
+      relScore: 2.324,
+      elo: 1000,
+    },
+    {
+      label: 'WAVL tree',
+      relScore: 2.336,
+      elo: 1000,
+    },
+    {
+      label: 'Binary tree',
+      relScore: 2.348,
+      elo: 1000,
+    },
+    {
+      label: 'Linked list',
+      relScore: 2.388,
+      elo: 1000,
+    },
+    {
+      label: 'Binary search tree',
+      relScore: 2.4,
+      elo: 1000,
+    },
+  ],
+  recorded: '2019-02-19',
+  title: 'Node.appendChild() - Web APIs | MDN',
+  url: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild',
+}
+
 export { WikiPopoverCard }
