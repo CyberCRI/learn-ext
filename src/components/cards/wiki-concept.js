@@ -55,8 +55,7 @@ export const PageInfoCard = (props) => (
         <AnchorButton
           icon='send-to-map'
           text='Locate in Map'
-          href='#'
-          target='_blank'/>
+          href='#'/>
         <AnchorButton
           icon={<FaWikipediaW/>}
           rightIcon='arrow-top-right'
