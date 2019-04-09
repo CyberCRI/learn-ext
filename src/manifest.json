@@ -46,7 +46,7 @@
     }
   },
 
-  "page_action": {
+  "browser_action": {
     "default_icon": "icons/icon-idle-48.png",
     "browser_style": true,
     "default_title": "__MSG_actions_page_title__"

@@ -12,7 +12,7 @@ const messageConsumer = (msg) => {
   }
   if (msg.action == 'closePopout') {
     tabState[msg.tabId].popOutShown = false
-    updatePageActionIcon(msg.tabId)
+    updateBrowserActionIcon(msg.tabId)
     notifyTabAction(msg.tabId, 'closePopout')
   }
 
@@ -42,7 +42,7 @@ const notifyTabAction = (tabId, action) => {
   return browser.tabs.sendMessage(tabId, { tabId, action, state })
 }
 
-const updatePageActionIcon = (tabId) => {
+const updateBrowserActionIcon = (tabId) => {
   const state = tabState[tabId]
 
   const icons = {
@@ -52,7 +52,7 @@ const updatePageActionIcon = (tabId) => {
 
   const iconPath = state.popOutShown ? icons.active : icons.idle
 
-  return browser.pageAction.setIcon({ tabId, path: iconPath })
+  return browser.browserAction.setIcon({ tabId, path: iconPath })
 }
 
 
@@ -82,23 +82,23 @@ browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
 
   if (!tab.url.includes('google.')) {
     // Weird, but okay. If its not a google search page, then we show the icon.
-    browser.pageAction.show(tab.id)
+    browser.browserAction.enable(tab.id)
   } else {
-    browser.pageAction.hide(tab.id)
+    browser.browserAction.disable(tab.id)
   }
 
-  updatePageActionIcon(id)
+  updateBrowserActionIcon(id)
 })
 
-browser.pageAction.onClicked.addListener((e) => {
+browser.browserAction.onClicked.addListener((e) => {
   const state = tabState[e.id]
   if (state.popOutShown) {
     state.popOutShown = false
     notifyTabAction(e.id, 'closePopout')
-      .then(() => updatePageActionIcon(e.id))
+      .then(() => updateBrowserActionIcon(e.id))
   } else {
     state.popOutShown = true
     notifyTabAction(e.id, 'openPopout')
-      .then(() => updatePageActionIcon(e.id))
+      .then(() => updateBrowserActionIcon(e.id))
   }
 })
