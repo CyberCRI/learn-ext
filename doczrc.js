@@ -4,7 +4,7 @@ const { dotenv, abspath } = require('./tools/node-plugins')
 
 
 export default {
-  title: 'iLearn UI Components',
+  title: 'Design Elements | iLearn',
   theme: 'docz-theme-default',
   themeConfig: {
     // mode: 'dark',
@@ -31,6 +31,7 @@ export default {
 
   src: './src',
   public: './ext',
+  port: 8515,
 
   indexHtml: './docs/docz-assets/index.html',
 
@@ -40,7 +41,7 @@ export default {
   debug: false,
 
   modifyBabelRc: (babelrc) => {
-    return {...babelrc, plugins: [] }
+    return {...babelrc, plugins: ['react-hot-loader/babel'] }
   },
   modifyBundlerConfig: (config, dev, args) => {
     return merge(config, {
@@ -70,6 +71,7 @@ export default {
           '~components': abspath('src/components'),
           '~pages': abspath('src/pages'),
           '~page-commons': abspath('src/pages/_commons'),
+          'react-dom': '@hot-loader/react-dom',
         },
       },
       plugins: [

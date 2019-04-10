@@ -36,6 +36,7 @@
     "@babel/plugin-proposal-export-default-from": "^7.2.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
+    "@hot-loader/react-dom": "^16.8.6",
     "autobind-decorator": "^2.3.1",
     "autoprefixer": "^9.4.5",
     "babel-eslint": "^10.0.1",
