@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useEffectOnce } from 'react-use'
 import posed from 'react-pose'
 
 import './iframe.sass'
@@ -26,16 +27,15 @@ const PosedFrame = posed.iframe({
 const FrameContainer = (props) => {
   const [pose, changePose] = useState('closed')
 
-  const onPoseChange = (msg) => {
-    if (msg.action == 'openPopout') {
-      changePose('open')
+  useEffectOnce(() => {
+    const onPoseChange = (msg) => {
+      if (msg.action == 'openPopout') {
+        changePose('open')
+      }
+      if (msg.action == 'closePopout') {
+        changePose('closed')
+      }
     }
-    if (msg.action == 'closePopout') {
-      changePose('closed')
-    }
-  }
-
-  useEffect(() => {
     browser.runtime.onMessage.addListener(onPoseChange)
     return () => {
       browser.runtime.onMessage.removeListener(onPoseChange)
