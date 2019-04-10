@@ -31,23 +31,30 @@ class ActionCard extends Component {
     this.didChooseRating = this.didChooseRating.bind(this)
     this.shouldFetchConcepts = this.shouldFetchConcepts.bind(this)
     this.shouldPushChanges = this.shouldPushChanges.bind(this)
+    this.handleRuntimeMessages = this.handleRuntimeMessages.bind(this)
   }
 
   componentDidMount () {
-    browser.runtime.onMessage.addListener((msg) => {
-      this.shouldFetchConcepts()
-      if (msg.action == 'openPopout') {
-        this.setState({
-          tabId: msg.tabId,
-          pageTitle: msg.state.title,
-          isOpen: true,
-        }, this.shouldPushChanges)
-      }
+    browser.runtime.onMessage.addListener(this.handleRuntimeMessages)
+  }
 
-      if (msg.action == 'closePopout') {
-        this.setState({ isOpen: false })
-      }
-    })
+  componentWillUnmount () {
+    browser.runtime.onMessage.removeListener(this.handleRuntimeMessages)
+  }
+
+  handleRuntimeMessages (msg) {
+    this.shouldFetchConcepts()
+    if (msg.action == 'openPopout') {
+      this.setState({
+        tabId: msg.tabId,
+        pageTitle: msg.state.title,
+        isOpen: true,
+      }, this.shouldPushChanges)
+    }
+
+    if (msg.action == 'closePopout') {
+      this.setState({ isOpen: false })
+    }
   }
 
   shouldClosePopout () {
