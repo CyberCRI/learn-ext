@@ -192,16 +192,15 @@ div.info-card {
     // Skeleton Cards replace as placeholders while request is inflight.
     .skels {
       opacity: .5;
-      background: linear-gradient(-120deg, $white, transparent, $white);
-      animation: skeleton-sweep 1s ease-in-out infinite alternate;
-      background-size: 500%;
     }
     .skel {
       border-radius: 3px;
       color: transparent;
-      margin-right: -4px;
+      margin-right: 6px;
       font-size: 80%;
-
+      background: linear-gradient(-90deg, $white, transparent, $white);
+      animation: skeleton-sweep 2s ease-in-out infinite alternate;
+      background-size: 50 * 50px;
       pointer-events: none;
       user-select: none;
     }
@@ -232,10 +231,13 @@ div.info-card {
 }
 
 @keyframes skeleton-sweep {
-  from {
-    background-position: 0% 0%;
+  0% {
+    background-position: 0 0;
   }
-  to {
-    background-position: 100% 50%;
+  50% {
+    background-position: 3000px 4000px;
+  }
+  100% {
+    background-position: 0 0;
   }
 }
