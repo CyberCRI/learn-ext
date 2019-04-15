@@ -72,7 +72,7 @@ const WikiCard = (props) => {
   const [ pageInfo, setPageInfo ] = useState(null)
 
   useEffectOnce(() => {
-    Wiki.summary(props.title)
+    Wiki.summary(props.title, props.lang)
       .then(setPageInfo)
       .fail(() => setPageInfo({ error: true }))
   })
