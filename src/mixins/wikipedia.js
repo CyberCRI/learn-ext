@@ -8,7 +8,7 @@ const HEADERS = {
   'Api-User-Agent': env.wikiapi_user_agent,
 }
 
-export const WikiPageTypes = new Enum([
+export const PageTypes = new Enum([
   'standard',
   'stub',
   'disambiguation',
@@ -17,30 +17,7 @@ export const WikiPageTypes = new Enum([
 
 
 class WikiAPI {
-  constructor () {
-  }
-
-  transformOpenSearch (response) {
-    // Transform opensearch flat array list to a collection.
-    // r: [ <query>, [ <titles> ], [ <descriptions> ], [ <urls> ]]
-    // f(r): [ { title, description, url, id } ]
-    // where `id` is the normalised `title`.
-    //
-    // The first element of the response is ignored (hence _.tail is used).
-
-    const zipper = (title, description, url) => {
-      const id = _.kebabCase(title)
-      return { id, title, description, url }
-    }
-
-    return _
-      .chain(response)
-      .tail()
-      .unzipWith(zipper)
-      .value()
-  }
-
-  opensearch (query) {
+  opensearch (query, lang='en') {
     // Request Opensearch endpoint from Wikipedia API.
     // The request payload keeps a `requestid` to keep track of the request sent
     // while the response is obtained through padded json `json-p` with a
@@ -52,7 +29,8 @@ class WikiAPI {
     // The response is further transformed to a collection.
     //
     // Also see: WikiAPI.transformOpenSearch
-    const req_payload = {
+    const endpoint = `https://${lang}.wikipedia.org/w/api.php`
+    const payload = {
       action: 'opensearch',
       format: 'json',
       namespace: 0,
@@ -62,26 +40,46 @@ class WikiAPI {
       search: query,
     }
 
+    const transform = (response) => {
+      // Transform opensearch flat array list to a collection.
+      // r: [ <query>, [ <titles> ], [ <descriptions> ], [ <urls> ]]
+      // f(r): [ { title, description, url, id } ]
+      // where `id` is the normalised `title`.
+      //
+      // The first element of the response is ignored (hence _.tail is used).
+
+      const zipper = (title, description, url) => {
+        const id = _.kebabCase(title)
+        return { id, title, description, url }
+      }
+
+      return _
+        .chain(response)
+        .tail()
+        .unzipWith(zipper)
+        .value()
+    }
+
     const requestType = context() === Runtime.extension
       ? 'json'
       : 'jsonp'
 
     return request({
-      url: env.wikiapi_endpoint,
+      url: endpoint,
       type: requestType,
-      data: req_payload,
+      data: payload,
       crossOrigin: true,
       headers: HEADERS,
-    }).then(this.transformOpenSearch)
+    }).then(transform)
   }
 
-  summary (title) {
+  summary (title, lang='en') {
     // Fetch the summary of a wikipedia page given the title.
     // Note that we won't use the regular endpoint as used in opensearch, since
     // this endpoint is the rest API, and different than the other wikimedia
     // API.
-    const endpoint = 'https://en.wikipedia.org/api/rest_v1/page/summary'
-    const transformSummary = (response) => {
+    const endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/summary`
+    const transform = (response) => {
       const r = _(response)
 
       return {
@@ -100,7 +98,7 @@ class WikiAPI {
       type: 'json',
       crossOrigin: true,
       headers: HEADERS,
-    }).then(transformSummary)
+    }).then(transform)
   }
 }
 
