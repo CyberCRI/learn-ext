@@ -1,5 +1,6 @@
 // Wrapper implementing the API calls to the ilearn api.
 import { request } from '~mixins'
+import _ from 'lodash'
 
 
 // Get the absolute url for specific api routes.
@@ -24,10 +25,16 @@ class ILearnAPI {
   }
 
   fetchConcepts (url) {
+    const transform = (data) => {
+      // Infer the page language from the concepts response. If empty, we'll
+      // assume it to be `en`.
+      const lang = _(data).get('concepts[0].lang', 'en')
+      return { ...data, lang }
+    }
     return request({
-      url: endpointFor('ext/api/enhancedconcepts'),
+      url: endpointFor('prod/api/enhancedconcepts'),
       data: { url },
-    })
+    }).then(transform)
   }
 
   crowdSourcing (params) {
