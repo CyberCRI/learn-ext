@@ -1,4 +1,5 @@
 // Wrapper implementing the API calls to wikipedia for searches.
+// Exposes the Wiki object with `opensearch` and `summary` methods.
 import { request, nsuuid } from '~mixins'
 import { context, Runtime } from '~mixins/utils'
 import Enum from 'enum'
@@ -79,6 +80,12 @@ class WikiAPI {
     // this endpoint is the rest API, and different than the other wikimedia
     // API.
     const endpoint = `https://${lang}.wikipedia.org/api/rest_v1/page/summary`
+
+    // Wikipedia API expects title slug, which is the title, with spaces
+    // replaced with underscores.
+    const titleSlug = _(title).replace(' ', '_')
+    const url = `${endpoint}/${titleSlug}`
+
     const transform = (response) => {
       const r = _(response)
 
@@ -94,7 +101,7 @@ class WikiAPI {
       }
     }
     return request({
-      url: `${endpoint}/${title}`,
+      url: url,
       type: 'json',
       crossOrigin: true,
       headers: HEADERS,
