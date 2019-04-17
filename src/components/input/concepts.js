@@ -67,6 +67,7 @@ class ConceptsField extends Component {
           <Popover
             content={<WikiCard title={item.label}/>}
             target={<span>{item.label}</span>}
+            content={<WikiCard title={item.title} lang={this.props.lang}/>}
             interactionKind={PopoverInteractionKind.HOVER}
             hoverCloseDelay={500}
             hoverOpenDelay={200}
