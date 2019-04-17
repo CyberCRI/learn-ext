@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { useUpdateEffect } from 'react-use'
+import { useUpdateEffect, useLogger } from 'react-use'
 import { ButtonGroup, Button } from '@blueprintjs/core'
 
 
@@ -18,6 +18,7 @@ export const RatingPicker = (props) => {
     // Publish the state to the parent component.
     props.onChange && props.onChange(knowledgeProg)
   })
+  useLogger('RatingPicker', props)
 
   const buildProps = ({ id, value, label }) => {
     // Returns props for the buttons based on the value specified here.
