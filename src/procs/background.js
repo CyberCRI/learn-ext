@@ -20,8 +20,7 @@ const messageConsumer = (msg) => {
 
 const reactOnInstalled = ({ reason, temporary }) => {
   if (reason == 'install') {
-    const url = browser.runtime.getURL('pages/onboarding.html')
-    browser.tabs.create({ url }).then(console.log, console.error)
+    ExtensionPages.onboarding.open()
 
     browser.storage.local
       .set({
@@ -55,19 +54,11 @@ const updateBrowserActionIcon = (tabId) => {
 }
 
 
-
-  } else {
-
-
 browser.browserAction.onClicked.addListener((e) => {
-  const state = tabState[e.id]
-  if (state.popOutShown) {
-    state.popOutShown = false
-    notifyTabAction(e.id, 'closePopout')
-      .then(() => updateBrowserActionIcon(e.id))
+  const tabId = e.id
+  const tabInfo = { title: e.title, url: e.url, favicon: e.favIconUrl }
+
   } else {
-    state.popOutShown = true
-    notifyTabAction(e.id, 'openPopout')
-      .then(() => updateBrowserActionIcon(e.id))
+
   }
 })
