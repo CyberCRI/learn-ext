@@ -1,48 +1,47 @@
 import React, { useState, useEffect } from 'react'
-import { useEffectOnce } from 'react-use'
+import { useLogger } from 'react-use'
 import posed from 'react-pose'
+import { Port } from '~procs/portal'
 
 import './iframe.sass'
 
 
-const PosedFrame = posed.iframe({
+const PosedIframe = posed.iframe({
   open: {
     opacity: 1,
-
-    staggerChildren: 100,
-    delayChildren: 100,
-
     applyAtStart: {
       display: 'block',
     },
   },
   closed: {
     opacity: 0,
-
     applyAtEnd: { display: 'none' },
   },
 })
 
 
+const dispatcher = new Port('FrameContainer')
+  .connect()
+
+
 const FrameContainer = (props) => {
   const [pose, changePose] = useState('closed')
-
-  useEffectOnce(() => {
-    const onPoseChange = (msg) => {
-      if (msg.action == 'openPopout') {
-        changePose('open')
-      }
-      if (msg.action == 'closePopout') {
-        changePose('closed')
-      }
-    }
-    browser.runtime.onMessage.addListener(onPoseChange)
-    return () => {
-      browser.runtime.onMessage.removeListener(onPoseChange)
-    }
+  useLogger('FrameContainer')
+  dispatcher.dispatch({
+    context: 'tabState',
+    payload: {
+      active: pose === 'open',
+    },
   })
 
-  return <PosedFrame src={props.src} pose={pose} />
+  useEffect(() => {
+    dispatcher
+      .addAction('open', () => changePose('open'))
+      .addAction('close', () => changePose('closed'))
+      .addAction('notify', (m) => console.log('msg: ', m))
+  })
+
+  return <PosedIframe src={props.src} pose={pose} />
 }
 
 export default FrameContainer
