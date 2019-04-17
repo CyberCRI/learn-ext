@@ -1,21 +1,20 @@
 import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
+import { ExtensionPages } from './reactors'
+import _ from 'lodash'
 
 const tabState = {}
+const ports = {}
 
 const messageConsumer = (msg) => {
   if (msg.action == 'openCartography') {
-    const url = browser.runtime.getURL('pages/options.html')
-    browser.tabs.create({ url }).then(console.log, console.error)
+    ExtensionPages.dashboard.open()
   }
   if (msg.action == 'openSettings') {
-    browser.runtime.openOptionsPage()
+    ExtensionPages.settings.open()
   }
-  if (msg.action == 'closePopout') {
-    tabState[msg.tabId].popOutShown = false
-    updateBrowserActionIcon(msg.tabId)
-    notifyTabAction(msg.tabId, 'closePopout')
-  }
+  if (msg.action == 'setIcon') {
 
+  }
   console.info(`Consuming action=<${msg.action}>`, msg)
 }
 
