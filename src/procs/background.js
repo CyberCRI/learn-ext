@@ -35,6 +35,32 @@ const reactOnInstalled = ({ reason, temporary }) => {
 new RuntimeHook(RuntimeEvents.onMessage, messageConsumer).attach()
 new RuntimeHook(RuntimeEvents.onInstall, reactOnInstalled).attach()
 
+browser.runtime.onConnect.addListener((port) => {
+  const name = port.name
+  const tabId = port.sender.tab.id
+
+  if (!ports[tabId]) {
+    ports[tabId] = {}
+  }
+
+  ports[tabId][name] = port
+
+  console.log(`Connected to Port< tab=${tabId} name=${name} >`)
+  port.onMessage.addListener((m) => {
+    console.log(`Message from Port< tab=${tabId} name=${name} >: `, m)
+    if (m.context === 'tabState') {
+      tabState[tabId] = m.payload
+    } else if (m.context === 'reactor') {
+      messageConsumer(m.payload)
+    } else if (m.context === 'broadcast') {
+      _.forOwn(ports[tabId], (p) => {
+        p.postMessage(m.payload)
+      })
+    }
+  })
+})
+
+
 const notifyTabAction = (tabId, action) => {
   const state = tabState[tabId]
   return browser.tabs.sendMessage(tabId, { tabId, action, state })
