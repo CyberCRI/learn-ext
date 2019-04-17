@@ -50,7 +50,7 @@ class TagSuggest extends Component {
     }
     this.setState({ inflight: true, waiting: false })
 
-    Wiki.opensearch(q).then((items) => {
+    Wiki.opensearch(q, this.props.lang).then((items) => {
       if (items.length >= 1) {
         this.setState({ items, inflight: false })
       } else {
