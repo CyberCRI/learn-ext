@@ -3,6 +3,7 @@ import { ExtensionPages } from './reactors'
 import _ from 'lodash'
 
 const tabState = {}
+const activeState = {}
 const ports = {}
 
 const messageConsumer = (msg) => {
@@ -74,7 +75,7 @@ const updateBrowserActionIcon = (tabId) => {
     idle: 'icons/icon-idle-48.png',
   }
 
-  const iconPath = state.popOutShown ? icons.active : icons.idle
+  const iconPath = state ? icons.active : icons.idle
 
   return browser.browserAction.setIcon({ tabId, path: iconPath })
 }
@@ -84,7 +85,17 @@ browser.browserAction.onClicked.addListener((e) => {
   const tabId = e.id
   const tabInfo = { title: e.title, url: e.url, favicon: e.favIconUrl }
 
+  if (!tabState[tabId]) {
+    console.warn(`No Port attached to tab=${tabId}`)
   } else {
+    const { active } = tabState[tabId]
+    const action = active ? 'close' : 'open'
 
+    _.forOwn(ports[tabId], (port) => {
+      port.postMessage({
+        action,
+        tabInfo,
+      })
+    })
   }
 })
