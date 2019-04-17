@@ -32,7 +32,7 @@ module.exports = smartMerge(base_config, {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './ext',
-    port: 9889,
+    port: 8517,
     hot: true,
     hotOnly: true,
     // noInfo: false,

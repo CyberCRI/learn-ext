@@ -67,6 +67,7 @@ module.exports = {
     // Alias allows importing modules independent of base paths.
     alias: {
       '~mixins': abspath('src/mixins'),
+      '~procs': abspath('src/procs'),
       '~components': abspath('src/components'),
       '~styles': abspath('src/styles'),
       '~pug-partials': abspath('src/pages/partials'),
