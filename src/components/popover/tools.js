@@ -1,11 +1,14 @@
 import React from 'react'
 import { Button } from '@blueprintjs/core'
 import { MdSettingsApplications, MdExplore } from 'react-icons/md'
+import { Port } from '~procs/portal'
 
 const ToolButtons = [
   { id: 'dashboard', label: 'Dashboard', icon: <MdExplore/> },
   { id: 'settings', label: 'Settings', icon: <MdSettingsApplications/> },
 ]
+
+const dispatcher = new Port('PopoverTools').connect()
 
 export const Tools = (props) => {
   const buildProps = ({ id, label, icon }) => {
@@ -13,13 +16,15 @@ export const Tools = (props) => {
       key: id,
       role: id,
       text: label,
-      icon: icon
+      icon: icon,
+      className: 'tool-button',
+      onClick: () => dispatcher.invokeReaction(id),
     }
   }
   return (
     <div className='popover-tools'>
       {ToolButtons.map((btn) =>
-        <Button {...buildProps(btn)}/>
+        <Button small {...buildProps(btn)}/>
       )}
     </div>
   )
