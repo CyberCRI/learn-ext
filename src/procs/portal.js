@@ -1,6 +1,7 @@
 // High order communication using ports.
 // Coordinates messages to, and from the runtime <-> background processes.
 import _ from 'lodash'
+import { context, Runtime } from '~mixins/utils'
 
 
 export class Port {
@@ -8,14 +9,28 @@ export class Port {
     this.portName = name
     // Stores all the callbacks attached to this port.
     this.callbacks = {}
+
     this.didRecieveMessage = this.didRecieveMessage.bind(this)
     this.addAction = this.addAction.bind(this)
     this.connect = this.connect.bind(this)
     this.dispatch = this.dispatch.bind(this)
+    this.invokeReaction = this.invokeReaction.bind(this)
   }
 
   connect () {
     // Connect to the message callback on this port.
+    // We'll fall back with a fake "port" in case the components are inside
+    // a web environment. This is to ease development outside the extension.
+    if (context() !== Runtime.extension) {
+      // Fallback. Provide a stub port object, with `postMessage` function.
+      this.port = {
+        portStub: true,
+        postMessage: (msg) => {
+          console.info(`[PortStub ${this.portName}] postMessage`, msg)
+        },
+      }
+      return this
+    }
     this.port = browser.runtime.connect({ name: this.portName })
     this.port.onMessage.addListener(this.didRecieveMessage)
     return this
@@ -50,6 +65,13 @@ export class Port {
       ...msg,
     })
     return this
+  }
+
+  invokeReaction (name) {
+    this.port.postMessage({
+      context: 'reactor',
+      payload: { action: name },
+    })
   }
 }
 
