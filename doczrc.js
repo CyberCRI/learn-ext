@@ -68,9 +68,13 @@ export default {
       resolve: {
         alias: {
           '~mixins': abspath('src/mixins'),
+          '~procs': abspath('src/procs'),
           '~components': abspath('src/components'),
+          '~styles': abspath('src/styles'),
+          '~pug-partials': abspath('src/pages/partials'),
           '~pages': abspath('src/pages'),
           '~page-commons': abspath('src/pages/_commons'),
+          '~media': abspath('assets/media'),
           'react-dom': '@hot-loader/react-dom',
         },
       },

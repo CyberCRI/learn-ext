@@ -22,27 +22,27 @@ const WikiPopoverCard = (props) => {
 export const resourceDataSample = {
   concepts: [
     {
-      label: 'Weak heap',
+      title: 'Weak heap',
       relScore: 2.324,
       elo: 1000,
     },
     {
-      label: 'WAVL tree',
+      title: 'WAVL tree',
       relScore: 2.336,
       elo: 1000,
     },
     {
-      label: 'Binary tree',
+      title: 'Binary tree',
       relScore: 2.348,
       elo: 1000,
     },
     {
-      label: 'Linked list',
+      title: 'Linked list',
       relScore: 2.388,
       elo: 1000,
     },
     {
-      label: 'Binary search tree',
+      title: 'Binary search tree',
       relScore: 2.4,
       elo: 1000,
     },
