@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import $ from 'cash-dom'
 import uuid_v5 from 'uuid/v5'
+import md5 from 'js-md5'
 import _ from 'lodash'
 import Enum from 'enum'
 
@@ -77,4 +78,9 @@ export const context = () => {
   } catch {}
 
   return Runtime.node
+}
+
+export const userId = (email) => {
+  // To obfuscate the user email, a simple hash of user email is used.
+  return md5(`ilearn_${email}`)
 }
