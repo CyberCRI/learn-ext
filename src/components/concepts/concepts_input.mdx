@@ -2,7 +2,7 @@
 name: Concepts Input
 ---
 import { Playground, Props } from 'docz'
-import ConceptsField from '~components/input/concepts'
+import { ConceptList } from '.'
 import { List } from 'immutable'
 
 import '~pages/style.sass'
@@ -24,7 +24,7 @@ import '~pages/style.sass'
       ])
       return (
         <div style={{ width: 400 }} className='bp3-card'>
-          <ConceptsField concepts={concepts} onRemove={console.log}/>
+          <ConceptList concepts={concepts} onRemove={console.log}/>
         </div>
       )
     }
