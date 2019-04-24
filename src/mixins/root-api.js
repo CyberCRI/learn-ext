@@ -8,6 +8,15 @@ const endpointFor = (path) => `${env.rootapi_host}/${path}`
 
 
 class ILearnAPI {
+  initializeUser (params) {
+    // Create or update the user node.
+    return request({
+      url: endpointFor('prod/api/user'),
+      method: 'post',
+      data: params,
+    })
+  }
+
   learn (params) {
     // Calls the /api/learn endpoint. Requires an object with following keys:
     // ┌──────────────────────────────────────────────────────────┐
