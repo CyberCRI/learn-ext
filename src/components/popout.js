@@ -7,7 +7,8 @@ import { Spinner } from '@blueprintjs/core'
 import RootAPI from '~mixins/root-api'
 import TagSuggest from '~components/tag-suggest'
 import { InteractiveCard } from '~components/cards'
-import ConceptsField from '~components/input/concepts'
+import { ConceptList } from '~components/concepts'
+import { RatingPicker } from '~components/popover'
 
 import './popout.sass'
 
@@ -35,6 +36,10 @@ class ActionCard extends Component {
   }
 
   componentDidMount () {
+    this.shouldFetchConcepts()
+    this.port = browser.runtime.connect({ name: 'popover' })
+    this.port.onMessage.addListener((m) => console.log(m))
+    this.port.postMessage({ boop: 'boop', state: this.state })
     browser.runtime.onMessage.addListener(this.handleRuntimeMessages)
   }
 
@@ -43,17 +48,17 @@ class ActionCard extends Component {
   }
 
   handleRuntimeMessages (msg) {
-    this.shouldFetchConcepts()
     if (msg.action == 'openPopout') {
       this.setState({
         tabId: msg.tabId,
         pageTitle: msg.state.title,
         isOpen: true,
-      }, this.shouldPushChanges)
+      })
     }
 
     if (msg.action == 'closePopout') {
       this.setState({ isOpen: false })
+      this.shouldPushChanges()
     }
   }
 
@@ -77,6 +82,7 @@ class ActionCard extends Component {
           selected: concepts,
           fetched: true,
           inflight: false,
+          lang: data.lang,
         })
       })
   }
@@ -159,17 +165,16 @@ class ActionCard extends Component {
 
           <main>
             <p>Concepts on this Page</p>
-            <ConceptsField
+            <ConceptList
               concepts={this.state.selected}
-              onRemove={this.didRemoveConcept}/>
+              onRemove={this.didRemoveConcept}
+              lang={this.state.lang}/>
             <TagSuggest
-              onSelect={this.didAddConcept}/>
+              onSelect={this.didAddConcept}
+              lang={this.state.lang}/>
 
-            <ButtonGroup fill minimal>
-              <Button onClick={() => this.setState({ knowledgeProg: 1 }, this.didChooseRating) }>Easy</Button>
-              <Button onClick={() => this.setState({ knowledgeProg: 0.5 }, this.didChooseRating) }>Alright</Button>
-              <Button onClick={() => this.setState({ knowledgeProg: 0 }, this.didChooseRating) }>Too Hard!</Button>
-            </ButtonGroup>
+            <RatingPicker onChange={ console.log }/>
+
           </main>
         </InteractiveCard>
       </div>
