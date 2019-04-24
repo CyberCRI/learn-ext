@@ -3,6 +3,9 @@ import { Callout, Intent, Elevation } from '@blueprintjs/core'
 import { FormGroup, InputGroup, ControlGroup, Button } from '@blueprintjs/core'
 import * as FiIcon from 'react-icons/fi'
 
+import { userId } from '~mixins/utils'
+
+
 class AccountSelector extends Component {
   constructor (props) {
     super(props)
@@ -38,6 +41,7 @@ class AccountSelector extends Component {
     if (this.state.username.length >= 2) {
       // For now, we just don't really bother about validation...
       const payload = {
+        uid: userId(this.state.username),
         username: this.state.username,
         signedIn: true,
       }
