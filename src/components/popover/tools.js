@@ -10,7 +10,7 @@ const ToolButtons = [
 
 const dispatcher = new Port('PopoverTools').connect()
 
-export const Tools = (props) => {
+export const PopoverTools = (props) => {
   const buildProps = ({ id, label, icon }) => {
     return {
       key: id,
@@ -24,7 +24,7 @@ export const Tools = (props) => {
   return (
     <div className='popover-tools'>
       {ToolButtons.map((btn) =>
-        <Button small {...buildProps(btn)}/>
+        <Button small intent='primary' {...buildProps(btn)}/>
       )}
     </div>
   )
