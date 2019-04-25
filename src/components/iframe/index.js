@@ -9,9 +9,7 @@ import './iframe.sass'
 const PosedIframe = posed.iframe({
   open: {
     opacity: 1,
-    applyAtStart: {
-      display: 'block',
-    },
+    applyAtStart: { display: 'block' },
   },
   closed: {
     opacity: 0,

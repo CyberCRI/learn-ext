@@ -1,20 +1,17 @@
 import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
 import { ExtensionPages } from './reactors'
+import { userId } from '~mixins/utils'
 import _ from 'lodash'
 
 const tabState = {}
-const activeState = {}
 const ports = {}
 
-const messageConsumer = (msg) => {
-  if (msg.action == 'openCartography') {
+const dispatchReaction = (msg) => {
+  if (msg.action == 'dashboard') {
     ExtensionPages.dashboard.open()
   }
-  if (msg.action == 'openSettings') {
+  if (msg.action == 'settings') {
     ExtensionPages.settings.open()
-  }
-  if (msg.action == 'setIcon') {
-
   }
   console.info(`Consuming action=<${msg.action}>`, msg)
 }
@@ -26,6 +23,7 @@ const reactOnInstalled = ({ reason, temporary }) => {
     browser.storage.local
       .set({
         user: {
+          uid: userId('nugget@noop.pw'),
           username: 'nugget@noop.pw',
           signedIn: false,
         },
@@ -33,7 +31,6 @@ const reactOnInstalled = ({ reason, temporary }) => {
   }
 }
 
-new RuntimeHook(RuntimeEvents.onMessage, messageConsumer).attach()
 new RuntimeHook(RuntimeEvents.onInstall, reactOnInstalled).attach()
 
 browser.runtime.onConnect.addListener((port) => {
@@ -51,8 +48,9 @@ browser.runtime.onConnect.addListener((port) => {
     console.log(`Message from Port< tab=${tabId} name=${name} >: `, m)
     if (m.context === 'tabState') {
       tabState[tabId] = m.payload
+      updateBrowserActionIcon(tabId)
     } else if (m.context === 'reactor') {
-      messageConsumer(m.payload)
+      dispatchReaction(m.payload)
     } else if (m.context === 'broadcast') {
       _.forOwn(ports[tabId], (p) => {
         p.postMessage(m.payload)
@@ -60,12 +58,6 @@ browser.runtime.onConnect.addListener((port) => {
     }
   })
 })
-
-
-const notifyTabAction = (tabId, action) => {
-  const state = tabState[tabId]
-  return browser.tabs.sendMessage(tabId, { tabId, action, state })
-}
 
 const updateBrowserActionIcon = (tabId) => {
   const state = tabState[tabId]
@@ -75,7 +67,7 @@ const updateBrowserActionIcon = (tabId) => {
     idle: 'icons/icon-idle-48.png',
   }
 
-  const iconPath = state ? icons.active : icons.idle
+  const iconPath = state.active ? icons.active : icons.idle
 
   return browser.browserAction.setIcon({ tabId, path: iconPath })
 }
