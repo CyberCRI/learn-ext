@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import { Card, Elevation, Icon, Button, Popover, Menu, MenuItem, Tag } from '@blueprintjs/core'
-import Iframe from 'react-iframe'
 import posed, { PoseGroup } from 'react-pose'
 import clsx from 'classnames'
+
 import { renderReactComponent } from '~mixins/utils'
 import { request } from '~mixins'
 import RootAPI from '~mixins/root-api'
-
+import { ConceptList } from '~components/concepts'
+import { LanguagePill, DateTimePill, UrlPill } from '~components/pills'
 
 import './_options.sass'
 
-import { InteractiveCard } from '~components/cards'
 
 function drawCartography (points, container) {
   // Coordinates of points on the map.
@@ -132,25 +132,38 @@ const CardBox = posed.div({
 
 const ResourcesList = posed.ul({
   enter: {
-    staggerChildren: 50,
+    opacity: 1,
+    staggerChildren: 100,
+    beforeChildren: true,
+    delay: 100,
+    delayChildren: 200,
   },
   exit: {
-    staggerChildren: 20,
-    staggerDirection: -1,
+    opacity: .2,
   },
-  initialPose: 'exit',
+  props: {
+    flip: {
+      transition: 'tween',
+    },
+  },
 })
 
 const InfoCard = posed.li({
   enter: {
     y: 0,
+    scale: 1,
     opacity: 1,
   },
   exit: {
-    y: -20,
+    y: -40,
+    scale: .2,
     opacity: 0,
   },
-  initialPose: 'exit',
+  props: {
+    flip: {
+      transition: 'spring',
+    },
+  },
 })
 
 
@@ -259,12 +272,21 @@ class MapCard extends Component {
 }
 
 const ResourceCard = (props) => (
-  <InfoCard>
-    <Card elevation={Elevation.TWO} interactive>
-      <h4 className='title'>{props.Title}</h4>
-      <time datetime={props.Record_date}>{props.Record_date}</time>
-    </Card>
-  </InfoCard>
+  <Card elevation={Elevation.TWO} interactive>
+    <h4 className='title'>{props.title}</h4>
+
+    <DateTimePill timestamp={props.recorded_on} lang={props.lang}/>
+    <LanguagePill lang={props.lang}/>
+    <UrlPill url={props.url}/>
+
+    <ConceptList
+      concepts={props.concepts.map((c) => ({
+        title: c[`title_${props.lang}`] || c.title_en,
+        ...c,
+      }))}
+      lang={props.lang}
+      onRemove={console.log}/>
+  </Card>
 )
 
 class Resources extends Component {
@@ -277,32 +299,27 @@ class Resources extends Component {
   }
 
   componentDidMount () {
-    RootAPI.fetchPortfolio({ username: this.props.username })
+    RootAPI.fetchPortfolio()
       .then((data) => {
-        this.setState({ resources: data.portfolio, pose: 'enter' })
+        this.setState({ resources: data.resources, pose: 'enter' })
       })
   }
 
   render () {
     return (
-      <ResourcesList pose={this.state.pose} className='resources'>
-        { this.state.resources.map((x, i) => <ResourceCard key={i} {...x} />)}
-      </ResourcesList>
+      <PoseGroup pose={this.state.pose} initialPose='exit'>
+        <ResourcesList className='resources' key='rlist'>
+          {this.state.resources.slice(0, 10).map((x, i) =>
+            <InfoCard>
+              <ResourceCard key={i} {...x} />
+            </InfoCard>
+          )}
+        </ResourcesList>
+      </PoseGroup>
     )
   }
 }
 
-const FramedCard = (props) => (
-    <CardBox initialPose='preMount' pose='init' className='frame-container'>
-      <Card elevation={Elevation.FOUR} className=''>
-        <Iframe
-          url={`https://ilearn.cri-paris.org/dash/dashboard/${props.username}`}
-          display='block'
-          position='relative'
-          />
-      </Card>
-    </CardBox>
-)
 
 document.addEventListener('apploaded', () => {
   renderReactComponent('cartography', MapCard)

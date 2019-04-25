@@ -7,7 +7,8 @@ import { Spinner } from '@blueprintjs/core'
 import RootAPI from '~mixins/root-api'
 import TagSuggest from '~components/tag-suggest'
 import { InteractiveCard } from '~components/cards'
-import ConceptsField from '~components/input/concepts'
+import { ConceptList } from '~components/concepts'
+import { RatingPicker } from '~components/popover'
 
 import './popout.sass'
 
@@ -31,23 +32,34 @@ class ActionCard extends Component {
     this.didChooseRating = this.didChooseRating.bind(this)
     this.shouldFetchConcepts = this.shouldFetchConcepts.bind(this)
     this.shouldPushChanges = this.shouldPushChanges.bind(this)
+    this.handleRuntimeMessages = this.handleRuntimeMessages.bind(this)
   }
 
   componentDidMount () {
-    browser.runtime.onMessage.addListener((msg) => {
-      this.shouldFetchConcepts()
-      if (msg.action == 'openPopout') {
-        this.setState({
-          tabId: msg.tabId,
-          pageTitle: msg.state.title,
-          isOpen: true,
-        }, this.shouldPushChanges)
-      }
+    this.shouldFetchConcepts()
+    this.port = browser.runtime.connect({ name: 'popover' })
+    this.port.onMessage.addListener((m) => console.log(m))
+    this.port.postMessage({ boop: 'boop', state: this.state })
+    browser.runtime.onMessage.addListener(this.handleRuntimeMessages)
+  }
 
-      if (msg.action == 'closePopout') {
-        this.setState({ isOpen: false })
-      }
-    })
+  componentWillUnmount () {
+    browser.runtime.onMessage.removeListener(this.handleRuntimeMessages)
+  }
+
+  handleRuntimeMessages (msg) {
+    if (msg.action == 'openPopout') {
+      this.setState({
+        tabId: msg.tabId,
+        pageTitle: msg.state.title,
+        isOpen: true,
+      })
+    }
+
+    if (msg.action == 'closePopout') {
+      this.setState({ isOpen: false })
+      this.shouldPushChanges()
+    }
   }
 
   shouldClosePopout () {
@@ -70,6 +82,7 @@ class ActionCard extends Component {
           selected: concepts,
           fetched: true,
           inflight: false,
+          lang: data.lang,
         })
       })
   }
@@ -138,7 +151,6 @@ class ActionCard extends Component {
 
         <InteractiveCard isOpen={this.state.isOpen && this.state.fetched}>
           <header>
-            <h5>iLearn</h5>
             <ButtonGroup minimal className='np--popover-actions'>
               <Button
                 icon='map'
@@ -153,19 +165,16 @@ class ActionCard extends Component {
 
           <main>
             <p>Concepts on this Page</p>
-            <ConceptsField
+            <ConceptList
               concepts={this.state.selected}
-              onRemove={this.didRemoveConcept}/>
+              onRemove={this.didRemoveConcept}
+              lang={this.state.lang}/>
             <TagSuggest
-              onSelect={this.didAddConcept}/>
+              onSelect={this.didAddConcept}
+              lang={this.state.lang}/>
 
-            <h5>Resource Rating</h5>
-            <p>How difficult was this page?</p>
-            <ButtonGroup fill minimal>
-              <Button onClick={() => this.setState({ knowledgeProg: 1 }, this.didChooseRating) }>Easy</Button>
-              <Button onClick={() => this.setState({ knowledgeProg: 0.5 }, this.didChooseRating) }>Alright</Button>
-              <Button onClick={() => this.setState({ knowledgeProg: 0 }, this.didChooseRating) }>Too Hard!</Button>
-            </ButtonGroup>
+            <RatingPicker onChange={ console.log }/>
+
           </main>
         </InteractiveCard>
       </div>

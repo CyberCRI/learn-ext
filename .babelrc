@@ -5,6 +5,7 @@
   ],
   "ignore": ["node_modules"],
   "plugins": [
-    "@babel/plugin-proposal-export-default-from"
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/transform-runtime"
   ]
 }

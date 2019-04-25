@@ -4,7 +4,7 @@ const { dotenv, abspath } = require('./tools/node-plugins')
 
 
 export default {
-  title: 'iLearn UI Components',
+  title: 'Design Elements | iLearn',
   theme: 'docz-theme-default',
   themeConfig: {
     // mode: 'dark',
@@ -17,6 +17,9 @@ export default {
       code: {
         fontFamily: 'Fira Code',
       },
+      h1: {
+
+      },
     },
   },
 
@@ -28,15 +31,17 @@ export default {
 
   src: './src',
   public: './ext',
+  port: 8515,
 
   indexHtml: './docs/docz-assets/index.html',
 
   codeSandbox: false,
+  propsParser: false,
 
   debug: false,
 
   modifyBabelRc: (babelrc) => {
-    return {...babelrc, plugins: [] }
+    return {...babelrc, plugins: ['react-hot-loader/babel'] }
   },
   modifyBundlerConfig: (config, dev, args) => {
     return merge(config, {
@@ -49,16 +54,28 @@ export default {
           {
             test: /\.s(c|a)ss$/,
             exclude: /node_modules/,
-            use: ['style-loader', 'css-loader', 'sass-loader'],
+            use: [
+              'style-loader',
+              'css-loader',
+              {
+                loader: 'sass-loader',
+                options: { includePaths: [ abspath('./src') ] },
+              },
+            ],
           },
         ],
       },
       resolve: {
         alias: {
           '~mixins': abspath('src/mixins'),
+          '~procs': abspath('src/procs'),
           '~components': abspath('src/components'),
+          '~styles': abspath('src/styles'),
+          '~pug-partials': abspath('src/pages/partials'),
           '~pages': abspath('src/pages'),
           '~page-commons': abspath('src/pages/_commons'),
+          '~media': abspath('assets/media'),
+          'react-dom': '@hot-loader/react-dom',
         },
       },
       plugins: [

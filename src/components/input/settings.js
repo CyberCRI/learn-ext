@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
-import { Callout, Intent, Elevation } from '@blueprintjs/core'
-import { FormGroup, InputGroup, ControlGroup, Button } from '@blueprintjs/core'
+import { Callout, Intent } from '@blueprintjs/core'
+import { InputGroup, ControlGroup, Button } from '@blueprintjs/core'
 import * as FiIcon from 'react-icons/fi'
+
+import RootAPI from '~mixins/root-api'
+import { userId } from '~mixins/utils'
+
 
 class AccountSelector extends Component {
   constructor (props) {
@@ -9,6 +13,7 @@ class AccountSelector extends Component {
     this.state = {
       username: '',
       loading: true,
+      status: 0,
     }
 
     this.didUpdateUserSettings = this.didUpdateUserSettings.bind(this)
@@ -37,13 +42,21 @@ class AccountSelector extends Component {
     e.preventDefault()
     if (this.state.username.length >= 2) {
       // For now, we just don't really bother about validation...
-      const payload = {
-        username: this.state.username,
-        signedIn: true,
-      }
-      browser.storage.local
-        .set({ user: payload })
-      this.setState({ loading: false, ...payload })
+      const username = this.state.username
+      RootAPI
+        .initializeUser({ email: username })
+        .then(() => {
+          const payload = {
+            uid: userId(username),
+            username: username,
+            signedIn: true,
+          }
+          browser.storage.local
+            .set({ user: payload })
+
+          this.setState({ loading: false, status: 0, ...payload })
+        })
+        .fail(() => this.setState({ loading: false, status: -1 }))
     }
   }
 
@@ -55,6 +68,7 @@ class AccountSelector extends Component {
           <p>Specify the email you want to use iLearn with.</p>
 
           {this.state.signedIn && <p>You are signed in!</p>}
+          {this.state.status === -1 && <p>Trouble reaching server. Please try again.</p>}
 
           <ControlGroup >
             <InputGroup

@@ -24,10 +24,15 @@ module.exports = smartMerge(base_config, {
     ],
   },
 
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
+  },
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './ext',
-    port: 9889,
+    port: 8517,
     hot: true,
     hotOnly: true,
     // noInfo: false,

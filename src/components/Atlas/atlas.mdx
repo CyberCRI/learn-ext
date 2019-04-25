@@ -13,11 +13,11 @@ import { renderReactComponent } from '~mixins/utils'
 - Can access state variables.
 
 <Playground>
-  {() => {
-    request({ url: 'https://noop-pub.s3.amazonaws.com/opt/dotatlas_tmp.json' })
-      .then((points) => (
-        renderReactComponent('atlas', Atlas, { dataPoints: points })
-      ))
-    return <div id='atlas'/>
-  }}
+  <div id='atlas'/>
 </Playground>
+
+
+request({ url: 'https://noop-pub.s3.amazonaws.com/opt/dotatlas_tmp.json' })
+  .then((points) => (
+    renderReactComponent('atlas', Atlas, { dataPoints: points })
+  ))

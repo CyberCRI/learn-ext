@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.0.18",
+  "version": "0.0.20",
   "manifest_version": 2,
 
   "browser_specific_settings": {
@@ -46,14 +46,13 @@
     }
   },
 
-  "page_action": {
+  "browser_action": {
     "default_icon": "icons/icon-idle-48.png",
     "browser_style": true,
     "default_title": "__MSG_actions_page_title__"
   },
 
   "permissions": [
-    "tabs",
     "activeTab",
     "notifications",
     "storage",

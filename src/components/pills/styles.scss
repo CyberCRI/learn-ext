@@ -1,0 +1,10 @@
+.pill {
+  &.url {
+    overflow: hidden;
+    word-break: break-all;
+
+    .host {
+      font-weight: 500;
+    }
+  }
+}

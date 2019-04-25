@@ -4,7 +4,9 @@ menu: Components
 ---
 import { Playground, Props } from 'docz'
 import { BasicCard, InteractiveCard } from '~components/cards'
+import { WikiCard } from '~components/cards/wiki-concept'
 import { Button } from '@blueprintjs/core'
+import '~pages/style.sass'
 
 
 # A simple card
@@ -21,6 +23,10 @@ import { Button } from '@blueprintjs/core'
 </Playground>
 
 ## Info Cards
+
+<Playground>
+  <WikiCard title='Guilloché'/>
+</Playground>
 
 <Playground>
   {() => {

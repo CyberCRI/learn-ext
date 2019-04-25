@@ -2,6 +2,7 @@ const WebpackBar = require('webpackbar')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const { dotenv, abspath, locale, manifest } = require('./tools/node-plugins')
@@ -67,6 +68,7 @@ module.exports = {
     // Alias allows importing modules independent of base paths.
     alias: {
       '~mixins': abspath('src/mixins'),
+      '~procs': abspath('src/procs'),
       '~components': abspath('src/components'),
       '~styles': abspath('src/styles'),
       '~pug-partials': abspath('src/pages/partials'),
@@ -108,7 +110,10 @@ module.exports = {
               require('cssnano'),
             ] },
           },
-          'sass-loader',
+          {
+            loader: 'sass-loader',
+            options: { includePaths: [ abspath('./src') ] },
+          },
         ],
       },
       {
@@ -161,6 +166,7 @@ module.exports = {
     new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
     new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
+    new MomentLocalesPlugin({ localesToKeep: ['fr'] }),
     dotenv.PackageEnv.webpackPlugin,
     ...staticPages,
   ],
