@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, Elevation } from '@blueprintjs/core'
 
-import { ConceptList } from '~components/input/concepts'
+import { ConceptList } from '~components/concepts'
 
 
 export const ResourceCard = (props) => (

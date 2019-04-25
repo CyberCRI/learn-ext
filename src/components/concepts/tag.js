@@ -8,7 +8,7 @@ export const ConceptTag = (props) => {
   }
 
   return (
-    <Tag interactive minimal large>
+    <Tag minimal large>
       {props.label}
     </Tag>
   )
