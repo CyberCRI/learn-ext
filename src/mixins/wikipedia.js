@@ -83,7 +83,7 @@ class WikiAPI {
 
     // Wikipedia API expects title slug, which is the title, with spaces
     // replaced with underscores.
-    const titleSlug = _(title).replace(' ', '_')
+    const titleSlug = _(title).replace(/\s+/ig, '_')
     const url = `${endpoint}/${titleSlug}`
 
     const transform = (response) => {
