@@ -6,6 +6,10 @@ import _ from 'lodash'
 // Get the absolute url for specific api routes.
 const endpointFor = (path) => `${env.rootapi_host}/${path}`
 
+const userInfo = async () => {
+  const data = await browser.storage.local.get('user')
+  return data.user
+}
 
 class ILearnAPI {
   initializeUser (params) {
@@ -17,7 +21,7 @@ class ILearnAPI {
     })
   }
 
-  learn (params) {
+  async learn (params) {
     // Calls the /api/learn endpoint. Requires an object with following keys:
     // ┌──────────────────────────────────────────────────────────┐
     // │                    url │ String                          │
@@ -26,10 +30,16 @@ class ILearnAPI {
     // │                  title │ String                          │
     // │  knowledge_progression │ {0, 0.5, 1} = 0.5               │
     // └──────────────────────────────────────────────────────────┘
+    const { uid } = await userInfo()
+    const payload = {
+      user_id: uid,
+      ...params,
+    }
+
     return request({
-      url: endpointFor('ext/api/learn'),
+      url: endpointFor('prod/api/learn'),
       method: 'post',
-      data: params,
+      data: payload,
     })
   }
 
@@ -57,10 +67,11 @@ class ILearnAPI {
     })
   }
 
-  fetchPortfolio (params) {
+  async fetchPortfolio () {
+    const { uid } = await userInfo()
     return request({
-      url: endpointFor('udev/api/portfolio'),
-      data: params,
+      url: endpointFor('prod/api/portfolio'),
+      data: { user_id: uid },
     })
   }
 }
