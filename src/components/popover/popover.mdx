@@ -4,8 +4,7 @@ menu: Popover
 ---
 import { Playground, Props } from 'docz'
 
-import { RatingPicker } from './rating'
-import { Tools } from './tools'
+import { RatingPicker, PopoverTools, PageInfo } from '~components/popover'
 import '~pages/style.sass'
 
 # Resource Popover
@@ -13,6 +12,15 @@ import '~pages/style.sass'
 ## Components
 - An interactive overlay card which appears when a page is added to iLearn
 - Additional details are shown afterwards.
+
+## Page Infobox
+
+<Playground>
+  <PageInfo
+    title='Reading bits in far too many ways (part 3) | The ryg blog'
+    url='https://fgiesen.wordpress.com/2018/09/27/reading-bits-in-far-too-many-ways-part-3/'
+    favicon='https://s2.wp.com/i/webclip.png'/>
+</Playground>
 
 ## Rating
 
@@ -23,5 +31,5 @@ import '~pages/style.sass'
 ## Tools
 
 <Playground>
-  <Tools />
+  <PopoverTools />
 </Playground>
