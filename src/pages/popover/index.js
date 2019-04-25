@@ -1,9 +1,9 @@
 import { renderReactComponent } from '~mixins/utils'
-import { ActionCard } from '~components/popout'
+import { PopOverlay } from '~components/popover/overlay'
 
 import './_popover.sass'
 
 
 document.addEventListener('apploaded', () => {
-  renderReactComponent('popout', ActionCard, { pageUrl: window.location.hash.slice(1) } )
+  renderReactComponent('popout', PopOverlay )
 })
