@@ -1,0 +1,56 @@
+@import 'styles/colors';
+@import 'styles/fontfaces';
+
+.popover-tools {
+  .tool-button {
+    svg {
+      height: 1em;
+      width: 1em;
+      margin-right: 5px;
+    }
+  }
+}
+
+.page-infobox {
+  display: grid;
+  align-items: normal;
+  padding: 4px;
+
+  grid-template-columns: 25px 5px auto;
+  grid-template-rows: auto 5px 1.2em;
+  grid-template-areas:
+    "icon . title"
+    "icon . ."
+    "icon . url";
+
+  font-size: .8rem;
+  border-radius: 4px;
+  // border: 1px solid #9FA4A6;
+
+  background: $light-gray1;
+
+
+  img {
+    grid-area: icon;
+    width: 100%;
+  }
+
+  h3 {
+    grid-area: title;
+    margin: 0;
+
+    font: {
+      family: $typeface-display;
+      weight: 400;
+    }
+  }
+
+  .pill.url {
+    grid-area: url;
+    overflow: hidden;
+
+    .path {
+      display: none;
+    }
+  }
+}
