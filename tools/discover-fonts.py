@@ -13,12 +13,12 @@ import click
 from pydash import py_
 
 
-def process_fontlist(df, urlprefix):
+def process_fontlist(df, urlprefix, path):
   '''Use the dataframe to transform the fontlist so it's css compliant.'''
   def transform_fontname(name):
     # In CSS, it's quite annoying to use various "Medium", "SemiBold", and
     # "Light" suffixes. Here we just remove them from names.
-    pattern = r'^(.*) (Light|Medium|SemiBold)$'
+    pattern = r'^(.*) (Light|Medium|SemiBold|ExtraBold)$'
     try:
       return re.match(pattern, name).group(1)
     except AttributeError:
@@ -28,9 +28,12 @@ def process_fontlist(df, urlprefix):
     # Since fontconfig only interprets the `woff` fonts, we'll just add `woff2`
     # as well.
     # Returns a function with version in closure.
-    def transformer(path):
-      filename, _ = os.path.splitext(os.path.basename(path))
-      return f'{urlprefix}/{filename}.{version}'
+    def transformer(font_path):
+      # Get the relative path of the `font_path` from the parent `path`.
+      relpath = os.path.relpath(font_path, path)
+      # Remove the extension from the relative path and append with urlprefix.
+      filepath, _ = os.path.splitext(relpath)
+      return f'{urlprefix}/{filepath}.{version}'
     return transformer
 
   df['fname'] = df.family.apply(transform_fontname)
@@ -76,7 +79,7 @@ def discover_fonts(path, urlprefix=''):
     .join('\n')
     .thru(io.StringIO)
     .thru(lambda b: pd.read_csv(b, sep='|', names=header))
-    .thru(lambda df: process_fontlist(df, urlprefix))
+    .thru(lambda df: process_fontlist(df, urlprefix, path))
     .value()
   )
 
