@@ -9,8 +9,8 @@
 $pt-grid-size: 10px;
 
 // see https://bitsofco.de/the-new-system-font-stack/
-$pt-font-family: "Roboto",
-                 "Oxygen",
+$pt-font-family: "Barlow",
+                 "Overpass",
                  "Ubuntu",
                  "Cantarell",
                  "Open Sans",
@@ -18,11 +18,11 @@ $pt-font-family: "Roboto",
                  "Icons16", // support inline Palantir icons
                  sans-serif;
 
-$pt-font-family-monospace: "Lekton", monospace;
+$pt-font-family-monospace: "Overpass Mono", monospace;
 
-$pt-font-size: $pt-grid-size * 1.4;
-$pt-font-size-large: $pt-grid-size * 1.6;
-$pt-font-size-small: $pt-grid-size * 1.2;
+$pt-font-size: 14px;
+$pt-font-size-large: 18px;
+$pt-font-size-small: 12px;
 
 // a little bit extra to ensure the height comes out to just over 18px (and browser rounds to 18px)
 $pt-line-height: ($pt-grid-size * 1.8) / $pt-font-size + 0.0001;
@@ -40,10 +40,10 @@ $pt-icon-size-large: 20px;
 $pt-border-radius: 4px;
 
 // Buttons
-$pt-button-height: $pt-grid-size * 3;
-$pt-button-height-small: $pt-grid-size * 2.4;
-$pt-button-height-smaller: $pt-grid-size * 2;
-$pt-button-height-large: $pt-grid-size * 4;
+$pt-button-height: $pt-grid-size * 2.8;
+$pt-button-height-small: $pt-grid-size * 2.2;
+$pt-button-height-smaller: $pt-grid-size * 1.8;
+$pt-button-height-large: $pt-grid-size * 3.5;
 
 // Inputs
 $pt-input-height: $pt-grid-size * 3;
