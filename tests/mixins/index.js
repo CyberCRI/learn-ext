@@ -1,0 +1,1 @@
+export { jsonFixture } from './fixtures'
