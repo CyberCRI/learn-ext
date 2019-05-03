@@ -12,38 +12,53 @@ const RemoteState = new Enum([
 ], { name: 'RemoteState', ignoreCase: true })
 
 
-class ConceptSet {
+export const Exceptions = {
+  ConceptLangError: new Error('Language of `concept` does not match index'),
+}
+
+
+export class ConceptSet {
   // Wrapper for Concepts. API supports adding new concepts, validation,
   // and the ordering.
   //
   // Schema { wikidata_id, title, similarity_score, lang }
   constructor (items) {
     this.items = items
-    this.index = this.reindex()
+    this.reindex()
   }
 
   reindex () {
     // Build an index of `items`, keying with values for title and wikidata
     // ids.
     const cursor = _(this.items)
-    return {
-      title: cursor.map('title'),
+    this.index = {
+      title: cursor.map('title').value(),
+      score: cursor.map('similarity_score').value(),
+      wiki_id: cursor.map('wikidata_id').value(),
+      lang: cursor.get('0.lang'),
     }
+    return this
   }
 
   append ({ title, lang }) {
     // Append if item does not exist already.
     // Ensure that the language matches!
-    if (!this.lang === lang) {
+    if (this.index.lang !== lang) {
+      throw Exceptions.ConceptLangError
     }
-    if (!this.index.title.includes(title)) {
+    if (!_.includes(this.index.title, title)) {
       // This one is new, append to the list and reindex.
       // Notice that we're replacing the items list with a new object.
-      this.items = []
+      this.items = [...this.items, { title, lang }]
+      this.reindex()
     }
+    return this
   }
 
-  remove () {
+  remove ({ title }) {
+    this.items = _.reject(this.items, ['title', title])
+    this.reindex()
+    return this
   }
 
   toJS () {
@@ -51,7 +66,7 @@ class ConceptSet {
 }
 
 
-class ExtAPIStore {
+export class ExtAPIStore {
   constructor (url) {
     this.url = url
     this.state = RemoteState.readytofetch
@@ -102,6 +117,16 @@ class ExtAPIStore {
   learn () {
     // payload:
     // { user_id, url, concepts: [ Concept ], knowledge_progression }
+    const payload = {
+      url: this.url,
+      concepts: this.concepts,
+      knowledge_progression: this.kprog,
+    }
+    RootAPI
+      .learn(payload)
+      .then((data) => {
+        setStatus(201)
+      })
   }
 
   newconcept () {
