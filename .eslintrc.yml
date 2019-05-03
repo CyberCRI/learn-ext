@@ -12,6 +12,7 @@ globals:
   runtime: true
   chrome: true
   expect: true
+  __FIXTURES__: true
   DotAtlas: true
   DotAtlasEffects: true
 extends: 'eslint:recommended'
