@@ -10,10 +10,10 @@ const NavigationBar = () => (
       <Navbar.Divider/>
 
       <AnchorButton
-        text='My Learning Map'
+        text='Resources'
         minimal
-        href='/pages/options.html'
-        icon={<FiIcon.FiCompass/>}/>
+        href='/pages/dashboard.html'
+        icon='book'/>
 
       <AnchorButton
         text='Discover'
