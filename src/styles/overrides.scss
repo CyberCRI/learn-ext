@@ -1,0 +1,5 @@
+.bp3-input, .bp3-button {
+  // Specify the font-family since the body font property doesn't cascade to
+  // button, and input elements (thanks browser stylesheet!).
+  font-family: inherit;
+}
