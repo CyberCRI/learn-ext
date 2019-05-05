@@ -3,6 +3,32 @@ import { useToggle, useUpdateEffect, useKey, useLogger } from 'react-use'
 
 import { InputGroup, Button, ButtonGroup, ControlGroup } from '@blueprintjs/core'
 
+
+const SortOrderButton = ({ downwards=true, onToggle, ...props }) => {
+  const [ desc, toggleOrder ] = useToggle(downwards)
+
+  useUpdateEffect(() => {
+    onToggle && onToggle(desc)
+  })
+
+  return (
+    <Button
+      text='Sort'
+      icon={desc ? 'sort-desc' : 'sort-asc'}
+      onClick={() => toggleOrder()}
+      {...props}/>
+  )
+}
+
+
+export const FilterTools = (props) => {
+  return (
+    <ButtonGroup>
+      <SortOrderButton/>
+    </ButtonGroup>
+  )
+}
+
 export const SearchButton = (props) => {
   return (
     <Button
