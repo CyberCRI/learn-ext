@@ -6,7 +6,11 @@ import './styles.scss'
 
 
 export const LanguagePill = ({ lang }) => {
-  return <div>{lang}</div>
+  return (
+    <span className='pill language'>
+      {lang}
+    </span>
+  )
 }
 
 export const DateTimePill = ({ timestamp, lang }) => {
@@ -17,7 +21,7 @@ export const DateTimePill = ({ timestamp, lang }) => {
     .calendar()
 
   return (
-    <time dateTime={timestamp}>
+    <time dateTime={timestamp} className='pill datetime'>
       {displayTime}
     </time>
   )
