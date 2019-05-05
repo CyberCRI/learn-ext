@@ -1,3 +1,5 @@
+@import 'styles/fontfaces';
+
 .pill {
   &.url {
     overflow: hidden;
@@ -12,5 +14,20 @@
   }
 
   &.datetime {
+  }
+
+  &.hotkey {
+    kbd {
+      font: {
+        family: $typeface-mono;
+        weight: 100;
+      }
+      color: #fff;
+      padding: 4px 4px 0 4px;
+      border-radius: 4px;
+      margin-right: 4px;
+      background: #555D65;
+      box-shadow: 0 4px 0 0 #222B30;
+    }
   }
 }
