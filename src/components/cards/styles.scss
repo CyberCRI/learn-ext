@@ -230,6 +230,13 @@ div.info-card {
   }
 }
 
+div.card {
+  &.resource {
+    width: 250px;
+    // min-width: 200px;
+  }
+}
+
 @keyframes skeleton-sweep {
   0% {
     background-position: 0 0;
