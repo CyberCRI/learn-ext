@@ -15,10 +15,16 @@ const SortOrderButton = ({ downwards=true, onToggle, ...props }) => {
 }
 
 
-export const FilterTools = (props) => {
+export const FilterTools = ({ onChange }) => {
+  const [ sortOrder, toggleSortOrder ] = useToggle(true)
+
+  useUpdateEffect(() => {
+    onChange && onChange({ sortOrder })
+  })
+
   return (
     <ButtonGroup>
-      <SortOrderButton/>
+      <SortOrderButton downwards={sortOrder} onToggle={toggleSortOrder}/>
     </ButtonGroup>
   )
 }
@@ -33,7 +39,7 @@ export const SearchButton = (props) => {
 }
 
 
-export const OmniBar = () => {
+export const OmniBar = ({ onChange }) => {
   const [ query, setQuery ] = useState('')
   const boxRef = useRef(null)
   const focusOmnibox = (event) => {
@@ -45,6 +51,10 @@ export const OmniBar = () => {
   const queryDidChange = (event) => {
     setQuery(event.target.value)
   }
+
+  useUpdateEffect(() => {
+    onChange && onChange({ query })
+  }, [ query ])
 
   return (
     <div role='omnibar'>
