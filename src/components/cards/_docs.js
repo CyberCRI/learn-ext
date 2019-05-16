@@ -22,32 +22,33 @@ const WikiPopoverCard = (props) => {
 export const resourceDataSample = {
   concepts: [
     {
-      title: 'Weak heap',
+      title_en: 'Weak heap',
       relScore: 2.324,
       elo: 1000,
     },
     {
-      title: 'WAVL tree',
+      title_en: 'WAVL tree',
       relScore: 2.336,
       elo: 1000,
     },
     {
-      title: 'Binary tree',
+      title_en: 'Binary tree',
       relScore: 2.348,
       elo: 1000,
     },
     {
-      title: 'Linked list',
+      title_en: 'Linked list',
       relScore: 2.388,
       elo: 1000,
     },
     {
-      title: 'Binary search tree',
+      title_en: 'Binary search tree',
       relScore: 2.4,
       elo: 1000,
     },
   ],
-  recorded: '2019-02-19',
+  recorded_on: '2019-05-02T15:50:23.491912',
+  lang: 'en',
   title: 'Node.appendChild() - Web APIs | MDN',
   url: 'https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild',
 }

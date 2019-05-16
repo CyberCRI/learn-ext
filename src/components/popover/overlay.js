@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useClickAway, useLogger, useToggle, usePromise, useAsyncFn } from 'react-use'
+import { useClickAway, useLogger, useToggle, usePromise, useAsyncFn, useUpdateEffect } from 'react-use'
 import { Spinner } from '@blueprintjs/core'
 import pose, { PoseGroup } from 'react-pose'
 
@@ -8,6 +8,8 @@ import { HookedCard } from '~components/cards/cards'
 import { ConceptList } from '~components/concepts'
 import TagSuggest from '~components/tag-suggest'
 import { LanguagePill, UrlPill } from '~components/pills'
+
+import { ConceptSet } from './api-store'
 
 import RootAPI from '~mixins/root-api'
 import { RatingPicker, PopoverTools } from '.'
@@ -50,21 +52,40 @@ const PageConcepts = (props) => {
         setLanguage(data.lang)
         setConcepts(data.concepts)
         setStatus(200)
-
-        const payload = {
-          url: props.url,
-          concepts: data.concepts,
-          knowledge_progression: kprog,
-        }
-        RootAPI
-          .learn(payload)
-          .then((data) => {
-            setStatus(201)
-          })
       })
       .fail((data) => {
         setStatus(500)
       })
+  }
+
+  const shouldLearn = () => {
+    const payload = {
+      url: url,
+      concepts: concepts,
+      knowledge_progression: kprog,
+    }
+    RootAPI
+      .learn(payload)
+      .then((data) => {
+        setStatus(201)
+      })
+  }
+
+  // Only run when `kprog` or `concepts` updates:
+  useUpdateEffect(shouldLearn, [ concepts, kprog ])
+
+  const itemSelected = (item) => {
+    const ixTitle = _(concepts).map('title').value()
+    if (!_.includes(ixTitle, item.title)) {
+      RootAPI
+        .newConcept({ url, lang: language, title: item.title })
+        .then(() => {
+          setConcepts([ ...concepts, item ])
+        })
+    }
+  }
+  const itemRemoved = (item) => {
+    setConcepts(_.reject(concepts, [ 'title', item.title ]))
   }
 
   return (
@@ -72,11 +93,9 @@ const PageConcepts = (props) => {
       {status === 100 && <Spinner size={Spinner.SIZE_SMALL}/>}
       {status >= 200 && status <= 500 && <LanguagePill lang={language}/>}
 
-      <ConceptList concepts={concepts} lang={language}/>
-      <TagSuggest lang={language} onSelect={(item) => {
-        const concept = { title: item.title, lang: language }
-        setConcepts([...concepts, concept])
-      }}/>
+      <ConceptList concepts={concepts} lang={language} onRemove={itemRemoved}/>
+      <TagSuggest lang={language} onSelect={itemSelected}/>
+      <RatingPicker onChange={(value) => setKProg(value)}/>
     </div>
   )
 }
@@ -119,8 +138,6 @@ export const PopOverlay = (props) => {
             <PageInfo {...tabInfo}/>
             <PageConcepts {...tabInfo}/>
           </div>
-
-          <RatingPicker/>
         </HookedCard>
       </CardsBox>
     </div>

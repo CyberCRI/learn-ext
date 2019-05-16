@@ -12,7 +12,7 @@ module.exports = smartMerge(base_config, {
 
   plugins: [
     // Remove contents of build directory
-    new CleanWebpackPlugin([ 'ext' ]),
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({ filename: '[name].css' }),
   ],
 

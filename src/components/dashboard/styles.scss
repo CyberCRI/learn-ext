@@ -1,0 +1,11 @@
+
+.resources {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  > li {
+    margin: 8px
+  }
+}

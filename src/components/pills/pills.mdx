@@ -3,7 +3,7 @@ name: Pills
 menu: Pills
 ---
 import { Playground, Props } from 'docz'
-import { LanguagePill, DateTimePill, UrlPill } from '~components/pills'
+import { LanguagePill, DateTimePill, UrlPill, HotKeysPill } from '~components/pills'
 
 import '~pages/style.sass'
 
@@ -11,5 +11,29 @@ import '~pages/style.sass'
 # Pill for showing a URL
 
 <Playground>
+  <h4>No link</h4>
   <UrlPill url='https://css-tricks.com/snippets/css/complete-guide-grid/'/>
+</Playground>
+
+<Playground>
+  <h5>Linked and short</h5>
+  <UrlPill url='https://css-tricks.com/snippets/css/complete-guide-grid/' short linked />
+</Playground>
+
+
+## Language Pills
+<Playground>
+  <LanguagePill lang='en'/>
+  <LanguagePill lang='fr'/>
+</Playground>
+
+## Datetime Pills
+<Playground>
+  <DateTimePill timestamp='2019-04-30T13:53:58.992027' lang='en'/>
+</Playground>
+
+## Misc
+
+<Playground>
+  <HotKeysPill keys={[ 'shift', 's' ]}/>
 </Playground>

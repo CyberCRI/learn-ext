@@ -37,10 +37,11 @@ const HtmlGenerator = ({ name, chunks, webroot=false }) => {
 
 // Link entry points with the chunks defined here.
 const staticPages = [
-  HtmlGenerator({ name: 'options', chunks: ['pages_options'] }),
-  HtmlGenerator({ name: 'settings', chunks: ['pages_settings'] }),
+  HtmlGenerator({ name: 'dashboard', chunks: ['pages_dashboard'] }),
   HtmlGenerator({ name: 'onboarding', chunks: ['pages_onboarding'] }),
+  HtmlGenerator({ name: 'options', chunks: ['pages_options'] }),
   HtmlGenerator({ name: 'popover', chunks: ['pages_popover'] }),
+  HtmlGenerator({ name: 'settings', chunks: ['pages_settings'] }),
   HtmlGenerator({ name: 'landing', chunks: ['pages_landing'], webroot: true }),
 ]
 
@@ -53,10 +54,11 @@ module.exports = {
     background: './src/procs/background.js',
 
     pages_root: './src/pages/index.js',
-    pages_popover: pageEntryPoint('popover'),
-    pages_options: pageEntryPoint('options'),
-    pages_settings: pageEntryPoint('settings'),
+    pages_dashboard: pageEntryPoint('dashboard'),
     pages_onboarding: pageEntryPoint('onboarding'),
+    pages_options: pageEntryPoint('options'),
+    pages_popover: pageEntryPoint('popover'),
+    pages_settings: pageEntryPoint('settings'),
     pages_landing: pageEntryPoint('landing'),
   },
   output: {
