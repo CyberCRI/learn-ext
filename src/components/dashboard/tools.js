@@ -5,17 +5,11 @@ import { InputGroup, Button, ButtonGroup, ControlGroup } from '@blueprintjs/core
 
 
 const SortOrderButton = ({ downwards=true, onToggle, ...props }) => {
-  const [ desc, toggleOrder ] = useToggle(downwards)
-
-  useUpdateEffect(() => {
-    onToggle && onToggle(desc)
-  })
-
   return (
     <Button
       text='Sort'
-      icon={desc ? 'sort-desc' : 'sort-asc'}
-      onClick={() => toggleOrder()}
+      icon={downwards ? 'sort-desc' : 'sort-asc'}
+      onClick={onToggle}
       {...props}/>
   )
 }
