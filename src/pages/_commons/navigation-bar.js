@@ -10,7 +10,7 @@ const NavigationBar = () => (
       <Navbar.Divider/>
 
       <AnchorButton
-        text='Resources'
+        text='My Resources'
         minimal
         href='/pages/dashboard.html'
         icon='book'/>
