@@ -1,10 +1,7 @@
 import { renderReactComponent } from '~mixins/utils'
 
-import { OmniBar, FilterTools } from '~components/dashboard'
-import { ResourceGrid } from '~components/dashboard/resources'
+import { DashboardView } from '~components/dashboard'
 
 document.addEventListener('apploaded', () => {
-  renderReactComponent('actions', OmniBar)
-  renderReactComponent('results', FilterTools)
-  renderReactComponent('resources', ResourceGrid)
+  renderReactComponent('resources', DashboardView)
 })
