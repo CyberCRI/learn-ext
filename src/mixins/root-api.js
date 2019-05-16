@@ -43,6 +43,20 @@ class ILearnAPI {
     })
   }
 
+  async newConcept (params) {
+    const { uid } = await userInfo()
+    return request({
+      url: endpointFor('prod/api/newconcept'),
+      method: 'post',
+      data: {
+        url: params.url,
+        title: params.title,
+        lang: params.lang,
+        user_id: uid,
+      },
+    })
+  }
+
   fetchConcepts (url) {
     const transform = (data) => {
       // Infer the page language from the concepts response. If empty, we'll
