@@ -57,6 +57,19 @@ class ILearnAPI {
     })
   }
 
+  async removeConcept (params) {
+    return request({
+      url: endpointFor('prod/api/crowdsourcing'),
+      method: 'put',
+      data: {
+        url: params.url,
+        title: params.title,
+        lang: params.lang,
+        reliability_variation: -1,
+      },
+    })
+  }
+
   fetchConcepts (url) {
     const transform = (data) => {
       // Infer the page language from the concepts response. If empty, we'll
