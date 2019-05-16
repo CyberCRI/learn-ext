@@ -1,6 +1,6 @@
 // Karma configuration
 const base_config = require('./webpack.common')
-const { dotenv } = require('./tools/node-plugins')
+const { dotenv, abspath } = require('./tools/node-plugins')
 
 
 module.exports = function(config) {
@@ -9,25 +9,30 @@ module.exports = function(config) {
     frameworks: [ 'mocha', 'chai' ],
 
     files: [
-      'src/**/test*.js*',
+      'tests/**/*.test.js',
     ],
     exclude: [],
-
-
-    // preprocess matching files before serving them to the browser
     preprocessors: {
-      'src/**/*.js*': 'webpack',
+      'src/**/*.js*': [ 'webpack', 'sourcemap' ],
+      'tests/**/*.js': [ 'webpack', 'sourcemap' ],
+      'tests/fixtures/*': 'file-fixtures',
     },
 
-    // test results reporter to use
-    reporters: [ 'mocha' ],
-
+    fileFixtures: {
+      globalName: '__FIXTURES__',
+      stripPrefix: 'tests/fixtures/',
+    },
     webpack: {
       mode: 'development',
       devtool: 'inline-source-map',
-      stats: 'minimal',
+      stats: 'errors-only',
       cache: true,
-      resolve: base_config.resolve,
+      resolve: {
+        alias: {
+          ...base_config.resolve.alias,
+          '~test-mixins': abspath('tests/mixins'),
+        },
+      },
       module: {
         rules: [
           {
@@ -50,13 +55,13 @@ module.exports = function(config) {
       noInfo: true,
     },
 
+    reporters: [ 'mocha' ],
     mochaReporter: {
       showDiff: true,
     },
 
     port: 9876,
     colors: true,
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
 
     autoWatch: true,
