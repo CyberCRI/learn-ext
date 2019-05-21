@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Card, Elevation, Icon, Button, Popover, Menu, MenuItem, Tag } from '@blueprintjs/core'
-import posed, { PoseGroup } from 'react-pose'
+import posed from 'react-pose'
 import clsx from 'classnames'
 import _ from 'lodash'
 
 import { renderReactComponent } from '~mixins/utils'
 import { request } from '~mixins'
+import { WikiCard } from '~components/cards'
 import RootAPI from '~mixins/root-api'
 
 import './_options.sass'
@@ -45,6 +46,9 @@ const PortalTable = {
   },
 }
 
+const black = [0, 0, 0, 255]
+const gray = [40, 40, 40, 255]
+const concept = [92, 37, 92, 255]
 
 function drawCartography (points, container, onHover, onClick, overlay) {
   points.forEach(function (p, index) {
@@ -86,6 +90,7 @@ function drawCartography (points, container, onHover, onClick, overlay) {
 
     p.userData = true
   })
+
   const shownPoints = _.concat(points, overlay)
 
   const elevations = { points: shownPoints }
@@ -101,19 +106,26 @@ function drawCartography (points, container, onHover, onClick, overlay) {
   const dotatlas = new DotAtlas({
     element: container,
     pixelRatio: 2,
-    maxRadiusDivider: 10,
-    mapLightAzimuth: 0.4,
+    maxRadiusDivider: 15,
+    mapLightAzimuth: 0.8,
     mapLightIntensity: 0.5,
-  });
+    mapContourOpacity: 0.8,
+    mapContourWidth: 0,
+    mapLightness: 0,
+
+    hoverRadiusMultiplier: 20,
+    onPointHover: (e) => onHover(e),
+    onClick: (e) => onClick(e),
+  })
 
   const dataObject = {
     layers: [
-      elevations, // Currently, elevation layer must always be at index 0
+      elevations,
       markers,
-    ]
+    ],
   }
   const dotatlasFx = new DotAtlasEffects(dotatlas)
-  return { map: dotatlas, fx: dotatlasFx, data: dataObject };
+  return { map: dotatlas, fx: dotatlasFx, data: dataObject }
 }
 
 
