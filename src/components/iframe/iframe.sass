@@ -5,6 +5,12 @@
     right: 0
     width: 100vw
     height: 100vh
-    z-index: 100000
     border: none
     outline: none
+
+    // Ensure the iframe is almost _always_ on top. We set a few values because
+    // the max z-index values vary between browsers and may not respect very
+    // high value. Hence we provide few fallbacks.
+    z-index: 10000000
+    z-index: 12600322
+    z-index: 2147483647

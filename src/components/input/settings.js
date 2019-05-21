@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Callout, Intent } from '@blueprintjs/core'
 import { InputGroup, ControlGroup, Button } from '@blueprintjs/core'
 import * as FiIcon from 'react-icons/fi'
+import _ from 'lodash'
 
 import RootAPI from '~mixins/root-api'
 import { userId } from '~mixins/utils'
@@ -17,13 +18,14 @@ class AccountSelector extends Component {
     }
 
     this.didUpdateUserSettings = this.didUpdateUserSettings.bind(this)
+    this.didChangeUsername = this.didChangeUsername.bind(this)
   }
 
   componentDidMount () {
     browser.storage.local
       .get('user')
       .then(({ user }) => {
-        if (!user.signedIn) {
+        if (!_.get(user, 'signedIn')) {
           this.setState({
             loading: false,
             signedIn: false,
@@ -37,9 +39,15 @@ class AccountSelector extends Component {
       })
   }
 
+  didChangeUsername (e) {
+    // Update username input box and reset signedIn state.
+    this.setState({ username: e.target.value, signedIn: false })
+  }
+
   didUpdateUserSettings (e) {
     // Ensure we don't move to other page.
     e.preventDefault()
+    this.setState({ signedIn: false, loading: true })
     if (this.state.username.length >= 2) {
       // For now, we just don't really bother about validation...
       const username = this.state.username
@@ -76,7 +84,7 @@ class AccountSelector extends Component {
               disabled={this.state.loading}
               value={this.state.username}
               intent={inputIntent}
-              onChange={(e) => this.setState({ username: e.target.value })}/>
+              onChange={this.didChangeUsername}/>
             <Button
               text='Save'
               type='submit'

@@ -2,6 +2,7 @@ import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
 import { ExtensionPages } from './reactors'
 import { userId } from '~mixins/utils'
 import _ from 'lodash'
+import { InstallEventReason } from './structs'
 
 const tabState = {}
 const ports = {}
@@ -16,18 +17,27 @@ const dispatchReaction = (msg) => {
   console.info(`Consuming action=<${msg.action}>`, msg)
 }
 
-const reactOnInstalled = ({ reason, temporary }) => {
-  if (reason == 'install') {
-    ExtensionPages.onboarding.open()
-
-    browser.storage.local
-      .set({
+const reactOnInstalled = async ({ reason, temporary }) => {
+  if (reason === InstallEventReason.installed) {
+    if (temporary) {
+      // Initialise the store with our nugget user.
+      await browser.storage.local.set({
         user: {
           uid: userId('nugget@noop.pw'),
           username: 'nugget@noop.pw',
-          signedIn: false,
+          signedIn: true,
         },
       })
+    } else {
+      // Bonjour les enfants!
+      // This is not a temporary installation. Lets open onboarding page!
+      ExtensionPages.onboarding.open()
+    }
+  }
+
+  if (reason === InstallEventReason.updated) {
+    // Extension was updated. Later, we might open a changelog page. For now,
+    // do nothing at all.
   }
 }
 
