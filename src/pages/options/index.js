@@ -193,6 +193,9 @@ class MapCard extends Component {
       pose: 'init',
       atlasReady: false,
       currentPoints: [],
+      cardPoint: null,
+      cardLock: false,
+      lastCardPoint: null,
     }
 
     this.canvasRef = React.createRef()
@@ -235,11 +238,25 @@ class MapCard extends Component {
   }
 
   didClickOnMap (e) {
+    this.setState({ cardLock: !this.state.cardLock })
   }
 
   didHoverOnMap (e) {
+    const currentPoints = _.chain(e.points || [])
+      .filter((x) => x.title)
+      .map('title')
+      .value()
+    const cardPoint = _.chain(e.points || [])
+      .filter((x) => x.userData === true)
+      .head()
+      .get('title')
+      .value()
 
+    if (cardPoint) {
+      this.setState({ lastCardPoint: cardPoint })
+    }
 
+    this.setState({ currentPoints, cardPoint })
   }
 
   async didToggleZoom () {
