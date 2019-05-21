@@ -101,6 +101,15 @@ class ILearnAPI {
       data: { user_id: uid },
     })
   }
+
+  async fetchUserMapOverlay () {
+    const { uid } = await userInfo()
+
+    return request({
+      url: endpointFor('prod/api/map'),
+      data: { user_id: uid },
+    })
+  }
 }
 
 const RootAPI = new ILearnAPI()

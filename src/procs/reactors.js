@@ -10,7 +10,7 @@ const pathReactor = (path) => {
 }
 
 export const ExtensionPages = {
-  dashboard: pathReactor('pages/options.html'),
+  dashboard: pathReactor('pages/dashboard.html'),
   settings: pathReactor('pages/settings.html'),
   onboarding: pathReactor('pages/onboarding.html'),
 }

@@ -1,77 +1,132 @@
 import React, { Component } from 'react'
 import { Card, Elevation, Icon, Button, Popover, Menu, MenuItem, Tag } from '@blueprintjs/core'
-import posed, { PoseGroup } from 'react-pose'
+import posed from 'react-pose'
 import clsx from 'classnames'
+import _ from 'lodash'
 
 import { renderReactComponent } from '~mixins/utils'
 import { request } from '~mixins'
+import { WikiCard } from '~components/cards'
 import RootAPI from '~mixins/root-api'
-import { ConceptList } from '~components/concepts'
-import { LanguagePill, DateTimePill, UrlPill } from '~components/pills'
 
 import './_options.sass'
 
+const PortalTable = {
+  art: {
+    portal: 'arts',
+    color: [60, 126, 162, 120],
+  },
+  geo: {
+    portal: 'geographie',
+    color: [104, 183, 140, 120],
+  },
+  hist: {
+    portal: 'histoire',
+    color: [215, 135, 66, 120],
+  },
+  pol: {
+    portal: 'politique_et_religions_et_croyances',
+    color: [118, 78, 162, 120],
+  },
+  sci: {
+    portal: 'sciences_et_medecine',
+    color: [152, 54, 109, 120],
+  },
+  soc: {
+    portal: 'societe',
+    color: [211, 115, 135, 120],
+  },
+  spo: {
+    portal: 'sport_et_loisirs',
+    color: [20, 204, 189, 120],
+  },
+  tech: {
+    portal: 'technologies',
+    color: [69, 128, 230, 120],
+  },
+}
 
-function drawCartography (points, container) {
-  // Coordinates of points on the map.
+const black = [0, 0, 0, 255]
+const gray = [40, 40, 40, 255]
+const concept = [92, 37, 92, 255]
 
-  // Assign additional properties to some of the points.
-  // These could of course be defined directly in the data above,
-  // we use the loop to avoid repetition.
-  const red = [200, 0, 0, 255];
+function drawCartography (points, container, onHover, onClick, overlay) {
   points.forEach(function (p, index) {
-    // Elevation of the point on the 0..1 scale.
-    // Zero elevation will not contribute to the height map,
-    // but may still display markers or labels, if defined.
-    p.elevation = index === 0 ? 1 : 0.2;
+    p.elevation = 0 //p.labelPriority >= 0.2 ? 0.08 : 0.01
+    p.marker = p.label ? 'circle' : ''
 
-    // To display a marker, the point must have a non-empty "marker" property.
-    // The property defines shape of the marker: "circle", "square", "triangle".
-    p.marker = "circle";
+    p.markerSize = p.label ? .4 : 0
+    p.markerColor = PortalTable[p.portal].color
 
-    // Marker size on the 0..1 scale. Zero marker size will draw markers
-    // of very small sizes, near to 1 pixel. This might be useful for
-    // drawing hundreds of thousands of markers.
-    p.markerSize = 0.2;
+    if (p.label) {
+      // Portals + Pages
+      p.elevation = 0
+      p.labelColor = gray
+      p.labelPriority = 0.5
+      p.label = p.label.replace(/_/g, ' ')
+      p.title = p.label
+      p.labelOpacity = 0.4
+    }
 
-    // Color of the marker. The required format is a 4-element RGBA array,
-    // with each component value in the 0..255 range.
-    // Tip: you can reuse array references for same-colored markers.
-    p.markerColor = red;
-  });
+    if (p.labelOpacity >= 1) {
+      // Top level portals
+      p.label = `[${p.label}]`
+      p.labelPriority = 0.9
+      p.labelColor = black
+      p.labelOpacity = 0.6
+    }
+  })
 
-  // Define layers.
+  overlay.forEach((p, ix) => {
+    p.x = p.x_map_fr
+    p.y = p.y_map_fr
+    p.marker = 'triangle'
+    p.markerSize = 1
+    p.markerColor = concept
+    p.label = _.truncate(p.title_fr, { length: 15, separator: ' ' })
+    p.labelPriority = 1
+    p.labelOpacity = 1
+    p.title = p.title_fr
 
-  // Currently, the elevations layer is special: this is the only layer that can define
-  // point elevations and labels. Bounding box of the map and hover events are computed
-  // only for points on this layer. The special status is likely to be removed before
-  // the first official release.
-  const elevations = { points: points };
+    p.userData = true
+  })
 
-  // Point markers layer, draws point markers (circles in this example) on top
-  // of the elevation layer. The markerSizeMultiplier defines how large in pixels
-  // a marker with markerSize = 1 should be.
-  const markers =    { points: points, type: "marker", markerSizeMultiplier: 10 };
+  const shownPoints = _.concat(points, overlay)
 
-  // Initialize dotAtlas
+  const elevations = { points: shownPoints }
+  const markers = {
+    points: shownPoints,
+    // visible: false,
+    type: 'marker',
+    markerSizeMultiplier: 30,
+    markerOpacity: 1,
+    markerStrokeWidth: 0,
+  }
+
   const dotatlas = new DotAtlas({
     element: container,
     pixelRatio: 2,
-    maxRadiusDivider: 10,
-    mapLightAzimuth: 0.4,
+    maxRadiusDivider: 15,
+    mapLightAzimuth: 0.8,
     mapLightIntensity: 0.5,
-  });
+    mapContourOpacity: 0.8,
+    mapContourWidth: 0,
+    mapLightness: 0,
+
+    hoverRadiusMultiplier: 20,
+    onPointHover: (e) => onHover(e),
+    onClick: (e) => onClick(e),
+  })
 
   const dataObject = {
     layers: [
-      elevations, // Currently, elevation layer must always be at index 0
+      elevations,
       markers,
-    ]
+    ],
   }
   const dotatlasFx = new DotAtlasEffects(dotatlas)
-  return { map: dotatlas, fx: dotatlasFx, data: dataObject };
+  return { map: dotatlas, fx: dotatlasFx, data: dataObject }
 }
-
 
 const CardBox = posed.div({
   preMount: {
@@ -130,42 +185,6 @@ const CardBox = posed.div({
   },
 })
 
-const ResourcesList = posed.ul({
-  enter: {
-    opacity: 1,
-    staggerChildren: 100,
-    beforeChildren: true,
-    delay: 100,
-    delayChildren: 200,
-  },
-  exit: {
-    opacity: .2,
-  },
-  props: {
-    flip: {
-      transition: 'tween',
-    },
-  },
-})
-
-const InfoCard = posed.li({
-  enter: {
-    y: 0,
-    scale: 1,
-    opacity: 1,
-  },
-  exit: {
-    y: -40,
-    scale: .2,
-    opacity: 0,
-  },
-  props: {
-    flip: {
-      transition: 'spring',
-    },
-  },
-})
-
 
 class MapCard extends Component {
   constructor (props) {
@@ -173,58 +192,100 @@ class MapCard extends Component {
     this.state = {
       pose: 'init',
       atlasReady: false,
-      fakeTags: [],
+      currentPoints: [],
+      cardPoint: null,
+      cardLock: false,
+      lastCardPoint: null,
     }
 
     this.canvasRef = React.createRef()
     this.didToggleZoom = this.didToggleZoom.bind(this)
     this.refreshAtlas = this.refreshAtlas.bind(this)
     this.updateAtlas = this.updateAtlas.bind(this)
+
+    this.renderMapLayer = this.renderMapLayer.bind(this)
+    this.didClickOnMap = this.didClickOnMap.bind(this)
+    this.didHoverOnMap = _.debounce(this.didHoverOnMap, 10).bind(this)
   }
 
   componentDidMount () {
-    request({ url: 'https://noop-pub.s3.amazonaws.com/opt/dotatlas_tmp.json' })
-      .then((points) => {
-        this.setState({ atlasReady: true, fakeTags: ['Boop', 'Noot', 'BMO'] })
-        setTimeout(() => {
-          this.atlas = drawCartography(points, this.canvasRef)
-          this.atlas.fx.rollout(this.atlas.data)
-          window.atlas = this.atlas
-        }, 200)
+    _.defer(this.renderMapLayer)
+  }
+
+  async renderMapLayer () {
+    const points = await request({ url: this.props.baseMapUrl })
+    const overlay = await RootAPI.fetchUserMapOverlay()
+
+    // Ensure the overlay object has all these keys set: `x_map_fr`, `y_map_fr`,
+    // and `title_fr`. (Since we currently only use the french base map.)
+    const overlayFilter = _.conforms({
+      title_fr: _.isString,
+      x_map_fr: _.isFinite,
+      y_map_fr: _.isFinite,
+    })
+    const overlayConcepts = _.chain(overlay.concepts)
+      .filter(overlayFilter)
+      .value()
+
+    requestAnimationFrame(() => {
+      this.atlas = drawCartography(points, this.canvasRef, this.didHoverOnMap, this.didClickOnMap, overlayConcepts)
+      this.setState({ atlasReady: true })
+      window.atlas = this.atlas
+      requestAnimationFrame(() => {
+        this.atlas.fx.rollout(this.atlas.data)
       })
+    })
   }
 
-  didToggleZoom () {
-    const pose = this.state.pose === 'zoomed' ? 'init' : 'zoomed'
-
-    // this.atlas.fx.pullback()
-    this.setState({ atlasReady: false, pose })
-
-    this.xid = setInterval(() => {
-      console.log('resize!')
-      this.atlas.map.resize()
-    }, 20)
-
+  didClickOnMap (e) {
+    this.setState({ cardLock: !this.state.cardLock })
   }
 
-  refreshAtlas () {
-    // this.atlas.fx.pullback().then(() => {
-    setTimeout(() => {
-      this.atlas.map.resize()
-    }, 10)
-    // this.atlas.map.resize()
-    // this.atlas.fx.rollout(this.atlas.data)
-    this.setState({ atlasReady: true })
-    if (this.xid) {
-      console.log('clearing', this.xid)
-      clearInterval(this.xid)
+  didHoverOnMap (e) {
+    const currentPoints = _.chain(e.points || [])
+      .filter((x) => x.title)
+      .map('title')
+      .value()
+    const cardPoint = _.chain(e.points || [])
+      .filter((x) => x.userData === true)
+      .head()
+      .get('title')
+      .value()
+
+    if (cardPoint) {
+      this.setState({ lastCardPoint: cardPoint })
     }
-    // })
+
+    this.setState({ currentPoints, cardPoint })
+  }
+
+  async didToggleZoom () {
+    const pose = this.state.pose === 'zoomed' ? 'init' : 'zoomed'
+    this.setState({ atlasReady: false })
+    _.delay(() => this.setState({ pose }), 200)
+  }
+
+  async refreshAtlas () {
+    requestAnimationFrame(() => {
+      this.atlas.map.resize()
+
+      requestAnimationFrame(() => {
+        this.setState({ atlasReady: true })
+      })
+    })
   }
 
   updateAtlas ({ key, value }) {
     this.atlas.set(key, value)
     this.atlas.redraw()
+  }
+
+  maybeRenderWikiCard () {
+    if (this.state.cardLock && this.state.lastCardPoint) {
+      return <WikiCard title={this.state.lastCardPoint} lang='fr'/>
+    } else if (this.state.cardPoint) {
+      return <WikiCard title={this.state.cardPoint} lang='fr'/>
+    }
   }
 
   render () {
@@ -248,19 +309,11 @@ class MapCard extends Component {
             </div>
 
             <ul className='contents'>
-              <PoseGroup animateOnMount={true}>
-                {false && this.state.fakeTags.map((id) => {
-                  return (
-                    <InfoCard key={id}>
-                      <Tag>{id}</Tag>
-                    </InfoCard>
-                  )
-                })}
-              </PoseGroup>
+              {this.maybeRenderWikiCard()}
             </ul>
 
             <div
-              className={clsx('mapbox', { xloading: !this.state.atlasReady })}
+              className={clsx('mapbox', { loading: !this.state.atlasReady })}
               ref={(el) => this.canvasRef = el}
             />
 
@@ -271,63 +324,7 @@ class MapCard extends Component {
   }
 }
 
-const ResourceCard = (props) => (
-  <Card elevation={Elevation.TWO} interactive>
-    <h4 className='title'>{props.title}</h4>
-
-    <DateTimePill timestamp={props.recorded_on} lang={props.lang}/>
-    <LanguagePill lang={props.lang}/>
-    <UrlPill url={props.url}/>
-
-    <ConceptList
-      concepts={props.concepts.map((c) => ({
-        title: c[`title_${props.lang}`] || c.title_en,
-        ...c,
-      }))}
-      lang={props.lang}
-      onRemove={console.log}/>
-  </Card>
-)
-
-class Resources extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      resources: [],
-      pose: 'exit',
-    }
-  }
-
-  componentDidMount () {
-    RootAPI.fetchPortfolio()
-      .then((data) => {
-        this.setState({ resources: data.resources, pose: 'enter' })
-      })
-  }
-
-  render () {
-    return (
-      <PoseGroup pose={this.state.pose} initialPose='exit'>
-        <ResourcesList className='resources' key='rlist'>
-          {this.state.resources.slice(0, 10).map((x, i) =>
-            <InfoCard>
-              <ResourceCard key={i} {...x} />
-            </InfoCard>
-          )}
-        </ResourcesList>
-      </PoseGroup>
-    )
-  }
-}
-
-
 document.addEventListener('apploaded', () => {
-  renderReactComponent('cartography', MapCard)
-
-  browser.storage.local
-    .get('user')
-    .then(({ user }) => {
-      renderReactComponent('iframes', Resources, user)
-    })
-
+  const baseMapUrl = 'https://noop-pub.s3.amazonaws.com/opt/atlas/atlas-optimal-02.json'
+  renderReactComponent('cartography', MapCard, { baseMapUrl })
 })
