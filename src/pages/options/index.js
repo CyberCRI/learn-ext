@@ -48,6 +48,29 @@ const PortalTable = {
 
 function drawCartography (points, container, onHover, onClick, overlay) {
   points.forEach(function (p, index) {
+    p.elevation = 0 //p.labelPriority >= 0.2 ? 0.08 : 0.01
+    p.marker = p.label ? 'circle' : ''
+
+    p.markerSize = p.label ? .4 : 0
+    p.markerColor = PortalTable[p.portal].color
+
+    if (p.label) {
+      // Portals + Pages
+      p.elevation = 0
+      p.labelColor = gray
+      p.labelPriority = 0.5
+      p.label = p.label.replace(/_/g, ' ')
+      p.title = p.label
+      p.labelOpacity = 0.4
+    }
+
+    if (p.labelOpacity >= 1) {
+      // Top level portals
+      p.label = `[${p.label}]`
+      p.labelPriority = 0.9
+      p.labelColor = black
+      p.labelOpacity = 0.6
+    }
   })
   const shownPoints = _.concat(points, overlay)
 
