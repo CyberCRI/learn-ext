@@ -18,6 +18,7 @@ class AccountSelector extends Component {
     }
 
     this.didUpdateUserSettings = this.didUpdateUserSettings.bind(this)
+    this.didChangeUsername = this.didChangeUsername.bind(this)
   }
 
   componentDidMount () {
@@ -38,9 +39,15 @@ class AccountSelector extends Component {
       })
   }
 
+  didChangeUsername (e) {
+    // Update username input box and reset signedIn state.
+    this.setState({ username: e.target.value, signedIn: false })
+  }
+
   didUpdateUserSettings (e) {
     // Ensure we don't move to other page.
     e.preventDefault()
+    this.setState({ signedIn: false, loading: true })
     if (this.state.username.length >= 2) {
       // For now, we just don't really bother about validation...
       const username = this.state.username
@@ -77,7 +84,7 @@ class AccountSelector extends Component {
               disabled={this.state.loading}
               value={this.state.username}
               intent={inputIntent}
-              onChange={(e) => this.setState({ username: e.target.value })}/>
+              onChange={this.didChangeUsername}/>
             <Button
               text='Save'
               type='submit'
