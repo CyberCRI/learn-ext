@@ -6,11 +6,43 @@ import clsx from 'classnames'
 import { renderReactComponent } from '~mixins/utils'
 import { request } from '~mixins'
 import RootAPI from '~mixins/root-api'
-import { ConceptList } from '~components/concepts'
-import { LanguagePill, DateTimePill, UrlPill } from '~components/pills'
 
 import './_options.sass'
 
+const PortalTable = {
+  art: {
+    portal: 'arts',
+    color: [60, 126, 162, 120],
+  },
+  geo: {
+    portal: 'geographie',
+    color: [104, 183, 140, 120],
+  },
+  hist: {
+    portal: 'histoire',
+    color: [215, 135, 66, 120],
+  },
+  pol: {
+    portal: 'politique_et_religions_et_croyances',
+    color: [118, 78, 162, 120],
+  },
+  sci: {
+    portal: 'sciences_et_medecine',
+    color: [152, 54, 109, 120],
+  },
+  soc: {
+    portal: 'societe',
+    color: [211, 115, 135, 120],
+  },
+  spo: {
+    portal: 'sport_et_loisirs',
+    color: [20, 204, 189, 120],
+  },
+  tech: {
+    portal: 'technologies',
+    color: [69, 128, 230, 120],
+  },
+}
 
 function drawCartography (points, container) {
   // Coordinates of points on the map.
