@@ -128,7 +128,6 @@ function drawCartography (points, container, onHover, onClick, overlay) {
   return { map: dotatlas, fx: dotatlasFx, data: dataObject }
 }
 
-
 const CardBox = posed.div({
   preMount: {
     y: 50,
@@ -202,6 +201,8 @@ class MapCard extends Component {
     this.updateAtlas = this.updateAtlas.bind(this)
 
     this.renderMapLayer = this.renderMapLayer.bind(this)
+    this.didClickOnMap = this.didClickOnMap.bind(this)
+    this.didHoverOnMap = _.debounce(this.didHoverOnMap, 10).bind(this)
   }
 
   componentDidMount () {
@@ -223,12 +224,23 @@ class MapCard extends Component {
       .filter(overlayFilter)
       .value()
 
+    requestAnimationFrame(() => {
+      this.atlas = drawCartography(points, this.canvasRef, this.didHoverOnMap, this.didClickOnMap, overlayConcepts)
+      this.setState({ atlasReady: true })
+      window.atlas = this.atlas
+      requestAnimationFrame(() => {
+        this.atlas.fx.rollout(this.atlas.data)
       })
     })
   }
 
+  didClickOnMap (e) {
+  }
+
+  didHoverOnMap (e) {
 
 
+  }
 
   async didToggleZoom () {
     const pose = this.state.pose === 'zoomed' ? 'init' : 'zoomed'
@@ -272,19 +284,10 @@ class MapCard extends Component {
             </div>
 
             <ul className='contents'>
-              <PoseGroup animateOnMount={true}>
-                {false && this.state.fakeTags.map((id) => {
-                  return (
-                    <InfoCard key={id}>
-                      <Tag>{id}</Tag>
-                    </InfoCard>
-                  )
-                })}
-              </PoseGroup>
             </ul>
 
             <div
-              className={clsx('mapbox', { xloading: !this.state.atlasReady })}
+              className={clsx('mapbox', { loading: !this.state.atlasReady })}
               ref={(el) => this.canvasRef = el}
             />
 
