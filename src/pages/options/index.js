@@ -130,42 +130,6 @@ const CardBox = posed.div({
   },
 })
 
-const ResourcesList = posed.ul({
-  enter: {
-    opacity: 1,
-    staggerChildren: 100,
-    beforeChildren: true,
-    delay: 100,
-    delayChildren: 200,
-  },
-  exit: {
-    opacity: .2,
-  },
-  props: {
-    flip: {
-      transition: 'tween',
-    },
-  },
-})
-
-const InfoCard = posed.li({
-  enter: {
-    y: 0,
-    scale: 1,
-    opacity: 1,
-  },
-  exit: {
-    y: -40,
-    scale: .2,
-    opacity: 0,
-  },
-  props: {
-    flip: {
-      transition: 'spring',
-    },
-  },
-})
-
 
 class MapCard extends Component {
   constructor (props) {
@@ -271,63 +235,5 @@ class MapCard extends Component {
   }
 }
 
-const ResourceCard = (props) => (
-  <Card elevation={Elevation.TWO} interactive>
-    <h4 className='title'>{props.title}</h4>
-
-    <DateTimePill timestamp={props.recorded_on} lang={props.lang}/>
-    <LanguagePill lang={props.lang}/>
-    <UrlPill url={props.url}/>
-
-    <ConceptList
-      concepts={props.concepts.map((c) => ({
-        title: c[`title_${props.lang}`] || c.title_en,
-        ...c,
-      }))}
-      lang={props.lang}
-      onRemove={console.log}/>
-  </Card>
-)
-
-class Resources extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      resources: [],
-      pose: 'exit',
-    }
-  }
-
-  componentDidMount () {
-    RootAPI.fetchPortfolio()
-      .then((data) => {
-        this.setState({ resources: data.resources, pose: 'enter' })
-      })
-  }
-
-  render () {
-    return (
-      <PoseGroup pose={this.state.pose} initialPose='exit'>
-        <ResourcesList className='resources' key='rlist'>
-          {this.state.resources.slice(0, 10).map((x, i) =>
-            <InfoCard>
-              <ResourceCard key={i} {...x} />
-            </InfoCard>
-          )}
-        </ResourcesList>
-      </PoseGroup>
-    )
-  }
-}
-
-
 document.addEventListener('apploaded', () => {
-  renderReactComponent('cartography', MapCard)
-
-  browser.storage.local
-    .get('user')
-    .then(({ user }) => {
-      renderReactComponent('iframes', Resources, user)
-    })
-
 })
