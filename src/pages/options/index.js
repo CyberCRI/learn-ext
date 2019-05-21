@@ -170,13 +170,15 @@ class MapCard extends Component {
     this.state = {
       pose: 'init',
       atlasReady: false,
-      fakeTags: [],
+      currentPoints: [],
     }
 
     this.canvasRef = React.createRef()
     this.didToggleZoom = this.didToggleZoom.bind(this)
     this.refreshAtlas = this.refreshAtlas.bind(this)
     this.updateAtlas = this.updateAtlas.bind(this)
+
+    this.renderMapLayer = this.renderMapLayer.bind(this)
   }
 
   componentDidMount () {
