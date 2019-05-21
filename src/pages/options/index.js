@@ -280,6 +280,14 @@ class MapCard extends Component {
     this.atlas.redraw()
   }
 
+  maybeRenderWikiCard () {
+    if (this.state.cardLock && this.state.lastCardPoint) {
+      return <WikiCard title={this.state.lastCardPoint} lang='fr'/>
+    } else if (this.state.cardPoint) {
+      return <WikiCard title={this.state.cardPoint} lang='fr'/>
+    }
+  }
+
   render () {
     return (
       <div className='map-card-container'>
@@ -301,6 +309,7 @@ class MapCard extends Component {
             </div>
 
             <ul className='contents'>
+              {this.maybeRenderWikiCard()}
             </ul>
 
             <div
