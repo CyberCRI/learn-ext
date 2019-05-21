@@ -184,6 +184,20 @@ class MapCard extends Component {
   }
 
   async renderMapLayer () {
+    const points = await request({ url: this.props.baseMapUrl })
+    const overlay = await RootAPI.fetchUserMapOverlay()
+
+    // Ensure the overlay object has all these keys set: `x_map_fr`, `y_map_fr`,
+    // and `title_fr`. (Since we currently only use the french base map.)
+    const overlayFilter = _.conforms({
+      title_fr: _.isString,
+      x_map_fr: _.isFinite,
+      y_map_fr: _.isFinite,
+    })
+    const overlayConcepts = _.chain(overlay.concepts)
+      .filter(overlayFilter)
+      .value()
+
       })
     })
   }
