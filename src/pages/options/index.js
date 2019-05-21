@@ -325,4 +325,6 @@ class MapCard extends Component {
 }
 
 document.addEventListener('apploaded', () => {
+  const baseMapUrl = 'https://noop-pub.s3.amazonaws.com/opt/atlas/atlas-optimal-02.json'
+  renderReactComponent('cartography', MapCard, { baseMapUrl })
 })
