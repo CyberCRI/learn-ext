@@ -72,6 +72,20 @@ function drawCartography (points, container, onHover, onClick, overlay) {
       p.labelOpacity = 0.6
     }
   })
+
+  overlay.forEach((p, ix) => {
+    p.x = p.x_map_fr
+    p.y = p.y_map_fr
+    p.marker = 'triangle'
+    p.markerSize = 1
+    p.markerColor = concept
+    p.label = _.truncate(p.title_fr, { length: 15, separator: ' ' })
+    p.labelPriority = 1
+    p.labelOpacity = 1
+    p.title = p.title_fr
+
+    p.userData = true
+  })
   const shownPoints = _.concat(points, overlay)
 
   const elevations = { points: shownPoints }
