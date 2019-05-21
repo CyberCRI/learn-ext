@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Card, Elevation, Icon, Button, Popover, Menu, MenuItem, Tag } from '@blueprintjs/core'
 import posed, { PoseGroup } from 'react-pose'
 import clsx from 'classnames'
+import _ from 'lodash'
 
 import { renderReactComponent } from '~mixins/utils'
 import { request } from '~mixins'
@@ -179,43 +180,31 @@ class MapCard extends Component {
   }
 
   componentDidMount () {
-    request({ url: 'https://noop-pub.s3.amazonaws.com/opt/dotatlas_tmp.json' })
-      .then((points) => {
-        this.setState({ atlasReady: true, fakeTags: ['Boop', 'Noot', 'BMO'] })
-        setTimeout(() => {
-          this.atlas = drawCartography(points, this.canvasRef)
-          this.atlas.fx.rollout(this.atlas.data)
-          window.atlas = this.atlas
-        }, 200)
+    _.defer(this.renderMapLayer)
+  }
+
+  async renderMapLayer () {
       })
+    })
   }
 
-  didToggleZoom () {
+
+
+
+  async didToggleZoom () {
     const pose = this.state.pose === 'zoomed' ? 'init' : 'zoomed'
-
-    // this.atlas.fx.pullback()
-    this.setState({ atlasReady: false, pose })
-
-    this.xid = setInterval(() => {
-      console.log('resize!')
-      this.atlas.map.resize()
-    }, 20)
-
+    this.setState({ atlasReady: false })
+    _.delay(() => this.setState({ pose }), 200)
   }
 
-  refreshAtlas () {
-    // this.atlas.fx.pullback().then(() => {
-    setTimeout(() => {
+  async refreshAtlas () {
+    requestAnimationFrame(() => {
       this.atlas.map.resize()
-    }, 10)
-    // this.atlas.map.resize()
-    // this.atlas.fx.rollout(this.atlas.data)
-    this.setState({ atlasReady: true })
-    if (this.xid) {
-      console.log('clearing', this.xid)
-      clearInterval(this.xid)
-    }
-    // })
+
+      requestAnimationFrame(() => {
+        this.setState({ atlasReady: true })
+      })
+    })
   }
 
   updateAtlas ({ key, value }) {
