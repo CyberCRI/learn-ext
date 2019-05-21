@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Callout, Intent } from '@blueprintjs/core'
 import { InputGroup, ControlGroup, Button } from '@blueprintjs/core'
 import * as FiIcon from 'react-icons/fi'
+import _ from 'lodash'
 
 import RootAPI from '~mixins/root-api'
 import { userId } from '~mixins/utils'
@@ -23,7 +24,7 @@ class AccountSelector extends Component {
     browser.storage.local
       .get('user')
       .then(({ user }) => {
-        if (!user.signedIn) {
+        if (!_.get(user, 'signedIn')) {
           this.setState({
             loading: false,
             signedIn: false,
