@@ -45,13 +45,13 @@ const PortalTable = {
   },
 }
 
-function drawCartography (points, container) {
   // Coordinates of points on the map.
 
   // Assign additional properties to some of the points.
   // These could of course be defined directly in the data above,
   // we use the loop to avoid repetition.
   const red = [200, 0, 0, 255];
+function drawCartography (points, container, onHover, onClick, overlay) {
   points.forEach(function (p, index) {
     // Elevation of the point on the 0..1 scale.
     // Zero elevation will not contribute to the height map,
