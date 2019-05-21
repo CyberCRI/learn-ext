@@ -83,7 +83,8 @@
     background: #8cc0e9
 
     canvas
-      transition: 0.1s all
+      transition: .2s filter
+      will-change: filter
       filter: blur(0px)
       cursor: grab
 
@@ -94,7 +95,7 @@
     &.loading
       canvas
         // opacity: 0
-        filter: blur(4px)
+        filter: blur(16px)
 
 
 .resources
