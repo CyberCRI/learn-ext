@@ -66,6 +66,7 @@ dev:build () {
 }
 
 dev:webext () {
+  export FLAGS_VERBOSE='yes'
   web-ext run
   _info 'Closing Firefox'
 }
@@ -87,7 +88,6 @@ release:bump () {
 }
 
 release:pack () {
-  export FLAGS_VERBOSE='yes'
   _info 'Packing Extension'
   web-ext lint
   _info '[i] Building'
