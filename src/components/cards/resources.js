@@ -1,6 +1,7 @@
 import React from 'react'
 import { useMount, useAsyncFn } from 'react-use'
 import { Card, Elevation } from '@blueprintjs/core'
+import _ from 'lodash'
 
 import { request } from '~mixins/request'
 import { ConceptList } from '~components/concepts'
@@ -17,6 +18,7 @@ export const ResourceCard = (props) => {
       },
     })
   })
+  const imgUrl = _.get(ogMeta, 'value.image')
 
   useMount(() => {
     // Fetch metadata on mount.
@@ -27,11 +29,13 @@ export const ResourceCard = (props) => {
     <Card elevation={Elevation.TWO} interactive className='card resource'>
       <h4 className='title'>{props.title}</h4>
 
-      { !ogMeta.loading && ogMeta.value && <img src={ogMeta.value.image}/> }
+      <div className='backdrop'>
+        <img src={imgUrl} className='backdrop'/>
+        <img src={imgUrl} className='visible'/>
+      </div>
 
       <DateTimePill timestamp={props.recorded_on} lang={props.lang}/>
       <LanguagePill lang={props.lang}/>
-      <UrlPill url={props.url} short linked/>
 
       <ConceptList
         concepts={props.concepts.map((c) => ({
@@ -39,6 +43,7 @@ export const ResourceCard = (props) => {
           ...c,
         }))}
         lang={props.lang}/>
+      <UrlPill url={props.url} short linked/>
     </Card>
   )
 }

@@ -1,5 +1,6 @@
 @import 'styles/colors';
 @import 'styles/mixins';
+@import 'styles/fontfaces';
 
 $transition-timing-overshoot: cubic-bezier(0.670, -0.540, 0.500, 1.650);
 
@@ -232,30 +233,51 @@ div.info-card {
 
 div.card {
   &.resource {
+    $offset-sides: 5px;
+    $box-padding: 10px + $offset-sides;
+
     width: 250px;
     position: relative;
     z-index: 1;
     overflow: hidden;
-    padding-top: 90px;
-    // min-width: 200px;
+    padding: $box-padding;
+    padding-top: $box-padding * 9;
+    background: $light-gray1;
+    border-radius: 6px;
 
     &:before {
       content: '';
       position: absolute;
-      top: 80px;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: $box-padding * 8;
+      left: $offset-sides;
+      right: $offset-sides;
+      bottom: 10px;
+
+      border-radius: 4px;
       background: #fff;
       z-index: -1;
     }
 
-    img {
+    .backdrop img {
       width: 100%;
       position: absolute;
       top: 0;
       left: 0;
       z-index: -2;
+      background: $dark-gray2;
+
+      &.backdrop {
+        filter: blur(20px);
+        transform: scale(2) translateY(-10%);
+      }
+    }
+
+    .title {
+      font: {
+        family: $typeface-text;
+        weight: 600;
+        size: 1rem;
+      }
     }
   }
 }
