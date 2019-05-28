@@ -42,6 +42,7 @@ export const ConceptTag = (props) => {
     props.onRemove && props.onRemove({ title })
   }
 
+  const onRemove = props.removable === true ? didClickRemove : null
   useLogger('ConceptTag')
 
   return (
@@ -50,7 +51,7 @@ export const ConceptTag = (props) => {
       minimal
       large
       className='np--concept-tag'
-      onRemove={didClickRemove}>
+      onRemove={onRemove}>
       <Popover
         content={<WikiCard title={title} lang={lang}/>}
         target={<span>{title}</span>}
@@ -64,7 +65,7 @@ export const ConceptTag = (props) => {
 }
 
 export const ConceptList = (props) => {
-  const { concepts, lang } = props
+  const { concepts, lang, removable=false } = props
   useLogger('ConceptList')
 
   return (
@@ -72,7 +73,11 @@ export const ConceptList = (props) => {
       <FluidTagList className='np--concepts-list' key='fltag'>
         {concepts.map((item) =>
           <FluidTag key={item.title}>
-            <ConceptTag onRemove={props.onRemove} lang={lang} {...item}/>
+            <ConceptTag
+              removable={removable}
+              onRemove={props.onRemove}
+              lang={lang}
+              {...item}/>
           </FluidTag>
         )}
       </FluidTagList>
