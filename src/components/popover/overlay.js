@@ -93,7 +93,7 @@ const PageConcepts = (props) => {
       {status === 100 && <Spinner size={Spinner.SIZE_SMALL}/>}
       {status >= 200 && status <= 500 && <LanguagePill lang={language}/>}
 
-      <ConceptList concepts={concepts} lang={language} onRemove={itemRemoved}/>
+      <ConceptList concepts={concepts} lang={language} removable onRemove={itemRemoved}/>
       <TagSuggest lang={language} onSelect={itemSelected}/>
       <RatingPicker onChange={(value) => setKProg(value)}/>
     </div>
