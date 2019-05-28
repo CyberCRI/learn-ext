@@ -13,3 +13,10 @@ actions:
     # Page action appears in address bar
     title:
       message: 'Add to iLearn'
+
+menu:
+  action:
+    openDashboard:
+      message: 'Open Dashboard'
+    addResource:
+      message: 'Add this page to iLearn'
