@@ -3,6 +3,7 @@ import { ExtensionPages } from './reactors'
 import { userId } from '~mixins/utils'
 import _ from 'lodash'
 import { InstallEventReason } from './structs'
+import { initContextMenus } from './contextMenus'
 
 const tabState = {}
 const ports = {}
@@ -101,3 +102,5 @@ browser.browserAction.onClicked.addListener((e) => {
     })
   }
 })
+
+initContextMenus()
