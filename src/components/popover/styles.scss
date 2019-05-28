@@ -16,12 +16,12 @@
   align-items: normal;
   padding: 4px;
 
-  grid-template-columns: 25px 5px auto;
+  grid-template-columns: auto 5px 25px;
   grid-template-rows: auto 5px 1.2em;
   grid-template-areas:
-    "icon . title"
-    "icon . ."
-    "icon . url";
+    "title . icon"
+    ". . icon"
+    "url . icon";
 
   font-size: .8rem;
   border-radius: 4px;
@@ -30,9 +30,14 @@
   background: $light-gray1;
 
 
-  img {
+  img.favicon {
     grid-area: icon;
     width: 100%;
+    border-radius: 50%;
+    border: 1px solid transparentize($dark-gray2, .4);
+    background: $light-gray3;
+    padding: 1px;
+    box-shadow: 0 0 8px -1px transparentize($dark-gray3, .3);
   }
 
   h3 {
