@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "manifest_version": 2,
 
   "browser_specific_settings": {
@@ -25,7 +25,7 @@
   },
 
   "default_locale": "en",
-  "content_security_policy": "script-src 'self' https://noop-pub.s3.amazonaws.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://noop-pub.s3.amazonaws.com; object-src 'self'",
 
   "background": {
     "scripts": [
@@ -54,8 +54,8 @@
 
   "permissions": [
     "activeTab",
-    "notifications",
     "storage",
+    "contextMenus",
     "https://*/*",
     "http://*/*"
   ],
