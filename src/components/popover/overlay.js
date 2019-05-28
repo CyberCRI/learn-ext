@@ -24,11 +24,9 @@ const CardsBox = pose.div({
 })
 
 export const PageInfo = ({ title, favicon, url }) => {
-  useLogger('PageInfo')
-
   return (
     <div className='page-infobox'>
-      <img src={favicon} title={title}/>
+      <img className='favicon' src={favicon} title={title}/>
       <h3>{title}</h3>
       <UrlPill url={url}/>
     </div>
@@ -89,9 +87,9 @@ const PageConcepts = (props) => {
   }
 
   return (
-    <div>
+    <div className='actions'>
+      <h3>Concepts</h3>
       {status === 100 && <Spinner size={Spinner.SIZE_SMALL}/>}
-      {status >= 200 && status <= 500 && <LanguagePill lang={language}/>}
 
       <ConceptList concepts={concepts} lang={language} removable onRemove={itemRemoved}/>
       <TagSuggest lang={language} onSelect={itemSelected}/>
@@ -132,7 +130,7 @@ export const PopOverlay = (props) => {
   return (
     <div className='popoverlay' ref={ref}>
       <CardsBox pose={isOpen ? 'open' : 'closed'}>
-        <HookedCard isOpen={isOpen}>
+        <HookedCard isOpen={isOpen} className='page-action'>
           <div>
             <PopoverTools/>
             <PageInfo {...tabInfo}/>
