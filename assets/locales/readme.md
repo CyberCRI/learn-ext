@@ -40,9 +40,9 @@ extension:
   description:
     message: 'Collaborative Learning with iLearn'
 
-command:
-  page-actions:
-    toggle:
+actions:
+  page:
+    title:
       message: 'Add the resource to your ilearn library'
 ```
 
@@ -54,17 +54,38 @@ For example, the above file would transform to this `json`:
 
 ```json
 {
-  "extension.name": {
+  "extension_name": {
     "message": "iLearn Extension"
   },
-  "extension.description": {
+  "extension_description": {
     "message": "Collaborative Learning with iLearn"
   },
-  "command.page-actions.toggle": {
+  "actions_page_title": {
     "message": "Add the resource to your ilearn library"
   }
 }
 ```
+
+Notice that this transformation used `_` for joining the nested keys because
+the valid keys supported by i18n API are `[A-Za-z0-9_]`.
+
+### Usage
+
+####  In extension processes
+Use the function `i18n` from `~procs/wrappers` which takes care of transforming
+nested object notation keys to the valid key in json file.
+
+```javascript
+import { i18n } from '~procs/wrappers';
+
+i18n('extension.name');
+```
+
+See [src/procs/wrappers.js](../../src/procs/wrappers.js) for complete signature.
+
+#### In content/browser scripts and webpages
+
+*This section is currently incomplete.*
 
 
 ### Gotchas
