@@ -1,5 +1,4 @@
 const WebpackBar = require('webpackbar')
-const DashboardPlugin = require('webpack-dashboard/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
@@ -62,7 +61,17 @@ module.exports = {
     pages_landing: pageEntryPoint('landing'),
   },
   output: {
-    filename: '[name].js',
+    publicPath: '/',
+    chunkFilename: '[name].js',
+    filename: (chunkData) => {
+      if (/pages_.*/.test(chunkData.chunk.name)) {
+        // Put the static html inside `pages/chunks`
+        return 'chunks/[name].js'
+      } else {
+        // Otherwise put it in root directory.
+        return '[name].js'
+      }
+    },
     path: abspath('./ext'),
   },
 
@@ -162,6 +171,7 @@ module.exports = {
     entrypoints: false,
     modules: false,
     warnings: false,
+    assets: dotenv.flags.verbose === 'yes',
   },
 
   plugins: [
