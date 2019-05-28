@@ -43,6 +43,8 @@ export const ConceptTag = (props) => {
   }
 
   const onRemove = props.removable === true ? didClickRemove : null
+  const eloScore = props.elo ? `(${props.elo})` : ''
+
   useLogger('ConceptTag')
 
   return (
@@ -54,7 +56,7 @@ export const ConceptTag = (props) => {
       onRemove={onRemove}>
       <Popover
         content={<WikiCard title={title} lang={lang}/>}
-        target={<span>{title}</span>}
+        target={<span>{title} {eloScore}</span>}
         interactionKind={PopoverInteractionKind.HOVER}
         hoverCloseDelay={500}
         hoverOpenDelay={200}
