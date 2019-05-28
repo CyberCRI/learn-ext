@@ -105,9 +105,9 @@ class TagSuggest extends Component {
 
   render () {
     const popoverProps = {
-      position: 'bottom',
-      usePortal: false,
+      position: 'bottom-right',
       className: 'np--tags-popover',
+      popoverClassName: 'concept-popover',
       modifiers: {
         arrow: { enabled: true },
         flip: { enabled: true },
