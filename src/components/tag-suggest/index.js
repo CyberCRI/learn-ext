@@ -3,6 +3,7 @@ import { Button, ControlGroup, NonIdealState, Tag, Intent } from '@blueprintjs/c
 import { Suggest } from '@blueprintjs/select'
 import posed from 'react-pose'
 import Fuse from 'fuse.js'
+import _ from 'lodash'
 
 import Wiki from '~mixins/wikipedia'
 
@@ -37,20 +38,19 @@ class TagSuggest extends Component {
     this.queryDidChange = this.queryDidChange.bind(this)
     this.shouldFocusInput = this.shouldFocusInput.bind(this)
     this.didSelectItem = this.didSelectItem.bind(this)
-  }
 
-  componentDidMount () {
+    this.searchWikipedia = _.debounce(this.searchWikipedia, 500).bind(this)
   }
 
   queryDidChange (q, event) {
-    this.setState({ query: q })
-    if (q.length <= 2) {
-      this.setState({ waiting: true })
-      return
+    this.setState({ inflight: true, query: q })
+    if (q.length > 2) {
+      this.searchWikipedia(q)
     }
-    this.setState({ inflight: true, waiting: false })
+  }
 
-    Wiki.opensearch(q, this.props.lang).then((items) => {
+  searchWikipedia (query) {
+    Wiki.opensearch(query, this.props.lang).then((items) => {
       if (items.length >= 1) {
         this.setState({ items, inflight: false })
       } else {
