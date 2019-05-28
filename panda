@@ -51,6 +51,11 @@ dev:docs () {
   docz dev
 }
 
+dev:storybook () {
+  _info 'Starting Storybook Server'
+  start-storybook --port 8519 --ci
+}
+
 dev:watch () {
   gen:webfonts
   webpack --config webpack.dev.js --watch
