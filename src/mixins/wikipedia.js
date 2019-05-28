@@ -35,7 +35,7 @@ class WikiAPI {
       action: 'opensearch',
       format: 'json',
       namespace: 0,
-      limit: 20,
+      limit: 10,
       suggest: 1,
       requestid: nsuuid(query),
       search: query,
