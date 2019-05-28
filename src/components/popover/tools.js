@@ -22,9 +22,9 @@ export const PopoverTools = (props) => {
     }
   }
   return (
-    <div className='popover-tools'>
+    <div className='popover-tools bp3-dark'>
       {ToolButtons.map((btn) =>
-        <Button small intent='primary' {...buildProps(btn)}/>
+        <Button small minimal {...buildProps(btn)}/>
       )}
     </div>
   )
