@@ -84,3 +84,14 @@ export const userId = (email) => {
   // To obfuscate the user email, a simple hash of user email is used.
   return md5(`ilearn_${email}`)
 }
+
+export const cssUrlVars = (vars) => {
+  // Helper method to set inline CSS Variables value for a url.
+  // Expects an object with <name: url> entries.
+  // Return a style object.
+  return _(vars)
+    .mapKeys((value, key) => `--${key}`)
+    .mapValues((value) => `url(${value})`)
+    .thru((style) => ({ style }))
+    .value()
+}
