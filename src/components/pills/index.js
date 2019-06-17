@@ -3,6 +3,9 @@ import moment from 'moment'
 import urlParse from 'url-parse'
 import clsx from 'classnames'
 
+import OpenGraph from '~mixins/opengraph'
+import { cssUrlVars } from '~mixins/utils'
+
 import './styles.scss'
 
 
@@ -15,7 +18,7 @@ export const Pill = (props) => {
   })
 
   return (
-    <div role='pill' className={modifiers}>
+    <div role='pill' className={modifiers} style={props.style}>
       { props.children }
     </div>
   )
@@ -78,6 +81,12 @@ export const UrlPill = ({ url, ...props }) => {
   )
 }
 
+export const FaviconPill = ({ url, title='', ...props }) => {
+  const vars = cssUrlVars({ faviconUrl: OpenGraph.icon(url) })
+  return (
+    <Pill kind='favicon' {...props} {...vars}/>
+  )
+}
 
 export const HotKeysPill = ({ keys, ...props }) => {
   return (

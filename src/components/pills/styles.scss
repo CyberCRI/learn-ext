@@ -1,4 +1,9 @@
 @import 'styles/fontfaces';
+@import 'styles/variables';
+
+:root {
+  --faviconUrl: '@';
+}
 
 .pill {
   &.url {
@@ -29,5 +34,15 @@
       background: #555D65;
       box-shadow: 0 4px 0 0 #222B30;
     }
+  }
+
+  &.favicon {
+    background: {
+      image: var(--faviconUrl);
+      size: cover;
+      repeat: no-repeat;
+    }
+    box-shadow: $pt-elevation-shadow-1;
+    border-radius: 50%;
   }
 }
