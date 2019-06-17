@@ -26,6 +26,7 @@ const reactOnInstalled = async ({ reason, temporary }) => {
         user: {
           uid: userId('nugget@noop.pw'),
           username: 'nugget@noop.pw',
+          groupId: 'beta',
           signedIn: true,
         },
       })
