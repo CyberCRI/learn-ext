@@ -131,8 +131,10 @@ release:dev () {
 }
 
 release () {
-  _info '<*> Creating a PUBLIC release!'
-  release:dev
+  export FLAGS_VERBOSE='no'
+  _info '<*> Creating a PUBLIC release! <*>'
+  release:build
+  release:pack
   release:sign
   release:publish
   _success 'Published Succesfully!'
