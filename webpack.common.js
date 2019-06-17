@@ -11,7 +11,6 @@ const { dotenv, abspath, locale, manifest } = require('./tools/node-plugins')
 const copySourceBundleRules = [
   { from: './src/manifest.json', to: './', transform: manifest.transform },
   { from: './assets/icons', to: './icons' },
-  { from: './assets/banners', to: './banners' },
   {
     from: './assets/locales/*.yml',
     to: './_locales/[name]/messages.json',
@@ -168,14 +167,19 @@ module.exports = {
   },
 
   stats: {
+    children: false,
     entrypoints: false,
+    hash: false,
     modules: false,
+    version: false,
     warnings: false,
+    excludeAssets: /^(fonts|icons)\/.*/,
     assets: dotenv.flags.verbose === 'yes',
+    assetsSort: 'name',
   },
 
   plugins: [
-    new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
+    new WebpackBar({ name: 'webext-ilearn', profile: false, basic: false }),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
     new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
     new MomentLocalesPlugin({ localesToKeep: ['fr'] }),

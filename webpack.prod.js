@@ -1,12 +1,11 @@
 // Configuration for Production builds.
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 const base_config = require('./webpack.common')
 const { smartMerge } = require('./tools/node-plugins')
 
-console.log('[!] Production Build')
 
 module.exports = smartMerge(base_config, {
   mode: 'production',
@@ -46,5 +45,8 @@ module.exports = smartMerge(base_config, {
         ],
       },
     ],
+  },
+  stats: {
+    assets: true,
   },
 })
