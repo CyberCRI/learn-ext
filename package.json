@@ -19,7 +19,6 @@
     "moment": "^2.24.0",
     "query-string": "^6.7.0",
     "react": "^16.5.2",
-    "react-autobind": "^1.0.6",
     "react-dom": "^16.5.2",
     "react-icons": "3.5.0",
     "react-iframe": "^1.3.3",
@@ -62,9 +61,6 @@
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.1",
     "cssnano": "^4.1.8",
-    "docz": "^1.0.0-rc.3",
-    "docz-plugin-css": "^0.11.0",
-    "docz-theme-default": "^1.0.0-rc.3",
     "dotenv-webpack": "^1.5.7",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
@@ -124,7 +120,6 @@
     "build:prod": "webpack --config webpack.prod.js",
     "start:dev-server": "webpack-dev-server --config webpack.dev.js --hot",
     "start:dev": "webpack --config webpack.dev.js --watch",
-    "start:web-ext--run": "web-ext run",
-    "start:docz": "docz dev"
+    "start:web-ext--run": "web-ext run"
   }
 }

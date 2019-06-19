@@ -39,18 +39,6 @@ __sigint () {
 trap __sigint SIGINT
 
 #================================================
-desc 'dev:docs' << BOOP
-Usage:
-  ${_ME} docz
-
-Description:
-  Start Docz Server.
-BOOP
-dev:docs () {
-  _info 'Start Docz Server'
-  docz dev
-}
-
 dev:storybook () {
   _info 'Starting Storybook Server'
   start-storybook --port 8519 --ci
