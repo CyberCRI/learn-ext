@@ -1,3 +1,4 @@
+# [1] Extension Specific Strings
 extension:
   name:
     message: 'iLearn Extension'
@@ -20,3 +21,115 @@ menu:
       message: 'Open Dashboard'
     addResource:
       message: 'Add this page to iLearn'
+
+# [2] Navigation and Pages Strings
+navigationBar:
+  heading:
+    message: 'iLearn'
+
+  links:
+    dashboard:
+      label:
+        message: 'My Resources'
+    discover:
+      label:
+        message: 'Discover'
+
+    settings:
+      label:
+        message: 'Settings'
+
+    help:
+      label:
+        message: 'Help'
+
+pages:
+  dashboard:
+    meta:
+      pageTitle:
+        message: 'Dashboard | iLearn'
+
+    actions:
+      sort:
+        message: 'Sort'
+    searchInput:
+      placeholder:
+        message: 'Search'
+
+  settings:
+    meta:
+      pageTitle:
+        message: 'Settings | iLearn'
+
+    userAccount:
+      intro:
+        title:
+          message: ''
+        description:
+          message: 'Specify the email you want to use iLearn with.'
+      success:
+        title:
+          message: ''
+        description:
+          message: 'You are signed in!'
+      error:
+        title:
+          message: ''
+        description:
+          message: 'Trouble reaching server. Please try again.'
+      form:
+        emailInput:
+          label:
+            message: 'Your email'
+          placeholder:
+            message: 'Email'
+        groupRadio:
+          label:
+            message: 'Group'
+        submitButton:
+          label:
+            message: 'Save'
+
+  onboarding:
+    meta:
+      pageTitle:
+        message: 'iLearn'
+
+    intro:
+      title:
+        message: 'Thanks for using iLearn!'
+      description:
+        message: ''
+
+# [3] React Components
+components:
+  suggest:
+    searchInput:
+      placeholder:
+        message: 'Add Concept'
+    intro:
+      title:
+        message: 'Type to find concepts.'
+      description:
+        message: 'We will suggest relevant concepts to tag this resource with.'
+    error:
+      title:
+        message: 'Nothing found'
+      description:
+        message: 'No concepts match ${query}'
+    inflight:
+      label:
+        message: 'Searching'
+
+  cards:
+    wikiInfoCard:
+      actions:
+        locateInMap:
+          message: 'Locate in Map'
+        moreInfo:
+          message: 'Read More'
+      errorState:
+        title:
+          message: ''
+        description:
+          message: 'Wikipedia does not seem to have a page for this concept.'
