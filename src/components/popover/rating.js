@@ -1,6 +1,5 @@
 import React from 'react'
 import _ from 'lodash'
-import { useUpdateEffect, useLogger } from 'react-use'
 import { ButtonGroup, Button } from '@blueprintjs/core'
 
 
@@ -11,20 +10,14 @@ const KpRatings = [
 ]
 
 
-export const RatingPicker = (props) => {
-  const [ knowledgeProg, setKnowledgeProg ] = React.useState(0.5)
-
-  useUpdateEffect(() => {
-    // Publish the state to the parent component.
-    props.onChange && props.onChange(knowledgeProg)
-  })
-  useLogger('RatingPicker', props)
+export const RatingPicker = ({ rating, onChange, ...props }) => {
+  // Stateless Rating Picker. Uses the KpRating values to render buttons.
 
   const buildProps = ({ id, value, label }) => {
-    // Returns props for the buttons based on the value specified here.
+    // Return props for the buttons defined in object above.
     return {
-      onClick: () => setKnowledgeProg(value),
-      active: knowledgeProg === value,
+      onClick: () => onChange(value),
+      active: rating === value,
       text: label,
       key: id,
       kind: id,
