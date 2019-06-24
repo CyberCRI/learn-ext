@@ -1,0 +1,125 @@
+@import 'styles/colors';
+@import 'styles/fontfaces';
+
+.np--concepts-list {
+  line-height: 34px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: block;
+  flex-wrap: wrap;
+  width: 100%;
+
+  li {
+    display: inline-flex;
+    max-width: 180px;
+  }
+
+  .np--concept-tag {
+    margin-right: 4px;
+  }
+
+  .concept-label {
+    max-width: 160px;
+    text-overflow: ellipsis;
+  }
+}
+
+.suggest {
+  &.root {
+    padding: 10px;
+  }
+
+  &.popover {
+    .bp3-popover-content {
+      width: 240px;
+    }
+
+    .bp3-menu {
+      height: 220px;
+      overflow: auto;
+    }
+  }
+
+  .suggestion {
+    $running-text-size: 1em;
+    $line-height: $running-text-size + 0.4;
+    $max-lines: 3;
+
+    display: block;
+    margin-bottom: 5px;
+    background: $light-gray4;
+    border-radius: 6px;
+    padding: {
+      top: 5px;
+      right: 5px;
+      bottom: 3px;
+      left: 8px;
+    }
+    cursor: pointer;
+    overflow: hidden;
+    max-height: $line-height * $max-lines;
+    box-sizing: content-box;
+
+    transition: background .2s ease;
+
+    font: {
+      family: $typeface-text;
+      size: 14px;
+    }
+    color: $dark-gray4;
+
+    p {
+      line-height: $line-height;
+      margin: 0;
+
+      strong {
+        padding: {
+          top: 5px;
+          right: 5px;
+          left: 5px;
+          bottom: 3px;
+        }
+        background: $light-gray1;
+        border-radius: 4px;
+        margin-left: -5px;
+      }
+    }
+
+    &.active, &:focus, &:active {
+      background: $blue5;
+    }
+
+    &:hover {
+      background: lighten($blue5, 2);
+    }
+  }
+}
+
+.tag {
+  $size: 16px;
+
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 5px;
+  background: $light-gray2;
+  border-radius: 4px;
+
+  button.remove {
+    width: $size;
+    height: $size;
+  }
+
+  &.interactive {
+    cursor: pointer;
+    transition: background .2s ease;
+
+    &:hover {
+      background: $light-gray1;
+    }
+
+    &:focus, &:active {
+      background: $gray1;
+    }
+  }
+}

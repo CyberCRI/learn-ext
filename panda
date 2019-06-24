@@ -29,6 +29,9 @@ PATH="$PATH:./node_modules/.bin"
 # ... and that the local .env file is also sourced.
 source ./.env
 
+# ... and that it isnt too verbose.
+export FLAGS_VERBOSE='no'
+
 __sigint () {
   printf '\n'
   _abort 'Ended all sessions'
@@ -36,16 +39,9 @@ __sigint () {
 trap __sigint SIGINT
 
 #================================================
-desc 'dev:docs' << BOOP
-Usage:
-  ${_ME} docz
-
-Description:
-  Start Docz Server.
-BOOP
-dev:docs () {
-  _info 'Start Docz Server'
-  docz dev
+dev:storybook () {
+  _info 'Starting Storybook Server'
+  start-storybook --port 8519 --ci
 }
 
 dev:watch () {
@@ -54,7 +50,7 @@ dev:watch () {
 }
 
 dev:server () {
-  _info 'Starting dev-server on http://localhost:9889'
+  _info 'Starting dev-server'
   gen:webfonts
   webpack-dev-server --config webpack.dev.js --hot
 }
@@ -68,7 +64,7 @@ dev:build () {
 dev:webext () {
   export FLAGS_VERBOSE='yes'
   web-ext run
-  _info 'Closing Firefox'
+  _success 'Closing Firefox'
 }
 
 desc 'gen:webfonts' <<BOOP
@@ -88,14 +84,14 @@ release:bump () {
 }
 
 release:pack () {
-  _info 'Packing Extension'
+  _info 'Linting Extension Sources'
   web-ext lint
-  _info '[i] Building'
+  _info 'Building Package'
   web-ext build --overwrite-dest
 }
 
 release:sign () {
-  _info '[!] Signing Extension'
+  _info 'Requesting Signing Service'
   web-ext sign \
     --api-key $DEV_WEBEXT_API_KEY \
     --api-secret $DEV_WEBEXT_API_SECRET \
@@ -103,19 +99,33 @@ release:sign () {
 }
 
 release:build () {
-  _info '[!] Compiling using Production flag'
+  _info 'Compiling [Prod]'
   gen:webfonts
   webpack --config webpack.prod.js
+  _success 'Done'
+}
+
+release:publish () {
+  _info '<-> Syncing public releases store'
+  rsync -r web-ext-artifacts/ $DEV_EXTENSION_STORE
+}
+
+release:dev () {
+  export FLAGS_VERBOSE='no'
+  _info 'Building preview release'
+  release:build
+  release:pack
+  _success 'Done!'
 }
 
 release () {
   export FLAGS_VERBOSE='no'
-  _info '[!!] Building the release version.'
-
+  _info '<*> Creating a PUBLIC release! <*>'
   release:build
   release:pack
   release:sign
-  _info '-> Done!'
+  release:publish
+  _success 'Published Succesfully!'
 }
 
 #================================================

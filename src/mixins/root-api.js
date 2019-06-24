@@ -6,10 +6,19 @@ import _ from 'lodash'
 // Get the absolute url for specific api routes.
 const endpointFor = (path) => `${env.rootapi_host}/${path}`
 
-const userInfo = async () => {
-  const data = await browser.storage.local.get('user')
-  return data.user
+
+export const RuntimeParams = {
+  userInfo: async () => {
+    const { user } = await browser.storage.local.get('user')
+    return user
+  },
+
+  groupStruct: async () => {
+    const url = `${env.optapi_host}/structs/group-ids.json`
+    return await request({ url })
+  },
 }
+
 
 class ILearnAPI {
   initializeUser (params) {
@@ -30,7 +39,7 @@ class ILearnAPI {
     // │                  title │ String                          │
     // │  knowledge_progression │ {0, 0.5, 1} = 0.5               │
     // └──────────────────────────────────────────────────────────┘
-    const { uid } = await userInfo()
+    const { uid } = await RuntimeParams.userInfo()
     const payload = {
       user_id: uid,
       ...params,
@@ -44,7 +53,7 @@ class ILearnAPI {
   }
 
   async newConcept (params) {
-    const { uid } = await userInfo()
+    const { uid } = await RuntimeParams.userInfo()
     return request({
       url: endpointFor('prod/api/newconcept'),
       method: 'post',
@@ -88,14 +97,14 @@ class ILearnAPI {
     // Request params include:
     // ressource_url, concept_title, reliability_variation
     return request({
-      url: endpointFor('ext/api/crowdsourcing'),
+      url: endpointFor('prod/api/crowdsourcing'),
       method: 'put',
       data: params,
     })
   }
 
   async fetchPortfolio () {
-    const { uid } = await userInfo()
+    const { uid } = await RuntimeParams.userInfo()
     return request({
       url: endpointFor('prod/api/portfolio'),
       data: { user_id: uid },
@@ -103,11 +112,17 @@ class ILearnAPI {
   }
 
   async fetchUserMapOverlay () {
-    const { uid } = await userInfo()
-
+    const { uid } = await RuntimeParams.userInfo()
     return request({
-      url: endpointFor('prod/api/map'),
+      url: endpointFor('prod/api/map/user'),
       data: { user_id: uid },
+    })
+  }
+
+  async fetchGroupMapOverlay (groupId) {
+    return request({
+      url: endpointFor('prod/api/map/group'),
+      data: { group_id: groupId },
     })
   }
 }

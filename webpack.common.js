@@ -1,5 +1,4 @@
 const WebpackBar = require('webpackbar')
-const DashboardPlugin = require('webpack-dashboard/plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
@@ -12,7 +11,6 @@ const { dotenv, abspath, locale, manifest } = require('./tools/node-plugins')
 const copySourceBundleRules = [
   { from: './src/manifest.json', to: './', transform: manifest.transform },
   { from: './assets/icons', to: './icons' },
-  { from: './assets/banners', to: './banners' },
   {
     from: './assets/locales/*.yml',
     to: './_locales/[name]/messages.json',
@@ -22,6 +20,10 @@ const copySourceBundleRules = [
   {
     from: './node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
     to: './browser-polyfill.js',
+  },
+  {
+    from: './assets/dotatlas/v0.2.0/*.js',
+    to: './dotatlas',
   },
 ]
 
@@ -62,7 +64,17 @@ module.exports = {
     pages_landing: pageEntryPoint('landing'),
   },
   output: {
-    filename: '[name].js',
+    publicPath: '/',
+    chunkFilename: '[name].js',
+    filename: (chunkData) => {
+      if (/pages_.*/.test(chunkData.chunk.name)) {
+        // Put the static html inside `pages/chunks`
+        return 'chunks/[name].js'
+      } else {
+        // Otherwise put it in root directory.
+        return '[name].js'
+      }
+    },
     path: abspath('./ext'),
   },
 
@@ -159,13 +171,19 @@ module.exports = {
   },
 
   stats: {
+    children: false,
     entrypoints: false,
+    hash: false,
     modules: false,
+    version: false,
     warnings: false,
+    excludeAssets: /^(fonts|icons)\/.*/,
+    assets: dotenv.flags.verbose === 'yes',
+    assetsSort: 'name',
   },
 
   plugins: [
-    new WebpackBar({ name: 'ilearn', profile: true, basic: false }),
+    new WebpackBar({ name: 'webext-ilearn', profile: false, basic: false }),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
     new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
     new MomentLocalesPlugin({ localesToKeep: ['fr'] }),

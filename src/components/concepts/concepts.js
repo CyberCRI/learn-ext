@@ -1,12 +1,10 @@
 import React from 'react'
 import { useLogger } from 'react-use'
+import _ from 'lodash'
 import { Tag, Popover, PopoverInteractionKind, Position } from '@blueprintjs/core'
 import posed, { PoseGroup } from 'react-pose'
 
 import { WikiCard } from '~components/cards'
-
-import './styles.sass'
-
 
 const FluidTag = posed.li({
   exit: {
@@ -34,6 +32,24 @@ const FluidTagList = posed.ul({
   },
 })
 
+// > How should we sort the ConceptList entries?
+// Each [key, order] pair defines the sort rule for a key and direction,
+// the order of the sort rules are important -- they determine the priority
+// while sorting.
+// Note that there's no change if a key is missing, it should still result a
+// stable sort order!
+const ListSortOrderPriority = (() => {
+  const keyProps = [
+    [ 'similarity_score', 'desc' ],
+    [ 'elo', 'desc' ],
+    [ 'trueskill.sigma', 'asc' ],
+    [ 'title', 'asc' ],
+    [ 'title_en', 'asc' ],
+    [ 'title_fr', 'asc' ],
+  ]
+  return _.unzip(keyProps)
+})()
+
 
 export const ConceptTag = (props) => {
   const { title, lang } = props
@@ -42,7 +58,8 @@ export const ConceptTag = (props) => {
     props.onRemove && props.onRemove({ title })
   }
 
-  useLogger('ConceptTag')
+  const onRemove = props.removable === true ? didClickRemove : null
+  const eloScore = props.elo ? `(${props.elo})` : ''
 
   return (
     <Tag
@@ -50,10 +67,10 @@ export const ConceptTag = (props) => {
       minimal
       large
       className='np--concept-tag'
-      onRemove={didClickRemove}>
+      onRemove={onRemove}>
       <Popover
         content={<WikiCard title={title} lang={lang}/>}
-        target={<span>{title}</span>}
+        target={<span>{title} {eloScore}</span>}
         interactionKind={PopoverInteractionKind.HOVER}
         hoverCloseDelay={500}
         hoverOpenDelay={200}
@@ -64,15 +81,21 @@ export const ConceptTag = (props) => {
 }
 
 export const ConceptList = (props) => {
-  const { concepts, lang } = props
-  useLogger('ConceptList')
+  const { lang, removable=false } = props
+  const concepts = _(props.concepts)
+    .orderBy(...ListSortOrderPriority)
+    .value()
 
   return (
     <PoseGroup initialPose='exit' pose='enter'>
       <FluidTagList className='np--concepts-list' key='fltag'>
         {concepts.map((item) =>
           <FluidTag key={item.title}>
-            <ConceptTag onRemove={props.onRemove} lang={lang} {...item}/>
+            <ConceptTag
+              removable={removable}
+              onRemove={props.onRemove}
+              lang={lang}
+              {...item}/>
           </FluidTag>
         )}
       </FluidTagList>

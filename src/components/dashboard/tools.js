@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { useToggle, useUpdateEffect, useKey, useLogger } from 'react-use'
+import { useToggle, useUpdateEffect, useKey, useLogger, useDebounce } from 'react-use'
 
-import { InputGroup, Button, ButtonGroup, ControlGroup } from '@blueprintjs/core'
+import { InputGroup, Button, ButtonGroup } from '@blueprintjs/core'
 
 
 const SortOrderButton = ({ downwards=true, onToggle, ...props }) => {
@@ -52,12 +52,12 @@ export const OmniBar = ({ onChange }) => {
     setQuery(event.target.value)
   }
 
-  useUpdateEffect(() => {
+  useDebounce(() => {
     onChange && onChange({ query })
-  }, [ query ])
+  }, 400, [ query ])
 
   return (
-    <div role='omnibar'>
+    <div className='omnibar'>
       <InputGroup
         value={query}
         onChange={queryDidChange}

@@ -3,6 +3,7 @@ import { ExtensionPages } from './reactors'
 import { userId } from '~mixins/utils'
 import _ from 'lodash'
 import { InstallEventReason } from './structs'
+import { initContextMenus } from './contextMenus'
 
 const tabState = {}
 const ports = {}
@@ -25,6 +26,7 @@ const reactOnInstalled = async ({ reason, temporary }) => {
         user: {
           uid: userId('nugget@noop.pw'),
           username: 'nugget@noop.pw',
+          groupId: 'beta',
           signedIn: true,
         },
       })
@@ -101,3 +103,5 @@ browser.browserAction.onClicked.addListener((e) => {
     })
   }
 })
+
+initContextMenus()

@@ -1,5 +1,6 @@
 @import 'styles/colors';
 @import 'styles/mixins';
+@import 'styles/fontfaces';
 
 $transition-timing-overshoot: cubic-bezier(0.670, -0.540, 0.500, 1.650);
 
@@ -64,15 +65,6 @@ div.np-card {
   }
 }
 
-
-.np-basic-card {
-  background: url('https://noop-pub.s3.amazonaws.com/opt/navstar.png');
-  background-size: cover;
-  background-position: center;
-  margin-bottom: 10px;
-  min-height: 180px;
-}
-
 div.info-card {
   $background: $dark-gray1;
   $running-text-size: 1em;
@@ -87,8 +79,6 @@ div.info-card {
   color: $white;
   font-size: 14px;
   padding: 0;
-  // transition: .2s all ease;
-  // transform: scale(1);
 
   .content {
     position: relative;
@@ -160,17 +150,6 @@ div.info-card {
     max-height: $line-height * $max-lines;
     overflow: hidden;
     margin: 0;
-
-    // &:after {
-    //   content: '';
-    //   display: block;
-    //   position: absolute;
-    //   bottom: 0;
-    //   left: 0;
-    //   right: 0;
-    //   height: 10px;
-    //   background: red;
-    // }
   }
 
   &.error {
@@ -232,30 +211,55 @@ div.info-card {
 
 div.card {
   &.resource {
-    width: 250px;
+    $offset-sides: 5px;
+    $box-padding: 10px + $offset-sides;
+    $max-backdrop: 100px;
+
+    width: 220px;
     position: relative;
     z-index: 1;
     overflow: hidden;
-    padding-top: 90px;
-    // min-width: 200px;
+    padding: 0;
+    background: $light-gray5;
+    border-radius: 8px;
+    transform: translateZ(0);
 
-    &:before {
-      content: '';
-      position: absolute;
-      top: 80px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: #fff;
-      z-index: -1;
+    .backdrop {
+      display: block;
+      position: relative;
+      height: auto;
+      max-height: 100px;
+      margin: 0;
+      padding: 0;
+      z-index: -2;
+
+      &.hidden {
+        display: none;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+        transform: scale(1.2) translateY(-10%);
+      }
     }
 
-    img {
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -2;
+    .title {
+      font: {
+        family: $typeface-text;
+        weight: 600;
+        size: 1rem;
+      }
+      margin: 0 0 10px 0;
+    }
+
+    .content {
+      padding: $box-padding;
+      background: linear-gradient(#fff0, transparentize($light-gray5, .8) 10px, $light-gray5 20px);
+
+      .pills.resource-link {
+        margin-top: 10px;
+      }
     }
   }
 }

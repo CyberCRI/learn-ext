@@ -3,10 +3,13 @@ import moment from 'moment'
 import urlParse from 'url-parse'
 import clsx from 'classnames'
 
+import OpenGraph from '~mixins/opengraph'
+import { cssUrlVars } from '~mixins/utils'
+
 import './styles.scss'
 
 
-export const Pill = (props) => {
+const Pill = (props) => {
   // Pillbox Composer
   const modifiers = clsx('pill', props.className, props.kind, {
     minimal: props.minimal,
@@ -15,21 +18,21 @@ export const Pill = (props) => {
   })
 
   return (
-    <div role='pill' className={modifiers}>
+    <div role='pill' className={modifiers} style={props.style}>
       { props.children }
     </div>
   )
 }
 
-export const LanguagePill = (props) => {
+export const LanguagePill = ({ lang, ...props }) => {
   return (
     <Pill kind='language' {...props}>
-      <span>{props.lang}</span>
+      <span>{lang}</span>
     </Pill>
   )
 }
 
-export const DateTimePill = ({ timestamp, lang, ...props }) => {
+export const DateTimePill = ({ timestamp, lang='en', ...props }) => {
   const displayTime = moment
     .utc(timestamp)
     .locale(lang)
@@ -43,18 +46,15 @@ export const DateTimePill = ({ timestamp, lang, ...props }) => {
   )
 }
 
-export const UrlPill = ({ url, ...props }) => {
+export const UrlPill = ({ url, linked=false, short=false, ...props }) => {
   const uprops = urlParse(url)
-
-  // If `linked`, we render anchor element, otherwise just a span.
-  const linked = props.linked || false
-  const short = props.short || false
 
   const hostEl = <span className='host'>{uprops.hostname}</span>
   const pathEl = <span className='path'>{uprops.pathname}</span>
 
   const renderUrl = () => {
     if (linked) {
+      // If `linked`, we render anchor element, otherwise just a span.
       return (
         <a href={url} target='_blank' rel='nofollow'>
           { hostEl }
@@ -78,6 +78,22 @@ export const UrlPill = ({ url, ...props }) => {
   )
 }
 
+export const FaviconPill = ({ url, title='', ...props }) => {
+  return (
+    <Pill kind='favicon' {...props}>
+      <img src={OpenGraph.icon(url)} title={title}/>
+    </Pill>
+  )
+}
+
+export const ResourceLinkPill = (props) => {
+  return (
+    <div className='pills inline resource-link'>
+      <FaviconPill {...props}/>
+      <UrlPill {...props}/>
+    </div>
+  )
+}
 
 export const HotKeysPill = ({ keys, ...props }) => {
   return (

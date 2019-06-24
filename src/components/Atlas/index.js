@@ -1,88 +1,45 @@
-import React, { Component } from 'react'
+import React, { useRef, useEffect } from 'react'
 import clsx from 'classnames'
 import _ from 'lodash'
+import { useMount } from 'react-use'
 
-
-class Atlas extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      ready: false,
-    }
-    this.processPoints = this.processPoints.bind(this)
-    this.draw = this.draw.bind(this)
-  }
-
-  componentDidMount () {
-    this.atlas = new DotAtlas({
-      element: this.canvasRef,
-      pixelRatio: 2,
-      maxRadiusDivider: 5,
-      mapLightAzimuth: 0.4,
-      mapLightIntensity: 0.5,
-    })
-    this.atlasFx = new DotAtlasEffects(this.atlas)
-    if (this.props.dataPoints.length) {
-      this.draw()
-    }
-  }
-
-  componentDidUpdate (prevProps, prevState) {
-    if (this.props.ready !== prevState.ready) {
-      // Ready state changed, so we'll need to refresh the data points and redraw
-      this.draw()
-    }
-  }
-
-  processPoints () {
-    // Implement logic for processing the datapoints.
-    const red = [200, 0, 0, 255]
-    return this.props.dataPoints.map((p, ix) => {
-      p.elevation = ix === 0 ? 1 : 0.2
-      p.marker = 'circle'
-      p.markerSize = 0
-      p.markerColor = red
-      return p
-    })
-  }
-
-  resize () {
-    this.map.resize()
-  }
-
-  draw () {
-    const points = this.props.dataPoints
-    const elevations = { points }
-    const dataObject = {
-      layers: [ elevations ],
-    }
-
-    this.atlasFx.rollout(dataObject)
-
-    // let azimuth = 0
-    // setInterval(() => {
-    //   azimuth += 0.1
-    //   this.atlas.set('mapLightAzimuth', azimuth)
-    //   this.atlas.redraw()
-    // }, 200)
-    // setInterval(() => {
-    //   const { x, y } = _.sample(points)
-    //   this.atlas.reset()
-    //   setTimeout(() => {
-    //     this.atlas.centerPoint(x, y, 10, 1000)
-    //   }, 300)
-    // }, 5000)
-  }
-
-  render () {
-    const boxClasses = clsx('atlas', {
-      loading: !this.state.ready,
-    })
-    return (
-      <div className={boxClasses} ref={(el) => this.canvasRef = el}/>
-    )
-  }
+const PortalLUT = {
+  'arts': [60, 126, 162, 255],
+  'geographie': [104, 183, 140, 255],
+  'histoire': [215, 135, 66, 255],
+  'politique_et_religions_et_croyances': [118, 78, 162, 255],
+  'sciences_et_medecine': [152, 54, 109, 255],
+  'societe': [211, 115, 135, 255],
+  'sport_et_loisirs': [20, 204, 189, 255],
+  'technologies': [69, 128, 230, 255],
 }
 
-export default Atlas
+const AtlasView = ({ onReady }) => {
+  // Mounts a Canvas inside dom, passes its reference to the
+  // dotAtlas instance
+  const mapContainer = useRef(null)
+
+  useMount(() => {
+    // Inform parent when container is ready to use. Pass on the element ref.
+    // Initialise the DotAtlas object, attach the container element,
+    // and register the event proxies.
+
+    Cartographer(mapContainer, )
+  })
+
+  useEffect(() => {
+    // Accept changes to props and handle them.
+    // Essentially we'd be handling overlays and data point changes?
+  })
+
+  // TODO: Hook based handlers and callback registration for
+  //       interactive hover and stuff. We'll also try to remove
+  //       the return object.
+
+  return (
+    <div className='mapbox' ref={mapContainer}/>
+  )
+}
+
+
+export default AtlasView

@@ -31,12 +31,12 @@ function _push_log () {
   local color_error="\x1b[31m"
   local color_abort="\x1b[1;31m"
 
-  local msg_debug="DBG"
-  local msg_info="INFO"
-  local msg_success="SUCCESS"
-  local msg_warning="WARN"
-  local msg_error="ERROR"
-  local msg_abort="ABORT"
+  local msg_debug="</>"
+  local msg_info="[i]"
+  local msg_success="{✓}"
+  local msg_warning="{!}"
+  local msg_error="<*>"
+  local msg_abort="<||"
 
   local colorvar="color_${_log_level}"
 
@@ -44,8 +44,8 @@ function _push_log () {
   local color_reset="\x1b[0m"
 
   local levelvar="msg_${_log_level}"
-  local levelname="$(printf "%8s" "${!levelvar:-${msg_error}}")"
-  local funcname="\x1b[35m$(printf "%-15s" "${FUNCNAME[2]}")"
+  local levelname="$(printf "%4s" "${!levelvar:-${msg_error}}")"
+  local funcname="\x1b[35m$(printf "%-16s" "${FUNCNAME[2]}")"
 
   if [[ "${_NO_COLOR:-}" = "true" ]] || [[ "${TERM:-}" != "xterm"* ]] || [[ ! -t 2 ]]; then
     if [[ "${_NO_COLOR:-}" != "false" ]]; then
@@ -58,7 +58,7 @@ function _push_log () {
   local log_line=""
 
   while IFS=$'\n' read -r log_line; do
-    echo -e "${color}${levelname}${color_reset} ${funcname}${color_reset} ${log_line}" 1>&2
+    echo -e "${color}${levelname}${color_reset} ${funcname}${color} ${log_line}${color_reset}" 1>&2
   done <<< "${@:-}"
 }
 function _abort ()   {                                   _push_log abort   "${@}"; exit 1; }

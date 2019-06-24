@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useEffectOnce, useSetState } from 'react-use'
+import moment from 'moment'
+import _ from 'lodash'
 
 import RootAPI from '~mixins/root-api'
 import { ResourceGrid } from './resources'
@@ -16,14 +18,16 @@ const DashboardView = () => {
     // Fetch the portfolio data
     RootAPI.fetchPortfolio()
       .then((data) => {
-        setResources(data.resources)
+        const resources = _(data.resources)
+          .orderBy((res) => moment.utc(res.created_on), 'desc')
+          .value()
+        setResources(resources)
       })
   })
 
   return (
-    <div>
+    <div className='dashboard'>
       <OmniBar onChange={(q) => setFilters(q)}/>
-      <FilterTools/>
       <ResourceGrid resources={resources} filters={filters}/>
     </div>
   )

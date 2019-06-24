@@ -1,11 +1,16 @@
 
+.dashboard {
+  .omnibar {
+    padding: 0 10%;
+  }
+}
+
 .resources {
+  display: block;
   list-style: none;
+  margin: 30px auto;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
 
   > li {
-    margin: 8px
   }
 }

@@ -25,6 +25,8 @@ const prefs = {
   'intl.locale.matchOS': false,
   'intl.locale.requested': 'fr',
   'lightweightThemes.selectedThemeID': 'firefox-compact-light@mozilla.org',
+  'gfx.webrender.all': true,
+  'gfx.webrender.enabled': true,
 }
 
 // Optional Preferences overrides
@@ -64,6 +66,10 @@ module.exports = {
       'https://en.wikipedia.org/wiki/Special:Random',
       'https://en.wikipedia.org/wiki/Special:Random',
     ],
+  },
+
+  lint: {
+    selfHosted: true,
   },
 
   build: {
