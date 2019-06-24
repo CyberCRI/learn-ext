@@ -1,4 +1,7 @@
 // Utility toolbelt for webext APIs.
+import { context, Runtime } from '~mixins/utils'
+
+
 export const i18n = (key, ...subs) => {
   // Return localised string from locale file.
   // Note that this only works in context of the extension. Hence it should not
@@ -8,6 +11,9 @@ export const i18n = (key, ...subs) => {
   // Additionally, this function transforms the key so "dot syntax" is valid.
   // Essentially, by using yaml locale files, we are able to group messages
   // together (check Readme in assets/locales).
-
-  return browser.i18n.getMessage(key.replace(/\./g, '_'), subs)
+  if (context() === Runtime.extension) {
+    return browser.i18n.getMessage(key.replace(/\./g, '_'), subs)
+  } else {
+    return key
+  }
 }
