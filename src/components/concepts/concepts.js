@@ -1,12 +1,10 @@
 import React from 'react'
 import { useLogger } from 'react-use'
+import _ from 'lodash'
 import { Tag, Popover, PopoverInteractionKind, Position } from '@blueprintjs/core'
 import posed, { PoseGroup } from 'react-pose'
 
 import { WikiCard } from '~components/cards'
-
-import './styles.sass'
-
 
 const FluidTag = posed.li({
   exit: {
@@ -33,6 +31,24 @@ const FluidTagList = posed.ul({
     staggerChildren: 100,
   },
 })
+
+// > How should we sort the ConceptList entries?
+// Each [key, order] pair defines the sort rule for a key and direction,
+// the order of the sort rules are important -- they determine the priority
+// while sorting.
+// Note that there's no change if a key is missing, it should still result a
+// stable sort order!
+const ListSortOrderPriority = (() => {
+  const keyProps = [
+    [ 'similarity_score', 'desc' ],
+    [ 'elo', 'desc' ],
+    [ 'trueskill.sigma', 'asc' ],
+    [ 'title', 'asc' ],
+    [ 'title_en', 'asc' ],
+    [ 'title_fr', 'asc' ],
+  ]
+  return _.unzip(keyProps)
+})()
 
 
 export const ConceptTag = (props) => {
@@ -67,8 +83,10 @@ export const ConceptTag = (props) => {
 }
 
 export const ConceptList = (props) => {
-  const { concepts, lang, removable=false } = props
-  useLogger('ConceptList')
+  const { lang, removable=false } = props
+  const concepts = _(props.concepts)
+    .orderBy(...ListSortOrderPriority)
+    .value()
 
   return (
     <PoseGroup initialPose='exit' pose='enter'>
