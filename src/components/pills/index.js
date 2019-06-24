@@ -88,6 +88,13 @@ export const FaviconPill = ({ url, title='', ...props }) => {
     </Pill>
   )
 }
+
+export const ResourceLinkPill = (props) => {
+  return (
+    <div className='pills inline resource-link'>
+      <FaviconPill {...props}/>
+      <UrlPill {...props}/>
+    </div>
   )
 }
 
