@@ -32,13 +32,13 @@ const CardBox = posed.div({
   },
 })
 
-export const HookedCard = (props) => {
+export const HookedCard = ({ isOpen, children, ...props }) => {
   useLogger('HookedCard')
 
   return (
-    <CardBox pose={props.isOpen ? 'open' : 'closed'}>
-      <Card>
-        {props.children}
+    <CardBox pose={isOpen ? 'open' : 'closed'}>
+      <Card {...props}>
+        {children}
       </Card>
     </CardBox>
   )
