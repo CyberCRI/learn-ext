@@ -82,9 +82,12 @@ export const UrlPill = ({ url, ...props }) => {
 }
 
 export const FaviconPill = ({ url, title='', ...props }) => {
-  const vars = cssUrlVars({ faviconUrl: OpenGraph.icon(url) })
   return (
-    <Pill kind='favicon' {...props} {...vars}/>
+    <Pill kind='favicon' {...props}>
+      <img src={OpenGraph.icon(url)} title={title}/>
+    </Pill>
+  )
+}
   )
 }
 
