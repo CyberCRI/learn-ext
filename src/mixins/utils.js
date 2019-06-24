@@ -53,28 +53,26 @@ export const renderReactComponent = (selector, component, props) => {
 }
 
 export const context = () => {
-  // Perform global variable existence test to find the context we're currently
-  // inside.
+  // Perform globals existence test to find the context we're currently in.
   //
   // Within the Extension context, either `browser` or, `chrome` are defined.
   // Inside a webpage, `window` is defined.
   // In nodejs runtime, `global` is defined.
   //
-  // This function tries to see which of these three (`browser`, `chrome`,
-  // `window`) are available, and returns the Context Flag.
+  // This function tries to access extension runtime id with both `browser` and
+  // `chrome` functions, which is always available in extension processes/pages.
+  // For regular webpage context, we check if `window.document` is accessible.
 
   try {
-    _.isObjectLike(browser)
-    return Runtime.extension
-  } catch {}
-  try {
-    _.isObjectLike(chrome)
-    return Runtime.extension
+    return browser.runtime.id && Runtime.extension
   } catch {}
 
   try {
-    _.isObjectLike(window)
-    return Runtime.browser
+    return chrome.runtime.id && Runtime.extension
+  } catch {}
+
+  try {
+    return window.document && Runtime.browser
   } catch {}
 
   return Runtime.node
