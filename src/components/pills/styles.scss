@@ -1,21 +1,36 @@
+@import 'styles/colors';
 @import 'styles/fontfaces';
 @import 'styles/variables';
 
 :root {
   --faviconUrl: '@';
+  --faviconSize: 16px;
 }
 
 .pill {
   &.url {
     overflow: hidden;
-    word-break: break-all;
+    word-break: keep-all;
+    text-overflow: ellipsis;
+    position: relative;
 
     .host {
       font-weight: 600;
     }
+
+    &:after {
+      content: '';
+      background: linear-gradient(90deg, #fff0 10px, #fff);
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 20px;
+    }
   }
 
   &.language {
+
   }
 
   &.datetime {
@@ -37,12 +52,31 @@
   }
 
   &.favicon {
-    background: {
-      image: var(--faviconUrl);
-      size: cover;
-      repeat: no-repeat;
+    img {
+      width: 100%;
+      height: 100%;
     }
+    background: $dark-gray1;
     box-shadow: $pt-elevation-shadow-1;
     border-radius: 50%;
+    width: var(--faviconSize);
+    height: var(--faviconSize);
+    overflow: hidden;
+  }
+}
+
+.pills {
+  &.resource-link {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+
+    .favicon {
+      margin-right: 10px;
+    }
+
+    .url {
+      flex: 1;
+    }
   }
 }
