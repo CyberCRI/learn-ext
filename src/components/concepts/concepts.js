@@ -61,8 +61,6 @@ export const ConceptTag = (props) => {
   const onRemove = props.removable === true ? didClickRemove : null
   const eloScore = props.elo ? `(${props.elo})` : ''
 
-  useLogger('ConceptTag')
-
   return (
     <Tag
       interactive

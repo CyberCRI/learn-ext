@@ -97,10 +97,18 @@
 }
 
 .tag {
+  $size: 16px;
+
   display: inline-flex;
+  align-items: center;
   padding: 2px 5px;
   background: $light-gray2;
   border-radius: 4px;
+
+  button.remove {
+    width: $size;
+    height: $size;
+  }
 
   &.interactive {
     cursor: pointer;
