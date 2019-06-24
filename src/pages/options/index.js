@@ -65,15 +65,16 @@ function drawCartography (points, container, onHover, onClick, overlay) {
       p.labelPriority = 0.5
       p.label = p.label.replace(/_/g, ' ')
       p.title = p.label
-      p.labelOpacity = 0.4
-    }
 
-    if (p.labelOpacity >= 1) {
-      // Top level portals
-      p.label = `[${p.label}]`
-      p.labelPriority = 0.9
-      p.labelColor = black
-      p.labelOpacity = 0.6
+      if (p.labelOpacity >= 1) {
+        // Top level portals
+        p.label = `[${p.label}]`
+        p.labelPriority = 1
+        p.labelColor = gray
+        p.labelOpacity = 1
+      } else {
+        p.labelOpacity = 0.5
+      }
     }
   })
 
@@ -84,8 +85,8 @@ function drawCartography (points, container, onHover, onClick, overlay) {
     p.markerSize = 1
     p.markerColor = concept
     p.label = _.truncate(p.title_fr, { length: 15, separator: ' ' })
-    p.labelPriority = 1
-    p.labelOpacity = 1
+    p.labelPriority = .8
+    p.labelOpacity = .8
     p.title = p.title_fr
 
     p.userData = true
@@ -98,7 +99,7 @@ function drawCartography (points, container, onHover, onClick, overlay) {
     points: shownPoints,
     // visible: false,
     type: 'marker',
-    markerSizeMultiplier: 30,
+    markerSizeMultiplier: 15,
     markerOpacity: 1,
     markerStrokeWidth: 0,
   }
@@ -106,7 +107,7 @@ function drawCartography (points, container, onHover, onClick, overlay) {
   const dotatlas = new DotAtlas({
     element: container,
     pixelRatio: 2,
-    maxRadiusDivider: 15,
+    maxRadiusDivider: 35,
     mapLightAzimuth: 0.8,
     mapLightIntensity: 0.5,
     mapContourOpacity: 0.8,
