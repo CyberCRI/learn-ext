@@ -68,6 +68,10 @@ module.exports = {
     ],
   },
 
+  lint: {
+    selfHosted: true,
+  },
+
   build: {
     overwriteDest: true,
   },
