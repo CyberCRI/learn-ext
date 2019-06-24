@@ -6,16 +6,18 @@ import clsx from 'classnames'
 import _ from 'lodash'
 
 import Wiki from '~mixins/wikipedia'
+import { i18n } from '~procs/wrappers'
 
 
-const skeletonFiller = (count = 1) => {
+const skeletonFiller = (count=1) => {
   // Some text to fill in the elements inside the skeleton.
   // Use count to get words.
-  const fillers = ['we', 'boop', 'kittens', 'and', 'doges']
+  const fillerWords = ['we', 'boop', 'kittens', 'and', 'doges']
+  const filler = (i) => fillerWords[i % fillerWords.length]
   return (
-    <span className='skels'>
+    <span className='skels' role='presentation'>
       {_.range(count).map((i) =>
-        <span className='skel' key={i}>{`${_.sample(fillers)} `}</span>
+        <span className='skel' key={i}>{`${filler(i)} `}</span>
       )}
     </span>
   )
