@@ -33,14 +33,10 @@
   font-size: .8rem;
   background: $light-gray5;
 
-  img.favicon {
+  .favicon {
     grid-area: icon;
-    width: 100%;
-    border-radius: 50%;
-    border: 1px solid transparentize($dark-gray2, .4);
-    background: $light-gray3;
-    padding: 1px;
-    box-shadow: 0 0 8px -1px transparentize($dark-gray3, .3);
+    width: 25px;
+    height: 25px;
   }
 
   h3 {
