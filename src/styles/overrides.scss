@@ -3,3 +3,11 @@
   // button, and input elements (thanks browser stylesheet!).
   font-family: inherit;
 }
+
+.bp3-card {
+  &.bp3-interactive {
+    &:active {
+      opacity: 1;
+    }
+  }
+}
