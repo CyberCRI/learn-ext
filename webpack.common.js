@@ -21,6 +21,10 @@ const copySourceBundleRules = [
     from: './node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
     to: './browser-polyfill.js',
   },
+  {
+    from: './assets/dotatlas/v0.2.0/*.js',
+    to: './dotatlas',
+  },
 ]
 
 // Setup html generator plugin using HtmlWebpackPlugin
