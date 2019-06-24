@@ -1,15 +1,22 @@
 import React from 'react'
-import { Tag } from '@blueprintjs/core'
+import { Button } from '@blueprintjs/core'
+import clsx from 'classnames'
 
 
-export const ConceptTag = (props) => {
-  if (props.onRemove) {
-    // This tag is removable, so we gotta pass that prop.
+export const RemovableTag = (props) => {
+  const tagClasses = clsx('tag', {
+    interactive: props.interactive,
+    removable: props.removable,
+  })
+
+  const didRemove = () => {
+    props.onRemove && props.onRemove()
   }
 
   return (
-    <Tag minimal large>
-      {props.label}
-    </Tag>
+    <div className={tagClasses}>
+      {props.children}
+      <Button className='remove' icon='cross' minimal onClick={didRemove}/>
+    </div>
   )
 }
