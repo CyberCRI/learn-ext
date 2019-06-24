@@ -1,103 +1,149 @@
 # [1] Extension Specific Strings
 extension:
   name:
-    message: 'iLearn Extension'
+    message: iLearn Extension
   description:
-    message: 'Recherche collaborative avec iLearn'
+    message: Recherche collaborative avec iLearn
 
 command:
   toggle_action:
-    message: 'Ajouter la ressource à votre bibliothèque iLearn'
+    message: Ajouter la ressource à votre bibliothèque iLearn
 
 actions:
   page:
     # Page action appears in address bar
     title:
-      message: 'Ajouter dans iLearn'
+      message: Ajouter dans iLearn
 
 menu:
   action:
     openDashboard:
-      message: 'Voir mes apprentissages'
+      message: Accéder à Mes Ressources
     addResource:
-      message: 'Ajouter cette page dans iLearn'
+      message: Ajouter cette page dans iLearn
 
 # [2] Navigation and Pages Strings
 navigationBar:
   heading:
-    message: 'iLearn'
+    message: iLearn
 
   links:
     dashboard:
       label:
-        message: 'My Resources'
+        message: Mes Ressources
     discover:
       label:
-        message: 'Discover'
-
+        message: Ma Carte
     settings:
       label:
-        message: 'Settings'
-
+        message: Préférences
     help:
       label:
-        message: 'Help'
+        message: Support
 
 pages:
   dashboard:
     meta:
       pageTitle:
-        message: 'Dashboard | iLearn'
+        message: Mes Ressources | iLearn
 
     actions:
       sort:
-        message: 'Sort'
+        message: Trier
     searchInput:
       placeholder:
-        message: 'Search'
+        message: Rechercher
 
   settings:
     meta:
       pageTitle:
-        message: 'Settings | iLearn'
+        message: Préférences | iLearn
+
+    tabs:
+      account:
+        message: Compte
+      privacy:
+        message: Confidentialité
+      support:
+        message: Assistance
+
+    panels:
+      privacy:
+        # Introduction text
+        title:
+          message: Confidentialité
+        description:
+          message: Vos données n’appartiennent qu’à vous.
+
+        # Form Elements
+        sharing:
+          title:
+            message: Choisissez ce que vous partagez
+
+          choices:
+            private:
+              title:
+                message: Privé
+              description:
+                message: |
+                  Mes données ne sont visibles que par moi-même. Les ressources
+                  que j’ajoute à iLearn bénéficient à la communauté de façon
+                  anonyme.
+            public:
+              title:
+                message: Publique
+              description:
+                message: |
+                  Mes données sont partagées avec tous les utilisateurs d’iLearn
+                  (pas encore disponible).
+
+        mentorship:
+          title:
+            message: Mentorat
+          description:
+            message: |
+              Je veux être contacté par des apprenants qui cherchent un mentor
+              avec des compétences et intérêts proches des miens
+              (pas encore disponible).
+
 
     userAccount:
       intro:
         title:
           message: ''
         description:
-          message: 'Specify the email you want to use iLearn with.'
+          message: Merci de renseigner votre adresse e-mail.
       success:
         title:
           message: ''
         description:
-          message: 'You are signed in!'
+          message: Vous êtes enregistré-e !
       error:
         title:
           message: ''
         description:
-          message: 'Trouble reaching server. Please try again.'
+          message: Problème de connexion avec le serveur. Veuillez essayer de nouveau.
       form:
         emailInput:
           label:
-            message: 'Your email'
+            message: Adresse e-mail
           placeholder:
-            message: 'Email'
+            message: E-mail
         groupRadio:
           label:
-            message: 'Group'
+            message: Groupe
         submitButton:
           label:
-            message: 'Save'
+            message: Enregistrer
 
   onboarding:
     meta:
       pageTitle:
-        message: 'iLearn'
+        message: iLearn
 
     intro:
       title:
-        message: 'Thanks for using iLearn!'
+        message: Merci d'utiliser iLearn !
       description:
         message: ''
 
@@ -106,30 +152,30 @@ components:
   suggest:
     searchInput:
       placeholder:
-        message: 'Add Concept'
+        message: Ajouter un Concept
     intro:
       title:
-        message: 'Type to find concepts.'
+        message: Taper l'intitulé du concept
       description:
-        message: 'We will suggest relevant concepts to tag this resource with.'
+        message: Nous allons vous suggérer les concepts les plus pertinents par rapport à cet intitulé.
     error:
       title:
-        message: 'Nothing found'
+        message: Aucun résultat
       description:
-        message: 'No concepts match ${query}'
+        message: Aucun concept ne correspond à {query}
     inflight:
       label:
-        message: 'Searching'
+        message: Recherche en cours
 
   cards:
     wikiInfoCard:
       actions:
         locateInMap:
-          message: 'Locate in Map'
+          message: Localiser
         moreInfo:
-          message: 'Read More'
+          message: Voir plus
       errorState:
         title:
           message: ''
         description:
-          message: 'Wikipedia does not seem to have a page for this concept.'
+          message: Wikipédia ne semble pas avoir de page pour ce concept.
