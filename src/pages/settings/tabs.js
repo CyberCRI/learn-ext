@@ -3,6 +3,7 @@ import { Divider, Tabs, Tab } from '@blueprintjs/core'
 import * as FiIcon from 'react-icons/fi'
 
 import Panels from './panels'
+import { i18n } from '~procs/wrappers'
 
 const TabTitle = ({ title, icon }) => (
   <span className='np-tab-title with-icon'>
@@ -10,11 +11,6 @@ const TabTitle = ({ title, icon }) => (
     {title}
   </span>
 )
-
-//      <Tab
-//        id='general'
-//        title={<TabTitle title='General' icon={<FiIcon.FiSettings/>}/>}
-//        panel={<Panels.General/>}/>
 
 const SettingsTabs = (props) => {
   return (
@@ -26,16 +22,16 @@ const SettingsTabs = (props) => {
       renderActiveTabPanelOnly>
       <Tab
         id='account'
-        title={<TabTitle title='Account' icon={<FiIcon.FiUser/>}/>}
+        title={<TabTitle title={i18n('pages.settings.tabs.account')} icon={<FiIcon.FiUser/>}/>}
         panel={<Panels.Account/>}/>
       <Tab
         id='privacy'
-        title={<TabTitle title='Privacy' icon={<FiIcon.FiShield/>}/>}
+        title={<TabTitle title={i18n('pages.settings.tabs.privacy')} icon={<FiIcon.FiShield/>}/>}
         panel={<Panels.Privacy/>}/>
       <Divider/>
       <Tab
         id='support'
-        title={<TabTitle title='Support' icon={<FiIcon.FiLifeBuoy/>}/>}
+        title={<TabTitle title={i18n('pages.settings.tabs.support')} icon={<FiIcon.FiLifeBuoy/>}/>}
         panel={<Panels.Support/>}/>
     </Tabs>
   )

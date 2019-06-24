@@ -3,11 +3,12 @@ import * as FiIcon from 'react-icons/fi'
 import { IconContext } from 'react-icons'
 import { Card, Callout, Intent } from '@blueprintjs/core'
 import { FormGroup, InputGroup, Button, Tag } from '@blueprintjs/core'
-import { RadioGroup, OverflowList, Radio, Switch, Alignment } from '@blueprintjs/core'
+import { RadioGroup, HTMLSelect, Radio, Switch, Alignment } from '@blueprintjs/core'
 import posed from 'react-pose'
 
 import { AccountSelector } from '~components/input/settings'
 import { BlogCallout } from '../landing/cards'
+import { i18n } from '~procs/wrappers'
 
 
 const PosedPanel = posed.div({
@@ -49,10 +50,23 @@ const PosedCard = (props) => (
 
 const General = () => (
   <PosedCard>
-    <Callout icon='asterisk' title='Heads up!'>
-      <p>Hey there! This is the general settings panel.</p>
-      <p></p>
-    </Callout>
+    <h1>Preferences</h1>
+
+    <FormGroup label='Language' inline>
+      <HTMLSelect>
+        <option default value='en'>English</option>
+        <option value='fr'>Francais</option>
+      </HTMLSelect>
+    </FormGroup>
+
+    <FormGroup label='Display' inline>
+      <RadioGroup label='Appearance' alignIndicator={Alignment.RIGHT}>
+        <RadioLabel label='Dark' icon={FiIcon.FiGlobe} value='dark'/>
+        <RadioLabel label='Light' icon={FiIcon.FiGlobe} value='light'/>
+        <RadioLabel label='Browser' icon={FiIcon.FiGlobe} value='Browser'/>
+      </RadioGroup>
+    </FormGroup>
+
   </PosedCard>
 )
 
@@ -64,18 +78,24 @@ const Account = () => (
 
 const Privacy = () => (
   <PosedCard>
-    <h1>Privacy Levels</h1>
-    <p>We believe that your data belongs to you and only you.</p>
+    <h1>{i18n('pages.settings.panels.privacy.title')}</h1>
+    <p>{i18n('pages.settings.panels.privacy.description')}</p>
 
-    <RadioGroup label='Choose what you share' alignIndicator={Alignment.RIGHT}>
-      <RadioLabel label='Only me' icon={FiIcon.FiLock} value='me'/>
-      <RadioLabel label='Public' icon={FiIcon.FiGlobe} value='all'/>
+    <RadioGroup
+      label={i18n('pages.settings.panels.privacy.sharing.title')}
+      alignIndicator={Alignment.RIGHT}>
+      <RadioLabel
+        label={i18n('pages.settings.panels.privacy.sharing.choices.private.title')}
+        icon={FiIcon.FiLock}
+        value='me'/>
+      <RadioLabel
+        label={i18n('pages.settings.panels.privacy.sharing.choices.public.title')}
+        icon={FiIcon.FiGlobe}
+        value='all'/>
     </RadioGroup>
 
-    <h1>Mentorship</h1>
-    <Switch label='I want to be contacted by learners who need a mentor with similar skills and interests as me'/>
-
-
+    <h1>{i18n('pages.settings.panels.privacy.mentorship.title')}</h1>
+    <Switch label={i18n('pages.settings.panels.privacy.mentorship.description')}/>
   </PosedCard>
 )
 

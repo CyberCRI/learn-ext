@@ -2,10 +2,11 @@ import React from 'react'
 import { Button } from '@blueprintjs/core'
 import { MdSettingsApplications, MdExplore } from 'react-icons/md'
 import { Port } from '~procs/portal'
+import { i18n } from '~procs/wrappers'
 
 const ToolButtons = [
-  { id: 'dashboard', label: 'Dashboard', icon: <MdExplore/> },
-  { id: 'settings', label: 'Settings', icon: <MdSettingsApplications/> },
+  { id: 'dashboard', label: i18n('navigationBar.links.dashboard.label'), icon: <MdExplore/> },
+  { id: 'settings', xlabel: i18n('navigationBar.links.settings.label'), icon: <MdSettingsApplications/> },
 ]
 
 const dispatcher = new Port('PopoverTools').connect()

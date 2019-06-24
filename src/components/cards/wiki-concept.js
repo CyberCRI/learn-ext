@@ -36,7 +36,7 @@ export const ErrorCard = () => (
   <Card className='info-card error bp3-dark'>
     <NonIdealState
       icon={<FaBandAid/>}
-      description='Wikipedia does not seem to have a page for this concept.'
+      description={i18n('components.cards.wikiInfoCard.errorState.description')}
       className='reason'/>
   </Card>
 )
@@ -54,12 +54,12 @@ export const PageInfoCard = (props) => (
       <ButtonGroup fill minimal>
         <AnchorButton
           icon='send-to-map'
-          text='Locate in Map'
+          text={i18n('components.cards.wikiInfoCard.actions.locateInMap')}
           href='#'/>
         <AnchorButton
           icon={<FaWikipediaW/>}
           rightIcon='arrow-top-right'
-          text='Read more'
+          text={i18n('components.cards.wikiInfoCard.actions.moreInfo')}
           href={props.url}
           target='_blank'/>
       </ButtonGroup>
