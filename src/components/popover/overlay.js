@@ -6,12 +6,13 @@ import pose, { PoseGroup } from 'react-pose'
 import { Port } from '~procs/portal'
 import { HookedCard } from '~components/cards/cards'
 import { ConceptList } from '~components/concepts'
-import TagSuggest from '~components/tag-suggest'
-import { LanguagePill, UrlPill } from '~components/pills'
+import { ConceptSuggest } from '~components/concepts/suggest'
+import { LanguagePill, UrlPill, FaviconPill } from '~components/pills'
 
 import { ConceptSet } from './api-store'
 
 import RootAPI from '~mixins/root-api'
+import OpenGraph from '~mixins/opengraph'
 import { RatingPicker, PopoverTools } from '.'
 
 
@@ -23,10 +24,10 @@ const CardsBox = pose.div({
   closed: { staggerChildren: 200 },
 })
 
-export const PageInfo = ({ title, favicon, url }) => {
+export const PageInfo = ({ title, url }) => {
   return (
     <div className='page-infobox'>
-      <img className='favicon' src={favicon} title={title}/>
+      <FaviconPill className='favicon' url={url} title={title}/>
       <h3>{title}</h3>
       <UrlPill url={url}/>
     </div>
@@ -39,8 +40,6 @@ const PageConcepts = (props) => {
   const [ kprog, setKProg ] = useState(.5)
   const [ language, setLanguage ] = useState('en')
   const [ status, setStatus ] = useState(100)
-
-  useLogger('PageConcepts', url)
 
   if (props.url && props.url !== url) {
     setUrl(props.url)
@@ -69,31 +68,55 @@ const PageConcepts = (props) => {
       })
   }
 
+  const shouldClose = () => {
+    dispatcher.dispatch({
+      context: 'broadcast',
+      payload: { action: 'close' },
+    })
+  }
+
   // Only run when `kprog` or `concepts` updates:
   useUpdateEffect(shouldLearn, [ concepts, kprog ])
+  useUpdateEffect(shouldClose, [ kprog ])
 
-  const itemSelected = (item) => {
+  const didAddConcept = (item) => {
     const ixTitle = _(concepts).map('title').value()
     if (!_.includes(ixTitle, item.title)) {
       RootAPI
         .newConcept({ url, lang: language, title: item.title })
-        .then(() => {
-          setConcepts([ ...concepts, item ])
+        .then((data) => {
+          // API Response returns the standard concept struct.
+          setConcepts([ ...concepts, data ])
         })
     }
   }
-  const itemRemoved = (item) => {
-    setConcepts(_.reject(concepts, [ 'title', item.title ]))
+  const didRemoveConcept = (item) => {
+    const payload = {
+      url,
+      title: item.title,
+      lang: language,
+    }
+    RootAPI
+      .removeConcept(payload)
+      .then((data) => {
+        setConcepts(_.reject(concepts, [ 'title', item.title ]))
+      })
+  }
+  const didPickRating = (value) => {
+    setKProg(value)
+    // Close the popover after updating the KProg
+    shouldClose()
   }
 
   return (
     <div className='actions'>
       <h3>Concepts</h3>
       {status === 100 && <Spinner size={Spinner.SIZE_SMALL}/>}
+      {status === 500 && <p> </p>}
 
-      <ConceptList concepts={concepts} lang={language} removable onRemove={itemRemoved}/>
-      <TagSuggest lang={language} onSelect={itemSelected}/>
-      <RatingPicker onChange={(value) => setKProg(value)}/>
+      <ConceptList concepts={concepts} lang={language} removable onRemove={didRemoveConcept}/>
+      <ConceptSuggest lang={language} onSelect={didAddConcept}/>
+      <RatingPicker rating={kprog} onChange={didPickRating}/>
     </div>
   )
 }
@@ -109,7 +132,6 @@ export const PopOverlay = (props) => {
       .addAction('open', (msg) => {
         toggle(true)
         if (tabInfo.url !== msg.tabInfo.url) {
-          console.log('Update tabInfo')
           setTabInfo(msg.tabInfo)
         }
       })
