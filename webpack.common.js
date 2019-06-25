@@ -18,10 +18,6 @@ const copySourceBundleRules = [
     transform: locale.transpile,
   },
   {
-    from: './node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
-    to: './browser-polyfill.js',
-  },
-  {
     from: './assets/dotatlas/v0.2.0/*.js',
     to: './dotatlas',
   },
@@ -177,7 +173,7 @@ module.exports = {
     modules: false,
     version: false,
     warnings: false,
-    excludeAssets: /^(fonts|icons)\/.*/,
+    excludeAssets: /^(fonts|icons|dotatlas)\/.*/,
     assets: dotenv.flags.verbose === 'yes',
     assetsSort: 'name',
   },
