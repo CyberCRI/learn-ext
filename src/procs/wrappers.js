@@ -1,4 +1,5 @@
 // Utility toolbelt for webext APIs.
+import { browser } from '~procs/stubs'
 import { context, Runtime } from '~mixins/utils'
 
 

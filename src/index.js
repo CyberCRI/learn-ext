@@ -1,3 +1,4 @@
+import { browser } from '~procs/stubs'
 import $ from 'cash-dom'
 
 import { renderReactComponent } from '~mixins/utils'

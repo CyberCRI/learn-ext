@@ -1,3 +1,4 @@
+import { browser } from '~procs/stubs'
 
 class RuntimeHook {
   // Manage runtime event hooks and attach/remove handlers as required.

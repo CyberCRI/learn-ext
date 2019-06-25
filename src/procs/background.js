@@ -1,3 +1,4 @@
+import { browser } from '~procs/stubs'
 import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
 import { ExtensionPages } from './reactors'
 import { userId } from '~mixins/utils'

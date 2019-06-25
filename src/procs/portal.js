@@ -1,6 +1,7 @@
 // High order communication using ports.
 // Coordinates messages to, and from the runtime <-> background processes.
 import _ from 'lodash'
+import { browser } from '~procs/stubs'
 import { context, Runtime } from '~mixins/utils'
 
 

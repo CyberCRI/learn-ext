@@ -1,3 +1,4 @@
+import { browser } from '~procs/stubs'
 import { ExtensionPages } from './reactors'
 import { i18n } from './wrappers'
 
