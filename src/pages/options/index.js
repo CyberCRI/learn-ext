@@ -50,7 +50,27 @@ const black = [0, 0, 0, 255]
 const gray = [40, 40, 40, 255]
 const concept = [92, 37, 92, 255]
 
-function drawCartography (points, container, onHover, onClick, overlay) {
+const initDotAtlas = ({ container, onHover, onClick }) => {
+  const map = new DotAtlas({
+    element: container,
+    pixelRatio: 2,
+    maxRadiusDivider: 35,
+    mapLightAzimuth: 0.8,
+    mapLightIntensity: 0.5,
+    mapContourOpacity: 0.8,
+    mapContourWidth: 0,
+    mapLightness: 0,
+
+    hoverRadiusMultiplier: 20,
+    onPointHover: (e) => onHover(e),
+    onClick: (e) => onClick(e),
+  })
+
+  const fx = new DotAtlasEffects(map)
+  return { map, fx }
+}
+
+const processPoints = (points, overlay) => {
   points.forEach(function (p, index) {
     p.elevation = 0 //p.labelPriority >= 0.2 ? 0.08 : 0.01
     p.marker = p.label ? 'circle' : ''
@@ -84,11 +104,20 @@ function drawCartography (points, container, onHover, onClick, overlay) {
     p.marker = 'triangle'
     p.markerSize = 1
     p.markerColor = concept
-    p.label = _.truncate(p.title_fr, { length: 15, separator: ' ' })
     p.labelPriority = .8
     p.labelOpacity = .8
-    p.title = p.title_fr
 
+    if (p.title_fr) {
+      p.title = p.title_fr
+      p.lang = 'fr'
+    } else if (p.title_en) {
+      p.title = p.title_en
+      p.lang = 'en'
+    } else {
+      p.hidden = true
+    }
+
+    p.label = _.truncate(p.title, { length: 15, separator: ' ' })
     p.userData = true
   })
 
@@ -104,29 +133,13 @@ function drawCartography (points, container, onHover, onClick, overlay) {
     markerStrokeWidth: 0,
   }
 
-  const dotatlas = new DotAtlas({
-    element: container,
-    pixelRatio: 2,
-    maxRadiusDivider: 35,
-    mapLightAzimuth: 0.8,
-    mapLightIntensity: 0.5,
-    mapContourOpacity: 0.8,
-    mapContourWidth: 0,
-    mapLightness: 0,
-
-    hoverRadiusMultiplier: 20,
-    onPointHover: (e) => onHover(e),
-    onClick: (e) => onClick(e),
-  })
-
   const dataObject = {
     layers: [
       elevations,
       markers,
     ],
   }
-  const dotatlasFx = new DotAtlasEffects(dotatlas)
-  return { map: dotatlas, fx: dotatlasFx, data: dataObject }
+  return dataObject
 }
 
 const CardBox = posed.div({
