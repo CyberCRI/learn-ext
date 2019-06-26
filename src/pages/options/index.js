@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Elevation, Icon, Button, Popover, Menu, MenuItem, Tag } from '@blueprintjs/core'
+import { Card, Elevation, Icon, Button, Popover, Menu, MenuItem, Tag, ButtonGroup } from '@blueprintjs/core'
 import posed from 'react-pose'
 import clsx from 'classnames'
 import _ from 'lodash'
@@ -234,6 +234,8 @@ class MapCard extends Component {
       onHover: this.didHoverOnMap,
       onClick: this.didClickOnMap,
     })
+    this.user = await RuntimeParams.userInfo()
+
     window.atlas = this.atlas
 
     _.defer(this.renderMapLayer)
@@ -343,8 +345,30 @@ class MapCard extends Component {
                   minimal
                   onClick={this.didToggleZoom}
                 />
-                <Button icon='more' minimal/>
               </div>
+            </div>
+
+            <div className='toggles bp3-dark'>
+              <label>Layers</label>
+              <ButtonGroup vertical alignText='left' minimal>
+                <Button
+                  icon='layout-circle'
+                  text='Mine'
+                  active={this.state.overlayUser === true}
+                  onClick={() => this.didChangeOverlay({ overlayUser: true })}/>
+                { this.user.groupId !== 'beta' &&
+                  <Button
+                    icon='layout-group-by'
+                    text='My Group'
+                    active={this.state.groupId === this.user.groupId}
+                    onClick={() => this.didChangeOverlay({ overlayUser: false, groupId: this.user.groupId })}/>
+                }
+                <Button
+                  icon='layout-sorted-clusters'
+                  text='Everything'
+                  active={this.state.groupId === 'beta'}
+                  onClick={() => this.didChangeOverlay({ overlayUser: false, groupId: 'beta' })}/>
+              </ButtonGroup>
             </div>
 
             <ul className='contents'>
@@ -353,8 +377,7 @@ class MapCard extends Component {
 
             <div
               className={clsx('mapbox', { loading: !this.state.atlasReady })}
-              ref={(el) => this.canvasRef = el}
-            />
+              ref={(el) => this.canvasRef = el}/>
 
           </Card>
         </CardBox>
