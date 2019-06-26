@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Elevation, Icon, Button, Popover, Menu, MenuItem, Tag } from '@blueprintjs/core'
+import { Card, Elevation, Icon, Button, Popover, Menu, MenuItem, Tag, ButtonGroup } from '@blueprintjs/core'
 import posed from 'react-pose'
 import clsx from 'classnames'
 import _ from 'lodash'
@@ -7,7 +7,7 @@ import _ from 'lodash'
 import { renderReactComponent } from '~mixins/utils'
 import { request } from '~mixins'
 import { WikiCard } from '~components/cards'
-import RootAPI from '~mixins/root-api'
+import RootAPI, { RuntimeParams } from '~mixins/root-api'
 
 import './_options.sass'
 
@@ -50,7 +50,27 @@ const black = [0, 0, 0, 255]
 const gray = [40, 40, 40, 255]
 const concept = [92, 37, 92, 255]
 
-function drawCartography (points, container, onHover, onClick, overlay) {
+const initDotAtlas = ({ container, onHover, onClick }) => {
+  const map = new DotAtlas({
+    element: container,
+    pixelRatio: 2,
+    maxRadiusDivider: 35,
+    mapLightAzimuth: 0.8,
+    mapLightIntensity: 0.5,
+    mapContourOpacity: 0.8,
+    mapContourWidth: 0,
+    mapLightness: 0,
+
+    hoverRadiusMultiplier: 20,
+    onPointHover: (e) => onHover(e),
+    onClick: (e) => onClick(e),
+  })
+
+  const fx = new DotAtlasEffects(map)
+  return { map, fx }
+}
+
+const processPoints = (points, overlay) => {
   points.forEach(function (p, index) {
     p.elevation = 0 //p.labelPriority >= 0.2 ? 0.08 : 0.01
     p.marker = p.label ? 'circle' : ''
@@ -84,11 +104,20 @@ function drawCartography (points, container, onHover, onClick, overlay) {
     p.marker = 'triangle'
     p.markerSize = 1
     p.markerColor = concept
-    p.label = _.truncate(p.title_fr, { length: 15, separator: ' ' })
     p.labelPriority = .8
     p.labelOpacity = .8
-    p.title = p.title_fr
 
+    if (p.title_fr) {
+      p.title = p.title_fr
+      p.lang = 'fr'
+    } else if (p.title_en) {
+      p.title = p.title_en
+      p.lang = 'en'
+    } else {
+      p.hidden = true
+    }
+
+    p.label = _.truncate(p.title, { length: 15, separator: ' ' })
     p.userData = true
   })
 
@@ -104,29 +133,13 @@ function drawCartography (points, container, onHover, onClick, overlay) {
     markerStrokeWidth: 0,
   }
 
-  const dotatlas = new DotAtlas({
-    element: container,
-    pixelRatio: 2,
-    maxRadiusDivider: 35,
-    mapLightAzimuth: 0.8,
-    mapLightIntensity: 0.5,
-    mapContourOpacity: 0.8,
-    mapContourWidth: 0,
-    mapLightness: 0,
-
-    hoverRadiusMultiplier: 20,
-    onPointHover: (e) => onHover(e),
-    onClick: (e) => onClick(e),
-  })
-
   const dataObject = {
     layers: [
       elevations,
       markers,
     ],
   }
-  const dotatlasFx = new DotAtlasEffects(dotatlas)
-  return { map: dotatlas, fx: dotatlasFx, data: dataObject }
+  return dataObject
 }
 
 const CardBox = posed.div({
@@ -193,11 +206,16 @@ class MapCard extends Component {
     this.state = {
       pose: 'init',
       atlasReady: false,
+      overlayUser: true,
+      groupId: '',
       currentPoints: [],
       cardPoint: null,
       cardLock: false,
       lastCardPoint: null,
     }
+
+    // Describe these props to avoid attribute errors.
+    this.user = {}
 
     this.canvasRef = React.createRef()
     this.didToggleZoom = this.didToggleZoom.bind(this)
@@ -206,21 +224,41 @@ class MapCard extends Component {
 
     this.renderMapLayer = this.renderMapLayer.bind(this)
     this.didClickOnMap = this.didClickOnMap.bind(this)
+    this.didChangeOverlay = this.didChangeOverlay.bind(this)
     this.didHoverOnMap = _.debounce(this.didHoverOnMap, 10).bind(this)
   }
 
-  componentDidMount () {
+  async componentDidMount () {
+    this.atlas = initDotAtlas({
+      container: this.canvasRef,
+      onHover: this.didHoverOnMap,
+      onClick: this.didClickOnMap,
+    })
+    this.user = await RuntimeParams.userInfo()
+
+    window.atlas = this.atlas
+
     _.defer(this.renderMapLayer)
   }
 
-  async renderMapLayer () {
-    const points = await request({ url: this.props.baseMapUrl })
-    const overlay = await RootAPI.fetchUserMapOverlay()
+  async fetchBaseMap () {
+    return request({ url: this.props.baseMapUrl })
+  }
 
+  async fetchOverlay () {
+    if (this.state.overlayUser) {
+      return RootAPI.fetchUserMapOverlay()
+    } else {
+      return RootAPI.fetchGroupMapOverlay(this.state.groupId)
+    }
+  }
+
+  async renderMapLayer () {
+    const points = await this.fetchBaseMap()
+    const overlay = await this.fetchOverlay()
     // Ensure the overlay object has all these keys set: `x_map_fr`, `y_map_fr`,
     // and `title_fr`. (Since we currently only use the french base map.)
     const overlayFilter = _.conforms({
-      title_fr: _.isString,
       x_map_fr: _.isFinite,
       y_map_fr: _.isFinite,
     })
@@ -229,11 +267,9 @@ class MapCard extends Component {
       .value()
 
     requestAnimationFrame(() => {
-      this.atlas = drawCartography(points, this.canvasRef, this.didHoverOnMap, this.didClickOnMap, overlayConcepts)
       this.setState({ atlasReady: true })
-      window.atlas = this.atlas
       requestAnimationFrame(() => {
-        this.atlas.fx.rollout(this.atlas.data)
+        this.atlas.fx.replace(processPoints(points, overlayConcepts))
       })
     })
   }
@@ -258,6 +294,10 @@ class MapCard extends Component {
     }
 
     this.setState({ currentPoints, cardPoint })
+  }
+
+  didChangeOverlay ({ overlayUser, groupId }) {
+    this.setState({ overlayUser, groupId }, this.renderMapLayer)
   }
 
   async didToggleZoom () {
@@ -305,8 +345,30 @@ class MapCard extends Component {
                   minimal
                   onClick={this.didToggleZoom}
                 />
-                <Button icon='more' minimal/>
               </div>
+            </div>
+
+            <div className='toggles bp3-dark'>
+              <label>Layers</label>
+              <ButtonGroup vertical alignText='left' minimal>
+                <Button
+                  icon='layout-circle'
+                  text='Mine'
+                  active={this.state.overlayUser === true}
+                  onClick={() => this.didChangeOverlay({ overlayUser: true })}/>
+                { this.user.groupId !== 'beta' &&
+                  <Button
+                    icon='layout-group-by'
+                    text='My Group'
+                    active={this.state.groupId === this.user.groupId}
+                    onClick={() => this.didChangeOverlay({ overlayUser: false, groupId: this.user.groupId })}/>
+                }
+                <Button
+                  icon='layout-sorted-clusters'
+                  text='Everything'
+                  active={this.state.groupId === 'beta'}
+                  onClick={() => this.didChangeOverlay({ overlayUser: false, groupId: 'beta' })}/>
+              </ButtonGroup>
             </div>
 
             <ul className='contents'>
@@ -315,8 +377,7 @@ class MapCard extends Component {
 
             <div
               className={clsx('mapbox', { loading: !this.state.atlasReady })}
-              ref={(el) => this.canvasRef = el}
-            />
+              ref={(el) => this.canvasRef = el}/>
 
           </Card>
         </CardBox>
