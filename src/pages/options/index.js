@@ -7,7 +7,7 @@ import _ from 'lodash'
 import { renderReactComponent } from '~mixins/utils'
 import { request } from '~mixins'
 import { WikiCard } from '~components/cards'
-import RootAPI from '~mixins/root-api'
+import RootAPI, { RuntimeParams } from '~mixins/root-api'
 
 import './_options.sass'
 
@@ -206,11 +206,16 @@ class MapCard extends Component {
     this.state = {
       pose: 'init',
       atlasReady: false,
+      overlayUser: true,
+      groupId: '',
       currentPoints: [],
       cardPoint: null,
       cardLock: false,
       lastCardPoint: null,
     }
+
+    // Describe these props to avoid attribute errors.
+    this.user = {}
 
     this.canvasRef = React.createRef()
     this.didToggleZoom = this.didToggleZoom.bind(this)
@@ -219,21 +224,39 @@ class MapCard extends Component {
 
     this.renderMapLayer = this.renderMapLayer.bind(this)
     this.didClickOnMap = this.didClickOnMap.bind(this)
+    this.didChangeOverlay = this.didChangeOverlay.bind(this)
     this.didHoverOnMap = _.debounce(this.didHoverOnMap, 10).bind(this)
   }
 
-  componentDidMount () {
+  async componentDidMount () {
+    this.atlas = initDotAtlas({
+      container: this.canvasRef,
+      onHover: this.didHoverOnMap,
+      onClick: this.didClickOnMap,
+    })
+    window.atlas = this.atlas
+
     _.defer(this.renderMapLayer)
   }
 
-  async renderMapLayer () {
-    const points = await request({ url: this.props.baseMapUrl })
-    const overlay = await RootAPI.fetchUserMapOverlay()
+  async fetchBaseMap () {
+    return request({ url: this.props.baseMapUrl })
+  }
 
+  async fetchOverlay () {
+    if (this.state.overlayUser) {
+      return RootAPI.fetchUserMapOverlay()
+    } else {
+      return RootAPI.fetchGroupMapOverlay(this.state.groupId)
+    }
+  }
+
+  async renderMapLayer () {
+    const points = await this.fetchBaseMap()
+    const overlay = await this.fetchOverlay()
     // Ensure the overlay object has all these keys set: `x_map_fr`, `y_map_fr`,
     // and `title_fr`. (Since we currently only use the french base map.)
     const overlayFilter = _.conforms({
-      title_fr: _.isString,
       x_map_fr: _.isFinite,
       y_map_fr: _.isFinite,
     })
@@ -242,11 +265,9 @@ class MapCard extends Component {
       .value()
 
     requestAnimationFrame(() => {
-      this.atlas = drawCartography(points, this.canvasRef, this.didHoverOnMap, this.didClickOnMap, overlayConcepts)
       this.setState({ atlasReady: true })
-      window.atlas = this.atlas
       requestAnimationFrame(() => {
-        this.atlas.fx.rollout(this.atlas.data)
+        this.atlas.fx.replace(processPoints(points, overlayConcepts))
       })
     })
   }
@@ -271,6 +292,10 @@ class MapCard extends Component {
     }
 
     this.setState({ currentPoints, cardPoint })
+  }
+
+  didChangeOverlay ({ overlayUser, groupId }) {
+    this.setState({ overlayUser, groupId }, this.renderMapLayer)
   }
 
   async didToggleZoom () {
