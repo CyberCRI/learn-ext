@@ -31,14 +31,6 @@ class ILearnAPI {
   }
 
   async learn (params) {
-    // Calls the /api/learn endpoint. Requires an object with following keys:
-    // ┌──────────────────────────────────────────────────────────┐
-    // │                    url │ String                          │
-    // │               concepts │ List[Dict<href, label, weight>] │
-    // │               username │ String                          │
-    // │                  title │ String                          │
-    // │  knowledge_progression │ {0, 0.5, 1} = 0.5               │
-    // └──────────────────────────────────────────────────────────┘
     const { uid } = await RuntimeParams.userInfo()
     const payload = {
       user_id: uid,
