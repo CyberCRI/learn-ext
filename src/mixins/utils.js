@@ -1,9 +1,6 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
 import $ from 'cash-dom'
 import uuid_v5 from 'uuid/v5'
 import md5 from 'js-md5'
-import _ from 'lodash'
 import Enum from 'enum'
 
 // Enumerate the context this code is running into.
@@ -36,22 +33,6 @@ export const nsuuid = (param) => {
   return uuid_v5(`${env.uuid5_namespace}/${param}`, uuid_v5.URL)
 }
 
-export const renderReactComponent = (selector, component, props) => {
-  const el = document.getElementById(selector)
-
-  if (el) {
-    const dataAttrs = $(el).data() || {}
-    const extraProps = props || {}
-
-    // [!] We must capture the `component` object in this closure. Otherwise,
-    //     minification would "optimise" it and it won't work. :(
-    const ReactComponent = component
-    return ReactDOM.render(<ReactComponent {...dataAttrs} {...extraProps} />, el)
-  } else {
-    console.info(`Component <${component.name}> not mounted. <${selector}> missing.`)
-  }
-}
-
 export const context = () => {
   // Perform globals existence test to find the context we're currently in.
   //
@@ -81,15 +62,4 @@ export const context = () => {
 export const userId = (email) => {
   // To obfuscate the user email, a simple hash of user email is used.
   return md5(`ilearn_${email}`)
-}
-
-export const cssUrlVars = (vars) => {
-  // Helper method to set inline CSS Variables value for a url.
-  // Expects an object with <name: url> entries.
-  // Return a style object.
-  return _(vars)
-    .mapKeys((value, key) => `--${key}`)
-    .mapValues((value) => `url(${value})`)
-    .thru((style) => ({ style }))
-    .value()
 }
