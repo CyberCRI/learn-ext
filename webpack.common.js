@@ -6,7 +6,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const { dotenv, abspath, locale, manifest } = require('./tools/node-plugins')
 
-
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
   { from: './src/manifest.json', to: './', transform: manifest.transform },
@@ -18,8 +17,9 @@ const copySourceBundleRules = [
     transform: locale.transpile,
   },
   {
-    from: './assets/dotatlas/v0.2.0/*.js',
-    to: './dotatlas',
+    from: './assets/dotatlas/v0.1.2/*.js',
+    to: './atlas/',
+    flatten: true,
   },
 ]
 
