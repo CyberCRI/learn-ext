@@ -1,4 +1,5 @@
 // Handlers for handling actions requested.
+import { browser } from '~procs/stubs'
 
 
 const pathReactor = (path) => {

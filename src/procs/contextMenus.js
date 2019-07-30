@@ -1,3 +1,4 @@
+import { browser } from '~procs/stubs'
 import { ExtensionPages } from './reactors'
 import { i18n } from './wrappers'
 
@@ -10,17 +11,17 @@ const attachActionMenu = () => {
   })
 }
 
-const attachPageMenu = () => {
+const attachPageMenu = (handler) => {
   browser.contextMenus.create({
-    contexts: ['all'],
-    command: '_execute_browser_action',
+    contexts: ['page'],
     title: i18n('menu.action.addResource'),
     documentUrlPatterns: ['http://*/*', 'https://*/*'],
+    onclick: handler,
   })
 }
 
-export const initContextMenus = () => {
+export const initContextMenus = (handlers) => {
   // Setup all the context menus here.
   attachActionMenu()
-  attachPageMenu()
+  attachPageMenu(handlers.pageMenu)
 }

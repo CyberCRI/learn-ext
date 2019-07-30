@@ -4,7 +4,7 @@ import posed from 'react-pose'
 import clsx from 'classnames'
 import _ from 'lodash'
 
-import { renderReactComponent } from '~mixins/utils'
+import { renderReactComponent } from '~mixins/react-helpers'
 import { request } from '~mixins'
 import { WikiCard } from '~components/cards'
 import RootAPI, { RuntimeParams } from '~mixins/root-api'
@@ -265,12 +265,11 @@ class MapCard extends Component {
     const overlayConcepts = _.chain(overlay.concepts)
       .filter(overlayFilter)
       .value()
+    const mapLayers = processPoints(points, overlayConcepts)
+    this.setState({ atlasReady: true })
 
     requestAnimationFrame(() => {
-      this.setState({ atlasReady: true })
-      requestAnimationFrame(() => {
-        this.atlas.fx.replace(processPoints(points, overlayConcepts))
-      })
+      this.atlas.fx.replace(mapLayers)
     })
   }
 

@@ -30,6 +30,7 @@
   overflow: hidden
   padding: 0
   z-index: 2
+  border-radius: 6px
   // transition: 0.1s filter
   // filter: blur(0px)
 
@@ -46,8 +47,6 @@
     flex-direction: row
     justify-content: space-between
     align-items: center
-
-    // background-image: linear-gradient(0deg, rgba(17,8,36,0.00) 3%, rgba(15,8,38,0.12) 22%, rgba(13,9,40,0.23) 41%, rgba(12,9,43,0.35) 59%, rgba(10,10,45,0.46) 78%, rgba(8,10,47,0.58) 97%)
 
     h3
       margin: 0
@@ -91,6 +90,7 @@
     left: 0
     bottom: 0
     pointer-events: all
+    border-radius: inherit
 
     background: #8cc0e9
 
@@ -98,6 +98,7 @@
       transition: .2s filter
       will-change: filter
       filter: blur(0px)
+      border-radius: inherit
       cursor: grab
 
       &:focus

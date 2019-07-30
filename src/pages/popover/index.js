@@ -1,4 +1,4 @@
-import { renderReactComponent } from '~mixins/utils'
+import { renderReactComponent } from '~mixins/react-helpers'
 import { PopOverlay } from '~components/popover/overlay'
 
 import './_popover.sass'

@@ -4,6 +4,8 @@ import { InputGroup, ControlGroup, Button, RadioGroup, Radio, FormGroup } from '
 import * as FiIcon from 'react-icons/fi'
 import _ from 'lodash'
 
+import { browser } from '~procs/stubs'
+
 import RootAPI, { RuntimeParams } from '~mixins/root-api'
 import { userId } from '~mixins/utils'
 

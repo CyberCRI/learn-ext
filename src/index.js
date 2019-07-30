@@ -1,6 +1,7 @@
+import { browser } from '~procs/stubs'
 import $ from 'cash-dom'
 
-import { renderReactComponent } from '~mixins/utils'
+import { renderReactComponent } from '~mixins/react-helpers'
 import FrameContainer from '~components/iframe'
 
 const EXT_ROOT_ID = 'ilearn-ext-frame'

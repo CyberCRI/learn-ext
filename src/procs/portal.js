@@ -1,6 +1,6 @@
 // High order communication using ports.
 // Coordinates messages to, and from the runtime <-> background processes.
-import _ from 'lodash'
+import { browser } from '~procs/stubs'
 import { context, Runtime } from '~mixins/utils'
 
 
@@ -26,7 +26,7 @@ export class Port {
       this.port = {
         portStub: true,
         postMessage: (msg) => {
-          console.info(`[PortStub ${this.portName}] postMessage`, msg)
+          console.debug(`[PortStub ${this.portName}] postMessage`, msg)
         },
       }
       return this
@@ -37,7 +37,7 @@ export class Port {
   }
 
   addAction (name, callback) {
-    console.log(`<Port ${this.portName}> Attached Action: ${name}`)
+    console.debug(`<Port ${this.portName}> Attached Action: ${name}`)
     this.callbacks[name] = callback
     return this
   }
@@ -45,12 +45,13 @@ export class Port {
   didRecieveMessage (msg) {
     // Do something with message, maybe check the recepient etc.
     // Push the message to appropriate callback.
-    console.log(`Message for ${this.portName}: `, msg)
-    _.forOwn(this.callbacks, (fn, action) => {
+    console.debug(`Message for ${this.portName}: `, msg)
+
+    for (let [ action, fn ] of Object.entries(this.callbacks)) {
       if (msg.action === action) {
         fn(msg)
       }
-    })
+    }
   }
 
   addCallback (name, fn) {
@@ -74,15 +75,3 @@ export class Port {
     })
   }
 }
-
-
-
-class Portal {
-  constructor () {
-    this.ports = {}
-  }
-
-  connect () {
-  }
-}
-

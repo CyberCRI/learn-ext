@@ -1,3 +1,4 @@
+import { browser } from '~procs/stubs'
 
 class RuntimeHook {
   // Manage runtime event hooks and attach/remove handlers as required.
@@ -29,6 +30,7 @@ const RuntimeEvents = {
   onInstall: browser.runtime.onInstalled,
   onStartup: browser.runtime.onStartup,
   onMessage: browser.runtime.onMessage,
+  onConnect: browser.runtime.onConnect,
 }
 
 

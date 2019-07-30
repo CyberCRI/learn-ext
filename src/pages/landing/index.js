@@ -1,4 +1,4 @@
-import { renderReactComponent } from '~mixins/utils'
+import { renderReactComponent } from '~mixins/react-helpers'
 
 import { DownloadLinks } from './download-buttons'
 import { BlogCallout } from './cards'

@@ -1,0 +1,84 @@
+# Cross-Browser manifest.json template.
+#
+# This yaml file describes a base manifest configuration (under base),
+# excluding any browser specific keys such as `chrome_style`, `developer`,
+# etc.
+#
+# Browser specific manifest keys are defined in corresponding entry
+# below, which inherits the values in `base`. Both hashmaps are merged
+# together to generate valid manifests targetting chrome and firefox.
+#
+# Heirarchially, it looks like this:
+#
+#   -> [base]
+#   |--> +[firefox]
+#   |--> +[chrome]
+#   |--> +[opera] (not implemented yet)
+#
+# Additionally, there are a couple of placeholder values, specified with
+# this magic sequence: `i+`. For example, `i+version` defines a placeholder
+# called `version`, and is replaced with value supplied to the parser.
+
+base: &BASE_MANIFEST
+  name: 'iLearn Extension'
+  homepage_url: 'https://ilearn.cri-paris.org'
+  description: __MSG_extension_description__
+  default_locale: en
+
+  icons:
+    '128': icons/icon-active-128.png
+    '16': icons/icon-active-16.png
+    '48': icons/icon-active-48.png
+
+  background:
+    scripts:
+      - vendors.js
+      - background.js
+
+  permissions:
+    - activeTab
+    - storage
+    - contextMenus
+    - https://*.ilearn.cri-paris.org/*
+    - https://*.wikipedia.org/*
+
+  content_security_policy: script-src 'self' 'unsafe-eval'; object-src 'self'
+
+  web_accessible_resources:
+    - pages/*
+
+  omnibox:
+    keyword: ilearn
+  browser_action:
+    default_icon: icons/icon-idle-48.png
+    default_title: __MSG_actions_page_title__
+  commands:
+    toggle-action:
+      description: __MSG_command_toggle_action__
+      suggested_key:
+        default: Ctrl+Shift+E
+        mac: Command+Shift+E
+
+  options_ui:
+    chrome_style: false
+    open_in_tab: true
+    page: pages/settings.html
+
+
+chrome:
+  <<: *BASE_MANIFEST
+  version: i+version_chrome
+  version_name: i+version_name
+  manifest_version: 2
+
+firefox:
+  <<: *BASE_MANIFEST
+  developer:
+    name: Centre de Recherches Interdisciplinaires
+    url: https://ilearn.cri-paris.org
+  version: i+version_firefox
+  browser_specific_settings:
+    gecko:
+      id: ilearn-cri@noop.pw
+      update_url: https://opt.ilearn.cri-paris.org/api/versions
+
