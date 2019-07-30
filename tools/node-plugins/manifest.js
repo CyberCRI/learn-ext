@@ -17,9 +17,9 @@ const applyTransformations = (mbase) => {
     version_name: `${mbase.version}${targetMode}${gitRevision}`,
   }
   if (buildTarget.isProduction) {
-    overrides.content_scripts = [
-      { css: [ 'css/app_root.css' ] },
-    ]
+    // overrides.content_scripts = [
+    //   { css: [ 'css/app_root.css' ] },
+    // ]
   }
   return _.merge(_.cloneDeep(mbase), overrides)
 }
