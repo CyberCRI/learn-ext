@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useClickAway, useLogger, useToggle, usePromise, useAsyncFn, useUpdateEffect } from 'react-use'
+import { useClickAway, useLogger, useToggle, useMount, useAsyncFn, useUpdateEffect } from 'react-use'
 import { Spinner } from '@blueprintjs/core'
 import pose, { PoseGroup } from 'react-pose'
 
@@ -127,15 +127,21 @@ export const PopOverlay = (props) => {
   const [ tabInfo, setTabInfo ] = useState({})
   const ref = useRef(null)
 
-  useEffect(() => {
+  dispatcher.dispatch({
+    context: 'tabState',
+    payload: { isOpen },
+  })
+
+  useMount(() => {
     dispatcher
-      .addAction('open', (msg) => {
-        toggle(true)
-        if (tabInfo.url !== msg.tabInfo.url) {
-          setTabInfo(msg.tabInfo)
-        }
-      })
+      .addAction('open', () => toggle(true))
       .addAction('close', () => toggle(false))
+      .addAction('postMount', (msg) => {
+        setTabInfo(msg.tabInfo)
+        toggle(msg.isOpen)
+      })
+
+    dispatcher.dispatch({ context: 'mounted' })
   })
   useLogger('PopOverlay')
 
