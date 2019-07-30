@@ -30,6 +30,7 @@ const RuntimeEvents = {
   onInstall: browser.runtime.onInstalled,
   onStartup: browser.runtime.onStartup,
   onMessage: browser.runtime.onMessage,
+  onConnect: browser.runtime.onConnect,
 }
 
 
