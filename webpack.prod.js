@@ -29,6 +29,7 @@ module.exports = smartMerge(base_config, {
     new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
   ],
 
+  devtool: false,
   module: {
     rules: [
       {
