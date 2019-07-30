@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useLogger } from 'react-use'
+import { useLogger, useMount } from 'react-use'
 import posed from 'react-pose'
 import { Port } from '~procs/portal'
-
-import './iframe.sass'
 
 
 const PosedIframe = posed.iframe({
@@ -17,6 +15,22 @@ const PosedIframe = posed.iframe({
   },
 })
 
+// Inline iframe styles.
+// [NOTE] To ensure the iframe is almost _always_ on top. We use a "safe" zIndex
+// value (theoretically it's the max value possible).
+const iFrameStyles = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  width: '100vw',
+  height: '100vh',
+  border: 'none',
+  outline: 'none',
+  zIndex: 12600322,
+}
+
 
 const dispatcher = new Port('FrameContainer')
   .connect()
@@ -24,22 +38,14 @@ const dispatcher = new Port('FrameContainer')
 
 const FrameContainer = (props) => {
   const [pose, changePose] = useState('closed')
-  useLogger('FrameContainer')
-  dispatcher.dispatch({
-    context: 'tabState',
-    payload: {
-      active: pose === 'open',
-    },
-  })
 
-  useEffect(() => {
+  useMount(() => {
     dispatcher
       .addAction('open', () => changePose('open'))
       .addAction('close', () => changePose('closed'))
-      .addAction('notify', (m) => console.log('msg: ', m))
   })
 
-  return <PosedIframe src={props.src} pose={pose} />
+  return <PosedIframe src={props.src} pose={pose} style={iFrameStyles}/>
 }
 
 export default FrameContainer
