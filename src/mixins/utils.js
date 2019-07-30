@@ -1,4 +1,3 @@
-import $ from 'cash-dom'
 import uuid_v5 from 'uuid/v5'
 import md5 from 'js-md5'
 import Enum from 'enum'
@@ -13,19 +12,6 @@ export const Runtime = new Enum([
   'node',
 ], { name: 'Runtime', ignoreCase: true })
 
-
-export const getMetaAttribute = (name) => {
-  return $(`meta[name="${name}"]`).attr('content')
-}
-
-export const getCanonicalUrl = () => {
-  const canonical = $('link[rel="canonical"]').attr('href')
-  if (canonical) {
-    return canonical
-  } else {
-    return document.location.href
-  }
-}
 
 export const nsuuid = (param) => {
   // Read as: Namespace UUID.
