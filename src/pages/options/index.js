@@ -265,12 +265,11 @@ class MapCard extends Component {
     const overlayConcepts = _.chain(overlay.concepts)
       .filter(overlayFilter)
       .value()
+    const mapLayers = processPoints(points, overlayConcepts)
+    this.setState({ atlasReady: true })
 
     requestAnimationFrame(() => {
-      this.setState({ atlasReady: true })
-      requestAnimationFrame(() => {
-        this.atlas.fx.replace(processPoints(points, overlayConcepts))
-      })
+      this.atlas.fx.replace(mapLayers)
     })
   }
 
