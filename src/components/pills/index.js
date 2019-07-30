@@ -4,7 +4,7 @@ import urlParse from 'url-parse'
 import clsx from 'classnames'
 
 import OpenGraph from '~mixins/opengraph'
-import { cssUrlVars } from '~mixins/utils'
+import { cssUrlVars } from '~mixins/react-helpers'
 
 import './styles.scss'
 

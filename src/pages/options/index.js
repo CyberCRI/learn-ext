@@ -4,7 +4,7 @@ import posed from 'react-pose'
 import clsx from 'classnames'
 import _ from 'lodash'
 
-import { renderReactComponent } from '~mixins/utils'
+import { renderReactComponent } from '~mixins/react-helpers'
 import { request } from '~mixins'
 import { WikiCard } from '~components/cards'
 import RootAPI, { RuntimeParams } from '~mixins/root-api'
