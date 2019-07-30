@@ -52,7 +52,8 @@ const DownloadLinks = () => {
   const browser = detectBrowser()
   return (
     <div className='download-links'>
-      {<FirefoxLink/>}
+      {browser.firefox && <FirefoxLink/>}
+      {browser.chrome && <ChromeLink/>}
 
       <Popover position={Position.BOTTOM_LEFT} modifiers={{ offset: '10' }} flip={false}>
         <Button minimal small icon='compressed'>Download Options</Button>
