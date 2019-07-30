@@ -25,7 +25,7 @@
   },
 
   "default_locale": "en",
-  "content_security_policy": "script-src 'self' 'unsafe-eval' https://noop-pub.s3.amazonaws.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
   "background": {
     "scripts": [
@@ -54,8 +54,8 @@
     "activeTab",
     "storage",
     "contextMenus",
-    "https://*/*",
-    "http://*/*"
+    "https://*.ilearn.cri-paris.org/*",
+    "https://*.wikipedia.org/*"
   ],
   "omnibox": {
     "keyword": "ilearn"
@@ -69,18 +69,5 @@
 
   "web_accessible_resources": [
     "pages/*"
-  ],
-
-  "content_scripts": [
-    {
-      "matches": [
-        "https://*/*",
-        "http://*/*"
-      ],
-      "js": [
-        "vendors.js",
-        "app_root.js"
-      ]
-    }
   ]
 }
