@@ -75,7 +75,7 @@ Description:
   Generates fonts.css in src/styles with the fonts found in assets/fonts.
 BOOP
 gen:webfonts () {
-  python tools/discover-fonts.py
+  python tools/discover-fonts.py --silent
 }
 
 release:bump () {

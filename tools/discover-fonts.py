@@ -104,17 +104,19 @@ def generate_css(df):
 @click.option('-p', '--path', default='assets/fonts', help='Directory containing fonts')
 @click.option('-u', '--urlprefix', default='../../assets/fonts', help='Public URL Prefix')
 @click.option('-o', '--output', default='src/styles/fonts.css', help='CSS file output path')
-def webfonts_generator(path, urlprefix, output):
+@click.option('--silent', is_flag=True, help='Disable logs')
+def webfonts_generator(path, urlprefix, output, silent):
   '''Discover and generate CSS file for the webfonts.'''
   fonts = discover_fonts(path, urlprefix)
   with open(output, 'w') as fp:
     fp.write(generate_css(fonts))
 
-  hues.success(f'[!] Found {len(fonts)} fonts in {path}.')
-  for name, els in fonts.groupby('fname').groups.items():
-    hues.info(f'    -> {name} [{len(els)} style(s)]')
+  if not silent:
+    hues.success(f'[!] Found {len(fonts)} fonts in {path}.')
+    for name, els in fonts.groupby('fname').groups.items():
+      hues.info(f'    -> {name} [{len(els)} style(s)]')
 
-  hues.success(f'<~> CSS File written in {output}')
+    hues.success(f'<~> CSS File written in {output}')
 
 
 if __name__ == '__main__':
