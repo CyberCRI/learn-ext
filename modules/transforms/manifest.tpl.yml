@@ -19,8 +19,20 @@
 # this magic sequence: `i+`. For example, `i+version` defines a placeholder
 # called `version`, and is replaced with value supplied to the parser.
 
+substitutions:
+  version: '0.0.36'
+  icons:
+    extension:
+      16: icons/glyph-extension-16.png
+      48: icons/glyph-extension-48.png
+      128: ''
+    action:
+    glyph:
+
+
 base: &BASE_MANIFEST
-  name: 'iLearn Extension'
+  name: iLearn Extension
+  manifest_version: 2
   homepage_url: 'https://ilearn.cri-paris.org'
   description: __MSG_extension_description__
   default_locale: en
@@ -47,38 +59,53 @@ base: &BASE_MANIFEST
   web_accessible_resources:
     - pages/*
 
+  options_ui: &BASE_OPTIONS_UI
+    open_in_tab: true
+    page: pages/settings.html
+
   omnibox:
     keyword: ilearn
+
   browser_action:
     default_icon: icons/icon-idle-48.png
     default_title: __MSG_actions_page_title__
-  commands:
+
+  commands: &BASE_COMMANDS
     toggle-action:
       description: __MSG_command_toggle_action__
       suggested_key:
         default: Ctrl+Shift+E
         mac: Command+Shift+E
 
-  options_ui:
-    chrome_style: false
-    open_in_tab: true
-    page: pages/settings.html
-
 
 chrome:
   <<: *BASE_MANIFEST
+  short_name: iLearn
   version: i+version_chrome
   version_name: i+version_name
-  manifest_version: 2
+  author: Centre de Recherches Interdisciplinaires
+
+  options_ui:
+    <<: *BASE_OPTIONS_UI
+    chrome_style: false
+
+  commands:
+    <<: *BASE_COMMANDS
+    _execute_browser_action:
+      suggested_key:
+        default: Ctrl+Shift+E
 
 firefox:
   <<: *BASE_MANIFEST
+  version: i+version_firefox
   developer:
     name: Centre de Recherches Interdisciplinaires
     url: https://ilearn.cri-paris.org
-  version: i+version_firefox
   browser_specific_settings:
     gecko:
       id: ilearn-cri@noop.pw
       update_url: https://opt.ilearn.cri-paris.org/api/versions
 
+  options_ui:
+    <<: *BASE_OPTIONS_UI
+    browser_ui: false
