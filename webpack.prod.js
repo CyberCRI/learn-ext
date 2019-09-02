@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
 const base_config = require('./webpack.common')
-const { smartMerge } = require('./tools/node-plugins')
+const { smartMerge } = require('./modules/plugins')
 
 
 module.exports = smartMerge(base_config, {

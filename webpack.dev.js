@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 
 const base_config = require('./webpack.common')
-const { smartMerge } = require('./tools/node-plugins')
+const { smartMerge } = require('./modules/plugins')
 
 
 module.exports = smartMerge(base_config, {

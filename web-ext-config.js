@@ -1,6 +1,6 @@
 // Configuration for web-ext cli.
 // References at https://github.com/mozilla/web-ext
-const { dotenv } = require('./tools/node-plugins')
+const { dotenv } = require('./modules/plugins')
 const _ = require('lodash')
 
 if (dotenv.flags.verbose == 'yes') {

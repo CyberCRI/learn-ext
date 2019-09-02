@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-const { dotenv, abspath, locale, manifest } = require('./tools/node-plugins')
+
+const { dotenv, abspath, locale, manifest } = require('./modules/plugins')
 
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
