@@ -3,7 +3,7 @@ import { renderReactComponent } from '~mixins/react-helpers'
 import * as FiIcon from 'react-icons/fi'
 import { IconContext } from 'react-icons'
 import SettingsTabs from './tabs'
-import './_settings.sass'
+import './style.sass'
 
 
 const SettingsContainer = (props) => {

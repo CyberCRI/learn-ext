@@ -1,11 +1,10 @@
 extends ../partials/layout.pug
-include ../partials/mixins.pug
 
 append head
-  title Options | iLearn
+  title Atlas | iLearn
 
 append scripts
-  +dotatlas
+  script(src='/atlas/dotatlas.js')
 
 block append main
   div#cartography

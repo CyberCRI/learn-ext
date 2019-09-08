@@ -3,7 +3,7 @@ import { Card, Callout, Divider, Intent, Tabs, Tab, Elevation } from '@blueprint
 import { renderReactComponent } from '~mixins/react-helpers'
 import { AccountSelector } from '~components/input/settings'
 
-import './_onboarding.sass'
+import './style.sass'
 
 
 const WelcomeCard = () => (
