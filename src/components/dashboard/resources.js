@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { SpringGrid, measureItems, makeResponsive, layout } from 'react-stonecutter'
+import { SpringGrid, CSSGrid, measureItems, makeResponsive, layout } from 'react-stonecutter'
 
 import { reFuse } from '~mixins/itertools'
 import { ResourceCard } from '~components/cards/resources'
@@ -10,6 +10,15 @@ const Grid = makeResponsive(measureItems(SpringGrid, { measureImages: true }), {
   maxWidth: 1280,
   minPadding: 40,
 })
+const gridConf = {
+  duration: 800,
+  enterExitStyle: 'fromBottom',
+  easing: 'quadInOut',
+}
+const springGridConf = {
+  enterExitStyle: 'fromBottom',
+  springConfig: { stiffness: 200, damping: 20 },
+}
 
 const filterKeys = [
   'title',
@@ -34,8 +43,7 @@ export const ResourceGrid = ({ resources, filters }) => {
       gutterWidth={20}
       gutterHeight={20}
       layout={layout.pinterest}
-      enterExitStyle='fromBottom'
-      springConfig={{ stiffness: 200, damping: 20 }}
+      {...springGridConf}
       className='resources'>
       {visibleResources().map((x, i) =>
         <li key={x.url}>
