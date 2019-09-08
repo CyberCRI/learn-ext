@@ -1,0 +1,64 @@
+
+
+    @font-face {
+      font-family: 'Barlow';
+      font-style: normal;
+      font-weight: 300;
+      src: local('Barlow Light'), local('Barlow-Light'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-300.woff2') format('woff2'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-300.woff') format('woff');
+    }
+
+    @font-face {
+      font-family: 'Barlow';
+      font-style: normal;
+      font-weight: 500;
+      src: local('Barlow Medium'), local('Barlow-Medium'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-500.woff2') format('woff2'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-500.woff') format('woff');
+    }
+
+    @font-face {
+      font-family: 'Barlow';
+      font-style: italic;
+      font-weight: 500;
+      src: local('Barlow Medium'), local('Barlow-MediumItalic'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-500italic.woff2') format('woff2'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-500italic.woff') format('woff');
+    }
+
+    @font-face {
+      font-family: 'Barlow';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Barlow'), local('Barlow-Bold'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-700.woff2') format('woff2'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-700.woff') format('woff');
+    }
+
+    @font-face {
+      font-family: 'Barlow';
+      font-style: normal;
+      font-weight: 800;
+      src: local('Barlow ExtraBold'), local('Barlow-ExtraBold'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-800.woff2') format('woff2'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-800.woff') format('woff');
+    }
+
+    @font-face {
+      font-family: 'Barlow';
+      font-style: italic;
+      font-weight: 400;
+      src: local('Barlow'), local('Barlow-Italic'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-italic.woff2') format('woff2'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-italic.woff') format('woff');
+    }
+
+    @font-face {
+      font-family: 'Barlow';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Barlow'), local('Barlow-Regular'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-regular.woff2') format('woff2'),
+           url('../../assets/fonts/barlow-v3-latin/barlow-v3-latin-regular.woff') format('woff');
+    }

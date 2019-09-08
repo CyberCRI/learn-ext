@@ -1,0 +1,41 @@
+html, body {
+  margin: 0;
+}
+
+body {
+  background: #eee;
+  font-family: Barlow, sans-serif;
+  font-weight: 400;
+  min-height: 100vh;
+  display: flex;
+}
+
+.atlas {
+  width: 90vw;
+  height: 90vh;
+  margin: auto;
+  border-radius: 5px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+
+  #atlas-view {
+    flex: 1;
+  }
+
+  #atlas-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  #bob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: 0.2s all;
+  }
+}
