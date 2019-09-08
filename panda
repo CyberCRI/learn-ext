@@ -107,7 +107,7 @@ release:build () {
 
 release:publish () {
   _info '<-> Syncing public releases store'
-  rsync -r web-ext-artifacts/ $DEV_EXTENSION_STORE
+  rsync -r ./.builds/gecko-artifacts/ $DEV_EXTENSION_STORE
 }
 
 release:dev () {
