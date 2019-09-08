@@ -10,9 +10,8 @@ $pt-grid-size: 10px;
 
 // see https://bitsofco.de/the-new-system-font-stack/
 $pt-font-family: "Barlow",
-                 "Overpass",
-                 "Ubuntu",
-                 "Cantarell",
+                 "-apple-system",
+                 "BlinkMacSystemFont",
                  "Open Sans",
                  "Helvetica Neue",
                  "Icons16", // support inline Palantir icons
