@@ -1,6 +1,6 @@
 // Karma configuration
 const base_config = require('./webpack.common')
-const { dotenv, abspath } = require('./tools/node-plugins')
+const { dotenv, abspath } = require('./modules/plugins')
 
 
 module.exports = function(config) {
@@ -43,6 +43,10 @@ module.exports = function(config) {
           {
             test: /\.(css|scss|sass|svg|woff|ttf)$/,
             use: 'null-loader',
+          },
+          {
+            test: abspath('node_modules/webextension-polyfill/dist/browser-polyfill.js'),
+            use: [ 'null-loader' ],
           },
         ],
       },

@@ -1,7 +1,7 @@
 import { renderReactComponent } from '~mixins/react-helpers'
 import { PopOverlay } from '~components/popover/overlay'
 
-import './_popover.sass'
+import './style.sass'
 
 
 document.addEventListener('apploaded', () => {

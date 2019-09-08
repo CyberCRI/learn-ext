@@ -3,10 +3,16 @@
     [
       "@babel/preset-env",
       {
-        "modules": "auto"
+        "modules": false,
+        "shippedProposals": true
       }
     ],
-    "@babel/preset-react"
+    [
+      "@babel/preset-react",
+      {
+        "useBuiltIns": true
+      }
+    ]
   ],
   "ignore": ["node_modules"],
   "plugins": [

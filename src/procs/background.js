@@ -40,6 +40,7 @@ const reactOnInstalled = async ({ reason, temporary }) => {
   if (reason === InstallEventReason.updated) {
     // Extension was updated. Later, we might open a changelog page. For now,
     // do nothing at all.
+    // ExtensionPages.changelog.open()
   }
 }
 

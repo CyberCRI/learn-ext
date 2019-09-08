@@ -1,5 +1,5 @@
 const baseConfig = require('../webpack.dev.js')
-const { dotenv } = require('../tools/node-plugins')
+const { dotenv } = require('../modules/plugins')
 
 module.exports = async ({ config, mode }) => {
   return {

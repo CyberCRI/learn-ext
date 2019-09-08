@@ -1,34 +1,37 @@
 const webpack = require('webpack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const base_config = require('./webpack.common')
-const { smartMerge } = require('./tools/node-plugins')
+const { smartMerge } = require('./modules/plugins')
 
 
 module.exports = smartMerge(base_config, {
   mode: 'development',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin(),
   ],
 
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [ 'style-loader' ],
+        use: [ {
+          loader: MiniCssExtractPlugin.loader,
+          options: { hmr: true },
+        } ],
       },
       {
         test: /\.s(c|a)ss$/,
         exclude: /node_modules/,
-        use: [ 'style-loader' ],
+        use: [ {
+          loader: MiniCssExtractPlugin.loader,
+          options: { hmr: true },
+        } ],
       },
     ],
   },
 
-  resolve: {
-    alias: {
-      'react-dom': '@hot-loader/react-dom',
-    },
-  },
   devtool: 'cheap-module-eval-source-map',
   devServer: {
     contentBase: './ext',
@@ -43,6 +46,6 @@ module.exports = smartMerge(base_config, {
     watchContentBase: true,
     open: false,
     overlay: true,
-    writeToDisk: true,
+    writeToDisk: false,
   },
 })

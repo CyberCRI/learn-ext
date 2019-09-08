@@ -1,6 +1,6 @@
 // Configuration for web-ext cli.
 // References at https://github.com/mozilla/web-ext
-const { dotenv } = require('./tools/node-plugins')
+const { dotenv } = require('./modules/plugins')
 const _ = require('lodash')
 
 if (dotenv.flags.verbose == 'yes') {
@@ -25,8 +25,8 @@ const prefs = {
   'intl.locale.matchOS': false,
   'intl.locale.requested': 'fr',
   'lightweightThemes.selectedThemeID': 'firefox-compact-light@mozilla.org',
-  'gfx.webrender.all': true,
-  'gfx.webrender.enabled': true,
+  'gfx.webrender.all': false,
+  'gfx.webrender.enabled': false,
 }
 
 // Optional Preferences overrides
@@ -49,7 +49,8 @@ const browser_prefs = _({ ...prefs, ...prefs_extra })
 
 
 module.exports = {
-  sourceDir: './ext',
+  sourceDir: './.builds/firefox',
+  artifactsDir: './.builds/gecko-artifacts',
   ignoreFiles: [
     'report.html',
   ],

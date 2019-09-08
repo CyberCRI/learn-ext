@@ -9,69 +9,32 @@ import { request } from '~mixins'
 import { WikiCard } from '~components/cards'
 import RootAPI, { RuntimeParams } from '~mixins/root-api'
 
-import './_options.sass'
+import { hexToRGBA } from '@ilearn/modules/atlas/misc'
+import { AutoResizing, Effects } from '@ilearn/modules/atlas/dotatlas'
+
+
+import './style.sass'
 
 const PortalTable = {
-  art: {
-    portal: 'arts',
-    color: [60, 126, 162, 120],
-  },
-  geo: {
-    portal: 'geographie',
-    color: [104, 183, 140, 120],
-  },
-  hist: {
-    portal: 'histoire',
-    color: [215, 135, 66, 120],
-  },
-  pol: {
-    portal: 'politique_et_religions_et_croyances',
-    color: [118, 78, 162, 120],
-  },
-  sci: {
-    portal: 'sciences_et_medecine',
-    color: [152, 54, 109, 120],
-  },
-  soc: {
-    portal: 'societe',
-    color: [211, 115, 135, 120],
-  },
-  spo: {
-    portal: 'sport_et_loisirs',
-    color: [20, 204, 189, 120],
-  },
-  tech: {
-    portal: 'technologies',
-    color: [69, 128, 230, 120],
-  },
+  sci: { color: hexToRGBA('3B3C3E') },
+  tech: { color: hexToRGBA('10416B') },
+  pol: { color: hexToRGBA('2B3546') },
+  geo: { color: hexToRGBA('186B4B') },
+  hist: { color: hexToRGBA('48392B') },
+  art: { color: hexToRGBA('681D33') },
+  spo: { color: hexToRGBA('58517B') },
+  soc: { color: hexToRGBA('473746') },
 }
 
-const black = [0, 0, 0, 255]
-const gray = [40, 40, 40, 255]
+const black = hexToRGBA('000000')
+const white = hexToRGBA('FFFFFF')
+const gray = hexToRGBA('333333')
 const concept = [92, 37, 92, 255]
 
-const initDotAtlas = ({ container, onHover, onClick }) => {
-  const map = new DotAtlas({
-    element: container,
-    pixelRatio: 2,
-    maxRadiusDivider: 35,
-    mapLightAzimuth: 0.8,
-    mapLightIntensity: 0.5,
-    mapContourOpacity: 0.8,
-    mapContourWidth: 0,
-    mapLightness: 0,
 
-    hoverRadiusMultiplier: 20,
-    onPointHover: (e) => onHover(e),
-    onClick: (e) => onClick(e),
-  })
+const createLayers = (map, dataset, callbacks) => {
 
-  const fx = new DotAtlasEffects(map)
-  return { map, fx }
-}
-
-const processPoints = (points, overlay) => {
-  points.forEach(function (p, index) {
+  dataset.points.forEach(function (p, index) {
     p.elevation = 0 //p.labelPriority >= 0.2 ? 0.08 : 0.01
     p.marker = p.label ? 'circle' : ''
 
@@ -82,23 +45,24 @@ const processPoints = (points, overlay) => {
       // Portals + Pages
       p.elevation = 0
       p.labelColor = gray
-      p.labelPriority = 0.5
+      p.labelPriority = .3
       p.label = p.label.replace(/_/g, ' ')
       p.title = p.label
 
       if (p.labelOpacity >= 1) {
         // Top level portals
-        p.label = `[${p.label}]`
         p.labelPriority = 1
-        p.labelColor = gray
+        p.labelColor = white
         p.labelOpacity = 1
+        p.labelBoxOpacity = .8
+        p.labelBoxColor = PortalTable[p.portal].color
       } else {
         p.labelOpacity = 0.5
       }
     }
   })
 
-  overlay.forEach((p, ix) => {
+  dataset.overlay.forEach((p, ix) => {
     p.x = p.x_map_fr
     p.y = p.y_map_fr
     p.marker = 'triangle'
@@ -121,25 +85,68 @@ const processPoints = (points, overlay) => {
     p.userData = true
   })
 
-  const shownPoints = _.concat(points, overlay)
+  const shownPoints = _.concat(dataset.points, dataset.overlay)
 
-  const elevations = { points: shownPoints }
-  const markers = {
-    points: shownPoints,
-    // visible: false,
-    type: 'marker',
-    markerSizeMultiplier: 15,
-    markerOpacity: 1,
-    markerStrokeWidth: 0,
+  const labelledPoints = _.filter(shownPoints, 'label')
+
+  const layers = {
+    elevation: DotAtlas.createLayer({
+      points: shownPoints,
+      type: 'elevation',
+      contourWidth: 0,
+      maxRadiusDivider: 35,
+      // elevationPow: .9,
+    }),
+
+    hoverMarkers: DotAtlas.createLayer({
+      points: [],
+      type: 'marker',
+      markerFillOpacity: 0.5,
+      markerStrokeWidth: 0,
+      markerSizeMultiplier: 0,
+    }),
+
+    hoverOutline: DotAtlas.createLayer({
+      points: [],
+      type: 'outline',
+      outlineFillColor: [ 255, 255, 255, 100 ],
+      outlineStrokeColor: [ 0, 0, 0, 128 ],
+      outlineStrokeWidth: 0,
+
+      // How much to offset the outline boundary from the markers.
+      outlineRadiusOffset: 1,
+      outlineRadiusMultiplier: 10,
+    }),
+
+    markers: DotAtlas.createLayer({
+      points: labelledPoints,
+      type: 'marker',
+      markerSizeMultiplier: 5,
+      markerFillOpacity: .2,
+      markerStrokeWidth: 0,
+
+      pointHoverRadiusMultiplier: 5,
+      onPointHover: (e) => {
+        layers.hoverMarkers.set('points', e.points)
+        layers.hoverOutline.set('points', e.points)
+        map.redraw()
+
+        callbacks.onHover && callbacks.onHover(e)
+      },
+    }),
+
+    labels: DotAtlas.createLayer({
+      points: labelledPoints,
+      type: 'label',
+      labelFontFamily: 'Barlow',
+      labelFontSize: 14,
+      labelFontWeight: 400,
+      labelFontVariant: 'normal',
+      opacity: 0,
+    }),
   }
 
-  const dataObject = {
-    layers: [
-      elevations,
-      markers,
-    ],
-  }
-  return dataObject
+  return layers
 }
 
 const CardBox = posed.div({
@@ -225,18 +232,22 @@ class MapCard extends Component {
     this.renderMapLayer = this.renderMapLayer.bind(this)
     this.didClickOnMap = this.didClickOnMap.bind(this)
     this.didChangeOverlay = this.didChangeOverlay.bind(this)
-    this.didHoverOnMap = _.debounce(this.didHoverOnMap, 10).bind(this)
+    this.didHoverOnMap = _.debounce(this.didHoverOnMap, 50).bind(this)
   }
 
   async componentDidMount () {
-    this.atlas = initDotAtlas({
-      container: this.canvasRef,
-      onHover: this.didHoverOnMap,
-      onClick: this.didClickOnMap,
-    })
-    this.user = await RuntimeParams.userInfo()
+    this.atlas = DotAtlas
+      .with(AutoResizing)
+      .embed({
+        element: this.canvasRef,
+        pixelRatio: window.devicePixelRatio || 1,
+        layers: [],
 
-    window.atlas = this.atlas
+        onHover: this.didHoverOnMap,
+        onClick: this.didClickOnMap,
+      })
+
+    this.user = await RuntimeParams.userInfo()
 
     _.defer(this.renderMapLayer)
   }
@@ -265,11 +276,25 @@ class MapCard extends Component {
     const overlayConcepts = _.chain(overlay.concepts)
       .filter(overlayFilter)
       .value()
-    const mapLayers = processPoints(points, overlayConcepts)
-    this.setState({ atlasReady: true })
+
+    const dataset = { points, overlay: overlayConcepts }
+
+    // Pass the dotatlas instance reference to attach interactive outlines.
+    const layers = createLayers(this.atlas, dataset, { onHover: this.didHoverOnMap })
+    this.atlas.set({
+      layers: [
+        layers.elevation,
+        layers.markers,
+        layers.hoverOutline,
+        layers.hoverMarkers,
+        layers.labels,
+      ],
+    })
 
     requestAnimationFrame(() => {
-      this.atlas.fx.replace(mapLayers)
+      this.atlas.redraw()
+      this.atlas.reset()
+      this.setState({ atlasReady: true })
     })
   }
 
@@ -283,7 +308,6 @@ class MapCard extends Component {
       .map('title')
       .value()
     const cardPoint = _.chain(e.points || [])
-      .filter((x) => x.userData === true)
       .head()
       .get('title')
       .value()
@@ -307,11 +331,8 @@ class MapCard extends Component {
 
   async refreshAtlas () {
     requestAnimationFrame(() => {
-      this.atlas.map.resize()
-
-      requestAnimationFrame(() => {
-        this.setState({ atlasReady: true })
-      })
+      this.atlas.resize()
+      this.setState({ atlasReady: true })
     })
   }
 

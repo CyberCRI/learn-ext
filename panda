@@ -56,7 +56,7 @@ dev:server () {
 }
 
 dev:build () {
-  _info 'Building [target dev]'
+  _info 'Building [dev]'
   gen:webfonts
   webpack --config webpack.dev.js
 }
@@ -75,7 +75,7 @@ Description:
   Generates fonts.css in src/styles with the fonts found in assets/fonts.
 BOOP
 gen:webfonts () {
-  python tools/discover-fonts.py
+  python tools/discover-fonts.py --silent
 }
 
 release:bump () {
@@ -107,7 +107,7 @@ release:build () {
 
 release:publish () {
   _info '<-> Syncing public releases store'
-  rsync -r web-ext-artifacts/ $DEV_EXTENSION_STORE
+  rsync -r ./.builds/gecko-artifacts/ $DEV_EXTENSION_STORE
 }
 
 release:dev () {
@@ -128,5 +128,23 @@ release () {
   _success 'Published Succesfully!'
 }
 
+_get_target () {
+  local _target
+  for __arg in "${_COMMAND_ARGV[@]:-}"
+  do
+    case ${__arg} in
+      --chrome) _target='chrome';;
+      --firefox) _target='firefox';;
+    esac
+  done
+  if _blank "$_target"
+  then
+    _warn "Target unspecified. Using firefox as default."
+    _info "[*] You can use --chrome or --firefox to specify a target."
+  fi
+  export FLAGS_TARGET="${_target}"
+}
+
 #================================================
+_get_target
 _main

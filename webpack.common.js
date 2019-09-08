@@ -2,13 +2,28 @@ const WebpackBar = require('webpackbar')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
+const _ = require('lodash')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const glob = require('glob')
 
-const { dotenv, abspath, locale, manifest } = require('./tools/node-plugins')
+const { dotenv, abspath, locale } = require('./modules/plugins')
+
+
+const BuildTargets = {
+  chrome: {
+    buildPath: abspath('./.builds/chrome'),
+    manifestPath: './src/manifest.chrome.json',
+  },
+  firefox: {
+    buildPath: abspath('./.builds/firefox'),
+    manifestPath: './src/manifest.gecko.json',
+  },
+}
+const target = BuildTargets[dotenv.flags.target || 'firefox']
 
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
-  { from: './src/manifest.json', to: './', transform: manifest.transform },
+  { from: target.manifestPath, to: './manifest.json' },
   { from: './assets/icons', to: './icons' },
   {
     from: './assets/locales/*.yml',
@@ -17,33 +32,46 @@ const copySourceBundleRules = [
     transform: locale.transpile,
   },
   {
-    from: './assets/dotatlas/v0.1.2/*.js',
+    from: './modules/atlas/dotatlas/*.js',
     to: './atlas/',
     flatten: true,
   },
 ]
 
 // Setup html generator plugin using HtmlWebpackPlugin
-const HtmlGenerator = ({ name, chunks, webroot=false }) => {
-  const filename = webroot ? `${name}.html` : `pages/${name}.html`
-  return new HtmlWebpackPlugin({
-    filename,
-    template: `src/pages/${name}/_${name}.pug`,
-    chunks: [ 'client', 'vendors', 'pages_root', ...chunks ],
-  })
-}
 
 // Link entry points with the chunks defined here.
-const staticPages = [
-  HtmlGenerator({ name: 'dashboard', chunks: ['pages_dashboard'] }),
-  HtmlGenerator({ name: 'onboarding', chunks: ['pages_onboarding'] }),
-  HtmlGenerator({ name: 'options', chunks: ['pages_options'] }),
-  HtmlGenerator({ name: 'popover', chunks: ['pages_popover'] }),
-  HtmlGenerator({ name: 'settings', chunks: ['pages_settings'] }),
-  HtmlGenerator({ name: 'landing', chunks: ['pages_landing'], webroot: true }),
-]
+// By convention, every static html target page contains `markup.pug`. We
+// glob down the fs tree to look for all such files and get the template path,
+// and filenames.
+const staticPages = glob
+  .sync('./src/pages/**/markup.pug')
+  .map((entry) => {
+    const pageName = /src\/pages\/(.*)\/markup.pug$/.exec(entry)[1]
+    const chunkName = `pages_${pageName}`
+    return {
+      name: pageName,
+      plugin: new HtmlWebpackPlugin({
+        filename: `pages/${pageName}.html`,
+        template: `src/pages/${pageName}/markup.pug`,
+        chunks: [ 'vendors', 'pages_root', chunkName ],
+      }),
+      entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
+    }
+  })
 
-const pageEntryPoint = (chunk) => `./src/pages/${chunk}/index.js`
+// Gather staticPages entries into separate plugin and entrypoint entities.
+// We'll merge the entrypoints and plugin instances to respective webpack
+// config fields.
+const staticEntrypoints = staticPages
+  .reduce((acc, { entrypoint }) => {
+    const [ chunkName, entryPath ] = entrypoint
+    acc[chunkName] = entryPath
+    return acc
+  }, {})
+
+const staticPageGeneratorPlugins = staticPages
+  .reduce((acc, { plugin }) => [ ...acc, plugin ], [])
 
 
 module.exports = {
@@ -52,12 +80,7 @@ module.exports = {
     background: './src/procs/background.js',
 
     pages_root: './src/pages/index.js',
-    pages_dashboard: pageEntryPoint('dashboard'),
-    pages_onboarding: pageEntryPoint('onboarding'),
-    pages_options: pageEntryPoint('options'),
-    pages_popover: pageEntryPoint('popover'),
-    pages_settings: pageEntryPoint('settings'),
-    pages_landing: pageEntryPoint('landing'),
+    ...staticEntrypoints,
   },
   output: {
     publicPath: '/',
@@ -71,7 +94,7 @@ module.exports = {
         return '[name].js'
       }
     },
-    path: abspath('./ext'),
+    path: target.buildPath,
   },
 
   resolve: {
@@ -85,7 +108,9 @@ module.exports = {
       '~pages': abspath('src/pages'),
       '~page-commons': abspath('src/pages/_commons'),
       '~media': abspath('assets/media'),
+      '@ilearn/modules': abspath('modules'),
     },
+    extensions: [ '.mjs', '.esm.js', '.js', '.jsx', '.json' ],
   },
 
   module: {
@@ -122,7 +147,9 @@ module.exports = {
           },
           {
             loader: 'sass-loader',
-            options: { includePaths: [ abspath('./src') ] },
+            options: { sassOptions: {
+              includePaths: [ abspath('./src') ],
+            }},
           },
         ],
       },
@@ -149,18 +176,13 @@ module.exports = {
 
   optimization: {
     splitChunks: {
+      // chunks: 'all',
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
           chunks: 'all',
           reuseExistingChunk: true,
-        },
-        client: {
-          test: /[\\/]node_modules[\\/](react|@blueprintjs|pose|popper).*/,
-          name: 'client',
-          chunks: 'all',
-          priority: 1,
         },
       },
     },
@@ -173,9 +195,13 @@ module.exports = {
     modules: false,
     version: false,
     warnings: false,
-    excludeAssets: /^(fonts|icons|dotatlas)\/.*/,
+    excludeAssets: /^(fonts|icons|atlas)\/.*/,
     assets: dotenv.flags.verbose === 'yes',
     assetsSort: 'name',
+  },
+
+  node: {
+    global: false,
   },
 
   plugins: [
@@ -184,6 +210,6 @@ module.exports = {
     new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
     new MomentLocalesPlugin({ localesToKeep: ['fr'] }),
     dotenv.PackageEnv.webpackPlugin,
-    ...staticPages,
+    ...staticPageGeneratorPlugins,
   ],
 }
