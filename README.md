@@ -5,14 +5,51 @@ You're looking at the source code for iLearn project which powers [iLearn Browse
 ## Components
 
 Ideally it would be trivial to build and test this extension thanks to the build
-scripts in `package.json`. The following list describes them:
+scripts with our friendly `./panda` glue-scripts. Use `./panda help` for commands.
 
-- `build:dev`: Build development version of extension. Helpful for debugging.
-- `build:prod`: Build production version for distribution and usage.
-- `start:dev-server`: Run a dev server using `webpack-dev-server`
-- `start:dev`: Watch and compile as you change the source files.
-- `start:web-ext--run`: Start a `firefox` instance with the extension installed.
-- `start:docz`: Start a `docz` dev server. Useful for developing components.
+**Overview**
+
+- `dev:build`: Build development version of extension. Helpful for debugging.
+- `dev:server`: Run a dev server using `webpack-dev-server`
+- `dev:watch`: Watch and compile as you change the source files.
+- `dev:webext`: Start a `firefox` instance with the extension installed.
+- `release`: Build production version, sign with mozilla extension signing service, and upload the artifacts.
+
+```
+iLearn Ext Panda! (@,@)
+
+Usage:
+  panda <command> [--command-options] [<arguments>]
+  panda -?
+  panda --version
+
+Options:
+  -?  Display this help information.
+  --version  Display version information.
+
+Version: 0.1.1
+
+Help:
+  panda help [<command>]
+
+Available commands:
+  commands
+  dev:build
+  dev:server
+  dev:storybook
+  dev:watch
+  dev:webext
+  gen:webfonts
+  help
+  release
+  release:build
+  release:bump
+  release:dev
+  release:pack
+  release:publish
+  release:sign
+  version
+```
 
 **Usage**
 
@@ -21,7 +58,7 @@ After cloning this repo:
 - Copy sample `dotenv` file from `.env.sample` to `.env`. You may wish to change
   the variables depending on your requirements.
 - Install JS packages using `yarn install`
-- Run any of the script described above using `npm run [start:dev, etc]`.
+- Run any of the script described above using `./panda`.
 
 ## Notes
 
