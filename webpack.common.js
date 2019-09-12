@@ -2,9 +2,9 @@ const WebpackBar = require('webpackbar')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
-const _ = require('lodash')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const glob = require('glob')
+const _ = require('lodash')
 
 const { dotenv, abspath, locale } = require('./modules/plugins')
 
@@ -169,7 +169,7 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        use: [ 'svg-inline-loader' ],
+        use: ['svg-inline-loader'],
       },
     ],
   },
@@ -202,6 +202,10 @@ module.exports = {
 
   node: {
     global: false,
+  },
+
+  performance: {
+    hints: false,
   },
 
   plugins: [
