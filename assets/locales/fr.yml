@@ -162,7 +162,7 @@ components:
       title:
         message: Aucun résultat
       description:
-        message: Aucun concept ne correspond à {query}
+        message: Aucun concept ne correspond à <%- query %>
     inflight:
       label:
         message: Recherche en cours

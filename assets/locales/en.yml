@@ -161,7 +161,7 @@ components:
       title:
         message: Nothing found
       description:
-        message: No concepts match ${query}
+        message: No concepts match <%- query %>
     inflight:
       label:
         message: Searching
