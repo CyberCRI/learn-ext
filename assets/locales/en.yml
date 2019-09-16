@@ -19,6 +19,8 @@ menu:
   action:
     openDashboard:
       message: Open Dashboard
+    openMap:
+      message: Browse Map
     addResource:
       message: Add this page to iLearn
 

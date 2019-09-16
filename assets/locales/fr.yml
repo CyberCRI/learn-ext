@@ -19,6 +19,8 @@ menu:
   action:
     openDashboard:
       message: Accéder à Mes Ressources
+    openMap:
+      message: Ouvrir la Carte
     addResource:
       message: Ajouter cette page dans iLearn
 
