@@ -9,6 +9,12 @@ const attachActionMenu = () => {
     title: i18n('menu.action.openDashboard'),
     onclick: ExtensionPages.dashboard.open,
   })
+
+  browser.contextMenus.create({
+    contexts: ['browser_action'],
+    title: i18n('menu.action.openMap'),
+    onclick: ExtensionPages.discover.open,
+  })
 }
 
 const attachPageMenu = (handler) => {
