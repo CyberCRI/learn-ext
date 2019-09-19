@@ -73,11 +73,11 @@ export const PageInfoCard = (props) => (
 const WikiCard = (props) => {
   const [ pageInfo, setPageInfo ] = useState(null)
 
-  useEffectOnce(() => {
+  useEffect(() => {
     Wiki.summary(props.title, props.lang)
       .then(setPageInfo)
       .fail(() => setPageInfo({ error: true }))
-  })
+  }, [props])
 
   if (!pageInfo) {
     return <SkeletonCard />
