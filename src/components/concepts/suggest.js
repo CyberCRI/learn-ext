@@ -48,7 +48,7 @@ const ZeroResultsState = ({ loading, query }) => {
   } else {
     props = {
       title: i18n('components.suggest.error.title'),
-      description: i18n('components.suggest.error.description'),
+      description: i18n('components.suggest.error.description', { query }),
     }
   }
   return <NonIdealState {...props}/>
