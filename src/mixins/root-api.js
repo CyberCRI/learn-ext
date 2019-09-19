@@ -2,6 +2,7 @@
 import { browser } from '~procs/stubs'
 import { request } from '~mixins'
 import { context, Runtime } from '~mixins/utils'
+import store from '~mixins/persistence'
 import _ from 'lodash'
 
 
@@ -11,12 +12,11 @@ const endpointFor = (path) => `${env.rootapi_host}/${path}`
 
 export const RuntimeParams = {
   userInfo: async () => {
-    const { user } = await browser.storage.local.get('user')
-    return user
+    return await store.get('user')
   },
 
   groupStruct: async () => {
-    const url = `${env.optapi_host}/structs/group-ids.json`
+    const url = `${env.optapi_host}/pub/group-ids.json`
     return await request({ url })
   },
 }
