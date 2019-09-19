@@ -135,12 +135,13 @@ _get_target () {
     case ${__arg} in
       --chrome) _target='chrome';;
       --firefox) _target='firefox';;
+      --web) _target='web';;
     esac
   done
   if _blank "$_target"
   then
     _warn "Target unspecified. Using firefox as default."
-    _info "[*] You can use --chrome or --firefox to specify a target."
+    _info "[*] You can use --chrome, --firefox, or --web to specify a target."
   fi
   export FLAGS_TARGET="${_target}"
 }
