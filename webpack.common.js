@@ -12,18 +12,33 @@ const { dotenv, abspath, locale } = require('./modules/plugins')
 const BuildTargets = {
   chrome: {
     buildPath: abspath('./.builds/chrome'),
-    manifestPath: './src/manifest.chrome.json',
+    assets: [
+      { from: './src/manifest.chrome.json', to: './manifest.json' },
+    ],
+    rules: [],
   },
   firefox: {
     buildPath: abspath('./.builds/firefox'),
-    manifestPath: './src/manifest.gecko.json',
+    assets: [
+      { from: './src/manifest.gecko.json', to: './manifest.json' },
+    ],
+    rules: [],
+  },
+  web: {
+    buildPath: abspath('./.builds/web'),
+    assets: [],
+    rules: [
+      {
+        test: abspath('node_modules/webextension-polyfill/dist/browser-polyfill.js'),
+        use: 'null-loader',
+      },
+    ],
   },
 }
 const target = BuildTargets[dotenv.flags.target || 'firefox']
 
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
-  { from: target.manifestPath, to: './manifest.json' },
   { from: './assets/icons', to: './icons' },
   {
     from: './assets/locales/*.yml',
@@ -36,6 +51,7 @@ const copySourceBundleRules = [
     to: './atlas/',
     flatten: true,
   },
+  ...target.assets,
 ]
 
 // Setup html generator plugin using HtmlWebpackPlugin
@@ -171,6 +187,7 @@ module.exports = {
         test: /\.svg$/,
         use: ['svg-inline-loader'],
       },
+      ...target.rules,
     ],
   },
 

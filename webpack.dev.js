@@ -34,7 +34,6 @@ module.exports = smartMerge(base_config, {
 
   devtool: 'cheap-module-eval-source-map',
   devServer: {
-    contentBase: './ext',
     port: 8517,
     hot: true,
     hotOnly: true,
