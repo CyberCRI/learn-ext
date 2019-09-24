@@ -1,0 +1,147 @@
+# [1] Extension Specific Strings
+extension:
+  name: iLearn Extension
+  description: Collaborative Learning with iLearn
+
+command:
+  toggle_action: इस पेज को iLearn में संग्रहित करें
+
+actions:
+  page:
+    # Page action appears in address bar
+    title: संग्रहित करें
+
+menu:
+  action:
+    openDashboard: डैश बोर्ड
+    openMap: मानचित्र
+    addResource: iLearn में संग्रहित करें
+
+# [2] Navigation and Pages Strings
+navigationBar:
+  heading: iLearn
+
+  links:
+    dashboard:
+      label: संग्रह
+    discover:
+      label: अनुसंधान
+    settings:
+      label: समायोजन
+    help:
+      label: सहायता
+
+pages:
+  dashboard:
+    meta:
+      pageTitle: डैश बोर्ड | iLearn
+
+    actions:
+      sort: क्रम
+    searchInput:
+      placeholder: खोजें
+
+  settings:
+    meta:
+      pageTitle: समायोजन | iLearn
+
+    tabs:
+      general: सामान्य
+      account: अकाउंट
+      privacy: प्राइवसी
+      support: सहायता
+
+    panels:
+      privacy:
+        # Introduction text
+        title: Privacy
+        description: We believe that your data belongs to you and only you.
+
+        # Form Elements
+        sharing:
+          title: Choose what you share
+
+          choices:
+            private:
+              title: Private
+              description: |
+                  Data added to iLearn by you will only be visible to you. Resource
+                  ratings, or tags will be used anonymously for improving the
+                  community resources on iLearn.
+            public:
+              title: Public
+              description: |
+                  Your resources will be shared with other iLearn users (not
+                  available yet).
+
+        mentorship:
+          title: Mentorship
+          description: |
+              I want to be contacted by learners who need a mentor with similar
+              skills and interests as me (not available yet).
+
+      general:
+        intro:
+          title: सामान्य
+          description: ''
+
+        form:
+          languageSelect:
+            label: भाषा (Language)
+            description: Choose your preferred language
+          themeSelect:
+            label: Display
+            description: Choose UI theme
+            fields:
+              appearance:
+                label: Appearance
+
+      account:
+        intro:
+          title: ''
+          description: कृपया अपना ईमेल भरें
+        success:
+          title: ''
+          description: धन्यवाद! आपका स्वागत है।
+        error:
+          title: ''
+          description: कृपया फिर से कोशिश करें। हमें सर्वर से जुड़ने में मुश्किल हो रही है।
+        form:
+          emailInput:
+            label: Your email
+            placeholder: Email
+          groupRadio:
+            label: Group
+          submitButton:
+            label: Save
+
+  onboarding:
+    meta:
+      pageTitle: iLearn
+
+    intro:
+      title: Thanks for using iLearn!
+      description: ''
+
+# [3] React Components
+components:
+  suggest:
+    searchInput:
+      placeholder: Add Concept
+    intro:
+      title: Type to find concepts.
+      description: We will suggest relevant concepts to tag this resource with.
+    error:
+      title: Nothing found
+      description: No concepts match <%- query %>
+    inflight:
+      label: Searching
+
+  cards:
+    wikiInfoCard:
+      actions:
+        locateInMap: Locate in Map
+        moreInfo: Read More
+      errorState:
+        title: ''
+        description: Wikipedia does not seem to have a page for this concept.
