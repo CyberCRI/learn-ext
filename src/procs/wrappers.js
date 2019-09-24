@@ -19,6 +19,15 @@ export const i18n = (key, subs) => {
     const msg = browser.i18n.getMessage(key.replace(/\./g, '_'))
     return _.template(msg)(subs)
   } else {
+    if (window.polyglot) {
+      return window.polyglot.t(key.replace(/\./g, '_').replace(/$/, '.message'))
+    }
+
     return key.split('.').slice(-1)
   }
+}
+
+export const i18nContext = (prefix) => {
+  // Set a key-prefix for "contexts" subset for component based locales.
+  return (key, subs) => i18n(`${prefix}.${key}`, subs)
 }
