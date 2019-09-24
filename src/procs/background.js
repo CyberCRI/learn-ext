@@ -8,6 +8,17 @@ import { initContextMenus } from './contextMenus'
 const tabState = {}
 const ports = {}
 
+const broadcastToPorts = (tabId, payload) => {
+  // Notify all the listener ports of tabId
+  for (let [name, p] of Object.entries(ports[tabId])) {
+    try {
+      p.postMessage(payload)
+    } catch {
+      console.debug(`Port for ${name} is closed`)
+    }
+  }
+}
+
 const dispatchReaction = (msg) => {
   if (msg.action == 'dashboard') {
     ExtensionPages.dashboard.open()
@@ -78,6 +89,11 @@ const setupConnection = (port) => {
 
   console.debug(`[Connected] Port< tab=${tabId} name=${name} >`)
 
+  port.onDisconnect.addListener((e) => {
+    console.log(`[Disconnected] Port< tab=${tabId} >`)
+    tabState[tabId] = {}
+  })
+
   port.onMessage.addListener(({ context, ...msg }) => {
     if (context === 'tabState') {
       tabState[tabId] = msg.payload
@@ -85,12 +101,11 @@ const setupConnection = (port) => {
     } else if (context === 'reactor') {
       dispatchReaction(msg.payload)
     } else if (context === 'broadcast') {
-      for (let [ _, p ] of Object.entries(ports[tabId])) {
-        p.postMessage(msg.payload)
-      }
+      broadcastToPorts(tabId, msg.payload)
     } else if (context === 'mounted') {
       getTabInfo(tabId).then((tabInfo) => {
         port.postMessage({ action: 'postMount', tabInfo })
+        broadcastToPorts(tabId, { action: 'open' })
       })
     }
   })
@@ -138,10 +153,8 @@ const maybeTogglePopover = async (tabId) => {
   await maybeInjectContentScripts(tabId)
 
   const action = tabState[tabId].isOpen ? 'close' : 'open'
-  // Notify all the listener ports of tabId
-  for (let [_, p] of Object.entries(ports[tabId])) {
-    p.postMessage({ action })
-  }
+
+  broadcastToPorts(tabId, { action })
 }
 
 const didClickBrowserAction = async (e) => {
