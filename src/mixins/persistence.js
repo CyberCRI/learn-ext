@@ -18,7 +18,11 @@ class ExtensionStorage {
 class WebStorage {
   async get (key) {
     const value = window.localStorage.getItem(key)
-    return JSON.parse(value)
+    try {
+      return JSON.parse(value)
+    } catch {
+      return value
+    }
   }
 
   async set (key, value) {
