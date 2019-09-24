@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import * as FiIcon from 'react-icons/fi'
 import { IconContext } from 'react-icons'
 import { Card, Callout, Intent } from '@blueprintjs/core'
@@ -8,7 +8,11 @@ import posed from 'react-pose'
 
 import { AccountSelector } from '~components/input/settings'
 import { BlogCallout } from '../landing/cards'
-import { i18n } from '~procs/wrappers'
+import { i18nContext } from '~procs/wrappers'
+import store from '~mixins/persistence'
+
+
+const i18nT = i18nContext('pages.settings.panels')
 
 
 const PosedPanel = posed.div({
@@ -48,27 +52,46 @@ const PosedCard = (props) => (
 )
 
 
-const General = () => (
-  <PosedCard>
-    <h1>Preferences</h1>
+const General = () => {
+  const [ lang, setLang ] = useState('en')
 
-    <FormGroup label='Language' inline>
-      <HTMLSelect>
-        <option default value='en'>English</option>
-        <option value='fr'>Francais</option>
-      </HTMLSelect>
-    </FormGroup>
+  useEffect(() => {
+    store.get('pref.lang').then((value) => {
+      if (value) {
+        setLang(value)
+      }
+    })
+  }, [])
 
-    <FormGroup label='Display' inline>
-      <RadioGroup label='Appearance' alignIndicator={Alignment.RIGHT}>
-        <RadioLabel label='Dark' icon={FiIcon.FiGlobe} value='dark'/>
-        <RadioLabel label='Light' icon={FiIcon.FiGlobe} value='light'/>
-        <RadioLabel label='Browser' icon={FiIcon.FiGlobe} value='Browser'/>
-      </RadioGroup>
-    </FormGroup>
+  const didChooseLang = (e) => {
+    const value = e.currentTarget.value
+    store.set('pref.lang', value)
+    setLang(value)
+  }
 
-  </PosedCard>
-)
+  return (
+    <PosedCard>
+      <h1>{i18nT('general.intro.title')}</h1>
+
+      <FormGroup label={i18nT('general.form.languageSelect.label')} inline>
+        <HTMLSelect onChange={didChooseLang} value={lang}>
+          <option default value='en'>English</option>
+          <option value='fr'>Francais</option>
+          <option value='hi'>हिंदी (Hindi)</option>
+        </HTMLSelect>
+      </FormGroup>
+
+      <FormGroup label={i18nT('general.form.themeSelect.label')} inline>
+        <RadioGroup label={i18nT('general.form.themeSelect.fields.appearance.label')} alignIndicator={Alignment.RIGHT}>
+          <RadioLabel label='Dark' icon={FiIcon.FiGlobe} value='dark'/>
+          <RadioLabel label='Light' icon={FiIcon.FiGlobe} value='light'/>
+          <RadioLabel label='Browser' icon={FiIcon.FiGlobe} value='Browser'/>
+        </RadioGroup>
+      </FormGroup>
+
+    </PosedCard>
+  )
+}
 
 const Account = () => (
   <PosedCard>
@@ -78,24 +101,24 @@ const Account = () => (
 
 const Privacy = () => (
   <PosedCard>
-    <h1>{i18n('pages.settings.panels.privacy.title')}</h1>
-    <p>{i18n('pages.settings.panels.privacy.description')}</p>
+    <h1>{i18nT('privacy.title')}</h1>
+    <p>{i18nT('privacy.description')}</p>
 
     <RadioGroup
-      label={i18n('pages.settings.panels.privacy.sharing.title')}
+      label={i18nT('privacy.sharing.title')}
       alignIndicator={Alignment.RIGHT}>
       <RadioLabel
-        label={i18n('pages.settings.panels.privacy.sharing.choices.private.title')}
+        label={i18nT('privacy.sharing.choices.private.title')}
         icon={FiIcon.FiLock}
         value='me'/>
       <RadioLabel
-        label={i18n('pages.settings.panels.privacy.sharing.choices.public.title')}
+        label={i18nT('privacy.sharing.choices.public.title')}
         icon={FiIcon.FiGlobe}
         value='all'/>
     </RadioGroup>
 
-    <h1>{i18n('pages.settings.panels.privacy.mentorship.title')}</h1>
-    <Switch label={i18n('pages.settings.panels.privacy.mentorship.description')}/>
+    <h1>{i18nT('privacy.mentorship.title')}</h1>
+    <Switch label={i18nT('privacy.mentorship.description')}/>
   </PosedCard>
 )
 

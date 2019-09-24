@@ -9,9 +9,7 @@ import './style.sass'
 const SettingsContainer = (props) => {
   return (
     <div>
-      <IconContext.Provider value={{ size: '3em', color: '#fff' }}>
-        <div><FiIcon.FiSettings/></div>
-      </IconContext.Provider>
+
       <SettingsTabs />
     </div>
   )
