@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useClickAway, useLogger, useToggle, useMount, useAsyncFn, useUpdateEffect } from 'react-use'
 import { Spinner } from '@blueprintjs/core'
-import pose, { PoseGroup } from 'react-pose'
 
 import { Port } from '~procs/portal'
 import { HookedCard } from '~components/cards/cards'
@@ -9,20 +8,13 @@ import { ConceptList } from '~components/concepts'
 import { ConceptSuggest } from '~components/concepts/suggest'
 import { LanguagePill, UrlPill, FaviconPill } from '~components/pills'
 
-import { ConceptSet } from './api-store'
-
 import RootAPI from '~mixins/root-api'
 import OpenGraph from '~mixins/opengraph'
 import { RatingPicker, PopoverTools } from '.'
 
 
-const dispatcher = new Port('PopOverlay')
-  .connect()
+const dispatcher = new Port('PopOverlay').connect()
 
-const CardsBox = pose.div({
-  open: { staggerChildren: 200 },
-  closed: { staggerChildren: 200 },
-})
 
 export const PageInfo = ({ title, url }) => {
   return (
@@ -138,7 +130,6 @@ export const PopOverlay = (props) => {
       .addAction('close', () => toggle(false))
       .addAction('postMount', (msg) => {
         setTabInfo(msg.tabInfo)
-        toggle(msg.isOpen)
       })
 
     dispatcher.dispatch({ context: 'mounted' })
@@ -157,15 +148,13 @@ export const PopOverlay = (props) => {
 
   return (
     <div className='popoverlay' ref={ref}>
-      <CardsBox pose={isOpen ? 'open' : 'closed'}>
-        <HookedCard isOpen={isOpen} className='page-action'>
-          <div>
-            <PopoverTools/>
-            <PageInfo {...tabInfo}/>
-            <PageConcepts {...tabInfo}/>
-          </div>
-        </HookedCard>
-      </CardsBox>
+      <HookedCard isOpen={isOpen} className='page-action'>
+        <div>
+          <PopoverTools/>
+          <PageInfo {...tabInfo}/>
+          <PageConcepts {...tabInfo}/>
+        </div>
+      </HookedCard>
     </div>
   )
 }

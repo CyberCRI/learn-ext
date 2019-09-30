@@ -5,5 +5,5 @@ import './style.sass'
 
 
 document.addEventListener('apploaded', () => {
-  renderReactComponent('popout', PopOverlay )
+  renderReactComponent('popout', PopOverlay)
 })
