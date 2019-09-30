@@ -39,6 +39,7 @@ module.exports = smartMerge(base_config, {
     hotOnly: true,
     clientLogLevel: 'error',
     public: 'localhost:8517',
+    useLocalIp: true,
     // noInfo: false,
     stats: 'minimal',
     inline: true,

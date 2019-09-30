@@ -41,22 +41,26 @@ trap __sigint SIGINT
 #================================================
 dev:storybook () {
   _info 'Starting Storybook Server'
+  export ILRN_IS_DEV='yes'
   start-storybook --port 8519 --ci
 }
 
 dev:watch () {
   gen:webfonts
+  export ILRN_IS_DEV='yes'
   webpack --config webpack.dev.js --watch
 }
 
 dev:server () {
   _info 'Starting dev-server'
+  export ILRN_IS_DEV='yes'
   gen:webfonts
   webpack-dev-server --config webpack.dev.js --hot
 }
 
 dev:build () {
   _info 'Building [dev]'
+  export ILRN_IS_DEV='yes'
   gen:webfonts
   webpack --config webpack.dev.js
 }
@@ -100,6 +104,7 @@ release:sign () {
 
 release:build () {
   _info 'Compiling [Prod]'
+  export ILRN_IS_DEV='no'
   gen:webfonts
   webpack --config webpack.prod.js
   _success 'Done'
@@ -112,6 +117,7 @@ release:publish () {
 
 release:dev () {
   export FLAGS_VERBOSE='no'
+  export ILRN_IS_DEV='yes'
   _info 'Building preview release'
   release:build
   release:pack
