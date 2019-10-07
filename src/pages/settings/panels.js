@@ -4,35 +4,17 @@ import { IconContext } from 'react-icons'
 import { Card, Callout, Intent } from '@blueprintjs/core'
 import { FormGroup, InputGroup, Button, Tag } from '@blueprintjs/core'
 import { RadioGroup, HTMLSelect, Radio, Switch, Alignment } from '@blueprintjs/core'
-import posed from 'react-pose'
+import { motion } from 'framer-motion'
 
 import { AccountSelector } from '~components/input/settings'
 import { BlogCallout } from '../landing/cards'
-import { i18nContext } from '~procs/wrappers'
 import store from '~mixins/persistence'
 
+import { i18n } from '@ilearn/modules/i18n'
 
-const i18nT = i18nContext('pages.settings.panels')
 
+const i18nT = i18n.context('pages.settings.panels')
 
-const PosedPanel = posed.div({
-  enter: {
-    x: 0,
-    opacity: 1,
-    transition: {
-      x: { type: 'tween' },
-      default: { duration: 100 },
-    },
-    delay: 150,
-  },
-  exit: {
-    x: -10,
-    opacity: 0,
-    transition: {
-      duration: 100,
-    },
-  },
-})
 
 const RadioLabel = (props) => {
   const icon = <props.icon/>
@@ -44,11 +26,15 @@ const RadioLabel = (props) => {
   )
 }
 
+const panelVariants = {
+  hidden: { x: -30, opacity: 0 },
+  visible: { x: 0, opacity: 1 },
+}
 
 const PosedCard = (props) => (
-  <PosedPanel initialPose='exit' pose='enter'>
+  <motion.div initial='hidden' animate='visible' variants={panelVariants}>
     <Card {...props}/>
-  </PosedPanel>
+  </motion.div>
 )
 
 
