@@ -72,6 +72,7 @@ export const ConceptList = (props) => {
   const { lang, removable=false } = props
   const concepts = _(props.concepts)
     .orderBy(...ListSortOrderPriority)
+    .filter((o) => o.title_en || o.title_fr)
     .value()
 
   return (
