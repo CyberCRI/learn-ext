@@ -41,6 +41,19 @@ pages:
     searchInput:
       placeholder: Search
 
+  discover:
+    meta:
+      pageTitle: Discover | iLearn
+
+    sections:
+      atlas:
+        title: Your Knowledge Map
+
+        layers:
+          user: My Resources
+          everything: Everything
+          group: My Group
+
   settings:
     meta:
       pageTitle: Settings | iLearn
@@ -64,21 +77,21 @@ pages:
           choices:
             private:
               title: Private
-              description: |
-                  Data added to iLearn by you will only be visible to you. Resource
-                  ratings, or tags will be used anonymously for improving the
-                  community resources on iLearn.
+              description: >
+                Data added to iLearn by you will only be visible to you. Resource
+                ratings, or tags will be used anonymously for improving the
+                community resources on iLearn.
             public:
               title: Public
-              description: |
-                  Your resources will be shared with other iLearn users (not
-                  available yet).
+              description: >
+                Your resources will be shared with other iLearn users (not
+                available yet).
 
         mentorship:
           title: Mentorship
-          description: |
-              I want to be contacted by learners who need a mentor with similar
-              skills and interests as me (not available yet).
+          description: >
+            I want to be contacted by learners who need a mentor with similar
+            skills and interests as me (not available yet).
 
       general:
         intro:

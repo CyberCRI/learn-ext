@@ -41,6 +41,19 @@ pages:
     searchInput:
       placeholder: Rechercher
 
+  discover:
+    meta:
+      pageTitle: Discover | iLearn
+
+    sections:
+      atlas:
+        title: Your Knowledge Map
+
+        layers:
+          user: My Resources
+          everything: Everything
+          group: My Group
+
   settings:
     meta:
       pageTitle: Préférences | iLearn
@@ -64,19 +77,19 @@ pages:
           choices:
             private:
               title: Privé
-              description: |
+              description: >
                 Mes données ne sont visibles que par moi-même. Les ressources
                 que j’ajoute à iLearn bénéficient à la communauté de façon
                 anonyme.
             public:
               title: Publique
-              description: |
+              description: >
                 Mes données sont partagées avec tous les utilisateurs d’iLearn
                 (pas encore disponible).
 
         mentorship:
           title: Mentorat
-          description: |
+          description: >
             Je veux être contacté par des apprenants qui cherchent un mentor
             avec des compétences et intérêts proches des miens
             (pas encore disponible).

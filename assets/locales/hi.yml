@@ -1,7 +1,7 @@
 # [1] Extension Specific Strings
 extension:
   name: iLearn Extension
-  description: Collaborative Learning with iLearn
+  description: संयोगित ज्ञान iLearn के साथ
 
 command:
   toggle_action: इस पेज को iLearn में संग्रहित करें
@@ -41,6 +41,19 @@ pages:
     searchInput:
       placeholder: खोजें
 
+  discover:
+    meta:
+      pageTitle: अनुसंधान | iLearn
+
+    sections:
+      atlas:
+        title: संग्रह मानचित्र
+
+        layers:
+          user: मेरा संग्रह
+          everything: पूर्ण संग्रह
+          group: मेरा समूह
+
   settings:
     meta:
       pageTitle: समायोजन | iLearn
@@ -54,31 +67,29 @@ pages:
     panels:
       privacy:
         # Introduction text
-        title: Privacy
-        description: We believe that your data belongs to you and only you.
+        title: प्राइवसी
+        description: आपका डेटा आपके पूर्ण नियंत्रण में है।
 
         # Form Elements
         sharing:
-          title: Choose what you share
+          title: अपना योगदान चुने
 
           choices:
             private:
-              title: Private
-              description: |
-                  Data added to iLearn by you will only be visible to you. Resource
-                  ratings, or tags will be used anonymously for improving the
-                  community resources on iLearn.
+              title: गोपनीय
+              description: >
+                Data added to iLearn by you will only be visible to you. Resource
+                ratings, or tags will be used anonymously for improving the
+                community resources on iLearn.
             public:
-              title: Public
-              description: |
-                  Your resources will be shared with other iLearn users (not
-                  available yet).
+              title: पब्लिक
+              description: >
+                आपके रीसोर्स दूसरों के साथ प्रदर्शित किया जयगा।
 
         mentorship:
-          title: Mentorship
-          description: |
-              I want to be contacted by learners who need a mentor with similar
-              skills and interests as me (not available yet).
+          title: शिक्षण
+          description: >
+            मैं दूसरे लोग, जिन्हें मेरे विशेषज्ञता में सहयोग चाहिए, से संपर्क प्राप्त करना चहुंग़ा।
 
       general:
         intro:
@@ -88,7 +99,7 @@ pages:
         form:
           languageSelect:
             label: भाषा (Language)
-            description: Choose your preferred language
+            description: अपने पसन्द की भाषा चुने
           themeSelect:
             label: Display
             description: Choose UI theme
@@ -108,10 +119,10 @@ pages:
           description: कृपया फिर से कोशिश करें। हमें सर्वर से जुड़ने में मुश्किल हो रही है।
         form:
           emailInput:
-            label: Your email
-            placeholder: Email
+            label: आपका ईमेल
+            placeholder: ईमेल
           groupRadio:
-            label: Group
+            label: समूह
           submitButton:
             label: Save
 
@@ -120,28 +131,28 @@ pages:
       pageTitle: iLearn
 
     intro:
-      title: Thanks for using iLearn!
+      title: iLearn का उपयोग करने के लिए बहुत ही धन्यवाद!
       description: ''
 
 # [3] React Components
 components:
   suggest:
     searchInput:
-      placeholder: Add Concept
+      placeholder: कॉन्सेप्ट जोड़े
     intro:
-      title: Type to find concepts.
-      description: We will suggest relevant concepts to tag this resource with.
+      title: कॉन्सेप्ट ढूँढने के लिए यहाँ टाइप करें।
+      description: इस रीसोर्स के अनुरूप कॉन्सेप्ट यहाँ पे दिखेंगे।
     error:
       title: Nothing found
-      description: No concepts match <%- query %>
+      description: कोई भी कॉन्सेप्ट <%- query %> के समूप नहीं मिला।
     inflight:
       label: Searching
 
   cards:
     wikiInfoCard:
       actions:
-        locateInMap: Locate in Map
-        moreInfo: Read More
+        locateInMap: मानचित्र में देखें
+        moreInfo: और पढ़ें
       errorState:
         title: ''
-        description: Wikipedia does not seem to have a page for this concept.
+        description: विकिपीडिया में यह कॉन्सेप्ट नहीं है।
