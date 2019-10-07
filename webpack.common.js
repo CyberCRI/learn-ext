@@ -2,6 +2,7 @@ const WebpackBar = require('webpackbar')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
+const { LicenseWebpackPlugin } = require('license-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const glob = require('glob')
 const _ = require('lodash')
@@ -192,6 +193,7 @@ module.exports = {
   },
 
   optimization: {
+    concatenateModules: true,
     splitChunks: {
       // chunks: 'all',
       cacheGroups: {
@@ -230,6 +232,7 @@ module.exports = {
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
     new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
     new MomentLocalesPlugin({ localesToKeep: ['fr'] }),
+    new LicenseWebpackPlugin({ perChunkOutput: false, outputFilename: 'module.licenses.txt' }),
     dotenv.PackageEnv.webpackPlugin,
     ...staticPageGeneratorPlugins,
   ],

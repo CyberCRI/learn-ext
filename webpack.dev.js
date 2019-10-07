@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const LiveReloadPlugin = require('webpack-livereload-plugin')
 
 const base_config = require('./webpack.common')
 const { smartMerge } = require('./modules/plugins')
@@ -10,6 +11,12 @@ module.exports = smartMerge(base_config, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin(),
+    new LiveReloadPlugin({
+      hostname: 'localhost',
+      port: 0, // Finds a free port starting 35729
+      appendScriptTag: true,
+      protocol: 'http',
+    }),
   ],
 
   module: {
@@ -40,7 +47,6 @@ module.exports = smartMerge(base_config, {
     clientLogLevel: 'error',
     public: 'localhost:8517',
     useLocalIp: true,
-    // noInfo: false,
     stats: 'minimal',
     inline: true,
     watchContentBase: true,
