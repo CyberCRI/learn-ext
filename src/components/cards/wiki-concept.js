@@ -6,8 +6,9 @@ import clsx from 'classnames'
 import _ from 'lodash'
 
 import Wiki from '~mixins/wikipedia'
-import { i18n } from '~procs/wrappers'
+import { i18n } from '@ilearn/modules/i18n'
 
+const i18nT = i18n.context('components.cards.wikiInfoCard')
 
 const skeletonFiller = (count=1) => {
   // Some text to fill in the elements inside the skeleton.
@@ -38,7 +39,7 @@ export const ErrorCard = () => (
   <Card className='info-card error bp3-dark'>
     <NonIdealState
       icon={<FaBandAid/>}
-      description={i18n('components.cards.wikiInfoCard.errorState.description')}
+      description={i18nT('errorState.description')}
       className='reason'/>
   </Card>
 )
@@ -56,12 +57,12 @@ export const PageInfoCard = (props) => (
       <ButtonGroup fill minimal>
         <AnchorButton
           icon='send-to-map'
-          text={i18n('components.cards.wikiInfoCard.actions.locateInMap')}
+          text={i18nT('actions.locateInMap')}
           href='#'/>
         <AnchorButton
           icon={<FaWikipediaW/>}
           rightIcon='arrow-top-right'
-          text={i18n('components.cards.wikiInfoCard.actions.moreInfo')}
+          text={i18nT('actions.moreInfo')}
           href={props.url}
           target='_blank'/>
       </ButtonGroup>
