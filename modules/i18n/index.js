@@ -37,14 +37,13 @@ export const i18n = {
     }
     this.polyglot = new Polyglot({
       phrases,
-      tokenRegex: { prefix: '<%-', suffix: '%>' },
+      interpolation: { prefix: '{{', suffix: '}}' },
     })
   },
 
   context (prefix) {
-    this._ensurePolyglot()
     return (key, subs) => {
-      return this.polyglot.t(`${prefix}.${key}`, subs)
+      return this.t(`${prefix}.${key}`, subs)
     }
   },
 
