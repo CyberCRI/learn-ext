@@ -1,5 +1,6 @@
 @import 'styles/fontfaces';
 @import 'styles/colors';
+@import 'styles/variables';
 
 section.article {
   padding: 10px 30px;
@@ -11,10 +12,6 @@ section.article {
   h1, h2, h3, h4, h5, h6, p, ul {
     max-width: 520px;
     text-align: justify;
-  }
-
-  img {
-    max-width: 100%;
   }
 
   blockquote {
@@ -91,6 +88,16 @@ section.article {
         margin: 0 0 10px 0;
       }
     }
+
+    img {
+      max-width: 100%;
+    }
+
+    video {
+      border-radius: 5px;
+      box-shadow: $pt-elevation-shadow-3;
+    }
+
   }
 
   &.dev {

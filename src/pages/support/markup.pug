@@ -1,0 +1,23 @@
+extends ../partials/layout.pug
+
+block append head
+  title Help & Support | iLearn
+
+block append main
+  section.article.help.intro
+    h1 Need Help?
+
+    p Browse through the resources here or drop us an email.
+
+    p Jump to [CN 🇨🇳](#) [EN 🇬🇧](#) [FR 🇫🇷](#)
+
+  section.article.help.toc
+    article.videos
+      video(controls width=480)
+        source(type='video/mp4' src='https://glacier.zen.noop.pw/srv/tuto/tuto-01-intro.mp4')
+
+    article.tutorial.en
+      include:markdown-it ./tutorial.en.md
+    article.tutorial.cn
+      include:markdown-it ./tutorial.cn.md
+
