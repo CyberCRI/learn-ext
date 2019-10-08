@@ -1,0 +1,7 @@
+@import 'styles/fontfaces';
+
+section.changelog {
+  &.dev {
+    font-family: $typeface-mono;
+  }
+}

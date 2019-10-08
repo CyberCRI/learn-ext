@@ -1,0 +1,99 @@
+@import 'styles/fontfaces';
+@import 'styles/colors';
+
+section.article {
+  padding: 10px 30px;
+  background: #fff;
+  box-shadow: 0 0 20px -5px #0000000c;
+  border-radius: 5px;
+  margin: 5px 0 10px;
+
+  h1, h2, h3, h4, h5, h6, p, ul {
+    max-width: 520px;
+    text-align: justify;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  blockquote {
+    position: relative;
+    margin: 5px 0;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      border-radius: 5px;
+      background-color: $light-gray4;
+    }
+  }
+
+  article {
+    font-size: 1rem;
+    color: $dark-gray3;
+
+    h1 {
+      font-size: 1.8em;
+    }
+
+    h2 {
+      margin: 1em 0 .5em 0;
+    }
+
+    h3 {
+      margin: 10px 0 5px 0;
+    }
+
+    h1, h2, h3, code, pre {
+      font: {
+        family: $typeface-code;
+        weight: 500;
+      }
+    }
+
+    code {
+      background: $light-gray4;
+      &:before {
+        content: "{";
+      }
+      &:after {
+        content: "}";
+      }
+    }
+
+    h1, h2 {
+      position: relative;
+      &:before {
+        content: "§";
+        font: {
+          family: $typeface-mono;
+          weight: 400;
+        }
+        position: absolute;
+        left: -20px;
+        opacity: .5;
+      }
+
+      &:hover {
+        &:before {
+          opacity: 1;
+        }
+      }
+    }
+
+    ul {
+      li {
+        margin: 0 0 10px 0;
+      }
+    }
+  }
+
+  &.dev {
+    font-family: $typeface-mono;
+  }
+}

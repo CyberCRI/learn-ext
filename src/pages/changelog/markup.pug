@@ -4,8 +4,11 @@ append head
   title Changelog | iLearn
 
 block append main
-  article
-    h3 iLearn Extension was just updated! Here's what's new:
+  section.article.changelog
+    article.log
+      include:markdown-it ./changelog.md
 
-    ul
-      li Update Map Layout Changes
+  section.article.changelog.dev
+    p Build: @<sha-checksum
+    p Date: @<now
+    p Tags: @<tags
