@@ -128,6 +128,19 @@ pages:
           submitButton:
             label: Save
 
+      support:
+        intro:
+          title: Help & Support
+          description: ''
+
+        tutorial:
+          title: Tutorial
+          link: Open
+
+        changelog:
+          title: Update History
+          link: Changelog
+
   onboarding:
     meta:
       pageTitle: iLearn
@@ -146,7 +159,7 @@ components:
       description: We will suggest relevant concepts to tag this resource with.
     error:
       title: Nothing found
-      description: No concepts match <%- query %>
+      description: No concepts match {{query}}
     inflight:
       label: Searching
 

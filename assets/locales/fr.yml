@@ -129,6 +129,19 @@ pages:
           submitButton:
             label: Enregistrer
 
+      support:
+        intro:
+          title: Help & Support
+          description: ''
+
+        tutorial:
+          title: Tutorial
+          link: Open
+
+        changelog:
+          title: Update History
+          link: Changelog
+
   onboarding:
     meta:
       pageTitle: iLearn
@@ -147,7 +160,7 @@ components:
       description: Nous allons vous suggérer les concepts les plus pertinents par rapport à cet intitulé.
     error:
       title: Aucun résultat
-      description: Aucun concept ne correspond à <%- query %>
+      description: Aucun concept ne correspond à {{query}}
     inflight:
       label: Recherche en cours
 

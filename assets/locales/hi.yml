@@ -76,7 +76,7 @@ pages:
 
           choices:
             private:
-              title: गोपनीय
+              title: गोपनीय रखें
               description: >
                 Data added to iLearn by you will only be visible to you. Resource
                 ratings, or tags will be used anonymously for improving the
@@ -124,7 +124,20 @@ pages:
           groupRadio:
             label: समूह
           submitButton:
-            label: Save
+            label: सूचित करें
+
+      support:
+        intro:
+          title: सहायता और सहयोग
+          description: ''
+
+        tutorial:
+          title: iLearn का प्रयोग कैसे करें?
+          link: खोलें
+
+        changelog:
+          title: परिवर्तन इतिहास
+          link: अभिलेख देखें
 
   onboarding:
     meta:
@@ -140,13 +153,13 @@ components:
     searchInput:
       placeholder: कॉन्सेप्ट जोड़े
     intro:
-      title: कॉन्सेप्ट ढूँढने के लिए यहाँ टाइप करें।
-      description: इस रीसोर्स के अनुरूप कॉन्सेप्ट यहाँ पे दिखेंगे।
+      title: कॉन्सेप्ट ढूँढने के लिए यहाँ कॉन्सेप्ट टाइप करें।
+      description: इस रीसोर्स के अनुरूप कॉन्सेप्ट विकिपीडिया से प्राप्त करके हम यहाँ पे दिखाएँगे।
     error:
-      title: Nothing found
-      description: कोई भी कॉन्सेप्ट <%- query %> के समूप नहीं मिला।
+      title: कुछ नहीं मिला
+      description: कोई भी कॉन्सेप्ट {{query}} के समूप नहीं मिला। कृपया पुनः कोशिश करें।
     inflight:
-      label: Searching
+      label: खोज जारी है
 
   cards:
     wikiInfoCard:
