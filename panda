@@ -79,7 +79,7 @@ prep:webfonts () {
 }
 
 prep:locales () {
-  python tools/combine-locales.py
+  python tools/combine-locales.py --silent
 }
 
 desc 'prep:all' <<BOOP

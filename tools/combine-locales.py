@@ -27,7 +27,8 @@ def discover_locales(path: str):
 @click.command()
 @click.option('-p', '--path', default=BASE_PATH, help='Directory containing yaml locales')
 @click.option('-o', '--output', default=OUTPUT_PATH, help='JSON output path')
-def locales_combinator(path, output):
+@click.option('--silent', is_flag=True, help='Disable logs')
+def locales_combinator(path, output, silent):
   '''Combines Locale Strings in yml files at `path` in a json blob at `output`'''
   locale_files = list(discover_locales(path))
   locales = {l.lang: l.body for l in locale_files}
@@ -41,11 +42,12 @@ def locales_combinator(path, output):
     **locales,
   }
 
-  hues.info('-> Discovered locales in languages:', blob['_meta']['langs'])
-
   with open(output, 'w') as fp:
     json.dump(blob, fp, ensure_ascii=False, indent=2, sort_keys=True)
-  hues.success('<~> Wrote locales as json to', output)
+
+  if not silent:
+    hues.info('-> Discovered locales in languages:', blob['_meta']['langs'])
+    hues.success('<~> Wrote locales as json to', output)
 
 
 if __name__ == '__main__':
