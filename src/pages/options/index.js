@@ -11,7 +11,10 @@ import RootAPI, { RuntimeParams } from '~mixins/root-api'
 
 import { hexToRGBA } from '@ilearn/modules/atlas/misc'
 import { AutoResizing, Effects } from '@ilearn/modules/atlas/dotatlas'
+import { i18n } from '@ilearn/modules/i18n'
 
+
+const i18nT = i18n.context('pages.discover')
 
 import './style.sass'
 
@@ -320,7 +323,7 @@ class MapCard extends Component {
         <motion.div initial='hidden' animate={this.state.pose} variants={cardVariants} onAnimationComplete={this.refreshAtlas} layoutTransition={true}>
           <Card elevation={Elevation.FOUR} className={clsx('map-card', {loading: !this.state.atlasReady})}>
             <div className='header'>
-              <h3>Your Knowledge Map</h3>
+              <h3>{i18nT('sections.atlas.title')}</h3>
               <div className='tools'>
                 <Button
                   icon={this.state.pose == 'mounted' ? 'maximize' : 'minimize' }
@@ -335,19 +338,19 @@ class MapCard extends Component {
               <ButtonGroup vertical alignText='left' minimal>
                 <Button
                   icon='layout-circle'
-                  text='Mine'
+                  text={i18nT('sections.atlas.layers.user')}
                   active={this.state.overlayUser === true}
                   onClick={() => this.didChangeOverlay({ overlayUser: true })}/>
                 { this.user.groupId !== 'beta' &&
                   <Button
                     icon='layout-group-by'
-                    text='My Group'
+                    text={i18nT('sections.atlas.layers.group')}
                     active={this.state.groupId === this.user.groupId}
                     onClick={() => this.didChangeOverlay({ overlayUser: false, groupId: this.user.groupId })}/>
                 }
                 <Button
                   icon='layout-sorted-clusters'
-                  text='Everything'
+                  text={i18nT('sections.atlas.layers.everything')}
                   active={this.state.groupId === 'beta'}
                   onClick={() => this.didChangeOverlay({ overlayUser: false, groupId: 'beta' })}/>
               </ButtonGroup>
