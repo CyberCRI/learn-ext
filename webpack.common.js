@@ -52,6 +52,7 @@ const copySourceBundleRules = [
     to: './atlas/',
     flatten: true,
   },
+  { from: './assets/media/favicons', to: './media/favicons' },
   ...target.assets,
 ]
 
