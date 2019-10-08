@@ -81,6 +81,7 @@
     "http-proxy": "^1.18.0",
     "js-yaml": "^3.12.1",
     "jsdom": "^15.1.1",
+    "jstransformer-markdown-it": "^2.1.0",
     "karma": "^4.3.0",
     "karma-chai": "^0.1.0",
     "karma-chai-as-promised": "^0.1.2",

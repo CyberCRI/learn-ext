@@ -53,6 +53,7 @@ const copySourceBundleRules = [
     flatten: true,
   },
   { from: './assets/media/favicons', to: './media/favicons' },
+  { from: './assets/media/illustrations', to: './media/illustrations' },
   ...target.assets,
 ]
 
@@ -72,7 +73,7 @@ const staticPages = glob
       plugin: new HtmlWebpackPlugin({
         filename: `pages/${pageName}.html`,
         template: `src/pages/${pageName}/markup.pug`,
-        chunks: [ 'vendors', 'pages_root', chunkName ],
+        chunks: [ 'vendors', 'modules', 'pages_root', chunkName ],
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
     }
@@ -195,12 +196,19 @@ module.exports = {
 
   optimization: {
     concatenateModules: true,
+    namedModules: true,
+    moduleIds: 'named',
     splitChunks: {
-      // chunks: 'all',
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
+          chunks: 'all',
+          reuseExistingChunk: true,
+        },
+        modules: {
+          test: /[\\/]modules[\\/]/,
+          name: 'modules',
           chunks: 'all',
           reuseExistingChunk: true,
         },

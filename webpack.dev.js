@@ -14,7 +14,7 @@ module.exports = smartMerge(base_config, {
     new LiveReloadPlugin({
       hostname: 'localhost',
       port: 0, // Finds a free port starting 35729
-      appendScriptTag: true,
+      appendScriptTag: false,
       protocol: 'http',
     }),
   ],
