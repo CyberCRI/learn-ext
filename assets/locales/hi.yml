@@ -106,6 +106,8 @@ pages:
             fields:
               appearance:
                 label: Appearance
+          submitButton:
+            label: सूचित करें
 
       account:
         intro:

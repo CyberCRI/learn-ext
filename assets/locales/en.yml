@@ -108,6 +108,8 @@ pages:
             fields:
               appearance:
                 label: Appearance
+          submitButton:
+            label: Apply Changes
 
       account:
         intro:

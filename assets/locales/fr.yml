@@ -109,6 +109,8 @@ pages:
             fields:
               appearance:
                 label: Apparence Visuelle
+          submitButton:
+            label: Enregistrer
 
       account:
         intro:
