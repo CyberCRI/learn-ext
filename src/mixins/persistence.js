@@ -5,7 +5,11 @@ import { context, Runtime } from '~mixins/utils'
 class ExtensionStorage {
   async get (key) {
     const value = await browser.storage.local.get(key)
-    return JSON.parse(value[key])
+    try {
+      return JSON.parse(value[key])
+    } catch (e) {
+      return value && value[key]
+    }
   }
 
   async set (key, value) {
