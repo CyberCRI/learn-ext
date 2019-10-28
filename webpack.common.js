@@ -8,6 +8,7 @@ const glob = require('glob')
 const _ = require('lodash')
 
 const { dotenv, abspath, locale } = require('./modules/plugins')
+const { pugMdFilter } = require('./modules/plugins/pugjs-markdown')
 
 
 const BuildTargets = {
@@ -127,6 +128,7 @@ module.exports = {
       '~pages': abspath('src/pages'),
       '~page-commons': abspath('src/pages/_commons'),
       '~media': abspath('assets/media'),
+      '~views': abspath('src/views'),
       '@ilearn/modules': abspath('modules'),
     },
     extensions: [ '.mjs', '.esm.js', '.js', '.jsx', '.json' ],
@@ -184,7 +186,14 @@ module.exports = {
       },
       {
         test: /\.pug$/,
-        use: ['pug-loader'],
+        use: [{
+          loader: 'pug-loader',
+          options: {
+            filters: {
+              'md-transpile': pugMdFilter,
+            },
+          },
+        }],
       },
       {
         test: /\.svg$/,
