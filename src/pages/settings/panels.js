@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import * as FiIcon from 'react-icons/fi'
 import { IconContext } from 'react-icons'
 import { Card, Callout, Intent } from '@blueprintjs/core'
-import { FormGroup, InputGroup, Button, Tag } from '@blueprintjs/core'
+import { FormGroup, InputGroup, Button, AnchorButton, Tag } from '@blueprintjs/core'
 import { RadioGroup, HTMLSelect, Radio, Switch, Alignment } from '@blueprintjs/core'
+import { Formik, Form, Field } from 'formik'
 import { motion } from 'framer-motion'
 
 import { AccountSelector } from '~components/input/settings'
-import { BlogCallout } from '../landing/cards'
 import store from '~mixins/persistence'
 
 import { i18n } from '@ilearn/modules/i18n'
@@ -27,7 +27,7 @@ const RadioLabel = (props) => {
 }
 
 const panelVariants = {
-  hidden: { x: -30, opacity: 0 },
+  hidden: { x: -20, opacity: 0 },
   visible: { x: 0, opacity: 1 },
 }
 
@@ -37,9 +37,12 @@ const PosedCard = (props) => (
   </motion.div>
 )
 
-
 const General = () => {
   const [ lang, setLang ] = useState('en')
+
+  const promptReload = () => {
+    window.setTimeout(() => window.location.reload(), 1000)
+  }
 
   useEffect(() => {
     store.get('pref.lang').then((value) => {
@@ -49,31 +52,35 @@ const General = () => {
     })
   }, [])
 
-  const didChooseLang = (e) => {
-    const value = e.currentTarget.value
-    store.set('pref.lang', value)
-    setLang(value)
-  }
-
   return (
     <PosedCard>
       <h1>{i18nT('general.intro.title')}</h1>
 
-      <FormGroup label={i18nT('general.form.languageSelect.label')} inline>
-        <HTMLSelect onChange={didChooseLang} value={lang}>
-          <option default value='en'>English</option>
-          <option value='fr'>Francais</option>
-          <option value='hi'>हिंदी (Hindi)</option>
-        </HTMLSelect>
-      </FormGroup>
-
-      <FormGroup label={i18nT('general.form.themeSelect.label')} inline>
-        <RadioGroup label={i18nT('general.form.themeSelect.fields.appearance.label')} alignIndicator={Alignment.RIGHT}>
-          <RadioLabel label='Dark' icon={FiIcon.FiGlobe} value='dark'/>
-          <RadioLabel label='Light' icon={FiIcon.FiGlobe} value='light'/>
-          <RadioLabel label='Browser' icon={FiIcon.FiGlobe} value='Browser'/>
-        </RadioGroup>
-      </FormGroup>
+      <Formik
+        initialValues={{ lang }}
+        enableReinitialize
+        onSubmit={(values, actions) => {
+          store.set('pref.lang', values.lang).then(promptReload)
+        }}
+        render={(props) => (
+          <Form>
+            <label htmlFor='lang'>{i18nT('general.form.languageSelect.label')}</label>
+            <Field as={HTMLSelect} name='lang'>
+              <option value='en'>English</option>
+              <option value='fr'>Français (French)</option>
+              <option value='zh'>简体中文 (Chinese)</option>
+              <option value='hi'>हिन्दी (Hindi)</option>
+            </Field>
+            <p>{i18nT('general.form.languageSelect.description')}</p>
+            <Button
+              icon='tick-circle'
+              type='submit'
+              loading={props.submitCount > 0}>
+              {i18nT('general.form.submitButton.label')}
+            </Button>
+          </Form>
+        )}
+      />
 
     </PosedCard>
   )
@@ -110,7 +117,14 @@ const Privacy = () => (
 
 const Support = () => (
   <PosedCard>
-    <BlogCallout/>
+    <h1>{i18nT('support.intro.title')}</h1>
+    <p>{i18nT('support.intro.description')}</p>
+
+    <p>{i18nT('support.tutorial.title')}</p>
+    <AnchorButton text={i18nT('support.tutorial.link')} href='/pages/support.html'/>
+    <AnchorButton text={i18nT('support.changelog.link')} href='/pages/changelog.html'/>
+
+    <p>Version: 0.0.40</p>
   </PosedCard>
 )
 
