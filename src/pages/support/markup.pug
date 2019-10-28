@@ -9,15 +9,14 @@ block append main
 
     p Browse through the resources here or drop us an email.
 
-    p Jump to [CN 🇨🇳](#) [EN 🇬🇧](#) [FR 🇫🇷](#)
+    p Jump to: #[a(href='#section-zh') Chinese 🇨🇳]
 
   section.article.help.toc
     article.videos
-      video(controls width=480)
-        source(type='video/mp4' src='https://glacier.zen.noop.pw/srv/tuto/tuto-01-intro.mp4')
+      video(controls width=480 poster='https://welearn.noop.pw/static/tutorials/tuto-01-intro--banner.jpg')
+        source(type='video/mp4' src='https://welearn.noop.pw/static/tutorials/tuto-01-intro.mp4')
 
-    article.tutorial.en
-      include:markdown-it ./tutorial.en.md
-    article.tutorial.cn
-      include:markdown-it ./tutorial.cn.md
-
+    article#section-en.tutorial.en
+      include:md-transpile ./tutorial.en.md
+    article#section-zh.tutorial.zh
+      include:md-transpile ./tutorial.zh.md
