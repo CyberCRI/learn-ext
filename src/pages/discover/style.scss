@@ -1,0 +1,17 @@
+#atlas {
+  width: 100%;
+  height: 50vh;
+  border-radius: 5px 5px 0 0;
+  overflow: hidden;
+
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  canvas {
+    cursor: inherit !important;
+    border-radius: 5px 5px 0 0;
+  }
+}
