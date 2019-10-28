@@ -1,0 +1,44 @@
+{
+  experimental_http3
+}
+
+welearn.noop.pw {
+  encode * {
+    # Compress the responses to gzip.
+    gzip
+  }
+
+  cors / {
+    origin            *
+    methods           GET,POST,PUT,DELETE,OPTIONS
+    allow_credentials true
+    max_age           3600
+    allowed_headers   Origin,X-Requested-With,Content-Type,Accept,Authorization
+  }
+
+  reverse_proxy /api {
+    # Use the API server transparently. Note that this doesn't yet handle the
+    # fact that we are NOT re-writing any requests!
+    to 51.68.90.90:8000
+
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+    header_up X-Forwarded-For {remote}
+    header_up X-Forwarded-Port {server_port}
+    header_up X-Forwarded-Proto {scheme}
+  }
+
+  reverse_proxy /wiki {
+    to en.wikipedia.org/w/api.php
+
+    header_up Host {host}
+    header_up X-Real-IP {remote}
+    header_up X-Forwarded-For {remote}
+    header_up X-Forwarded-Port {server_port}
+    header_up X-Forwarded-Proto {scheme}
+  }
+
+  file_server * browse {
+    root /home/debian/srv/app/
+  }
+}
