@@ -22,7 +22,7 @@ const NavigationBar = () => (
       <AnchorButton
         text={i18nT('links.discover.label')}
         minimal
-        href='/pages/options.html'
+        href='/pages/discover.html'
         icon={<FiIcon.FiCompass/>}/>
     </Navbar.Group>
     <Navbar.Group align={Alignment.RIGHT}>
