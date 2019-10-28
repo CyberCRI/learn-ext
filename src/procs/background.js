@@ -151,6 +151,10 @@ const maybeTogglePopover = async (tabId) => {
   // Since it executes the entire scripts, we can be sure that the port would
   // already be there.
   await maybeInjectContentScripts(tabId)
+  const tabInfo = await getTabInfo(tabId)
+  const currentTab = await browser.tabs.getCurrent()
+
+  console.log(currentTab)
 
   const action = tabState[tabId].isOpen ? 'close' : 'open'
 
@@ -158,7 +162,8 @@ const maybeTogglePopover = async (tabId) => {
 }
 
 const didClickBrowserAction = async (e) => {
-  maybeTogglePopover(e.id)
+  const tabId = await getCurrentTabId()
+  maybeTogglePopover(tabId)
 }
 
 const didSelectPageMenuItem = async (e) => {
