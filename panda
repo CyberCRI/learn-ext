@@ -131,8 +131,8 @@ release:dev () {
   export FLAGS_VERBOSE='no'
   export ILRN_IS_DEV='yes'
   _info 'Building preview release'
-  release:build
-  release:pack
+  prep:all
+  webpack --config webpack.prod.js
   _success 'Done!'
 }
 
