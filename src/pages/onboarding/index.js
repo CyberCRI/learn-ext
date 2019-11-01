@@ -8,7 +8,7 @@ import './style.sass'
 
 const WelcomeCard = () => (
   <Card elevation={Elevation.THREE}>
-    <h2>Thanks for using iLearn!</h2>
+    <h2>Thanks for using WeLearn!</h2>
 
     <AccountSelector/>
   </Card>

@@ -60,7 +60,8 @@ const General = () => {
         initialValues={{ lang }}
         enableReinitialize
         onSubmit={(values, actions) => {
-          store.set('pref.lang', values.lang).then(promptReload)
+          store.set('pref.lang', values.lang)
+          promptReload()
         }}
         render={(props) => (
           <Form>
@@ -88,6 +89,7 @@ const General = () => {
 
 const Account = () => (
   <PosedCard>
+    <h1>{i18nT('account.intro.title')}</h1>
     <AccountSelector />
   </PosedCard>
 )
