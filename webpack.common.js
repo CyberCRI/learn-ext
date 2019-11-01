@@ -55,6 +55,8 @@ const copySourceBundleRules = [
   },
   { from: './assets/media/favicons', to: './media/favicons' },
   { from: './assets/media/illustrations', to: './media/illustrations' },
+  { from: './assets/media/logos', to: './media/logos' },
+  { from: './assets/media/favicons/favicon.ico', to: './favicon.ico' },
   ...target.assets,
 ]
 
@@ -74,7 +76,7 @@ const staticPages = glob
       plugin: new HtmlWebpackPlugin({
         filename: `pages/${pageName}.html`,
         template: `src/pages/${pageName}/markup.pug`,
-        chunks: [ 'vendors', 'modules', 'pages_root', chunkName ],
+        chunks: [ 'vendors', 'modules', chunkName ],
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
     }
@@ -86,20 +88,18 @@ const staticPages = glob
 const staticEntrypoints = staticPages
   .reduce((acc, { entrypoint }) => {
     const [ chunkName, entryPath ] = entrypoint
-    acc[chunkName] = entryPath
+    acc[chunkName] = [ './src/pages/index.js', entryPath ]
     return acc
   }, {})
 
 const staticPageGeneratorPlugins = staticPages
   .reduce((acc, { plugin }) => [ ...acc, plugin ], [])
 
-
 module.exports = {
   entry: {
     app_root: './src/index.js',
     background: './src/procs/background.js',
 
-    pages_root: './src/pages/index.js',
     ...staticEntrypoints,
   },
   output: {
@@ -204,7 +204,7 @@ module.exports = {
   },
 
   optimization: {
-    concatenateModules: true,
+    concatenateModules: false,
     namedModules: true,
     moduleIds: 'named',
     splitChunks: {
@@ -232,7 +232,7 @@ module.exports = {
     modules: false,
     version: false,
     warnings: false,
-    excludeAssets: /^(fonts|icons|atlas)\/.*/,
+    excludeAssets: /^(fonts|icons|atlas|media)\/.*/,
     assets: dotenv.flags.verbose === 'yes',
     assetsSort: 'name',
   },
@@ -248,7 +248,10 @@ module.exports = {
   plugins: [
     new WebpackBar({ name: 'webext-ilearn', profile: false, basic: false }),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
-    new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
+    new CopyWebpackPlugin(copySourceBundleRules, {
+      copyUnmodified: true,
+      ignore: ['.DS_Store'],
+    }),
     new MomentLocalesPlugin({ localesToKeep: ['fr'] }),
     new LicenseWebpackPlugin({ perChunkOutput: false, outputFilename: 'module.licenses.txt' }),
     dotenv.PackageEnv.webpackPlugin,
