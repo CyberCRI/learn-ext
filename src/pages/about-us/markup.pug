@@ -1,11 +1,28 @@
 extends ../partials/layout.pug
 
 append head
-  title About Us | iLearn
+  title About Us | WeLearn
 
 block append main
-  section.about
+  section.article.about
     h1 Sponsors
-    p WeLearn is a project by CRI Paris, supported by Mairi de Paris.
+    p WeLearn is a project by CRI Paris, supported by Mairie de Paris.
+
+    p
+      img(src='/media/logos/ministry-de-la-education.png')
+      h3 Ministère de l'Éducation Nationale et de la Jeunesse
+      a(href='https://www.education.gouv.fr/') www.education.gouv.fr
+
+      h3 Mairie de Paris
+      img(src='/media/logos/marie-de-paris.png')
+      a(href='https://paris.fr/') paris.fr
+
+      h3 Centre de Recherches Interdisciplinaires
+      img(src='/media/logos/cri/color.png')
+      a(href='https://www.cri-paris.org/') www.cri-paris.org
+
 
     h1 Learn More
+
+    section.small-text
+      include:md-transpile ./footnotes.md

@@ -1,12 +1,12 @@
 extends ../partials/layout.pug
 
 append head
-  title Changelog | iLearn
+  title Changelog | WeLearn
 
 block append main
   section.article.changelog
     article.log
-      include:markdown-it ./changelog.md
+      include:md-transpile ./changelog.md
 
   section.article.changelog.dev
     p Build: @<sha-checksum
