@@ -1,10 +1,10 @@
 # [1] Extension Specific Strings
 extension:
-  name: iLearn Extension
-  description: संयोगित ज्ञान iLearn के साथ
+  name: वी लर्न इक्स्टेन्शन
+  description: संयोगित ज्ञान वी लर्न के साथ
 
 command:
-  toggle_action: इस पेज को iLearn में संग्रहित करें
+  toggle_action: इस पेज को वी लर्न में संग्रहित करें
 
 actions:
   page:
@@ -15,11 +15,11 @@ menu:
   action:
     openDashboard: डैश बोर्ड
     openMap: मानचित्र
-    addResource: iLearn में संग्रहित करें
+    addResource: वी लर्न में संग्रहित करें
 
 # [2] Navigation and Pages Strings
 navigationBar:
-  heading: iLearn
+  heading: वी लर्न
 
   links:
     dashboard:
@@ -34,7 +34,7 @@ navigationBar:
 pages:
   dashboard:
     meta:
-      pageTitle: डैश बोर्ड | iLearn
+      pageTitle: डैश बोर्ड | वी लर्न
 
     actions:
       sort: क्रम
@@ -43,7 +43,7 @@ pages:
 
   discover:
     meta:
-      pageTitle: अनुसंधान | iLearn
+      pageTitle: अनुसंधान | वी लर्न
 
     sections:
       atlas:
@@ -56,7 +56,7 @@ pages:
 
   settings:
     meta:
-      pageTitle: समायोजन | iLearn
+      pageTitle: समायोजन | वी लर्न
 
     tabs:
       general: सामान्य
@@ -78,9 +78,9 @@ pages:
             private:
               title: गोपनीय रखें
               description: >
-                Data added to iLearn by you will only be visible to you. Resource
-                ratings, or tags will be used anonymously for improving the
-                community resources on iLearn.
+                वी लर्न में आपके द्वारा सूचित डेटा सिर्फ़ आपको ही दिखेगा। रेटिंग, एवं टैग जो आपने
+                रीसोर्स पर सम्पादित किया है उनका प्रयोग हम वी लर्न के सार्वजनिक रीसोर्स की उन्नति
+                के लिए प्रयोग करेंगे।
             public:
               title: पब्लिक
               description: >
@@ -111,7 +111,7 @@ pages:
 
       account:
         intro:
-          title: ''
+          title: 'अकाउंट और समूह'
           description: कृपया अपना ईमेल भरें
         success:
           title: ''
@@ -134,7 +134,7 @@ pages:
           description: ''
 
         tutorial:
-          title: iLearn का प्रयोग कैसे करें?
+          title: वी लर्न का प्रयोग कैसे करें?
           link: खोलें
 
         changelog:
@@ -143,10 +143,10 @@ pages:
 
   onboarding:
     meta:
-      pageTitle: iLearn
+      pageTitle: वी लर्न
 
     intro:
-      title: iLearn का उपयोग करने के लिए बहुत ही धन्यवाद!
+      title: वी लर्न का उपयोग करने के लिए बहुत ही धन्यवाद!
       description: ''
 
 # [3] React Components

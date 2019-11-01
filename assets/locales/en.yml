@@ -1,25 +1,25 @@
 # [1] Extension Specific Strings
 extension:
-  name: iLearn Extension
-  description: Collaborative Learning with iLearn
+  name: WeLearn Extension
+  description: Collaborative Learning with WeLearn
 
 command:
-  toggle_action: Add the resource to your ilearn library
+  toggle_action: Add the resource to your WeLearn library
 
 actions:
   page:
     # Page action appears in address bar
-    title: Add to iLearn
+    title: Add to WeLearn
 
 menu:
   action:
     openDashboard: Open Dashboard
     openMap: Browse Map
-    addResource: Add this page to iLearn
+    addResource: Add this page to WeLearn
 
 # [2] Navigation and Pages Strings
 navigationBar:
-  heading: iLearn
+  heading: WeLearn
 
   links:
     dashboard:
@@ -34,7 +34,7 @@ navigationBar:
 pages:
   dashboard:
     meta:
-      pageTitle: Dashboard | iLearn
+      pageTitle: Dashboard | WeLearn
 
     actions:
       sort: Sort
@@ -43,7 +43,7 @@ pages:
 
   discover:
     meta:
-      pageTitle: Discover | iLearn
+      pageTitle: Discover | WeLearn
 
     sections:
       atlas:
@@ -56,7 +56,7 @@ pages:
 
   settings:
     meta:
-      pageTitle: Settings | iLearn
+      pageTitle: Settings | WeLearn
 
     tabs:
       general: General
@@ -78,13 +78,13 @@ pages:
             private:
               title: Private
               description: >
-                Data added to iLearn by you will only be visible to you. Resource
+                Data added to WeLearn by you will only be visible to you. Resource
                 ratings, or tags will be used anonymously for improving the
-                community resources on iLearn.
+                community resources on WeLearn.
             public:
               title: Public
               description: >
-                Your resources will be shared with other iLearn users (not
+                Your resources will be shared with other WeLearn users (not
                 available yet).
 
         mentorship:
@@ -113,8 +113,8 @@ pages:
 
       account:
         intro:
-          title: ''
-          description: Specify the email you want to use iLearn with.
+          title: 'Account & Group'
+          description: Specify the email you want to use WeLearn with.
         success:
           title: ''
           description: You are signed in!
@@ -145,10 +145,10 @@ pages:
 
   onboarding:
     meta:
-      pageTitle: iLearn
+      pageTitle: WeLearn
 
     intro:
-      title: Thanks for using iLearn!
+      title: Thanks for using WeLearn!
       description: ''
 
 # [3] React Components

@@ -1,21 +1,21 @@
 # [1] Extension Specific Strings
 extension:
-  name: ilearn插件
-  description: 和ilearn一起协作学习
+  name: WeLearn插件
+  description: 和WeLearn一起协作学习
 
 command:
-  toggle_action: 添加资源到你的ilearn图书馆
+  toggle_action: 添加资源到你的WeLearn图书馆
 
 actions:
   page:
     # Page action appears in address bar
-    title: 添加到ilearn
+    title: 添加到WeLearn
 
 menu:
   action:
     openDashboard: 打开控制面板
     openMap: Browse Map
-    addResource: 添加页面到ilearn
+    addResource: 添加页面到WeLearn
 
 # [2] Navigation and Pages Strings
 navigationBar:
@@ -34,7 +34,7 @@ navigationBar:
 pages:
   dashboard:
     meta:
-      pageTitle: 控制面板 | ilearn
+      pageTitle: 控制面板 | WeLearn
 
     actions:
       sort: 排序
@@ -43,7 +43,7 @@ pages:
 
   discover:
     meta:
-      pageTitle: 发现 | iLearn
+      pageTitle: 发现 | WeLearn
 
     sections:
       atlas:
@@ -56,7 +56,7 @@ pages:
 
   settings:
     meta:
-      pageTitle: 设置 | ilearn
+      pageTitle: 设置 | WeLearn
 
     tabs:
       general: 通用
@@ -78,12 +78,12 @@ pages:
             private:
               title: 私人
               description: |
-                  添加到ilearn的数据只对你可见。资源分级以及标签会被匿名采集，用以提高ilearn的社区资源服务
+                  添加到WeLearn的数据只对你可见。资源分级以及标签会被匿名采集，用以提高WeLearn的社区资源服务
 
             public:
               title: 公开
               description: |
-                  你的资源库将会与其它ilearn使用者分享（暂不支持）
+                  你的资源库将会与其它WeLearn使用者分享（暂不支持）
 
         mentorship:
           title: 导师制
@@ -110,8 +110,8 @@ pages:
 
       account:
         intro:
-          title: ''
-          description: 指定你希望用于ilearn的邮箱
+          title: 'Account & Group'
+          description: 指定你希望用于WeLearn的邮箱
 
         success:
           title: ''
@@ -143,10 +143,10 @@ pages:
 
   onboarding:
     meta:
-      pageTitle: iLearn
+      pageTitle: WeLearn
 
     intro:
-      title: 感谢使用ilearn
+      title: 感谢使用WeLearn
       description: ''
 
 # [3] React Components

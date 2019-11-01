@@ -1,25 +1,25 @@
 # [1] Extension Specific Strings
 extension:
-  name: iLearn Extension
-  description: Recherche collaborative avec iLearn
+  name: WeLearn Extension
+  description: Recherche collaborative avec WeLearn
 
 command:
-  toggle_action: Ajouter la ressource à votre bibliothèque iLearn
+  toggle_action: Ajouter la ressource à votre bibliothèque WeLearn
 
 actions:
   page:
     # Page action appears in address bar
-    title: Ajouter dans iLearn
+    title: Ajouter dans WeLearn
 
 menu:
   action:
     openDashboard: Accéder à Mes Ressources
     openMap: Ouvrir la Carte
-    addResource: Ajouter cette page dans iLearn
+    addResource: Ajouter cette page dans WeLearn
 
 # [2] Navigation and Pages Strings
 navigationBar:
-  heading: iLearn
+  heading: WeLearn
 
   links:
     dashboard:
@@ -34,7 +34,7 @@ navigationBar:
 pages:
   dashboard:
     meta:
-      pageTitle: Mes Ressources | iLearn
+      pageTitle: Mes Ressources | WeLearn
 
     actions:
       sort: Trier
@@ -43,7 +43,7 @@ pages:
 
   discover:
     meta:
-      pageTitle: Discover | iLearn
+      pageTitle: Discover | WeLearn
 
     sections:
       atlas:
@@ -56,7 +56,7 @@ pages:
 
   settings:
     meta:
-      pageTitle: Préférences | iLearn
+      pageTitle: Préférences | WeLearn
 
     tabs:
       general: General
@@ -79,12 +79,12 @@ pages:
               title: Privé
               description: >
                 Mes données ne sont visibles que par moi-même. Les ressources
-                que j’ajoute à iLearn bénéficient à la communauté de façon
+                que j’ajoute à WeLearn bénéficient à la communauté de façon
                 anonyme.
             public:
               title: Publique
               description: >
-                Mes données sont partagées avec tous les utilisateurs d’iLearn
+                Mes données sont partagées avec tous les utilisateurs d’WeLearn
                 (pas encore disponible).
 
         mentorship:
@@ -114,7 +114,7 @@ pages:
 
       account:
         intro:
-          title: ''
+          title: 'Account & Group'
           description: Merci de renseigner votre adresse e-mail.
         success:
           title: ''
@@ -146,10 +146,10 @@ pages:
 
   onboarding:
     meta:
-      pageTitle: iLearn
+      pageTitle: WeLearn
 
     intro:
-      title: Merci d'utiliser iLearn !
+      title: Merci d'utiliser WeLearn !
       description: ''
 
 # [3] React Components
