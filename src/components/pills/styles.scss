@@ -20,7 +20,7 @@
 
     &:after {
       content: '';
-      background: linear-gradient(90deg, #fff0 10px, #fff);
+      background: linear-gradient(90deg, #fff0 10px, $light-gray5);
       position: absolute;
       right: 0;
       top: 0;
