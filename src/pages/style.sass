@@ -11,6 +11,8 @@ body
 
 .root-container
   padding: 0 10%
+  @media(max-width: 500px)
+    padding: 0 10px
 
 body
   > header
@@ -37,10 +39,25 @@ body
     flex-grow: 2
 
   > footer
-    @extend .root-container
-    background: #d7d7db
+    padding: 20px 10%
+    background: #1b2638
     color: #f9f9fa
 
+    a
+      color: inherit
+
+      &:hover, &:focus
+        text-decoration: underline
+        color: inherit
+
+    ul.inline
+      list-style: none
+      padding: 0
+      margin: 0
+
+      li
+        display: inline-block
+        margin-right: 20px
 
 
 section.card
