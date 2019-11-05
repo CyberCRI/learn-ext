@@ -1,0 +1,44 @@
+.article.about {
+  ul.sponsor-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+
+    display: flex;
+    max-width: 100%;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+    li {
+      min-width: 180px;
+      max-width: 250px;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    a.sponsor {
+      color: inherit;
+
+      &:focus, &:hover {
+        text-decoration: none;
+      }
+    }
+
+    figure {
+      margin: 0;
+      display: flex;
+      align-items: center;
+
+      figcaption {
+        margin-left: 10px;
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+section.small-text {
+  font-size: smaller;
+}
