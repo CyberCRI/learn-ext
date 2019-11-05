@@ -3,8 +3,6 @@ import { Set } from 'immutable'
 import { API } from '@ilearn/modules/api'
 import Fuse from 'fuse.js'
 
-export const didPickConcepts = createEvent()
-
 export const conceptSelection = {
   merge: createEvent(),
   reset: createEvent(),
