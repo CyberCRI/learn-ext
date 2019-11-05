@@ -1,26 +1,67 @@
 import _ from 'lodash'
+import store from '~mixins/persistence'
 
-export const fetchGroupLayer = async (id) => {
-  const layers = {
-    mooc: 'https://welearn.noop.pw/api/map?group_id=mooc',
-    beta: 'https://welearn.noop.pw/api/map?group_id=beta',
-    user: 'https://welearn.noop.pw/api/map?user_id=f8a3b78dfe023f9465d9da742741c28d',
+const defaultConceptValues = {
+  markerShape: 'circle',
+  labelColor: [0, 0, 0, 255],
+  labelOpacity: 1,
+  markerColor: [0, 0, 0, 120],
+  markerSize: 2,
+  labelPriority: .8,
+}
+
+const trimLabel = (label) => {
+  // If the label has >= 6 words, we'd add '...'.
+  // Split the label text on space characters (\s)
+  const words = label.split(/\s/)
+  if (words.length >= 6) {
+    return [...words.slice(0, 5), '...'].join(' ')
   }
-  return await fetch(layers[id])
+  return label
+}
+
+const normaliseConcept = (concept) => {
+  // Build a normalised Concept Object.
+  // We'd prefer french concept title.
+  let label, title, lang
+  if (concept.title_fr) {
+    label = trimLabel(concept.title_fr)
+    title = concept.title_fr
+    lang = 'fr'
+  } else {
+    label = trimLabel(concept.title_en)
+    title = concept.title_en
+    lang = 'en'
+  }
+  return {
+    x: +concept.x_map_fr,
+    y: +concept.y_map_fr,
+    userData: true,
+    label,
+    title,
+    lang,
+
+    wikiDataId: concept.wikidata_id,
+    elevation: Math.max(concept.elevation, .1),
+    ...defaultConceptValues,
+  }
+}
+
+export const fetchLayer = async (id) => {
+  const user = await store.get('user')
+  if (!user.signedIn) {
+    throw new Error('Not Signed In')
+  }
+  const layers = {
+    group: `https://welearn.noop.pw/api/map?group_id=${user.groupId}`,
+    user: `https://welearn.noop.pw/api/map?user_id=${user.uid}`,
+    all: 'https://welearn.noop.pw/api/map',
+  }
+  return await fetch(layers.all)
     .then((r) => r.json())
     .then((concepts) => {
-      let title
-
-      return concepts.map((p) => {
-        title = p.title_fr || p.title_en
-
-        return {
-          x: p.x_map_fr,
-          y: p.y_map_fr,
-          markerShape: 'square',
-          label: _.truncate(title, { length: 16, separator: ' ' }),
-          elevation: Math.max(p.elevation, .01),
-        }
-      }).filter((p) => p.x && p.y)
+      return concepts
+        .map(normaliseConcept)
+        .filter((p) => p.x && p.y)
     })
 }
