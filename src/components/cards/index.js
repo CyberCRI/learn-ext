@@ -12,7 +12,7 @@ const CardBox = posed.div({
     y: 0,
     opacity: 1,
     scaleY: 1,
-    filter: 'blur(0px)',
+    // filter: 'blur(0px)',
     transition: {
       y: { type: 'spring', stiffness: 1000, damping: 25 },
       default: { duration: 200 },
@@ -22,7 +22,7 @@ const CardBox = posed.div({
   closed: {
     y: -50,
     opacity: 0,
-    filter: 'blur(10px)',
+    // filter: 'blur(10px)',
     scaleY: 1.2,
     transition: { duration: 200 },
     applyAtEnd: { display: 'none' },
