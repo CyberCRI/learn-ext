@@ -1,11 +1,11 @@
 import { baseLayers } from '@ilearn/modules/atlas/dataset'
-import { fetchGroupLayer } from './tools'
+import { fetchLayer } from './tools'
 import { ThemeSwitch } from './atlas-theme'
 import Mousetrap from 'mousetrap'
 import _ from 'lodash'
 
 import setupDebugger from './renderer-debugger'
-import { didPickConcepts, conceptSelection, selectedConcepts } from './store'
+import { conceptSelection, selectedConcepts } from './store'
 
 const kbdCtrlKeys = {
   panning: {
@@ -27,7 +27,7 @@ const kbdCtrlKeys = {
 
 
 export const setupMapView = async (conf) => {
-  const npts = await fetchGroupLayer('user')
+  const npts = await fetchLayer('user')
   const apts = _.concat(npts, baseLayers.points)
   const albs = _.concat(npts, baseLayers.labels)
 
