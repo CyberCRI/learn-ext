@@ -1,45 +1,41 @@
 import { browser } from '~procs/stubs'
-import { context, Runtime } from '~mixins/utils'
+import { runtimeContext } from '~mixins/utils'
 
+
+const attemptParseJson = (value) => {
+  try {
+    return JSON.parse(value)
+  } catch (e) {
+    return value
+  }
+}
 
 class ExtensionStorage {
   async get (key) {
     const value = await browser.storage.local.get(key)
-    try {
-      return JSON.parse(value[key])
-    } catch (e) {
-      return value && value[key]
-    }
+    return attemptParseJson(value[key])
   }
 
-  async set (key, value) {
-    await browser.storage.local.set({
+  set (key, value) {
+    browser.storage.local.set({
       [key]: JSON.stringify(value),
     })
+    return this
   }
 }
 
 class WebStorage {
   async get (key) {
     const value = window.localStorage.getItem(key)
-    try {
-      return JSON.parse(value)
-    } catch {
-      return value
-    }
+    return attemptParseJson(value)
   }
 
-  async set (key, value) {
+  set (key, value) {
     window.localStorage.setItem(key, JSON.stringify(value))
+    return this
   }
 }
 
-let store
-
-if (context() === Runtime.extension) {
-  store = new ExtensionStorage()
-} else {
-  store = new WebStorage()
-}
+const store = runtimeContext.isBrowser ? new WebStorage() : new ExtensionStorage()
 
 export default store
