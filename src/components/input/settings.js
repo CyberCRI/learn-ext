@@ -5,6 +5,7 @@ import * as FiIcon from 'react-icons/fi'
 import _ from 'lodash'
 
 import { browser } from '~procs/stubs'
+import store from '~mixins/persistence'
 
 import RootAPI, { RuntimeParams } from '~mixins/root-api'
 import { i18n } from '@ilearn/modules/i18n'
@@ -75,8 +76,10 @@ class AccountSelector extends Component {
             groupId,
             signedIn: true,
           }
-          browser.storage.local
-            .set({ user: payload })
+          store
+            .set('user', payload)
+            .set('user.uid', payload.uid)
+            .set('user.signedIn', payload.signedIn)
 
           this.setState({ loading: false, status: 0, ...payload })
         })
@@ -88,7 +91,7 @@ class AccountSelector extends Component {
     const inputIntent = this.state.username.length >= 2 ? Intent.PRIMARY : Intent.DANGER
     return (
       <form onSubmit={this.didUpdateUserSettings}>
-        <Callout icon='id-number' title={i18nT('intro.title')} intent={Intent.DEFAULT}>
+        <Callout icon='id-number' intent={Intent.DEFAULT}>
           <p>{i18nT('intro.description')}</p>
 
           {this.state.signedIn && <p>{i18nT('success.description')}</p>}
@@ -100,6 +103,7 @@ class AccountSelector extends Component {
               disabled={this.state.loading}
               value={this.state.username}
               intent={inputIntent}
+              type='email'
               onChange={this.didChangeUsername}/>
           </FormGroup>
 
