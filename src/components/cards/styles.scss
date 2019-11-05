@@ -120,10 +120,10 @@ div.info-card {
     top: 0;
     left: 0;
 
-    filter: blur(1px);
+    filter: blur(5px);
     transform: scale(1.2) translate(0, 0);
     z-index: -2;
-    transition: 1s all ease;
+    transition: 1s filter ease;
   }
   .title {
     font: {
@@ -187,8 +187,8 @@ div.info-card {
 
   &:hover {
     .thumbnail {
-      filter: blur(5px);
-      transform: scale(1.3) translate(0, -5px);
+      // filter: blur(5px);
+      // transform: scale(1.3) translate(0, -5px);
     }
   }
 
