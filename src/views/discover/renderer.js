@@ -1,45 +1,39 @@
 import { baseLayers } from '@ilearn/modules/atlas/dataset'
 import { fetchGroupLayer } from './tools'
 import { ThemeSwitch } from './atlas-theme'
+import Mousetrap from 'mousetrap'
+import _ from 'lodash'
 
-// console.log(Theme, AutoResizing)
-const ThemeChange = new CustomEvent('theme-change', { detail: 'dark' })
+import setupDebugger from './renderer-debugger'
+import { didPickConcepts, conceptSelection, selectedConcepts } from './store'
 
-class AtlasRenderer {
-  constructor () {
-  }
-
-  get layers () {
-    this._atlas.get('layers')
-    return {
-      elevation: null,
-      markers: null,
-      selectionMarkers: null,
-      selectionOutline: null,
-      hoverMarkers: null,
-      labels: null,
-    }
-  }
-
-  _createLayers () {
-
-  }
-
-  replaceData () {
-    // Replace the dataset in atlas with new one
-  }
-
-  addCallback (func) {
-    // Attach a callback function for notifications
-  }
+const kbdCtrlKeys = {
+  panning: {
+    left: ['left', 'a', 'h'],
+    right: ['right', 'd', 'l'],
+    up: ['up', 'w', 'k'],
+    down: ['down', 's', 'j'],
+  },
+  zooming: {
+    plus: ['shift+up', '+', '='],
+    minus: ['shift+down', '-'],
+  },
+  control: {
+    clearSelection: ['x', 'delete', 'backspace'],
+    resetView: ['esc'],
+    showDevTools: ['shift+t', 'd e v'],
+  },
 }
 
-export const setupInstance = (conf) => {
-  const selection = new Set()
+
+export const setupMapView = async (conf) => {
+  const npts = await fetchGroupLayer('user')
+  const apts = _.concat(npts, baseLayers.points)
+  const albs = _.concat(npts, baseLayers.labels)
 
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
-    points: baseLayers.points,
+    points: apts,
 
     elevationPow: 1,
     maxRadiusDivider: 15,
@@ -51,7 +45,10 @@ export const setupInstance = (conf) => {
   const selectionMarkers = DotAtlas.createLayer({
     type: 'marker',
     points: [],
-    markerFillOpacity: 1,
+    markerFillOpacity: 0,
+    markerStrokeWidth: .2,
+    markerStrokeOpacity: .5,
+    markerSizeMultiplier: 10,
   })
 
   const selectionOutline = DotAtlas.createLayer({
@@ -66,9 +63,10 @@ export const setupInstance = (conf) => {
   const hoverMarkers = DotAtlas.createLayer({
     points: [],
     type: 'marker',
-    markerFillOpacity: 0.2,
-    markerStrokeWidth: 1,
-    markerSizeMultiplier: 5,
+    markerFillOpacity: 0,
+    markerStrokeWidth: .2,
+    markerStrokeOpacity: .5,
+    markerSizeMultiplier: 10,
   })
 
   const hoverOutline = DotAtlas.createLayer({
@@ -85,7 +83,7 @@ export const setupInstance = (conf) => {
 
   const markers = DotAtlas.createLayer({
     type: 'marker',
-    points: baseLayers.labels,
+    points: albs,
 
     markerSizeMultiplier: 5,
     markerStrokeWidth: 0,
@@ -95,27 +93,25 @@ export const setupInstance = (conf) => {
 
     pointHoverRadiusMultiplier: 10,
     onPointHover: (e) => {
-      hoverMarkers.set('points', e.points)
-      hoverOutline.set('points', e.points)
+      const hoverPts = e.points.filter((pt) => pt.userData)
+
+      hoverMarkers.set('points', hoverPts)
+      hoverOutline.set('points', hoverPts)
       atlas.redraw()
     },
     onPointClick: (e) => {
-      if (e.ctrlKey) {
-        selection.clear()
+      const filteredPts = e.points.filter((pt) => pt.userData)
+      if (!(e.ctrlKey || e.shiftKey)) {
+        conceptSelection.replace(filteredPts)
+      } else {
+        conceptSelection.merge(filteredPts)
       }
-
-      if (e.points.length > 0) {
-        e.points.forEach((point) => selection.add(point))
-      }
-
-      selectionOutline.set('points', Array.from(selection))
-      atlas.redraw()
-    }
+    },
   })
 
   const labels = DotAtlas.createLayer({
     type: 'label',
-    points: baseLayers.labels,
+    points: albs,
     labelFontFamily: 'Barlow',
     labelFontSize: 15,
     labelFontWeight: 400,
@@ -123,8 +119,25 @@ export const setupInstance = (conf) => {
     labelOpacity: 1,
   })
 
-  const didEmitClick = (e) => {
-    conf.onClick && conf.onClick(e, selection)
+  const layers = {
+    elevation,
+    selectionMarkers,
+    selectionOutline,
+    hoverMarkers,
+    hoverOutline,
+    markers,
+    labels,
+  }
+
+  const eventTaps = {
+    didClick: (e, ...args) => {
+    },
+    didDoubleClick: (e, ...args) => {
+    },
+    didHover: (e, ...args) => {
+    },
+    didMouseWheel: (e, ...args) => {
+    },
   }
 
   const atlas = DotAtlas
@@ -141,39 +154,85 @@ export const setupInstance = (conf) => {
         labels,
       ],
       pixelRatio: conf.pixelRatio,
-      onClick: didEmitClick,
-      onMouseWheel: conf.onWheel,
-      onDoubleClick: conf.onDoubleClick,
+      onClick: eventTaps.didClick,
+      onHover: eventTaps.didHover,
+      onMouseWheel: eventTaps.didMouseWheel,
+      onDoubleClick: eventTaps.didDoubleClick,
     })
 
-  const update = (points) => {
-    elevation.set('points', [...elevation.get('points'), ...points])
-    elevation.update('xy')
-
-    labels.set('points', [...labels.get('points'), ...points])
-    labels.update('xy')
-    labels.update('labelVisibilityScales')
-    labels.update('labelOpacity')
-    labels.update('labelColor')
-    labels.update('labelBoxColor')
-    labels.update('labelBoxOpacity')
-
-    markers.set('points', [...markers.get('points'), ...points])
-    markers.update('xy')
-    markers.update('markerSize')
-
-    markers.update('markerColor')
-    markers.update('markerOpacity')
-    markers.update('markerShape')
-
-    elevation.update('elevation')
-
+  selectedConcepts.watch((selection) => {
+    selectionOutline.set('points', selection)
+    selectionMarkers.set('points', selection)
     atlas.redraw()
+  })
+
+  const mapTransforms = {
+    get centerPoint () {
+      const { height, width } = conf.element.getBoundingClientRect()
+      const [ ptx, pty, _ ] = atlas.screenToPointSpace(width / 2, height / 2)
+      return { x: ptx, y: pty, zoom: this.zoom }
+    },
+    set centerPoint ({ x, y, zoom }) {
+      atlas.centerPoint(x, y, zoom)
+    },
+
+    get zoom () {
+      return atlas.get('zoom')
+    },
+    set zoom (value) {
+      this.centerPoint = { ...this.centerPoint, zoom: value }
+    },
+
+    get x () {
+      return this.centerPoint.x
+    },
+    set x (value) {
+      this.centerPoint = { ...this.centerPoint, x: value }
+    },
+
+    get y () {
+      return this.centerPoint.y
+    },
+    set y (value) {
+      this.centerPoint = { ...this.centerPoint, y: value }
+    },
   }
 
-  window.setTimeout(async () => {
-    update(await fetchGroupLayer('user'))
-  }, 100)
+
+  Mousetrap.bind('c', () => {
+    conceptSelection.reset()
+  })
+
+  Mousetrap.bind(kbdCtrlKeys.panning.left, () => {
+    mapTransforms.x += -1
+  })
+  Mousetrap.bind(kbdCtrlKeys.panning.right, () => {
+    mapTransforms.x += 1
+  })
+  Mousetrap.bind(kbdCtrlKeys.panning.up, () => {
+    mapTransforms.y += -1
+  })
+  Mousetrap.bind(kbdCtrlKeys.panning.down, () => {
+    mapTransforms.y += 1
+  })
+
+  Mousetrap.bind(kbdCtrlKeys.zooming.plus, () => {
+    mapTransforms.zoom += .5
+  })
+  Mousetrap.bind(kbdCtrlKeys.zooming.minus, () => {
+    mapTransforms.zoom -= .5
+  })
+
+  const debugUi = setupDebugger(atlas, layers, conf.element)
+
+  Mousetrap.bind(kbdCtrlKeys.control.showDevTools, () => {
+    debugUi.show()
+    if (debugUi.closed) {
+      debugUi.open()
+    } else {
+      debugUi.close()
+    }
+  })
 
   return atlas
 }
