@@ -47,5 +47,5 @@ export const context = () => {
 
 export const userId = (email) => {
   // To obfuscate the user email, a simple hash of user email is used.
-  return md5(`ilearn_${email}`)
+  return md5(`ilearn_${email.toLowerCase().trim()}`)
 }
