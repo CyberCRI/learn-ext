@@ -146,6 +146,15 @@ release () {
   _success 'Published Succesfully!'
 }
 
+release:build-all () {
+  export FLAGS_TARGET='chrome'
+  release:build
+  export FLAGS_TARGET='firefox'
+  release:build
+  export FLAGS_TARGET='web'
+  release:build
+}
+
 _get_target () {
   local _target
   for __arg in "${_COMMAND_ARGV[@]:-}"
