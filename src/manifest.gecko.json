@@ -55,7 +55,8 @@
     "storage",
     "contextMenus",
     "https://*.ilearn.cri-paris.org/*",
-    "https://*.wikipedia.org/*"
+    "https://*.wikipedia.org/*",
+    "https://welearn.noop.pw/*"
   ],
   "omnibox": {
     "keyword": "ilearn"
