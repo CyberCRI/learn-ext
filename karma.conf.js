@@ -10,6 +10,7 @@ module.exports = function(config) {
 
     files: [
       'tests/**/*.test.js',
+      { pattern: 'tests/fixtures/*.json', served: true, included: false },
     ],
     exclude: [],
     preprocessors: {
