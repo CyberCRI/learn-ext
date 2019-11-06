@@ -57,7 +57,7 @@ export const fetchLayer = async (id) => {
     user: `https://welearn.noop.pw/api/map?user_id=${user.uid}`,
     all: 'https://welearn.noop.pw/api/map',
   }
-  return await fetch(layers.all)
+  return await fetch(layers.user)
     .then((r) => r.json())
     .then((concepts) => {
       return concepts

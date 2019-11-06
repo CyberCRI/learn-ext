@@ -1,5 +1,10 @@
-.discover {
+#discover-view {
   .matches {
     list-style: none;
+  }
+  .empty {
+    max-width: 300px;
+    padding: 20px;
+    margin: auto;
   }
 }
