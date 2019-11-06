@@ -22,19 +22,29 @@ const overlayControlVariants = {
   },
 }
 
-export const OverlayConcepts = (props) => {
-  const conceptList = useStore(selectedConcepts)
-  const [ isOpen, setPanelVisibility ] = useState(true)
-
+export const OverlayTools = (props) => {
   return (
-    <motion.div initial='closed' animate={isOpen ? 'open' : 'closed'} variants={overlayControlVariants}>
-      <h3>Concept Map</h3>
-      <Button icon='menu-closed' onClick={() => setPanelVisibility(!isOpen)}/>
+    <div className='overlay tools'>
+      <Button icon='menu-closed'/>
       <RadioGroup label='Show from resources:'>
         <Radio label='My Resources' value='user'/>
         <Radio label='My Group' value='group'/>
         <Radio label='All Resources' value='all'/>
       </RadioGroup>
+    </div>
+  )
+}
+
+export const OverlayConcepts = (props) => {
+  const conceptList = useStore(selectedConcepts)
+  const [ isOpen, setPanelVisibility ] = useState(true)
+
+  return (
+    <motion.div
+      className='overlay concepts'
+      initial='closed'
+      animate={isOpen ? 'open' : 'closed'}
+      variants={overlayControlVariants}>
 
       {!conceptList.size && <p>Pick a region on the map to show concepts</p>}
       {!!conceptList.size && <p>Showing resources matching {conceptList.size} concepts</p>}
@@ -59,6 +69,7 @@ export const OverlayCards = (props) => {
 
   return (
     <div className='matches'>
+      <p>Showing {matchingResources.length} resources</p>
       <ResourceCollectionView resources={matchingResources} skipConceptList/>
     </div>
   )
