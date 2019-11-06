@@ -5,7 +5,7 @@ import { renderReactComponent } from '~mixins/react-helpers'
 import { i18n } from '@ilearn/modules/i18n'
 import { setupMapView } from './renderer'
 import { fetchResources } from './store'
-import { OverlayCards, OverlayConcepts } from './overlays'
+import { OverlayCards, OverlayConcepts, OverlayTools } from './overlays'
 
 import './styles.scss'
 
@@ -21,6 +21,7 @@ const DiscoverView = () => {
 }
 
 export const renderView = () => {
+  renderReactComponent('overlay-tools', OverlayTools)
   renderReactComponent('overlay-concepts', OverlayConcepts)
   renderReactComponent('discover-view', DiscoverView)
 }
