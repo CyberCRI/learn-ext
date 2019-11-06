@@ -62,8 +62,8 @@ export const ConceptTag = (props) => {
         interactionKind={PopoverInteractionKind.HOVER}
         hoverCloseDelay={500}
         hoverOpenDelay={200}
-        inheritDarkTheme={false}
-        position={Position.LEFT_TOP}/>
+        inheritDarkTheme={true}
+        position={Position.AUTO}/>
     </Tag>
   )
 }
