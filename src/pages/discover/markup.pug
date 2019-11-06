@@ -4,6 +4,10 @@ append head
   title Discover | WeLearn
   script(src='/atlas/dotatlas.js')
 
-block append main
-  div#atlas
-  div#discover
+block append root
+  main
+    div.container
+      div#atlas
+      div#overlay-concepts
+
+  div#discover-view
