@@ -1,7 +1,7 @@
 import { baseLayers } from '@ilearn/modules/atlas/dataset'
 import { fetchLayer } from './tools'
 import { ThemeSwitch } from './atlas-theme'
-import Mousetrap from 'mousetrap'
+import Mousetrap from '@ilearn/modules/utilities/mousetrap'
 import _ from 'lodash'
 
 import setupDebugger from './renderer-debugger'
@@ -38,7 +38,7 @@ export const setupMapView = async (conf) => {
     elevationPow: 1,
     maxRadiusDivider: 15,
     contourWidth: 0.5,
-    lightAltitude: 10,
+    lightAltitude: 5,
     lightIntensity: .2,
   })
 
@@ -198,34 +198,35 @@ export const setupMapView = async (conf) => {
     },
   }
 
+  const kbdController = new Mousetrap()
 
-  Mousetrap.bind('c', () => {
+  kbdController.bind('c', () => {
     conceptSelection.reset()
   })
 
-  Mousetrap.bind(kbdCtrlKeys.panning.left, () => {
+  kbdController.bind(kbdCtrlKeys.panning.left, () => {
     mapTransforms.x += -1
   })
-  Mousetrap.bind(kbdCtrlKeys.panning.right, () => {
+  kbdController.bind(kbdCtrlKeys.panning.right, () => {
     mapTransforms.x += 1
   })
-  Mousetrap.bind(kbdCtrlKeys.panning.up, () => {
+  kbdController.bind(kbdCtrlKeys.panning.up, () => {
     mapTransforms.y += -1
   })
-  Mousetrap.bind(kbdCtrlKeys.panning.down, () => {
+  kbdController.bind(kbdCtrlKeys.panning.down, () => {
     mapTransforms.y += 1
   })
 
-  Mousetrap.bind(kbdCtrlKeys.zooming.plus, () => {
+  kbdController.bind(kbdCtrlKeys.zooming.plus, () => {
     mapTransforms.zoom += .5
   })
-  Mousetrap.bind(kbdCtrlKeys.zooming.minus, () => {
+  kbdController.bind(kbdCtrlKeys.zooming.minus, () => {
     mapTransforms.zoom -= .5
   })
 
   const debugUi = setupDebugger(atlas, layers, conf.element)
 
-  Mousetrap.bind(kbdCtrlKeys.control.showDevTools, () => {
+  kbdController.bind(kbdCtrlKeys.control.showDevTools, () => {
     debugUi.show()
     if (debugUi.closed) {
       debugUi.open()
