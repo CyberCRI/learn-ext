@@ -1,8 +1,7 @@
 #atlas {
   width: 100%;
   height: 50vh;
-  border-radius: 5px 5px 0 0;
-  overflow: hidden;
+  background: #7dabd0;
 
   cursor: grab;
 
@@ -13,5 +12,36 @@
   canvas {
     cursor: inherit !important;
     border-radius: 5px 5px 0 0;
+  }
+}
+
+main {
+  position: relative;
+
+  .container {
+    position: relative;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    z-index: 5;
+
+    #atlas {
+      z-index: 3;
+    }
+
+    #overlay-concepts > div {
+      max-width: 30vw;
+      width: 25%;
+      z-index: 4;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      padding: 20px 5px 5px 20px;
+
+      overflow: auto;
+      background: transparentize(#fff, .5);
+      backdrop-filter: blur(4px);
+    }
   }
 }
