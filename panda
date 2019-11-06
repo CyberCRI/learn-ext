@@ -115,7 +115,7 @@ release:sign () {
 }
 
 release:build () {
-  _info 'Compiling [Prod]'
+  _info "<*> Compiling [target -> ${FLAGS_TARGET}]"
   export ILRN_IS_DEV='no'
   prep:all
   webpack --config webpack.prod.js
@@ -165,6 +165,11 @@ _get_target () {
       --web) _target='web';;
     esac
   done
+  if [[ "${_CMD}" == 'release:build-all' ]]
+  then
+    return 0
+  fi
+
   if _blank "$_target"
   then
     _warn "Target unspecified. Using firefox as default."
