@@ -1,5 +1,4 @@
-import { renderReactComponent } from '~mixins/react-helpers'
-import { DiscoverView, setupInstance } from '~views/discover'
+import { setupInstance, renderView } from '~views/discover'
 
 import { ensureLogin } from '~components/input/loginSensor'
 
@@ -11,7 +10,7 @@ const init = () => {
     pixelRatio: window.devicePixelRatio || 1,
   })
 
-  renderReactComponent('discover', DiscoverView)
+  renderView()
 }
 
 document.addEventListener('apploaded', () => {
