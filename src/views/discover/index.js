@@ -1,14 +1,17 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 
+import { renderReactComponent } from '~mixins/react-helpers'
 import { i18n } from '@ilearn/modules/i18n'
 import { setupMapView } from './renderer'
 import { fetchResources } from './store'
-import { OverlayCards } from './overlays'
+import { OverlayCards, OverlayConcepts } from './overlays'
+
+import './styles.scss'
 
 const DiscoverView = () => {
   return (
-    <div className='discover'>
+    <div>
       <Helmet>
         <title>{i18n.t('pages.discover.meta.pageTitle')}</title>
       </Helmet>
@@ -17,9 +20,12 @@ const DiscoverView = () => {
   )
 }
 
-const setupInstance = async (config) => {
-  setupMapView(config)
-  fetchResources()
+export const renderView = () => {
+  renderReactComponent('overlay-concepts', OverlayConcepts)
+  renderReactComponent('discover-view', DiscoverView)
 }
 
-export { DiscoverView, setupInstance }
+export const setupInstance = async (config) => {
+  setupMapView(config)
+  fetchResources({ start: 1 })
+}
