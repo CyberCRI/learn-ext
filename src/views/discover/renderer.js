@@ -161,8 +161,8 @@ export const setupMapView = async (conf) => {
     })
 
   selectedConcepts.watch((selection) => {
-    selectionOutline.set('points', selection)
-    selectionMarkers.set('points', selection)
+    selectionOutline.set('points', selection.toJS())
+    selectionMarkers.set('points', selection.toJS())
     atlas.redraw()
   })
 
