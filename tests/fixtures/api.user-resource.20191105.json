@@ -1,0 +1,1696 @@
+{
+  "pagination": {
+    "start": 1,
+    "limit": 50,
+    "count": 240,
+    "previous": "",
+    "next": "api/user/f8a3b78dfe023f9465d9da742741c28d/resource?start=51&limit=50"
+  },
+  "results": [
+    {
+      "resource_id": "374cdf15b24022402e500635dc8d7c73",
+      "title": "gioblu/PJON",
+      "url": "https://github.com/gioblu/PJON",
+      "lang": "en",
+      "readability_score": 34.324,
+      "created_on": "2019-11-05T11:44:32.061644+00:00",
+      "updated_on": "2019-11-05T11:45:23.876341+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.873,
+          "title_fr": "I2C",
+          "wikidata_id": "Q750469",
+          "title_en": "I²C",
+          "trueskill_mu": 58.092
+        },
+        {
+          "trueskill_sigma": 9.542,
+          "title_fr": "1-Wire",
+          "wikidata_id": "Q161688",
+          "title_en": "1-Wire",
+          "trueskill_mu": 57.865
+        },
+        {
+          "trueskill_sigma": 7.907,
+          "title_fr": "Protocole de communication",
+          "wikidata_id": "Q132364",
+          "title_en": "Communication protocol",
+          "trueskill_mu": 57.631
+        }
+      ]
+    },
+    {
+      "resource_id": "62b4852b0a7c97c37e39771e5e3f2cac",
+      "title": "SSH Handshake Explained",
+      "url": "https://gravitational.com/blog/ssh-handshake-explained/",
+      "lang": "en",
+      "readability_score": 59.582,
+      "created_on": "2019-11-05T11:42:00.272484+00:00",
+      "updated_on": "2019-11-05T11:42:58.080190+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.737,
+          "title_fr": "Échange de clés Diffie-Hellman",
+          "wikidata_id": "Q623447",
+          "title_en": "Diffie–Hellman key exchange",
+          "trueskill_mu": 44.966
+        },
+        {
+          "trueskill_sigma": 11.352,
+          "title_fr": "Cryptographie sur les courbes elliptiques",
+          "wikidata_id": "Q1048911",
+          "title_en": "Elliptic-curve cryptography",
+          "trueskill_mu": 45.007
+        },
+        {
+          "trueskill_sigma": 10.974,
+          "title_fr": "SSH File Transfer Protocol",
+          "wikidata_id": "Q1126823",
+          "title_en": "SSH File Transfer Protocol",
+          "trueskill_mu": 45.056
+        },
+        {
+          "trueskill_sigma": 10.609,
+          "title_fr": "Secure Shell",
+          "wikidata_id": "Q170460",
+          "title_en": "Secure Shell",
+          "trueskill_mu": 45.227
+        },
+        {
+          "trueskill_sigma": 12.462,
+          "title_fr": "Suite cryptographique",
+          "wikidata_id": "Q1092688",
+          "title_en": "Cipher suite",
+          "trueskill_mu": 45.391
+        },
+        {
+          "trueskill_sigma": 12.462,
+          "title_fr": null,
+          "wikidata_id": "Q17088419",
+          "title_en": "Distributed file system for cloud",
+          "trueskill_mu": 45.391
+        },
+        {
+          "trueskill_sigma": 12.462,
+          "title_fr": "Transport Layer Security",
+          "wikidata_id": "Q206494",
+          "title_en": "Transport Layer Security",
+          "trueskill_mu": 45.391
+        }
+      ]
+    },
+    {
+      "resource_id": "90e3ac5174caf43d30f150e0eef243a9",
+      "title": "Memory Management Unit: RISCV OS in Rust",
+      "url": "http://osblog.stephenmarz.com/ch3.2.html",
+      "lang": "en",
+      "readability_score": 73.043,
+      "created_on": "2019-11-05T11:36:48.554567+00:00",
+      "updated_on": "2019-11-05T11:38:12.960251+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.587,
+          "title_fr": null,
+          "wikidata_id": "Q7644318",
+          "title_en": "Supervisor Call instruction",
+          "trueskill_mu": 37.936
+        },
+        {
+          "trueskill_sigma": 11.038,
+          "title_fr": "Erreur de page",
+          "wikidata_id": "Q1928607",
+          "title_en": "Page fault",
+          "trueskill_mu": 38.084
+        },
+        {
+          "trueskill_sigma": 10.468,
+          "title_fr": null,
+          "wikidata_id": "Q2308807",
+          "title_en": "Memory management",
+          "trueskill_mu": 38.243
+        },
+        {
+          "trueskill_sigma": 9.862,
+          "title_fr": "MIMO (télécommunications)",
+          "wikidata_id": "Q176862",
+          "title_en": "MIMO",
+          "trueskill_mu": 38.419
+        },
+        {
+          "trueskill_sigma": 9.186,
+          "title_fr": "RISC OS",
+          "wikidata_id": "Q1202514",
+          "title_en": "RISC OS",
+          "trueskill_mu": 38.636
+        },
+        {
+          "trueskill_sigma": 7.59,
+          "title_fr": "RISC-V",
+          "wikidata_id": "Q17637401",
+          "title_en": "RISC-V",
+          "trueskill_mu": 40.13
+        },
+        {
+          "trueskill_sigma": 8.298,
+          "title_fr": null,
+          "wikidata_id": "Q4413527",
+          "title_en": "X86 memory segmentation",
+          "trueskill_mu": 33.449
+        }
+      ]
+    },
+    {
+      "resource_id": "a57ce4a4c41ec8992435cf283f5adbbf",
+      "title": "What Shape Is the Universe? A New Study Suggests We’ve Got It All Wrong",
+      "url": "https://www.quantamagazine.org/what-shape-is-the-universe-closed-or-flat-20191104/",
+      "lang": "en",
+      "readability_score": 61.631,
+      "created_on": "2019-11-05T11:35:18.685160+00:00",
+      "updated_on": "2019-11-05T11:36:13.159120+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.737,
+          "title_fr": "Lentille gravitationnelle",
+          "wikidata_id": "Q185243",
+          "title_en": "Gravitational lens",
+          "trueskill_mu": 43.89
+        },
+        {
+          "trueskill_sigma": 11.352,
+          "title_fr": "Oscillations acoustiques des baryons",
+          "wikidata_id": "Q809676",
+          "title_en": "Baryon acoustic oscillations",
+          "trueskill_mu": 43.939
+        },
+        {
+          "trueskill_sigma": 10.974,
+          "title_fr": "Baryon",
+          "wikidata_id": "Q159731",
+          "title_en": "Baryon",
+          "trueskill_mu": 43.999
+        },
+        {
+          "trueskill_sigma": 10.609,
+          "title_fr": "Loi de Hubble-Lemaître",
+          "wikidata_id": "Q179916",
+          "title_en": "Hubble's law",
+          "trueskill_mu": 44.207
+        },
+        {
+          "trueskill_sigma": 12.462,
+          "title_fr": "Big Bang",
+          "wikidata_id": "Q323",
+          "title_en": "Big Bang",
+          "trueskill_mu": 44.405
+        },
+        {
+          "trueskill_sigma": 12.462,
+          "title_fr": "Espace-temps",
+          "wikidata_id": "Q133327",
+          "title_en": "Spacetime",
+          "trueskill_mu": 44.405
+        },
+        {
+          "trueskill_sigma": 12.462,
+          "title_fr": "Inflation cosmique",
+          "wikidata_id": "Q273508",
+          "title_en": "Inflation (cosmology)",
+          "trueskill_mu": 44.405
+        }
+      ]
+    },
+    {
+      "resource_id": "8207d4c5d00c665644d41dff92f928b6",
+      "title": "Voyager 2’s Discoveries From Interstellar Space",
+      "url": "https://www.nytimes.com/2019/11/04/science/voyager-2-interstellar-solar-wind.html",
+      "lang": "en",
+      "readability_score": 67.054,
+      "created_on": "2019-11-05T11:33:51.227030+00:00",
+      "updated_on": "2019-11-05T11:34:42.555198+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.422,
+          "title_fr": "Nuage interstellaire",
+          "wikidata_id": "Q1054444",
+          "title_en": "Interstellar cloud",
+          "trueskill_mu": 41.118
+        },
+        {
+          "trueskill_sigma": 10.743,
+          "title_fr": "Voyager 2",
+          "wikidata_id": "Q48475",
+          "title_en": "Voyager 2",
+          "trueskill_mu": 41.533
+        },
+        {
+          "trueskill_sigma": 12.066,
+          "title_fr": "Système solaire",
+          "wikidata_id": "Q544",
+          "title_en": "Solar System",
+          "trueskill_mu": 42.992
+        },
+        {
+          "trueskill_sigma": 12.066,
+          "title_fr": "Vent solaire",
+          "wikidata_id": "Q79833",
+          "title_en": "Solar wind",
+          "trueskill_mu": 42.992
+        }
+      ]
+    },
+    {
+      "resource_id": "f896fd55bcd3d2a404252db82a928dff",
+      "title": "Light Commands",
+      "url": "https://lightcommands.com/",
+      "lang": "en",
+      "readability_score": 52.204,
+      "created_on": "2019-11-05T11:32:17.469736+00:00",
+      "updated_on": "2019-11-05T11:33:23.301000+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.939,
+          "title_fr": null,
+          "wikidata_id": "Q486494",
+          "title_en": "Sensor fusion",
+          "trueskill_mu": 45.614
+        },
+        {
+          "trueskill_sigma": 12.553,
+          "title_fr": "Assistant Google",
+          "wikidata_id": "Q25025241",
+          "title_en": "Google Assistant",
+          "trueskill_mu": 44.464
+        },
+        {
+          "trueskill_sigma": 12.553,
+          "title_fr": "Commande (patron de conception)",
+          "wikidata_id": "Q386776",
+          "title_en": "Command pattern",
+          "trueskill_mu": 44.464
+        }
+      ]
+    },
+    {
+      "resource_id": "cefdfc80367d5d9f4de4c680c2289e67",
+      "title": "Immutable.js",
+      "url": "https://immutable-js.github.io/immutable-js/docs/#/",
+      "lang": "en",
+      "readability_score": 65.083,
+      "created_on": "2019-10-28T15:47:21.508507+00:00",
+      "updated_on": "2019-11-03T14:55:05.154904+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 2.361,
+          "title_fr": "Objet immuable",
+          "wikidata_id": "Q23828",
+          "title_en": "Immutable object",
+          "trueskill_mu": 42.16
+        },
+        {
+          "trueskill_sigma": 2.354,
+          "title_fr": null,
+          "wikidata_id": "Q17092321",
+          "title_en": "Immutable interface",
+          "trueskill_mu": 42.608
+        },
+        {
+          "trueskill_sigma": 2.354,
+          "title_fr": "JavaScript",
+          "wikidata_id": "Q2005",
+          "title_en": "JavaScript",
+          "trueskill_mu": 42.608
+        }
+      ]
+    },
+    {
+      "resource_id": "3baf75a8c39aaed2ae52c3e0909bd24e",
+      "title": "A computer built from NOR gates: inside the Apollo Guidance Computer",
+      "url": "http://www.righto.com/2019/09/a-computer-built-from-nor-gates-inside.html?m=1",
+      "lang": "en",
+      "readability_score": 59.726,
+      "created_on": "2019-10-23T21:46:50.409996+00:00",
+      "updated_on": "2019-10-24T09:57:30.296797+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 13.531,
+          "title_fr": "Processeur",
+          "wikidata_id": "Q5300",
+          "title_en": "Central processing unit",
+          "trueskill_mu": 43.197
+        },
+        {
+          "trueskill_sigma": 13.531,
+          "title_fr": null,
+          "wikidata_id": "Q18343761",
+          "title_en": "Memory cell (computing)",
+          "trueskill_mu": 43.197
+        },
+        {
+          "trueskill_sigma": 13.531,
+          "title_fr": "Unité arithmétique et logique",
+          "wikidata_id": "Q192903",
+          "title_en": "Arithmetic logic unit",
+          "trueskill_mu": 43.197
+        }
+      ]
+    },
+    {
+      "resource_id": "04c0e29d96049514a1db04768aef8092",
+      "title": "Fast HSV to RGB Conversion",
+      "url": "http://www.vagrearg.org/content/hsvrgb",
+      "lang": "en",
+      "readability_score": 61.05,
+      "created_on": "2019-10-04T13:56:33.320001+00:00",
+      "updated_on": "2019-10-09T09:57:43.687456+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.159,
+          "title_fr": "Teinte saturation lumière",
+          "wikidata_id": "Q376492",
+          "title_en": "HSL and HSV",
+          "trueskill_mu": 44.137
+        },
+        {
+          "trueskill_sigma": 9.854,
+          "title_fr": "Espace de couleur",
+          "wikidata_id": "Q166863",
+          "title_en": "Color space",
+          "trueskill_mu": 44.322
+        },
+        {
+          "trueskill_sigma": 11.194,
+          "title_fr": null,
+          "wikidata_id": "Q5449888",
+          "title_en": "Find first set",
+          "trueskill_mu": 43.157
+        },
+        {
+          "trueskill_sigma": 11.194,
+          "title_fr": "Virgule flottante",
+          "wikidata_id": "Q117879",
+          "title_en": "Floating-point arithmetic",
+          "trueskill_mu": 43.157
+        }
+      ]
+    },
+    {
+      "resource_id": "bd18c007ca535be98a809f98478eea04",
+      "title": "Spaghetti sort",
+      "url": "https://advent.morr.cc/2018/15",
+      "lang": "en",
+      "readability_score": 75.595,
+      "created_on": "2019-09-30T09:28:03.045565+00:00",
+      "updated_on": "2019-10-07T14:33:19.939512+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 4.588,
+          "title_fr": null,
+          "wikidata_id": "Q22681954",
+          "title_en": "Natural sort order",
+          "trueskill_mu": 37.032
+        },
+        {
+          "trueskill_sigma": 4.661,
+          "title_fr": "Tri topologique",
+          "wikidata_id": "Q753127",
+          "title_en": "Topological sorting",
+          "trueskill_mu": 37.287
+        },
+        {
+          "trueskill_sigma": 4.661,
+          "title_fr": "Complexité en temps",
+          "wikidata_id": "Q2393193",
+          "title_en": "Time complexity",
+          "trueskill_mu": 37.287
+        }
+      ]
+    },
+    {
+      "resource_id": "5eaa236013a196c18caebedce80a3252",
+      "title": "Reinventing Home Directories",
+      "url": "https://media.ccc.de/v/ASG2019-164-reinventing-home-directories#t=1986",
+      "lang": "en",
+      "readability_score": 55.888,
+      "created_on": "2019-09-23T09:49:28.273375+00:00",
+      "updated_on": "2019-10-03T12:59:21.869409+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 2.009,
+          "title_fr": "Répertoire personnel",
+          "wikidata_id": "Q818391",
+          "title_en": "Home directory",
+          "trueskill_mu": 47.056
+        }
+      ]
+    },
+    {
+      "resource_id": "5c399ad0d24fa4a928af74f4fe1e3093",
+      "title": "Announcing the Rule 30 Prizes—Stephen Wolfram Writings",
+      "url": "https://writings.stephenwolfram.com/2019/10/announcing-the-rule-30-prizes/#results-analogies-and-intuitions",
+      "lang": "en",
+      "readability_score": 59.27,
+      "created_on": "2019-10-02T09:16:40.859004+00:00",
+      "updated_on": "2019-10-02T09:18:53.909036+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.438,
+          "title_fr": "Constante de Champernowne",
+          "wikidata_id": "Q1061180",
+          "title_en": "Champernowne constant",
+          "trueskill_mu": 45.163
+        },
+        {
+          "trueskill_sigma": 10.73,
+          "title_fr": "Théorèmes d'incomplétude de Gödel",
+          "wikidata_id": "Q200787",
+          "title_en": "Gödel's incompleteness theorems",
+          "trueskill_mu": 45.243
+        },
+        {
+          "trueskill_sigma": 9.972,
+          "title_fr": "Axiomes de Peano",
+          "wikidata_id": "Q842755",
+          "title_en": "Peano axioms",
+          "trueskill_mu": 45.337
+        },
+        {
+          "trueskill_sigma": 5.827,
+          "title_fr": null,
+          "wikidata_id": "Q1876486",
+          "title_en": "Rule 110",
+          "trueskill_mu": 46.521
+        },
+        {
+          "trueskill_sigma": 8.5,
+          "title_fr": null,
+          "wikidata_id": "Q2918510",
+          "title_en": "Rule 30",
+          "trueskill_mu": 45.653
+        },
+        {
+          "trueskill_sigma": 8.5,
+          "title_fr": null,
+          "wikidata_id": "Q1092142",
+          "title_en": "Computational resource",
+          "trueskill_mu": 45.653
+        }
+      ]
+    },
+    {
+      "resource_id": "d8ed7b00b27a5a1193374ac1ac413724",
+      "title": "A computer built from NOR gates: inside the Apollo Guidance Computer",
+      "url": "https://www.righto.com/2019/09/a-computer-built-from-nor-gates-inside.html",
+      "lang": "en",
+      "readability_score": 59.726,
+      "created_on": "2019-09-30T09:29:42.409477+00:00",
+      "updated_on": "2019-09-30T09:30:33.235527+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.703,
+          "title_fr": null,
+          "wikidata_id": "Q8065380",
+          "title_en": "NOR gate",
+          "trueskill_mu": 44.894
+        },
+        {
+          "trueskill_sigma": 11.289,
+          "title_fr": "Automate programmable industriel",
+          "wikidata_id": "Q188674",
+          "title_en": "Programmable logic controller",
+          "trueskill_mu": 44.947
+        },
+        {
+          "trueskill_sigma": 10.891,
+          "title_fr": null,
+          "wikidata_id": "Q2112217",
+          "title_en": "Programmable logic array",
+          "trueskill_mu": 45.124
+        },
+        {
+          "trueskill_sigma": 12.939,
+          "title_fr": null,
+          "wikidata_id": "Q18343761",
+          "title_en": "Memory cell (computing)",
+          "trueskill_mu": 45.275
+        },
+        {
+          "trueskill_sigma": 12.939,
+          "title_fr": "Processeur",
+          "wikidata_id": "Q5300",
+          "title_en": "Central processing unit",
+          "trueskill_mu": 45.275
+        },
+        {
+          "trueskill_sigma": 12.939,
+          "title_fr": "Unité arithmétique et logique",
+          "wikidata_id": "Q192903",
+          "title_en": "Arithmetic logic unit",
+          "trueskill_mu": 45.275
+        }
+      ]
+    },
+    {
+      "resource_id": "79d463fbf19c76475a67edaf35fa396b",
+      "title": "LED multiplexing layouts for hand-crafting",
+      "url": "http://crawlingrobotfortress.blogspot.com/2019/02/led-multiplexing-layouts-for-hand.html",
+      "lang": "en",
+      "readability_score": 57.767,
+      "created_on": "2019-09-28T14:04:40.921704+00:00",
+      "updated_on": "2019-09-28T14:05:08.361421+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.461,
+          "title_fr": null,
+          "wikidata_id": "Q611961",
+          "title_en": "Charlieplexing",
+          "trueskill_mu": 45.947
+        },
+        {
+          "trueskill_sigma": 10.824,
+          "title_fr": "Multiplexeur",
+          "wikidata_id": "Q189434",
+          "title_en": "Multiplexer",
+          "trueskill_mu": 46.081
+        },
+        {
+          "trueskill_sigma": 12.317,
+          "title_fr": "Wrapper (électronique)",
+          "wikidata_id": "Q605181",
+          "title_en": "Wire wrap",
+          "trueskill_mu": 45.298
+        },
+        {
+          "trueskill_sigma": 12.317,
+          "title_fr": "Circuit imprimé",
+          "wikidata_id": "Q173350",
+          "title_en": "Printed circuit board",
+          "trueskill_mu": 45.298
+        }
+      ]
+    },
+    {
+      "resource_id": "4ff09b3d235443c8fb5e6a2446733ea3",
+      "title": "Why GraalVM",
+      "url": "https://www.graalvm.org/docs/why-graal/",
+      "lang": "en",
+      "readability_score": 47.775,
+      "created_on": "2019-09-25T17:14:10.472930+00:00",
+      "updated_on": "2019-09-25T17:15:31.789665+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 15.331,
+          "title_fr": null,
+          "wikidata_id": "Q7922633",
+          "title_en": "Versant Object Database",
+          "trueskill_mu": 45.608
+        },
+        {
+          "trueskill_sigma": 15.331,
+          "title_fr": null,
+          "wikidata_id": "Q5267020",
+          "title_en": "Device driver synthesis and verification",
+          "trueskill_mu": 45.608
+        },
+        {
+          "trueskill_sigma": 15.331,
+          "title_fr": null,
+          "wikidata_id": "Q6165051",
+          "title_en": "Java performance",
+          "trueskill_mu": 45.608
+        },
+        {
+          "trueskill_sigma": 15.331,
+          "title_fr": "Optimisation de code",
+          "wikidata_id": "Q1156793",
+          "title_en": "Program optimization",
+          "trueskill_mu": 45.608
+        },
+        {
+          "trueskill_sigma": 15.331,
+          "title_fr": "Machine virtuelle Java",
+          "wikidata_id": "Q193321",
+          "title_en": "Java virtual machine",
+          "trueskill_mu": 45.608
+        }
+      ]
+    },
+    {
+      "resource_id": "e8e4fd3d86edc6d6f6af693a415dc8d3",
+      "title": "What is a hard link? -- definition by The Linux Information Project (LINFO)",
+      "url": "http://www.linfo.org/hard_link.html",
+      "lang": "en",
+      "readability_score": 63.131,
+      "created_on": "2019-09-25T15:51:28.986265+00:00",
+      "updated_on": "2019-09-25T15:51:28.986265+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 14.525,
+          "title_fr": "Fichier informatique",
+          "wikidata_id": "Q82753",
+          "title_en": "Computer file",
+          "trueskill_mu": 40.425
+        },
+        {
+          "trueskill_sigma": 14.525,
+          "title_fr": null,
+          "wikidata_id": "Q3933446",
+          "title_en": "Resource fork",
+          "trueskill_mu": 40.425
+        }
+      ]
+    },
+    {
+      "resource_id": "ac96b8e46c4ea886c9ff7aa351f7a6de",
+      "title": "Gaussian Processes, not quite for dummies",
+      "url": "https://yugeten.github.io/posts/2019/09/GP/",
+      "lang": "en",
+      "readability_score": 57.627,
+      "created_on": "2019-09-17T09:16:14.859179+00:00",
+      "updated_on": "2019-09-25T14:53:54.731173+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 5.297,
+          "title_fr": null,
+          "wikidata_id": "Q7915794",
+          "title_en": "Variational Bayesian methods",
+          "trueskill_mu": 46.186
+        },
+        {
+          "trueskill_sigma": 5.297,
+          "title_fr": null,
+          "wikidata_id": "Q25303826",
+          "title_en": "Polynomial least squares",
+          "trueskill_mu": 46.186
+        }
+      ]
+    },
+    {
+      "resource_id": "3881603808fbe9aced6945d41caacf64",
+      "title": "DualDisc Format History: Not Quite a CD, Technically a DVD",
+      "url": "https://tedium.co/2019/09/19/dualdisc-compact-disc-history/?utm_source=Tedium&utm_campaign=Tedium_09_19_2019&utm_medium=email",
+      "lang": "en",
+      "readability_score": 66.22,
+      "created_on": "2019-09-23T09:27:20.069283+00:00",
+      "updated_on": "2019-09-23T09:28:39.428684+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.474,
+          "title_fr": "Disque optique",
+          "wikidata_id": "Q234870",
+          "title_en": "Optical disc",
+          "trueskill_mu": 41.537
+        },
+        {
+          "trueskill_sigma": 10.853,
+          "title_fr": "Red Book (norme CD audio)",
+          "wikidata_id": "Q1121020",
+          "title_en": "Compact Disc Digital Audio",
+          "trueskill_mu": 41.861
+        },
+        {
+          "trueskill_sigma": 12.414,
+          "title_fr": "DVD",
+          "wikidata_id": "Q5294",
+          "title_en": "DVD",
+          "trueskill_mu": 42.051
+        },
+        {
+          "trueskill_sigma": 12.414,
+          "title_fr": "Dualdisc",
+          "wikidata_id": "Q596905",
+          "title_en": "DualDisc",
+          "trueskill_mu": 42.051
+        }
+      ]
+    },
+    {
+      "resource_id": "2ccb1b610359fb610dd499dbf734235d",
+      "title": "Inpainting - Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Inpainting",
+      "lang": "en",
+      "readability_score": 49.838,
+      "created_on": "2019-09-18T14:37:08.569408+00:00",
+      "updated_on": "2019-09-18T14:37:08.569408+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 14.091,
+          "title_fr": null,
+          "wikidata_id": "Q4633097",
+          "title_en": "2D to 3D conversion",
+          "trueskill_mu": 52.099
+        },
+        {
+          "trueskill_sigma": 14.091,
+          "title_fr": "Inpainting",
+          "wikidata_id": "Q1628157",
+          "title_en": "Inpainting",
+          "trueskill_mu": 52.099
+        }
+      ]
+    },
+    {
+      "resource_id": "9618724f68bf4f9a546011cf71866ce9",
+      "title": "Simon Niklaus - 3D Ken Burns Effect from a Single Image",
+      "url": "http://sniklaus.com/papers/kenburns",
+      "lang": "en",
+      "readability_score": 36.013,
+      "created_on": "2019-09-16T12:57:54.967651+00:00",
+      "updated_on": "2019-09-18T14:36:34.686175+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.506,
+          "title_fr": "Raffinement",
+          "wikidata_id": "Q3417382",
+          "title_en": "Refinement (computing)",
+          "trueskill_mu": 57.261
+        },
+        {
+          "trueskill_sigma": 9.015,
+          "title_fr": null,
+          "wikidata_id": "Q7446278",
+          "title_en": "Segmentation-based object categorization",
+          "trueskill_mu": 57.193
+        },
+        {
+          "trueskill_sigma": 8.422,
+          "title_fr": "Inpainting",
+          "wikidata_id": "Q1628157",
+          "title_en": "Inpainting",
+          "trueskill_mu": 56.872
+        },
+        {
+          "trueskill_sigma": 8.422,
+          "title_fr": "Effet Ken Burns",
+          "wikidata_id": "Q3048947",
+          "title_en": "Ken Burns effect",
+          "trueskill_mu": 56.872
+        }
+      ]
+    },
+    {
+      "resource_id": "5813479d0fc3ae983c1d2939ff1c2973",
+      "title": "Rule 110",
+      "url": "http://mathworld.wolfram.com/Rule110.html",
+      "lang": "en",
+      "readability_score": 55.115,
+      "created_on": "2019-09-16T09:08:26.518444+00:00",
+      "updated_on": "2019-09-17T10:26:44.084049+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 5.814,
+          "title_fr": null,
+          "wikidata_id": "Q2183161",
+          "title_en": "Rule 184",
+          "trueskill_mu": 47.399
+        },
+        {
+          "trueskill_sigma": 3.808,
+          "title_fr": null,
+          "wikidata_id": "Q188715",
+          "title_en": "Statistical mechanics",
+          "trueskill_mu": 47.391
+        },
+        {
+          "trueskill_sigma": 3.394,
+          "title_fr": "Turing-complet",
+          "wikidata_id": "Q197970",
+          "title_en": "Turing completeness",
+          "trueskill_mu": 47.417
+        },
+        {
+          "trueskill_sigma": 3.359,
+          "title_fr": "Automate cellulaire",
+          "wikidata_id": "Q189156",
+          "title_en": "Cellular automaton",
+          "trueskill_mu": 47.477
+        }
+      ]
+    },
+    {
+      "resource_id": "fc2b16df514d0ff53d104fa3923bf9df",
+      "title": "Foundations of Mathematics -- from Wolfram MathWorld",
+      "url": "http://mathworld.wolfram.com/topics/FoundationsofMathematics.html",
+      "lang": "en",
+      "readability_score": 33.537,
+      "created_on": "2019-09-16T13:29:22.162489+00:00",
+      "updated_on": "2019-09-16T13:49:30.686856+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 9.021,
+          "title_fr": "WolframAlpha",
+          "wikidata_id": "Q207006",
+          "title_en": "Wolfram Alpha",
+          "trueskill_mu": 58.283
+        }
+      ]
+    },
+    {
+      "resource_id": "f69379c24554557b7baf4a13c641555d",
+      "title": "Will Mapping Ancient Rome Save Western Urbanism—and Civilization?",
+      "url": "https://www.theamericanconservative.com/urbs/will-mapping-ancient-rome-save-western-urbanism-and-civilization/",
+      "lang": "en",
+      "readability_score": 50.913,
+      "created_on": "2019-09-16T12:55:36.328696+00:00",
+      "updated_on": "2019-09-16T12:56:26.627261+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.298,
+          "title_fr": null,
+          "wikidata_id": "Q908472",
+          "title_en": "Domus Augustana",
+          "trueskill_mu": 49.533
+        },
+        {
+          "trueskill_sigma": 8.296,
+          "title_fr": "Rome antique",
+          "wikidata_id": "Q1747689",
+          "title_en": "Ancient Rome",
+          "trueskill_mu": 49.55
+        }
+      ]
+    },
+    {
+      "resource_id": "91318ad41a9add3ee280a1abeb4b995c",
+      "title": "Get started | Learning Music (Beta)",
+      "url": "https://learningmusic.ableton.com/",
+      "lang": "en",
+      "readability_score": 67.924,
+      "created_on": "2019-09-16T12:54:57.241370+00:00",
+      "updated_on": "2019-09-16T12:54:57.241370+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 12.129,
+          "title_fr": "Forme musicale",
+          "wikidata_id": "Q862597",
+          "title_en": "Musical form",
+          "trueskill_mu": 40.508
+        }
+      ]
+    },
+    {
+      "resource_id": "d2fcfca4fe54392a25b4fdb63dae1c1e",
+      "title": "Illusions of Sound Perception, from Rhythm and Transforms, Sethares",
+      "url": "http://sethares.engr.wisc.edu/htmlRT/4%20sound_illusions.html",
+      "lang": "en",
+      "readability_score": 53.509,
+      "created_on": "2019-09-16T11:44:40.979630+00:00",
+      "updated_on": "2019-09-16T11:45:27.938712+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.039,
+          "title_fr": "Gamme de Shepard",
+          "wikidata_id": "Q1191396",
+          "title_en": "Shepard tone",
+          "trueskill_mu": 48.185
+        },
+        {
+          "trueskill_sigma": 9.951,
+          "title_fr": "Hauteur (musique)",
+          "wikidata_id": "Q118819",
+          "title_en": "Pitch (music)",
+          "trueskill_mu": 48.268
+        },
+        {
+          "trueskill_sigma": 9.951,
+          "title_fr": "Illusion",
+          "wikidata_id": "Q182593",
+          "title_en": "Illusion",
+          "trueskill_mu": 48.268
+        }
+      ]
+    },
+    {
+      "resource_id": "7ab2d6452666000256d7d18f530452fa",
+      "title": "L’apprentissage entre pairs en 10 étapes - HBR",
+      "url": "https://www.hbrfrance.fr/chroniques-experts/2017/08/16475-lapprentissage-entre-pairs-10-etapes/",
+      "lang": "fr",
+      "readability_score": 76.644,
+      "created_on": "2019-09-16T09:02:24.425180+00:00",
+      "updated_on": "2019-09-16T09:02:24.425180+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 6.523,
+          "title_fr": null,
+          "wikidata_id": "Q7160405",
+          "title_en": "Peer learning",
+          "trueskill_mu": 34.473
+        },
+        {
+          "trueskill_sigma": 7.902,
+          "title_fr": null,
+          "wikidata_id": "Q7160412",
+          "title_en": "Peer to Peer University",
+          "trueskill_mu": 39.706
+        }
+      ]
+    },
+    {
+      "resource_id": "cedb172146000ddd3fb1320a89ce09ba",
+      "title": "The Mute Button",
+      "url": "https://waitbutwhy.com/2019/09/mute-button.html",
+      "lang": "en",
+      "readability_score": 65.29,
+      "created_on": "2019-09-15T20:33:53.312043+00:00",
+      "updated_on": "2019-09-15T20:39:40.748743+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.368,
+          "title_fr": null,
+          "wikidata_id": "Q5500729",
+          "title_en": "Freedom of expression in India",
+          "trueskill_mu": 42.031
+        },
+        {
+          "trueskill_sigma": 10.587,
+          "title_fr": "Liberté d'expression",
+          "wikidata_id": "Q22692",
+          "title_en": "Freedom of speech",
+          "trueskill_mu": 42.17
+        },
+        {
+          "trueskill_sigma": 9.748,
+          "title_fr": "Télédiffusion",
+          "wikidata_id": "Q15078788",
+          "title_en": "Broadcasting",
+          "trueskill_mu": 42.325
+        },
+        {
+          "trueskill_sigma": 8.773,
+          "title_fr": null,
+          "wikidata_id": "Q24964538",
+          "title_en": "Self-perpetuation",
+          "trueskill_mu": 42.499
+        },
+        {
+          "trueskill_sigma": 7.466,
+          "title_fr": "Censure",
+          "wikidata_id": "Q543",
+          "title_en": "Censorship",
+          "trueskill_mu": 42.674
+        }
+      ]
+    },
+    {
+      "resource_id": "8e28ddf2a9505a4c239e822b353d6185",
+      "title": "No Bones about It, People Recognize Objects by Visualizing Their &ldquo;Skeletons&rdquo;",
+      "url": "https://www.scientificamerican.com/article/no-bones-about-it-people-recognize-objects-by-visualizing-their-skeletons/",
+      "lang": "en",
+      "readability_score": 49.831,
+      "created_on": "2019-09-11T13:30:27.765842+00:00",
+      "updated_on": "2019-09-11T13:31:10.331022+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.873,
+          "title_fr": null,
+          "wikidata_id": "Q7167036",
+          "title_en": "Perceptual learning",
+          "trueskill_mu": 50.087
+        },
+        {
+          "trueskill_sigma": 9.542,
+          "title_fr": "Neurosciences cognitives",
+          "wikidata_id": "Q1138951",
+          "title_en": "Cognitive neuroscience",
+          "trueskill_mu": 50.085
+        },
+        {
+          "trueskill_sigma": 7.907,
+          "title_fr": null,
+          "wikidata_id": "Q5141226",
+          "title_en": "Cognitive neuroscience of visual object recognition",
+          "trueskill_mu": 50.082
+        }
+      ]
+    },
+    {
+      "resource_id": "d4b76e924c854c6270718548f5693a66",
+      "title": "ungleich blog - Turn off DoH, Firefox. Now.",
+      "url": "https://ungleich.ch/en-us/cms/blog/2019/09/11/turn-off-doh-firefox/",
+      "lang": "en",
+      "readability_score": 69.297,
+      "created_on": "2019-09-11T13:29:42.602096+00:00",
+      "updated_on": "2019-09-11T13:29:54.327910+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.426,
+          "title_fr": null,
+          "wikidata_id": "Q52061056",
+          "title_en": "DNS over TLS",
+          "trueskill_mu": 39.941
+        },
+        {
+          "trueskill_sigma": 10.75,
+          "title_fr": null,
+          "wikidata_id": "Q50826096",
+          "title_en": "DNS over HTTPS",
+          "trueskill_mu": 40.316
+        },
+        {
+          "trueskill_sigma": 12.09,
+          "title_fr": "Domain Name System",
+          "wikidata_id": "Q8767",
+          "title_en": "Domain Name System",
+          "trueskill_mu": 39.063
+        },
+        {
+          "trueskill_sigma": 12.09,
+          "title_fr": "Mozilla (communauté)",
+          "wikidata_id": "Q9661",
+          "title_en": "Mozilla",
+          "trueskill_mu": 39.063
+        }
+      ]
+    },
+    {
+      "resource_id": "b12929ebc30aa004e194c833e07cca6c",
+      "title": "ungleich blog - The History of Linux Complexity",
+      "url": "https://ungleich.ch/en-us/cms/blog/2019/06/26/history-of-linux-complexity/",
+      "lang": "en",
+      "readability_score": 69.207,
+      "created_on": "2019-09-11T13:27:59.420235+00:00",
+      "updated_on": "2019-09-11T13:27:59.420235+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 14.575,
+          "title_fr": "Linux",
+          "wikidata_id": "Q388",
+          "title_en": "Linux",
+          "trueskill_mu": 39.829
+        },
+        {
+          "trueskill_sigma": 14.575,
+          "title_fr": "Red Hat",
+          "wikidata_id": "Q485593",
+          "title_en": "Red Hat",
+          "trueskill_mu": 39.829
+        }
+      ]
+    },
+    {
+      "resource_id": "e647891b1ab9ae81c146254fe7d59967",
+      "title": "Comic: Topological Manifolds | Adam Munich",
+      "url": "https://adammunich.com/topological-manifolds/",
+      "lang": "en",
+      "readability_score": 66.676,
+      "created_on": "2019-09-11T13:25:52.813402+00:00",
+      "updated_on": "2019-09-11T13:26:10.040298+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.268,
+          "title_fr": "Variété topologique",
+          "wikidata_id": "Q2721559",
+          "title_en": "Topological manifold",
+          "trueskill_mu": 34.766
+        }
+      ]
+    },
+    {
+      "resource_id": "701b51cf344155c37bd374be1837f38b",
+      "title": "A Few of My Favorite Spaces: The SNCF Metric",
+      "url": "https://blogs.scientificamerican.com/roots-of-unity/a-few-of-my-favorite-spaces-the-sncf-metric/",
+      "lang": "en",
+      "readability_score": 75.712,
+      "created_on": "2019-09-10T10:49:33.820458+00:00",
+      "updated_on": "2019-09-10T13:20:07.072724+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 7.378,
+          "title_fr": "Distance (mathématiques)",
+          "wikidata_id": "Q126017",
+          "title_en": "Distance",
+          "trueskill_mu": 37.144
+        },
+        {
+          "trueskill_sigma": 7.378,
+          "title_fr": "Espace métrique",
+          "wikidata_id": "Q180953",
+          "title_en": "Metric space",
+          "trueskill_mu": 37.144
+        }
+      ]
+    },
+    {
+      "resource_id": "ba02021d9e06ae58f4a655c130d97256",
+      "title": "Apprentissage profond — Wikipédia",
+      "url": "https://fr.wikipedia.org/wiki/Apprentissage_profond",
+      "lang": "fr",
+      "readability_score": 68.183,
+      "created_on": "2019-09-09T13:50:49.612663+00:00",
+      "updated_on": "2019-09-09T13:50:49.612663+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 15.354,
+          "title_fr": "Apprentissage automatique",
+          "wikidata_id": "Q2539",
+          "title_en": "Machine learning",
+          "trueskill_mu": 38.891
+        },
+        {
+          "trueskill_sigma": 15.354,
+          "title_fr": "Apprentissage profond",
+          "wikidata_id": "Q197536",
+          "title_en": "Deep learning",
+          "trueskill_mu": 38.891
+        }
+      ]
+    },
+    {
+      "resource_id": "4a1db83182d0e2631027435a2afea9b8",
+      "title": "You Won’t Believe This One Weird CPU Instruction!",
+      "url": "https://vaibhavsagar.com/blog/2019/09/08/popcount/",
+      "lang": "en",
+      "readability_score": 64.597,
+      "created_on": "2019-09-09T10:06:30.941094+00:00",
+      "updated_on": "2019-09-09T10:08:01.968277+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.314,
+          "title_fr": null,
+          "wikidata_id": "Q55611017",
+          "title_en": "Error correction code",
+          "trueskill_mu": 39.624
+        },
+        {
+          "trueskill_sigma": 10.846,
+          "title_fr": "Bitboard",
+          "wikidata_id": "Q746674",
+          "title_en": "Bitboard",
+          "trueskill_mu": 39.938
+        },
+        {
+          "trueskill_sigma": 10.379,
+          "title_fr": "Distance de Hamming",
+          "wikidata_id": "Q272172",
+          "title_en": "Hamming distance",
+          "trueskill_mu": 40.258
+        },
+        {
+          "trueskill_sigma": 9.92,
+          "title_fr": null,
+          "wikidata_id": "Q5645805",
+          "title_en": "Hamming weight",
+          "trueskill_mu": 40.738
+        },
+        {
+          "trueskill_sigma": 11.044,
+          "title_fr": "Tableau (structure de données)",
+          "wikidata_id": "Q186152",
+          "title_en": "Array data structure",
+          "trueskill_mu": 40.426
+        },
+        {
+          "trueskill_sigma": 11.044,
+          "title_fr": "Algorithme de tri",
+          "wikidata_id": "Q181593",
+          "title_en": "Sorting algorithm",
+          "trueskill_mu": 40.426
+        }
+      ]
+    },
+    {
+      "resource_id": "4d27b0774f2908ff0b28fb936bf8f960",
+      "title": "Beginner's Guide to Linkers",
+      "url": "http://www.lurklurk.org/linkers/linkers.html",
+      "lang": "en",
+      "readability_score": 65.12,
+      "created_on": "2019-09-02T09:15:56.598436+00:00",
+      "updated_on": "2019-09-05T14:24:35.211835+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.205,
+          "title_fr": null,
+          "wikidata_id": "Q523796",
+          "title_en": "Linker (computing)",
+          "trueskill_mu": 42.284
+        },
+        {
+          "trueskill_sigma": 13.864,
+          "title_fr": "Eiffel (langage)",
+          "wikidata_id": "Q732089",
+          "title_en": "Eiffel (programming language)",
+          "trueskill_mu": 42.439
+        },
+        {
+          "trueskill_sigma": 13.864,
+          "title_fr": "Sous-programme",
+          "wikidata_id": "Q190686",
+          "title_en": "Subroutine",
+          "trueskill_mu": 42.439
+        },
+        {
+          "trueskill_sigma": 13.864,
+          "title_fr": "C (langage)",
+          "wikidata_id": "Q15777",
+          "title_en": "C (programming language)",
+          "trueskill_mu": 42.439
+        },
+        {
+          "trueskill_sigma": 13.864,
+          "title_fr": "Portée (informatique)",
+          "wikidata_id": "Q1034415",
+          "title_en": "Scope (computer science)",
+          "trueskill_mu": 42.439
+        },
+        {
+          "trueskill_sigma": 13.864,
+          "title_fr": "Objective-C",
+          "wikidata_id": "Q188531",
+          "title_en": "Objective-C",
+          "trueskill_mu": 42.439
+        }
+      ]
+    },
+    {
+      "resource_id": "2cacc9c1cb228e404c453469c6d7e321",
+      "title": "A Book from Alan Turing… and a Mysterious Piece of Paper—Stephen Wolfram Blog",
+      "url": "https://blog.stephenwolfram.com/2019/08/a-book-from-alan-turing-and-a-mysterious-piece-of-paper/",
+      "lang": "en",
+      "readability_score": 71.808,
+      "created_on": "2019-08-29T11:20:51.279266+00:00",
+      "updated_on": "2019-08-29T18:07:16.548157+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.288,
+          "title_fr": "Équations de Lagrange",
+          "wikidata_id": "Q324669",
+          "title_en": "Lagrangian mechanics",
+          "trueskill_mu": 38.721
+        },
+        {
+          "trueskill_sigma": 10.408,
+          "title_fr": "Bletchley Park",
+          "wikidata_id": "Q155921",
+          "title_en": "Bletchley Park",
+          "trueskill_mu": 39.435
+        },
+        {
+          "trueskill_sigma": 8.485,
+          "title_fr": "Lambda-calcul",
+          "wikidata_id": "Q242028",
+          "title_en": "Lambda calculus",
+          "trueskill_mu": 38.615
+        },
+        {
+          "trueskill_sigma": 7.844,
+          "title_fr": "Logique combinatoire",
+          "wikidata_id": "Q1481571",
+          "title_en": "Combinatory logic",
+          "trueskill_mu": 39.073
+        },
+        {
+          "trueskill_sigma": 6.887,
+          "title_fr": "Alan Turing",
+          "wikidata_id": "Q7251",
+          "title_en": "Alan Turing",
+          "trueskill_mu": 39.476
+        }
+      ]
+    },
+    {
+      "resource_id": "92176cf0a15a4d359ed78ef11c20f060",
+      "title": "Making an MSX font",
+      "url": "http://www.ateijelo.com/blog/2016/09/13/making-an-msx-font",
+      "lang": "en",
+      "readability_score": 81.092,
+      "created_on": "2019-08-29T11:39:38.487306+00:00",
+      "updated_on": "2019-08-29T17:54:31.401074+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 9.021,
+          "title_fr": "MSX",
+          "wikidata_id": "Q853547",
+          "title_en": "MSX",
+          "trueskill_mu": 34.357
+        }
+      ]
+    },
+    {
+      "resource_id": "d34133dfa68376b5fe88f8de72c9a3ae",
+      "title": "16-bit RISC-V processor made with carbon nanotubes",
+      "url": "https://arstechnica.com/science/2019/08/16-bit-risc-v-processor-made-with-carbon-nanutubes/",
+      "lang": "en",
+      "readability_score": 58.421,
+      "created_on": "2019-08-29T11:16:36.419021+00:00",
+      "updated_on": "2019-08-29T11:16:44.159583+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.689,
+          "title_fr": "RISC-V",
+          "wikidata_id": "Q17637401",
+          "title_en": "RISC-V",
+          "trueskill_mu": 45.763
+        },
+        {
+          "trueskill_sigma": 10.689,
+          "title_fr": "Nanotube de carbone",
+          "wikidata_id": "Q1778729",
+          "title_en": "Carbon nanotube",
+          "trueskill_mu": 45.763
+        }
+      ]
+    },
+    {
+      "resource_id": "97b927b58550c5e8f63f2e3680c57697",
+      "title": "An Infinity of Suns and Planets (1798)",
+      "url": "https://longstreet.typepad.com/thesciencebookstore/2017/04/an-infinity-of-suns-and-planets-1798.html",
+      "lang": "en",
+      "readability_score": 48.655,
+      "created_on": "2019-08-26T20:48:28.658425+00:00",
+      "updated_on": "2019-08-26T20:49:25.077282+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.553,
+          "title_fr": "Thomas Wright (astronome)",
+          "wikidata_id": "Q460791",
+          "title_en": "Thomas Wright (astronomer)",
+          "trueskill_mu": 50.704
+        },
+        {
+          "trueskill_sigma": 10.988,
+          "title_fr": "Ouroboros",
+          "wikidata_id": "Q237970",
+          "title_en": "Ouroboros",
+          "trueskill_mu": 50.694
+        },
+        {
+          "trueskill_sigma": 10.443,
+          "title_fr": "Lucrèce",
+          "wikidata_id": "Q47154",
+          "title_en": "Lucretius",
+          "trueskill_mu": 50.669
+        },
+        {
+          "trueskill_sigma": 11.796,
+          "title_fr": "Univers",
+          "wikidata_id": "Q1",
+          "title_en": "Universe",
+          "trueskill_mu": 50.651
+        },
+        {
+          "trueskill_sigma": 11.796,
+          "title_fr": "Système solaire",
+          "wikidata_id": "Q544",
+          "title_en": "Solar System",
+          "trueskill_mu": 50.651
+        }
+      ]
+    },
+    {
+      "resource_id": "39d8e3dd1aa8d5420d03032d353aa12a",
+      "title": "Illustrations from Two Rare Computer Pamphlets (1945 and 1948)",
+      "url": "https://longstreet.typepad.com/thesciencebookstore/2019/08/illustrations-from-two-rare-computer-pamphlets-1945-and-1948.html",
+      "lang": "en",
+      "readability_score": 55.22,
+      "created_on": "2019-08-26T20:45:28.690552+00:00",
+      "updated_on": "2019-08-26T20:45:28.690552+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 12.129,
+          "title_fr": "IBM SSEC",
+          "wikidata_id": "Q362849",
+          "title_en": "IBM SSEC",
+          "trueskill_mu": 47.236
+        }
+      ]
+    },
+    {
+      "resource_id": "f43bf8b00050ea56dc8cca785b4b5531",
+      "title": "A Fine Map from Alexander von Humboldt (1851)",
+      "url": "https://longstreet.typepad.com/thesciencebookstore/2019/08/jf-der-erdkorper-in-seiner-gestaltung-erdansichten-entworfen-von-tr-bromme-ausgefuhrt-v-e-winckelmann-published-i.html",
+      "lang": "en",
+      "readability_score": 58.535,
+      "created_on": "2019-08-26T20:43:16.114406+00:00",
+      "updated_on": "2019-08-26T20:43:16.114406+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 12.129,
+          "title_fr": "Alexander von Humboldt",
+          "wikidata_id": "Q6694",
+          "title_en": "Alexander von Humboldt",
+          "trueskill_mu": 45.48
+        }
+      ]
+    },
+    {
+      "resource_id": "4c44c4b9a32cdee12080251d52b770c4",
+      "title": "Introducing nushell",
+      "url": "http://www.jonathanturner.org/2019/08/introducing-nushell.html",
+      "lang": "en",
+      "readability_score": 86.47,
+      "created_on": "2019-08-24T16:47:52.745917+00:00",
+      "updated_on": "2019-08-24T16:48:23.969766+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.298,
+          "title_fr": "Rust (langage)",
+          "wikidata_id": "Q575650",
+          "title_en": "Rust (programming language)",
+          "trueskill_mu": 31.353
+        },
+        {
+          "trueskill_sigma": 8.296,
+          "title_fr": "Script shell",
+          "wikidata_id": "Q959549",
+          "title_en": "Shell script",
+          "trueskill_mu": 32.019
+        }
+      ]
+    },
+    {
+      "resource_id": "bf137381051df08867c79756809b5156",
+      "title": "Hanlon's razor - RationalWiki",
+      "url": "https://rationalwiki.org/wiki/Hanlon%27s_razor",
+      "lang": "en",
+      "readability_score": 56.873,
+      "created_on": "2019-08-21T13:11:30.972714+00:00",
+      "updated_on": "2019-08-21T13:11:42.645919+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.461,
+          "title_fr": "Rasoir d'Hanlon",
+          "wikidata_id": "Q257767",
+          "title_en": "Hanlon's razor",
+          "trueskill_mu": 46.691
+        },
+        {
+          "trueskill_sigma": 9.43,
+          "title_fr": "Rasoir d'Ockham",
+          "wikidata_id": "Q131012",
+          "title_en": "Occam's razor",
+          "trueskill_mu": 50.395
+        }
+      ]
+    },
+    {
+      "resource_id": "f3f921a4d8443e55575e2038728d8fec",
+      "title": "Calculus is Deeply Irrational",
+      "url": "https://mathenchant.wordpress.com/2019/08/16/calculus-is-deeply-irrational/",
+      "lang": "en",
+      "readability_score": 66.442,
+      "created_on": "2019-08-20T17:58:01.022593+00:00",
+      "updated_on": "2019-08-20T17:58:01.022593+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 12.129,
+          "title_fr": null,
+          "wikidata_id": "Q7366581",
+          "title_en": "Root of unity modulo n",
+          "trueskill_mu": 41.293
+        }
+      ]
+    },
+    {
+      "resource_id": "054aabe8687c9d8c9666b0b5d7ebf43e",
+      "title": "4 Rules for Intuitive UX – Learn UI Design",
+      "url": "https://learnui.design/blog/4-rules-intuitive-ux.html",
+      "lang": "en",
+      "readability_score": 77.287,
+      "created_on": "2019-08-20T17:39:37.260019+00:00",
+      "updated_on": "2019-08-20T17:39:37.260019+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 12.129,
+          "title_fr": null,
+          "wikidata_id": "Q11248500",
+          "title_en": "User experience design",
+          "trueskill_mu": 35.55
+        }
+      ]
+    },
+    {
+      "resource_id": "8b3507c845c18867dc145dade2e5fd98",
+      "title": "Big Blue Open Sources Power Chip Instruction Set",
+      "url": "https://www.nextplatform.com/2019/08/20/big-blue-open-sources-power-chip-instruction-set/",
+      "lang": "en",
+      "readability_score": 57.094,
+      "created_on": "2019-08-20T17:33:54.126188+00:00",
+      "updated_on": "2019-08-20T17:34:20.591346+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 11.08,
+          "title_fr": "Jeu d'instructions",
+          "wikidata_id": "Q272683",
+          "title_en": "Instruction set architecture",
+          "trueskill_mu": 43.236
+        },
+        {
+          "trueskill_sigma": 10.52,
+          "title_fr": "PowerPC",
+          "wikidata_id": "Q209860",
+          "title_en": "PowerPC",
+          "trueskill_mu": 43.7
+        },
+        {
+          "trueskill_sigma": 11.913,
+          "title_fr": "Fondation Linux",
+          "wikidata_id": "Q858851",
+          "title_en": "Linux Foundation",
+          "trueskill_mu": 42.939
+        },
+        {
+          "trueskill_sigma": 11.913,
+          "title_fr": "Consortium OpenPower",
+          "wikidata_id": "Q16725802",
+          "title_en": "OpenPOWER Foundation",
+          "trueskill_mu": 42.939
+        }
+      ]
+    },
+    {
+      "resource_id": "0f52b790ca0b6a50dbf97be1551a17bb",
+      "title": "Crossword Panic of 1944 - Historic UK",
+      "url": "https://www.historic-uk.com/HistoryUK/HistoryofBritain/Crossword-Panic-of-1944/",
+      "lang": "en",
+      "readability_score": 63.866,
+      "created_on": "2019-08-20T17:32:02.880737+00:00",
+      "updated_on": "2019-08-20T17:33:17.663996+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 10.689,
+          "title_fr": "Winston Churchill",
+          "wikidata_id": "Q8016",
+          "title_en": "Winston Churchill",
+          "trueskill_mu": 43.024
+        },
+        {
+          "trueskill_sigma": 10.689,
+          "title_fr": "Bataille de Normandie",
+          "wikidata_id": "Q8641370",
+          "title_en": "Operation Overlord",
+          "trueskill_mu": 43.024
+        }
+      ]
+    },
+    {
+      "resource_id": "c5f99697b20e660c9d3f293019ef3213",
+      "title": "A Topographic Map of the Moon",
+      "url": "http://tabletopwhale.com/2019/08/19/a-topographic-map-of-the-moon.html",
+      "lang": "en",
+      "readability_score": 73.964,
+      "created_on": "2019-08-20T12:09:25.957991+00:00",
+      "updated_on": "2019-08-20T12:09:25.957991+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 14.575,
+          "title_fr": "Phase lunaire",
+          "wikidata_id": "Q26388",
+          "title_en": "Lunar phase",
+          "trueskill_mu": 37.31
+        },
+        {
+          "trueskill_sigma": 14.575,
+          "title_fr": "Lune",
+          "wikidata_id": "Q405",
+          "title_en": "Moon",
+          "trueskill_mu": 37.31
+        }
+      ]
+    },
+    {
+      "resource_id": "87b942bb973da3db53e64e8a4691a3d5",
+      "title": "I miss Microsoft Encarta",
+      "url": "https://www.hanselman.com/blog/IMissMicrosoftEncarta.aspx",
+      "lang": "en",
+      "readability_score": 67.487,
+      "created_on": "2019-08-20T11:55:08.484385+00:00",
+      "updated_on": "2019-08-20T11:55:08.484385+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 12.129,
+          "title_fr": "Encarta",
+          "wikidata_id": "Q231136",
+          "title_en": "Encarta",
+          "trueskill_mu": 40.74
+        }
+      ]
+    },
+    {
+      "resource_id": "89d45c4d0d7b236e0ba4613820d6f405",
+      "title": "Handler beliefs affect scent detection dog outcomes",
+      "url": "https://link.springer.com/article/10.1007%2Fs10071-010-0373-2",
+      "lang": "en",
+      "readability_score": 51.876,
+      "created_on": "2019-08-19T10:09:55.917242+00:00",
+      "updated_on": "2019-08-19T10:10:10.508794+00:00",
+      "difficulty_level": null,
+      "concepts": [
+        {
+          "trueskill_sigma": 7.785,
+          "title_fr": "Biais cognitif",
+          "wikidata_id": "Q1127759",
+          "title_en": "Cognitive bias",
+          "trueskill_mu": 54.128
+        }
+      ]
+    }
+  ]
+}
