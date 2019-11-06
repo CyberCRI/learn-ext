@@ -1,6 +1,10 @@
-export const jsonFixture = (key) => {
+import { request } from '~mixins'
+
+export const jsonFixture = async (key) => {
   // Return json file fixture from global __FIXTURES__ object.
   // Transforms the file content as js object.
   const keyname = /\.json$/.test(key) ? key : `${key}.json`
-  return JSON.parse(__FIXTURES__[keyname])
+  return request({
+    url: `/base/tests/fixtures/${keyname}`,
+  })
 }
