@@ -34,10 +34,36 @@
   }
 
   .overlay.tools {
-    z-index: 4;
+    display: flex;
+    justify-content: space-between;
+
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
+    width: 100%;
+    padding: 5px;
+
+    z-index: 4;
+
+    // Disable events on THIS element, and then enable it for all the divs inside.
+    pointer-events: none;
+
+    & > div {
+      // Re-enable the events.
+      pointer-events: all;
+    }
+
+    .layers {
+      background: transparentize(#fff, .5);
+      backdrop-filter: blur(8px);
+      border-radius: 4px;
+      padding: 2px;
+
+      button {
+        font-weight: 500;
+      }
+    }
   }
 
   .overlay.concepts {
@@ -53,6 +79,6 @@
 
     overflow: auto;
     background: transparentize(#fff, .5);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
   }
 }

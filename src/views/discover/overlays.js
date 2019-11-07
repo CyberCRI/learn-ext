@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useStore } from 'effector-react'
-import { Button, RadioGroup, Radio } from '@blueprintjs/core'
+import { Button, ButtonGroup, Divider } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import _ from 'lodash'
 
+import { i18n } from '@ilearn/modules/i18n'
 import { ResourceCollectionView } from '~components/dashboard'
 import { ConceptList } from '~components/concepts'
 import { selectedConcepts, matchingResourceSet, matchingConceptSet } from './store'
@@ -22,15 +23,30 @@ const overlayControlVariants = {
   },
 }
 
-export const OverlayTools = (props) => {
+export const LayerSelection = (props) => {
+  const i18nT = i18n.context('pages.discover.sections.atlas.layers')
   return (
     <div className='overlay tools'>
-      <Button icon='menu-closed'/>
-      <RadioGroup label='Show from resources:'>
-        <Radio label='My Resources' value='user'/>
-        <Radio label='My Group' value='group'/>
-        <Radio label='All Resources' value='all'/>
-      </RadioGroup>
+      <div>
+      </div>
+      <div>
+        <ButtonGroup alignText='center' minimal className='layers'>
+          <Button icon='layout-circle' active text={i18nT('user')}/>
+          <Button icon='layout-group-by' text={i18nT('group')}/>
+          <Button icon='layout-sorted-clusters' text={i18nT('everything')}/>
+        </ButtonGroup>
+      </div>
+      <div>
+        <Button icon='more' minimal/>
+      </div>
+    </div>
+  )
+}
+
+export const OverlayTools = (props) => {
+  return (
+    <div>
+      <LayerSelection/>
     </div>
   )
 }
