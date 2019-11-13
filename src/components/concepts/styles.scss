@@ -29,6 +29,12 @@
   }
 }
 
+.bp3-popover.wiki-popover {
+  .bp3-popover-arrow-fill {
+    fill: $dark-gray1;
+  }
+}
+
 .suggest {
   &.root {
     padding: 10px;
