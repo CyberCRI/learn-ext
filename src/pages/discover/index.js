@@ -5,7 +5,7 @@ import { ensureLogin } from '~components/input/loginSensor'
 import './style.scss'
 
 const init = () => {
-  window.atlas = setupInstance({
+  setupInstance({
     element: document.getElementById('atlas'),
     pixelRatio: window.devicePixelRatio || 1,
   })
