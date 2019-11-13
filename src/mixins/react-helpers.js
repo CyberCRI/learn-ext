@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import $ from 'cash-dom'
 
-export const renderReactComponent = (selector, component, props) => {
+export const renderReactComponent = async (selector, component, props) => {
   const el = document.getElementById(selector)
 
   if (el) {
