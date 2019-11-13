@@ -34,7 +34,7 @@ export const ResourceCollectionView = ({ resources, ...props }) => {
       {...springGridConf}
       className='resources'>
       {resources.map((x, i) =>
-        <li key={x.url}>
+        <li key={x.resource_id}>
           <ResourceCard {...x} {...props}/>
         </li>
       )}
