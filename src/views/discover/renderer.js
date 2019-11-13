@@ -1,12 +1,15 @@
-import { baseLayers } from '@ilearn/modules/atlas/dataset'
-import { fetchLayer } from './tools'
+import { fetchLayer, fetchUpdateLayer, bases } from './layers'
 import { ThemeSwitch } from './atlas-theme'
 import Mousetrap from '@ilearn/modules/utilities/mousetrap'
 import _ from 'lodash'
 
 import setupDebugger from './renderer-debugger'
 import { conceptSelection, selectedConcepts } from './store'
+import { pickLayer, resourcesDomain } from './store'
 
+// Keyboard shortcuts and their aliases for interacting with map. We would
+// pause the event handlers if map layer isn't focused, since otherwise it'd
+// break viewport scrolling and navigation.
 const kbdCtrlKeys = {
   panning: {
     left: ['left', 'a', 'h'],
@@ -27,17 +30,20 @@ const kbdCtrlKeys = {
 
 
 export const setupMapView = async (conf) => {
-  const npts = await fetchLayer('user')
-  const apts = _.concat(npts, baseLayers.points)
-  const albs = _.concat(npts, baseLayers.labels)
+  const allPoints = await fetchLayer('everything')
+  const mapShapePoints = allPoints.union(bases.points).toJS()
+
+  const labelledPoints = allPoints.union(bases.labels.filter((p) => p.labelPriority === 1)).toJS()
+
+  // console.log(albs)
 
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
-    points: apts,
+    points: mapShapePoints,
 
     elevationPow: 1,
-    maxRadiusDivider: 15,
-    contourWidth: 0.5,
+    maxRadiusDivider: 18,
+    contourWidth: 0,
     lightAltitude: 5,
     lightIntensity: .2,
   })
@@ -65,7 +71,7 @@ export const setupMapView = async (conf) => {
     type: 'marker',
     markerFillOpacity: 0,
     markerStrokeWidth: .2,
-    markerStrokeOpacity: .5,
+    markerStrokeOpacity: .3,
     markerSizeMultiplier: 10,
   })
 
@@ -74,7 +80,7 @@ export const setupMapView = async (conf) => {
     type: 'outline',
     outlineFillColor: [160, 204, 255, 100],
     outlineStrokeColor: [36, 60, 75, 255],
-    outlineStrokeWidth: 0.5,
+    outlineStrokeWidth: 0.1,
 
     // How much to offset the outline boundary from the markers.
     outlineRadiusOffset: 10,
@@ -83,24 +89,24 @@ export const setupMapView = async (conf) => {
 
   const markers = DotAtlas.createLayer({
     type: 'marker',
-    points: albs,
+    points: allPoints.toJS(),
 
     markerSizeMultiplier: 5,
     markerStrokeWidth: 0,
-    markerOpacity: 1,
+    markerOpacity: 0.8,
 
     minAbsoluteMarkerSize: 0,
 
     pointHoverRadiusMultiplier: 10,
     onPointHover: (e) => {
-      const hoverPts = e.points.filter((pt) => pt.userData)
+      const hoverPts = e.points.filter((pt) => pt.canPick)
 
       hoverMarkers.set('points', hoverPts)
       hoverOutline.set('points', hoverPts)
       atlas.redraw()
     },
     onPointClick: (e) => {
-      const filteredPts = e.points.filter((pt) => pt.userData)
+      const filteredPts = e.points.filter((pt) => pt.canPick)
       if (!(e.ctrlKey || e.shiftKey)) {
         conceptSelection.replace(filteredPts)
       } else {
@@ -111,12 +117,38 @@ export const setupMapView = async (conf) => {
 
   const labels = DotAtlas.createLayer({
     type: 'label',
-    points: albs,
-    labelFontFamily: 'Barlow',
+    points: labelledPoints,
+    labelFontFamily: 'Barlow, Inter',
     labelFontSize: 15,
     labelFontWeight: 400,
     labelFontVariant: 'normal',
     labelOpacity: 1,
+  })
+
+  const labelPortals = DotAtlas.createLayer({
+    type: 'label',
+    points: bases.labels.toJS(),
+    labelFontFamily: 'Barlow',
+    labelFontSize: 20,
+    labelFontWeight: 400,
+    labelFontVariant: 'normal',
+    labelOpacity: 1,
+    pointHoverRadiusMultiplier: 10,
+    onPointHover: (e) => {
+      console.log(e.points)
+      e.points.forEach((pt) => {
+        console.log(pt, labelPortals.state(pt))
+      })
+
+      // labelPortals.get('points').forEach((pt) => {
+      //   pt.labelBoxOpacity = 1
+      //   console.log(pt.labelVisible)
+      // })
+      labelPortals.update('labelBoxOpacity')
+      labelPortals.update('xy')
+      labelPortals.update('labelVisibilityScales')
+      atlas.redraw()
+    }
   })
 
   const layers = {
@@ -138,6 +170,22 @@ export const setupMapView = async (conf) => {
     },
     didMouseWheel: (e, ...args) => {
     },
+    didResizeViewport: (() => {
+      // Based on AutoResizing plugin for dotaltas. Reimplemented here with
+      // lodash.
+      // Basic resizing is fast, as per the comments in the said plugin, however
+      // labels need to be updated and that should be throttled.
+      // This is an iife, since we want to save the references to throttled
+      // handlers.
+      const deferredNotifyLabelsUpdate = _.debounce(() => {
+        labels.update('labelVisibilityScales')
+        atlas.redraw()
+      })
+      return () => {
+        atlas.resize()
+        deferredNotifyLabelsUpdate()
+      }
+    })(),
   }
 
   const atlas = DotAtlas
@@ -162,7 +210,7 @@ export const setupMapView = async (conf) => {
 
   selectedConcepts.watch((selection) => {
     selectionOutline.set('points', selection.toJS())
-    selectionMarkers.set('points', selection.toJS())
+    // selectionMarkers.set('points', selection.toJS())
     atlas.redraw()
   })
 
@@ -234,6 +282,69 @@ export const setupMapView = async (conf) => {
       debugUi.close()
     }
   })
+
+
+  const updateLayers = async (layer) => {
+    markers.set('visible', false)
+    labels.set('visible', false)
+    atlas.redraw()
+
+    const pts = await fetchUpdateLayer(layer)
+    let pt
+
+    markers
+      .get('points')
+      .filter((p) => p.userData)
+      .forEach((p) => {
+        pt = pts.get(p.wikiDataId)
+        if (pt) {
+          p.markerOpacity = 1
+          p.canPick = true
+        } else {
+          p.markerOpacity = 0
+          p.canPick = false
+        }
+      })
+    markers.set('visible', true)
+    markers.update('markerOpacity')
+
+    labels
+      .get('points')
+      .filter((p) => p.userData)
+      .forEach((p) => {
+        pt = pts.get(p.wikiDataId)
+        if (pt) {
+          p.labelOpacity = 1
+          p.labelPriority = 0.8
+        } else {
+          p.labelOpacity = 0
+          p.labelPriority = 0
+        }
+      })
+    labels.set('visible', true)
+    labels.update('labelOpacity')
+    labels.update('labelPriority')
+    labels.update('labelVisibilityScales')
+
+    elevation
+      .get('points')
+      .filter((p) => p.userData)
+      .forEach((p) => {
+        pt = pts.get(p.wikiDataId)
+        if (pt) {
+          p.elevation = pt.elevation
+        } else {
+          p.elevation = 0
+        }
+      })
+    elevation.update('elevation')
+    atlas.redraw()
+  }
+
+  resourcesDomain.watch(pickLayer, updateLayers)
+  updateLayers('user')
+
+  window.addEventListener('resize', eventTaps.didResizeViewport)
 
   return atlas
 }
