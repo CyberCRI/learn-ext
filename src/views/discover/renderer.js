@@ -32,10 +32,7 @@ const kbdCtrlKeys = {
 export const setupMapView = async (conf) => {
   const allPoints = await fetchLayer('everything')
   const mapShapePoints = allPoints.union(bases.points).toJS()
-
   const labelledPoints = allPoints.union(bases.labels.filter((p) => p.labelPriority === 1)).toJS()
-
-  // console.log(albs)
 
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
@@ -46,15 +43,6 @@ export const setupMapView = async (conf) => {
     contourWidth: 0,
     lightAltitude: 5,
     lightIntensity: .2,
-  })
-
-  const selectionMarkers = DotAtlas.createLayer({
-    type: 'marker',
-    points: [],
-    markerFillOpacity: 0,
-    markerStrokeWidth: .2,
-    markerStrokeOpacity: .5,
-    markerSizeMultiplier: 10,
   })
 
   const selectionOutline = DotAtlas.createLayer({
@@ -125,35 +113,8 @@ export const setupMapView = async (conf) => {
     labelOpacity: 1,
   })
 
-  const labelPortals = DotAtlas.createLayer({
-    type: 'label',
-    points: bases.labels.toJS(),
-    labelFontFamily: 'Barlow',
-    labelFontSize: 20,
-    labelFontWeight: 400,
-    labelFontVariant: 'normal',
-    labelOpacity: 1,
-    pointHoverRadiusMultiplier: 10,
-    onPointHover: (e) => {
-      console.log(e.points)
-      e.points.forEach((pt) => {
-        console.log(pt, labelPortals.state(pt))
-      })
-
-      // labelPortals.get('points').forEach((pt) => {
-      //   pt.labelBoxOpacity = 1
-      //   console.log(pt.labelVisible)
-      // })
-      labelPortals.update('labelBoxOpacity')
-      labelPortals.update('xy')
-      labelPortals.update('labelVisibilityScales')
-      atlas.redraw()
-    }
-  })
-
   const layers = {
     elevation,
-    selectionMarkers,
     selectionOutline,
     hoverMarkers,
     hoverOutline,
@@ -180,7 +141,7 @@ export const setupMapView = async (conf) => {
       const deferredNotifyLabelsUpdate = _.debounce(() => {
         labels.update('labelVisibilityScales')
         atlas.redraw()
-      })
+      }, 200)
       return () => {
         atlas.resize()
         deferredNotifyLabelsUpdate()
@@ -196,7 +157,6 @@ export const setupMapView = async (conf) => {
         elevation,
         markers,
         selectionOutline,
-        selectionMarkers,
         hoverOutline,
         hoverMarkers,
         labels,
@@ -210,7 +170,6 @@ export const setupMapView = async (conf) => {
 
   selectedConcepts.watch((selection) => {
     selectionOutline.set('points', selection.toJS())
-    // selectionMarkers.set('points', selection.toJS())
     atlas.redraw()
   })
 
