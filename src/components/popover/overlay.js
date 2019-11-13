@@ -1,15 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useClickAway, useLogger, useToggle, useMount, useAsyncFn, useUpdateEffect } from 'react-use'
+import React, { useRef, useState } from 'react'
+import { useClickAway, useLogger, useToggle, useMount, useUpdateEffect } from 'react-use'
 import { Spinner } from '@blueprintjs/core'
 
 import { Port } from '~procs/portal'
 import { HookedCard } from '~components/cards/cards'
 import { ConceptList } from '~components/concepts'
 import { ConceptSuggest } from '~components/concepts/suggest'
-import { LanguagePill, UrlPill, FaviconPill } from '~components/pills'
+import { UrlPill, FaviconPill } from '~components/pills'
 
 import RootAPI from '~mixins/root-api'
-import OpenGraph from '~mixins/opengraph'
 import { RatingPicker, PopoverTools } from '.'
 
 
