@@ -19,7 +19,7 @@ menu:
 
 # [2] Navigation and Pages Strings
 navigationBar:
-  heading: iLearn
+  heading: WeLearn
 
   links:
     dashboard:

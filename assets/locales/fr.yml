@@ -114,7 +114,7 @@ pages:
 
       account:
         intro:
-          title: 'Account & Group'
+          title: 'Compte et Groupe'
           description: Merci de renseigner votre adresse e-mail.
         success:
           title: ''
