@@ -1,17 +1,26 @@
+@import 'styles/variables';
+@import 'styles/colors';
+
+
 #discover-view {
   .matches {
     list-style: none;
+    & > p {
+      text-align: center;
+      margin: 5px 0;
+    }
   }
   .empty {
     max-width: 300px;
     padding: 20px;
-    margin: auto;
+    margin: 20px auto;
   }
 }
 
 .discover-map {
   position: relative;
-  border-radius: 5px 5px 0 0;
+  border-radius: 10px 10px 0 0;
+  border: 1px solid transparentize($dark-gray2, .5);
   overflow: hidden;
   z-index: 5;
 
@@ -29,13 +38,14 @@
 
     canvas {
       cursor: inherit !important;
-      border-radius: 5px 5px 0 0;
+      // border-radius: 5px 5px 0 0;
     }
   }
 
   .overlay.tools {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     position: absolute;
     top: 0;
@@ -55,7 +65,7 @@
     }
 
     .layers {
-      background: transparentize(#fff, .5);
+      background: transparentize($light-gray5, .5);
       backdrop-filter: blur(8px);
       border-radius: 4px;
       padding: 2px;
@@ -68,17 +78,66 @@
 
   .overlay.concepts {
     max-width: 30vw;
+    max-height: 80%;
     width: 25%;
+    min-width: 220px;
     z-index: 3;
 
     position: absolute;
-    top: 0;
-    left: 0;
+    left: 20px;
     bottom: 0;
-    padding: 20px 5px 5px 20px;
+    overflow: hidden;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid transparentize($dark-gray2, .8);
+    border-bottom: 0;
 
-    overflow: auto;
-    background: transparentize(#fff, .5);
+    display: flex;
+    flex-direction: column;
+
+    background: transparentize($light-gray5, .7);
     backdrop-filter: blur(8px);
+
+    .controls {
+      background: transparentize($light-gray5, .6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+
+      border-bottom: 1px solid transparentize($dark-gray2, .8);
+
+      button.collapse {
+        margin: 0;
+        padding: 5px 10px;
+        font-weight: 600;
+        justify-content: space-between;
+        border-radius: 0;
+      }
+    }
+
+    .info {
+      padding: 10px;
+    }
+
+    .region {
+      overflow-y: auto;
+
+      & > div {
+        padding: 5px 10px;
+      }
+    }
+  }
+}
+
+body {
+  .dg {
+    // Override debugger panel styles.
+    &.ac {
+      z-index: 10;
+    }
+
+    .main {
+      font-family: inherit;
+    }
   }
 }

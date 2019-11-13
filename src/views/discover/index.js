@@ -28,5 +28,4 @@ export const renderView = () => {
 
 export const setupInstance = async (config) => {
   setupMapView(config)
-  fetchResources({ start: 1 })
 }
