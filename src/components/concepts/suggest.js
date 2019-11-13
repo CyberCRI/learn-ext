@@ -30,13 +30,15 @@ const renderSuggestion = (item, { modifiers, handleClick }) => {
   )
 }
 
-const EmptyStatePlaceholder = (
-  <NonIdealState
-    title={i18nT('intro.title')}
-    icon='path-search'
-    description={i18nT('intro.description')}
-    className='np--tags-non-ideal'/>
-)
+const EmptyStatePlaceholder = () => {
+  return (
+    <NonIdealState
+      title={i18nT('intro.title')}
+      icon='path-search'
+      description={i18nT('intro.description')}
+      className='np--tags-non-ideal'/>
+  )
+}
 
 const ZeroResultsState = ({ loading, query }) => {
   let props = {}
@@ -46,7 +48,7 @@ const ZeroResultsState = ({ loading, query }) => {
       icon: <Spinner/>,
     }
   } else if (query.length < 3) {
-    return EmptyStatePlaceholder
+    return <EmptyStatePlaceholder/>
   } else {
     props = {
       title: i18nT('error.title'),
@@ -115,7 +117,7 @@ export const ConceptSuggest = ({ onSelect, lang }) => {
         popoverProps={controlProps.popover}
 
         noResults={<ZeroResultsState loading={loading} query={query}/>}
-        initialContent={EmptyStatePlaceholder}
+        initialContent={<EmptyStatePlaceholder/>}
 
         query={query}
         onItemSelect={didSelectItem}
