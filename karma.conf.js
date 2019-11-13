@@ -26,7 +26,15 @@ module.exports = function(config) {
     webpack: {
       mode: 'development',
       devtool: 'inline-source-map',
-      stats: 'errors-only',
+      stats: {
+        children: false,
+        entrypoints: false,
+        hash: false,
+        modules: false,
+        version: false,
+        warnings: false,
+        assets: false,
+      },
       cache: true,
       resolve: {
         alias: {
@@ -67,7 +75,7 @@ module.exports = function(config) {
 
     port: 9876,
     colors: true,
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_ERROR,
 
     autoWatch: true,
     autoWatchBatchDelay: 750,

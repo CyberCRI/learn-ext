@@ -2,19 +2,16 @@
   experimental_http3
 }
 
-welearn.noop.pw {
+v2.ilearn.cri-paris.org welearn.noop.pw {
   encode * {
     # Compress the responses to gzip.
     gzip
   }
 
-  cors / {
-    origin            *
-    methods           GET,POST,PUT,DELETE,OPTIONS
-    allow_credentials true
-    max_age           3600
-    allowed_headers   Origin,X-Requested-With,Content-Type,Accept,Authorization
-  }
+  headers * +Access-Control-Allow-Origin *
+  headers * +Access-Control-Allow-Methods GET,POST,PUT,DELETE,OPTIONS
+  headers * +Access-Control-Allow-Headers DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range
+  headers * +Access-Control-Expose-Headers Content-Length,Content-Range
 
   reverse_proxy /api {
     # Use the API server transparently. Note that this doesn't yet handle the
@@ -36,6 +33,15 @@ welearn.noop.pw {
     header_up X-Forwarded-For {remote}
     header_up X-Forwarded-Port {server_port}
     header_up X-Forwarded-Proto {scheme}
+  }
+
+  matcher staticfiles {
+    path_regexp static ^/static/(.*)$
+  }
+
+  file_server match:staticfiles browse {
+    # I don't know how to remove the prefix. So let's keep this until I figure it out.
+    root /home/debian/srv/
   }
 
   file_server * browse {
