@@ -1,5 +1,14 @@
 import _ from 'lodash'
-import store from '~mixins/persistence'
+import { Set, Map, OrderedSet } from 'immutable'
+
+import baseMap from '@ilearn/modules/atlas/data/map-base-points.json'
+import baseLabels from '@ilearn/modules/atlas/data/map-base-labels.json'
+import { MapLayerAPI } from '@ilearn/modules/api'
+
+export const bases = {
+  points: OrderedSet(baseMap),
+  labels: _(baseLabels).orderBy('title').thru(OrderedSet).value(),
+}
 
 const defaultConceptValues = {
   markerShape: 'circle',
@@ -48,20 +57,21 @@ const normaliseConcept = (concept) => {
 }
 
 export const fetchLayer = async (id) => {
-  const user = await store.get('user')
-  if (!user.signedIn) {
-    throw new Error('Not Signed In')
-  }
-  const layers = {
-    group: `https://welearn.noop.pw/api/map?group_id=${user.groupId}`,
-    user: `https://welearn.noop.pw/api/map?user_id=${user.uid}`,
-    all: 'https://welearn.noop.pw/api/map',
-  }
-  return await fetch(layers.user)
-    .then((r) => r.json())
+  return await MapLayerAPI[id]()
     .then((concepts) => {
-      return concepts
+      return _(concepts)
         .map(normaliseConcept)
         .filter((p) => p.x && p.y)
+        .orderBy('title')
+        .thru(OrderedSet)
+        .value()
     })
+}
+
+export const fetchUpdateLayer = async (id) => {
+  const points = await MapLayerAPI[id]()
+  return _(points)
+    .map((p) => ([ p.wikidata_id, p ]))
+    .thru(Map)
+    .value()
 }
