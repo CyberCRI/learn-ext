@@ -50,6 +50,7 @@ const setupDebugger = (atlas, layers, element) => {
   const ui = new datGui.GUI({
     name: 'Atlas Renderer Debug',
     closeOnTop: true,
+    resizable: false,
   })
 
   const ctrlPan = ui.addFolder('Panning Controls')
