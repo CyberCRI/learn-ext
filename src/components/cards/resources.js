@@ -45,7 +45,7 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
       <div className='content'>
         <h4 className='title'>{props.title}</h4>
         {isRemovable && <Button onClick={didClickDelete} text='Delete' icon='delete'/> }
-        <DateTimePill timestamp={props.created_on}/>
+        {!!props.created_on && <DateTimePill timestamp={props.created_on}/>}
 
         {!props.skipConceptList &&
           <ConceptList
