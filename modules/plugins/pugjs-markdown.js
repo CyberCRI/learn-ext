@@ -3,11 +3,12 @@ const headingPluginOpts = {
   className: 'section-id',
   prefixHeadingIds: false,
   enableHeadingLinkIcons: true,
-  linkIcon: '§',
+  linkIcon: '§ ',
 }
 
 const md = require('markdown-it')({
   typographer: true,
+  html: true,
 }).use(require('markdown-it-github-headings'), headingPluginOpts)
   .use(require('markdown-it-footnote'))
   .use(require('markdown-it-task-lists'))
