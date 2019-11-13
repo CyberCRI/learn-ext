@@ -1,0 +1,9 @@
+extends ../partials/layout.pug
+
+block append head
+  title Privacy Policy | WeLearn
+
+block append main
+  section.article.privacy
+    article#privacy-policy
+      include:md-transpile ./privacy.md
