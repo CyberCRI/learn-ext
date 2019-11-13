@@ -37,25 +37,37 @@ const DashboardView = () => {
   const [ filters, setFilters ] = useSetState({ query: '' })
 
   const [ count, setCount ] = useState(0)
-  const [ nextUrl, setNextUrl ] = useState(null)
+  const [ offset, setOffset ] = useState(1)
 
-  useEffectOnce(() => {
-    // Fetch the portfolio data
-    setLoading(true)
-    API.resources({})
+  const fetchBatch = () => {
+    API
+      .userResources({ start: offset })
       .then((data) => {
-        const resources = _(data.results)
+        const allResources = _.unionBy(resources, data.results, 'resource_id')
+
+        const pageOffset = data.pagination.start + data.pagination.limit
+        if (pageOffset < data.pagination.count) {
+          setOffset(pageOffset)
+        } else {
+          setOffset(-1)
+        }
+        setCount(data.pagination.count)
+        setLoading(false)
+
+        setResources(_(allResources)
           .orderBy((res) => moment.utc(res.created_on), 'desc')
           .uniqBy('resource_id')
-          .value()
-        setCount(data.pagination.count)
-        setNextUrl(data.pagination.next)
-        setResources(resources)
-        setLoading(false)
+          .value())
       }, () => {
         setStatusError(true)
         setLoading(false)
       })
+  }
+
+  useEffectOnce(() => {
+    // Fetch the portfolio data
+    setLoading(true)
+    fetchBatch()
   })
 
   useRafLoop(_.debounce(() => {
@@ -66,22 +78,12 @@ const DashboardView = () => {
   }, 10))
 
   const maybeLoadNext = () => {
-    console.log('Maybe loading more...', isLoading, nextUrl)
-    if (isLoading || !nextUrl) {
+    console.log('Maybe loading more...', isLoading)
+    if (offset < 0 || isLoading) {
       return
     }
     setLoading(true)
-    fetch(`https://welearn.noop.pw/${nextUrl}`)
-      .then((r) => r.json())
-      .then((d) => {
-        const allRes = _.unionBy(resources, d.results, 'resource_id')
-        setResources(_(allRes)
-          .orderBy((res) => moment.utc(res.created_on), 'desc')
-          .uniqBy('resource_id')
-          .value())
-        setLoading(false)
-        setNextUrl(d.pagination.next)
-      })
+    fetchBatch()
   }
 
   const deleteResource = (resource_id) => {
@@ -96,10 +98,13 @@ const DashboardView = () => {
       </Helmet>
       <OmniBar onChange={(q) => setFilters(q)}/>
       <ResourcesInfo len={resources.length} count={count}/>
-      <ResourceGrid resources={resources} filters={filters} onDelete={deleteResource}/>
-      { nextUrl && <Button icon='arrow-down' loading={isLoading} text='Load More!' onClick={maybeLoadNext}/> }
-      { isLoading && <Spinner/> }
-      { statusError && <ErrorDescription/> }
+      <ResourceGrid resources={resources} filters={filters}/>
+      <div className='pager'>
+        {statusError && <ErrorDescription/>}
+        {isLoading && <Spinner/>}
+        {offset > 0 && !isLoading &&
+          <Button icon='arrow-down' loading={isLoading} text='Load More' onClick={maybeLoadNext}/>}
+      </div>
     </div>
   )
 }
