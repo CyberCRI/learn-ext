@@ -29,12 +29,12 @@ const conceptListVariants = {
 // stable sort order!
 const ListSortOrderPriority = (() => {
   const keyProps = [
-    [ 'similarity_score', 'desc' ],
-    [ 'elo', 'desc' ],
-    [ 'trueskill.sigma', 'asc' ],
     [ 'title', 'asc' ],
     [ 'title_en', 'asc' ],
     [ 'title_fr', 'asc' ],
+    [ 'similarity_score', 'desc' ],
+    [ 'elo', 'desc' ],
+    [ 'trueskill.sigma', 'asc' ],
   ]
   return _.unzip(keyProps)
 })()
@@ -60,10 +60,12 @@ export const ConceptTag = (props) => {
         content={<WikiCard title={title} lang={lang}/>}
         target={<span>{title}</span>}
         interactionKind={PopoverInteractionKind.HOVER}
+        popoverClassName='wiki-popover'
         hoverCloseDelay={500}
         hoverOpenDelay={200}
         inheritDarkTheme={true}
-        position={Position.AUTO}/>
+        boundary='window'
+        position={Position.BOTTOM}/>
     </Tag>
   )
 }
@@ -76,7 +78,7 @@ export const ConceptList = (props) => {
     .value()
 
   return (
-    <AnimatePresence initial={props.noAnimation ? false : null}>
+    <AnimatePresence initial={props.noAnimation ? false : 'hidden'}>
       <motion.ul
         initial='hidden'
         animate='visible'
