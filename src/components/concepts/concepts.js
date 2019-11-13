@@ -1,5 +1,4 @@
 import React from 'react'
-import { useLogger } from 'react-use'
 import _ from 'lodash'
 import { Tag, Popover, PopoverInteractionKind, Position } from '@blueprintjs/core'
 import { motion, AnimatePresence } from 'framer-motion'
