@@ -5,21 +5,30 @@
 
 > Found a bug? Let us know! WeLearn is available as a prototype quality software,
 > which essentially means that there are bugs, missing features, and incomplete
-> user experience. You can help us by filling the questionnaire linked below.
-> We're grateful for your time.
-
-[Take the user expectation survey here](#link-to-survey)!
+> user experience. You can help us! Let us know any feature requests, bugs,
+> or problems. Write to us at [welearn@cri-paris.org][email].
 
 Here is what's new in this version of WeLearn extension:
 
-## Coming Soon
+## Highlights for v0.0.40
 
-- Discover Resources on Map
-- Browse through your group's resources on Dashboard or on the Map.
+- A new codename: iLearn is now WeLearn.
+- Brand new Discover Tab. Use it to see your learning landscape.
+- Browse through your group, or other users' resources on Discover.
+- Access your resources on any device, any time. We're live at
+  [v2.ilearn.cri-paris.org][homepage].
+
+## Next Up
+
+Next release is planned soon. Major features are:
+
 - Secure your account with email based authentication.
 - Customise your privacy preferences.
+- We'll further strip-down the extension and make the web-based interface
+  default.
 
-[TODO] Collapse this:
+> **PS**: v0.0.38 and v0.0.39 were not published due to incomplete feature
+> set, and production bugs.
 
 ## v0.0.37
 
@@ -34,10 +43,5 @@ Released on `2019-09-10`
   Hindi. If you speak another language, and would like to help translate
   WeLearn, let us know!
 
-## v0.0.38
-
-Released on 2019-09-10
-
-### Summary
-- You can now delete resources from dashboard.
-- You can choose your preferred language in settings.
+[email]: mailto:welearn@cri-paris.org
+[homepage]: https://v2.ilearn.cri-paris.org
