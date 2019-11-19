@@ -1,7 +1,10 @@
 import Polyglot from 'node-polyglot'
 import localePhrases from './locales.json'
+import $ from 'cash-dom'
 
 const FALLBACK_LOCALE = 'en'
+const STORAGE_KEY = 'pref.lang'
+
 
 const fmtLangId = (langid) => {
   // Remove the country suffix from language ids.
@@ -16,29 +19,41 @@ export const navigator = {
   get locales () {
     return window.navigator.languages.map(fmtLangId)
   },
-}
-
-export const i18n = {
-  get locale () {
+  get prefLocale () {
     try {
-      return JSON.parse(window.localStorage.getItem('pref.lang')) || navigator.defaultLocale
+      return JSON.parse(window.localStorage.getItem(STORAGE_KEY))
     } catch {
       return navigator.defaultLocale
     }
   },
+}
+
+export const i18n = {
+  get locale () {
+    return $('html').attr('lang') || navigator.prefLocale
+  },
 
   _ensurePolyglot () {
-    if (this.polyglot) {
+    if (!window.polyglot) {
+      // We will be using a document-global object for this.
+      window.polyglot = new Polyglot({
+        interpolation: { prefix: '{{', suffix: '}}' },
+      })
+    }
+
+    if (this.language === this.locale) {
+      // If language wasn't changed, skip this.
       return
     }
     let phrases = localePhrases[this.locale]
     if (!phrases) {
       phrases = localePhrases[FALLBACK_LOCALE]
     }
-    this.polyglot = new Polyglot({
-      phrases,
-      interpolation: { prefix: '{{', suffix: '}}' },
-    })
+    window.polyglot.replace(phrases)
+    this.language = this.locale
+    this.polyglot = window.polyglot
+
+    console.log('[I] Init Polyglot with locale set to: ', this.locale)
   },
 
   context (prefix) {
@@ -52,4 +67,3 @@ export const i18n = {
     return this.polyglot.t(key, subs)
   },
 }
-
