@@ -1,4 +1,4 @@
-import { browser } from '~procs/stubs'
+import { browser } from './stubs'
 import { ExtensionPages } from './reactors'
 import _ from 'lodash'
 

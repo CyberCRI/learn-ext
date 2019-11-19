@@ -2,7 +2,7 @@ import { browser } from '~procs/stubs'
 import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
 import { ExtensionPages } from './reactors'
 import { userId } from '~mixins/utils'
-import { InstallEventReason } from './structs'
+import { InstallEventReason, IconStack } from './structs'
 import { initContextMenus } from './contextMenus'
 
 const tabState = {}
@@ -51,7 +51,7 @@ const reactOnInstalled = async ({ reason, temporary }) => {
   if (reason === InstallEventReason.updated) {
     // Extension was updated. Later, we might open a changelog page. For now,
     // do nothing at all.
-    // ExtensionPages.changelog.open()
+    ExtensionPages.changelog.open()
   }
 }
 
@@ -113,13 +113,7 @@ const setupConnection = (port) => {
 
 const updateBrowserActionIcon = (tabId) => {
   const state = tabState[tabId]
-
-  const icons = {
-    active: 'icons/icon-active-128.png',
-    idle: 'icons/icon-idle-48.png',
-  }
-
-  const iconPath = state.isOpen ? icons.active : icons.idle
+  const iconPath = state.isOpen ? IconStack.action.active : IconStack.action.idle
 
   return browser.browserAction.setIcon({ tabId, path: iconPath })
 }
