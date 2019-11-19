@@ -2,6 +2,7 @@ const WebpackBar = require('webpackbar')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
+const WebpackHookPlugin = require('webpack-hook-plugin')
 const { LicenseWebpackPlugin } = require('license-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const glob = require('glob')
@@ -18,6 +19,7 @@ const BuildTargets = {
       { from: './src/manifest.chrome.json', to: './manifest.json' },
     ],
     rules: [],
+    plugins: [],
   },
   firefox: {
     buildPath: abspath('./.builds/firefox'),
@@ -25,15 +27,25 @@ const BuildTargets = {
       { from: './src/manifest.gecko.json', to: './manifest.json' },
     ],
     rules: [],
+    plugins: [],
   },
   web: {
     buildPath: abspath('./.builds/web'),
-    assets: [],
+    assets: [
+      { from: './assets/icons/browsers/apple-touch-icon.png', to: './apple-touch-icon.png' },
+      { from: './assets/media/favicons/browserconfig.xml', to: './browserconfig.xml' },
+    ],
     rules: [
       {
         test: abspath('node_modules/webextension-polyfill/dist/browser-polyfill.js'),
         use: 'null-loader',
       },
+    ],
+    plugins: [
+      // In web builds, we'd like to make discover page to be index.html for the time being.
+      new WebpackHookPlugin({
+        onBuildExit: ['cp ./.builds/web/pages/discover.html ./.builds/web/index.html'],
+      }),
     ],
   },
 }
@@ -49,14 +61,13 @@ const copySourceBundleRules = [
     transform: locale.transpile,
   },
   {
-    from: './modules/atlas/dotatlas/*.js',
-    to: './atlas/',
-    flatten: true,
+    from: './modules/atlas/dotatlas/dotatlas.js',
+    to: './atlas/dotatlas.js',
   },
   { from: './assets/media/favicons', to: './media/favicons' },
   { from: './assets/media/illustrations', to: './media/illustrations' },
   { from: './assets/media/logos', to: './media/logos' },
-  { from: './assets/media/favicons/favicon.ico', to: './favicon.ico' },
+  { from: './assets/icons/browsers/favicon.ico', to: './favicon.ico' },
   ...target.assets,
 ]
 
@@ -76,6 +87,9 @@ const staticPages = glob
       plugin: new HtmlWebpackPlugin({
         filename: `pages/${pageName}.html`,
         template: `src/pages/${pageName}/markup.pug`,
+        templateParameters: {
+          env: dotenv.PackageEnv.vars,
+        },
         chunks: [ 'vendors', 'modules', chunkName ],
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
@@ -208,18 +222,28 @@ module.exports = {
     namedModules: true,
     moduleIds: 'named',
     splitChunks: {
+      minChunks: 1,
       cacheGroups: {
-        vendor: {
+        vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
           chunks: 'all',
           reuseExistingChunk: true,
+          priority: 1,
+        },
+        i18n: {
+          test: /[\\/]modules\/i18n[\\/]/,
+          name: 'i18n',
+          chunks: 'all',
+          reuseExistingChunk: false,
+          priority: 5,
         },
         modules: {
           test: /[\\/]modules[\\/]/,
           name: 'modules',
           chunks: 'all',
-          reuseExistingChunk: true,
+          // reuseExistingChunk: true,
+          // priority: 2,
         },
       },
     },
@@ -238,12 +262,14 @@ module.exports = {
   },
 
   node: {
-    global: false,
+    global: true,
   },
 
   performance: {
     hints: false,
   },
+  bail: true,
+
 
   plugins: [
     new WebpackBar({ name: 'webext-ilearn', profile: false, basic: false }),
@@ -256,5 +282,6 @@ module.exports = {
     new LicenseWebpackPlugin({ perChunkOutput: false, outputFilename: 'module.licenses.txt' }),
     dotenv.PackageEnv.webpackPlugin,
     ...staticPageGeneratorPlugins,
+    ...target.plugins,
   ],
 }

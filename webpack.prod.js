@@ -15,6 +15,8 @@ module.exports = smartMerge(base_config, {
       new TerserPlugin({
         cache: true,
         parallel: true,
+        extractComments: true,
+        exclude: /\.(html)/,
         terserOptions: {
           keep_classnames: true,
           drop_console: true,
