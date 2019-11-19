@@ -1,5 +1,6 @@
 import { fetchLayer, fetchUpdateLayer, bases } from './layers'
 import { ThemeSwitch } from './atlas-theme'
+import FileSaver from 'file-saver'
 import Mousetrap from '@ilearn/modules/utilities/mousetrap'
 import _ from 'lodash'
 
@@ -240,6 +241,10 @@ export const setupMapView = async (conf) => {
     } else {
       debugUi.close()
     }
+  })
+
+  kbdController.bind('shift+b', () => {
+    FileSaver.saveAs(atlas.get('imageData'), 'atlas-im.png')
   })
 
 
