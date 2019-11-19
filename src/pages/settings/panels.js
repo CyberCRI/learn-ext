@@ -41,7 +41,7 @@ const General = () => {
   const [ lang, setLang ] = useState('en')
 
   const promptReload = () => {
-    window.setTimeout(() => window.location.reload(), 1000)
+    window.setTimeout(() => window.location.reload(), 500)
   }
 
   useEffect(() => {
