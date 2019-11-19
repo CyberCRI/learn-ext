@@ -1,0 +1,14 @@
+extends ../partials/layout.pug
+
+append head
+  title Discover | WeLearn
+  script(src='/atlas/dotatlas.js')
+
+block append root
+  main
+    div.discover-map
+      div#atlas
+      div#overlay-concepts
+      div#overlay-tools
+
+  div#discover-view

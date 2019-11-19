@@ -1,0 +1,173 @@
+# [1] Extension Specific Strings
+extension:
+  name: WeLearn插件
+  description: 和WeLearn一起协作学习
+
+command:
+  toggle_action: 添加资源到你的WeLearn图书馆
+
+actions:
+  page:
+    # Page action appears in address bar
+    title: 添加到WeLearn
+
+menu:
+  action:
+    openDashboard: 打开控制面板
+    openMap: Browse Map
+    addResource: 添加页面到WeLearn
+
+# [2] Navigation and Pages Strings
+navigationBar:
+  heading: WeLearn
+
+  links:
+    dashboard:
+      label: 我的资源
+    discover:
+      label: 浏览发现
+    settings:
+      label: 设置
+    help:
+      label: 帮助
+
+pages:
+  dashboard:
+    meta:
+      pageTitle: 控制面板 | WeLearn
+
+    actions:
+      sort: 排序
+    searchInput:
+      placeholder: 搜索
+
+  discover:
+    meta:
+      pageTitle: 发现 | WeLearn
+
+    sections:
+      atlas:
+        title: 你的知识地图
+
+        layers:
+          user: 我的资源
+          everything: 全部
+          group: 我的小组
+
+  settings:
+    meta:
+      pageTitle: 设置 | WeLearn
+
+    tabs:
+      general: 通用
+      account: 账户
+      privacy: 隐私
+      support: 支持
+
+    panels:
+      privacy:
+        # Introduction text
+        title: 隐私
+        description: 我们坚持你的数据只属于你
+
+        # Form Elements
+        sharing:
+          title: 选择你的分享
+
+          choices:
+            private:
+              title: 私人
+              description: |
+                  添加到WeLearn的数据只对你可见。资源分级以及标签会被匿名采集，用以提高WeLearn的社区资源服务
+
+            public:
+              title: 公开
+              description: |
+                  你的资源库将会与其它WeLearn使用者分享（暂不支持）
+
+        mentorship:
+          title: 导师制
+          description: |
+              我希望被其它有相似技能和兴趣的学习者取得联系（暂不支持
+
+      general:
+        intro:
+          title: 通用
+          description: ''
+
+        form:
+          languageSelect:
+            label: 语言
+            description: 选择语言
+          themeSelect:
+            label: 显示
+            description: 选择用户界面主题
+            fields:
+              appearance:
+                label: 外观
+          submitButton:
+            label: 保存
+
+      account:
+        intro:
+          title: 'Account & Group'
+          description: 指定你希望用于WeLearn的邮箱
+
+        success:
+          title: ''
+          description: 成功登陆！
+        error:
+          title: ''
+          description: 出错了，请重新尝试
+        form:
+          emailInput:
+            label: 你的邮箱
+            placeholder: 邮箱
+          groupRadio:
+            label: 小组
+          submitButton:
+            label: 保存
+
+      support:
+        intro:
+          title: 帮助&支持
+          description: ''
+
+        tutorial:
+          title: 辅导
+          link: 打开
+
+        changelog:
+          title: 更新历史
+          link: 变化记录
+
+  onboarding:
+    meta:
+      pageTitle: WeLearn
+
+    intro:
+      title: 感谢使用WeLearn
+      description: ''
+
+# [3] React Components
+components:
+  suggest:
+    searchInput:
+      placeholder: 添加词条
+    intro:
+      title: 输入来寻找词条
+      description: 我们将会推荐相关的条目来标签这个资源
+    error:
+      title: 无结果
+      description: 无匹配词条 {{query}}
+    inflight:
+      label: 搜寻中
+
+  cards:
+    wikiInfoCard:
+      actions:
+        locateInMap: 地图定位
+        moreInfo: 阅读更多
+      errorState:
+        title: ''
+        description: Wikipedia中似乎没有相关的词条

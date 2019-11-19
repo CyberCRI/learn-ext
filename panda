@@ -38,26 +38,30 @@ __sigint () {
 }
 trap __sigint SIGINT
 
-#================================================
+#=== Dev Builds:
 dev:storybook () {
   _info 'Starting Storybook Server'
+  export ILRN_IS_DEV='yes'
   start-storybook --port 8519 --ci
 }
 
 dev:watch () {
-  gen:webfonts
+  prep:all
+  export ILRN_IS_DEV='yes'
   webpack --config webpack.dev.js --watch
 }
 
 dev:server () {
   _info 'Starting dev-server'
-  gen:webfonts
+  export ILRN_IS_DEV='yes'
+  prep:all
   webpack-dev-server --config webpack.dev.js --hot
 }
 
 dev:build () {
   _info 'Building [dev]'
-  gen:webfonts
+  export ILRN_IS_DEV='yes'
+  prep:all
   webpack --config webpack.dev.js
 }
 
@@ -67,15 +71,27 @@ dev:webext () {
   _success 'Closing Firefox'
 }
 
-desc 'gen:webfonts' <<BOOP
+#=== Preprocessing steps:
+
+prep:webfonts () {
+  # Generates fonts.css in src/styles with the fonts found in assets/fonts.
+  python tools/discover-fonts.py --silent
+}
+
+prep:locales () {
+  python tools/combine-locales.py --silent
+}
+
+desc 'prep:all' <<BOOP
 Usage:
-  ${_ME} gen:webfonts
+  ${_ME} prep:all
 
 Description:
-  Generates fonts.css in src/styles with the fonts found in assets/fonts.
+  Preprocess generated css and locales jsons.
 BOOP
-gen:webfonts () {
-  python tools/discover-fonts.py --silent
+prep:all () {
+  prep:webfonts
+  prep:locales
 }
 
 release:bump () {
@@ -99,8 +115,9 @@ release:sign () {
 }
 
 release:build () {
-  _info 'Compiling [Prod]'
-  gen:webfonts
+  _info "<*> Compiling [target -> ${FLAGS_TARGET}]"
+  export ILRN_IS_DEV='no'
+  prep:all
   webpack --config webpack.prod.js
   _success 'Done'
 }
@@ -112,9 +129,10 @@ release:publish () {
 
 release:dev () {
   export FLAGS_VERBOSE='no'
+  export ILRN_IS_DEV='yes'
   _info 'Building preview release'
-  release:build
-  release:pack
+  prep:all
+  webpack --config webpack.prod.js
   _success 'Done!'
 }
 
@@ -128,6 +146,15 @@ release () {
   _success 'Published Succesfully!'
 }
 
+release:build-all () {
+  export FLAGS_TARGET='chrome'
+  release:build
+  export FLAGS_TARGET='firefox'
+  release:build
+  export FLAGS_TARGET='web'
+  release:build
+}
+
 _get_target () {
   local _target
   for __arg in "${_COMMAND_ARGV[@]:-}"
@@ -135,12 +162,18 @@ _get_target () {
     case ${__arg} in
       --chrome) _target='chrome';;
       --firefox) _target='firefox';;
+      --web) _target='web';;
     esac
   done
+  if [[ "${_CMD}" == 'release:build-all' ]]
+  then
+    return 0
+  fi
+
   if _blank "$_target"
   then
     _warn "Target unspecified. Using firefox as default."
-    _info "[*] You can use --chrome or --firefox to specify a target."
+    _info "[*] You can use --chrome, --firefox, or --web to specify a target."
   fi
   export FLAGS_TARGET="${_target}"
 }

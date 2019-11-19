@@ -1,3 +1,4 @@
+import { browser } from '~procs/stubs'
 import uuid_v5 from 'uuid/v5'
 import md5 from 'js-md5'
 import Enum from 'enum'
@@ -17,6 +18,28 @@ export const nsuuid = (param) => {
   // Read as: Namespace UUID.
   // Generate a uuid within application namespace appending the parameters.
   return uuid_v5(`${env.uuid5_namespace}/${param}`, uuid_v5.URL)
+}
+
+
+export const runtimeContext = {
+  get name () {
+    return this.isBrowser ? Runtime.browser : Runtime.extension
+  },
+  get isExtension () {
+    try {
+      return browser.runtime.id && true
+    } catch (e) {
+    }
+    try {
+      return chrome.runtime.id && true
+    } catch {
+    }
+    return false
+  },
+
+  get isBrowser () {
+    return !this.isExtension
+  },
 }
 
 export const context = () => {
@@ -47,5 +70,5 @@ export const context = () => {
 
 export const userId = (email) => {
   // To obfuscate the user email, a simple hash of user email is used.
-  return md5(`ilearn_${email}`)
+  return md5(`ilearn_${email.toLowerCase().trim()}`)
 }

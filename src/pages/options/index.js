@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Card, Elevation, Icon, Button, Popover, Menu, MenuItem, Tag, ButtonGroup } from '@blueprintjs/core'
-import posed from 'react-pose'
 import clsx from 'classnames'
 import _ from 'lodash'
+import { motion } from 'framer-motion'
 
 import { renderReactComponent } from '~mixins/react-helpers'
 import { request } from '~mixins'
@@ -11,7 +11,10 @@ import RootAPI, { RuntimeParams } from '~mixins/root-api'
 
 import { hexToRGBA } from '@ilearn/modules/atlas/misc'
 import { AutoResizing, Effects } from '@ilearn/modules/atlas/dotatlas'
+import { i18n } from '@ilearn/modules/i18n'
 
+
+const i18nT = i18n.context('pages.discover')
 
 import './style.sass'
 
@@ -131,7 +134,7 @@ const createLayers = (map, dataset, callbacks) => {
         layers.hoverOutline.set('points', e.points)
         map.redraw()
 
-        callbacks.onHover && callbacks.onHover(e)
+        callbacks.onHover && callbacks.onHover({ points: e.points })
       },
     }),
 
@@ -149,69 +152,39 @@ const createLayers = (map, dataset, callbacks) => {
   return layers
 }
 
-const CardBox = posed.div({
-  preMount: {
-    y: 50,
-    opacity: 0,
-    transition: {
-      duration: 100,
-    },
-  },
 
-  init: {
-    opacity: 1,
+const cardVariants = {
+  hidden: {
+    y: 30,
+    opacity: 0,
+  },
+  mounted: {
     y: 0,
-    // width: '100%',
-    // height: '100%',
+    opacity: 1,
+    position: 'relative',
+    inset: 0,
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    flip: true,
-    beforeChildren: true,
-    // staggerChildren: 100,
-    transition: {
-      duration: 300,
-      // ease: 'easeIn',
-      // delay: 100,
-    },
-    applyAtStart: {
-      position: 'relative',
-    },
-    // delay: 100,
   },
   zoomed: {
-    // position: 'fixed',
     y: 0,
     opacity: 1,
-    // width: '95vw',
-    // height: '95vh',
+    position: 'fixed',
     top: 10,
     left: 10,
     right: 10,
     bottom: 10,
-    flip: true,
-    // staggerChildren: 100,
-    transition: {
-      // type: 'spring',
-      duration: 300,
-      // delay: 100,
-      // ease: 'easeIn',
-    },
-    applyAtStart: {
-      position: 'fixed',
-
-    },
-    // delay: 100,
   },
-})
+}
 
 
 class MapCard extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      pose: 'init',
+      pose: 'mounted',
       atlasReady: false,
       overlayUser: true,
       groupId: '',
@@ -232,7 +205,7 @@ class MapCard extends Component {
     this.renderMapLayer = this.renderMapLayer.bind(this)
     this.didClickOnMap = this.didClickOnMap.bind(this)
     this.didChangeOverlay = this.didChangeOverlay.bind(this)
-    this.didHoverOnMap = _.debounce(this.didHoverOnMap, 50).bind(this)
+    this.didHoverOnMap = this.didHoverOnMap.bind(this)
   }
 
   async componentDidMount () {
@@ -249,7 +222,11 @@ class MapCard extends Component {
 
     this.user = await RuntimeParams.userInfo()
 
-    _.defer(this.renderMapLayer)
+
+    requestAnimationFrame(() => {
+      this.renderMapLayer()
+    })
+    // _.defer(this.renderMapLayer)
   }
 
   async fetchBaseMap () {
@@ -303,20 +280,14 @@ class MapCard extends Component {
   }
 
   didHoverOnMap (e) {
-    const currentPoints = _.chain(e.points || [])
-      .filter((x) => x.title)
-      .map('title')
-      .value()
     const cardPoint = _.chain(e.points || [])
-      .head()
-      .get('title')
+      .filter((x) => x.userData && x.title.length > 0)
+      .sortBy((x) => x.elevation)
+      .last()
       .value()
-
     if (cardPoint) {
-      this.setState({ lastCardPoint: cardPoint })
+      this.setState({ cardPoint })
     }
-
-    this.setState({ currentPoints, cardPoint })
   }
 
   didChangeOverlay ({ overlayUser, groupId }) {
@@ -324,9 +295,8 @@ class MapCard extends Component {
   }
 
   async didToggleZoom () {
-    const pose = this.state.pose === 'zoomed' ? 'init' : 'zoomed'
-    this.setState({ atlasReady: false })
-    _.delay(() => this.setState({ pose }), 200)
+    const pose = this.state.pose === 'zoomed' ? 'mounted' : 'zoomed'
+    this.setState({ pose })
   }
 
   async refreshAtlas () {
@@ -342,26 +312,21 @@ class MapCard extends Component {
   }
 
   maybeRenderWikiCard () {
-    if (this.state.cardLock && this.state.lastCardPoint) {
-      return <WikiCard title={this.state.lastCardPoint} lang='fr'/>
-    } else if (this.state.cardPoint) {
-      return <WikiCard title={this.state.cardPoint} lang='fr'/>
+    if (this.state.cardPoint) {
+      return <WikiCard title={this.state.cardPoint.title} lang='fr'/>
     }
   }
 
   render () {
     return (
       <div className='map-card-container'>
-        <CardBox
-          pose={this.state.pose}
-          initialPose='preMount'
-          onPoseComplete={this.refreshAtlas}>
+        <motion.div initial='hidden' animate={this.state.pose} variants={cardVariants} onAnimationComplete={this.refreshAtlas} layoutTransition={true}>
           <Card elevation={Elevation.FOUR} className={clsx('map-card', {loading: !this.state.atlasReady})}>
             <div className='header'>
-              <h3>Your Knowledge Map</h3>
+              <h3>{i18nT('sections.atlas.title')}</h3>
               <div className='tools'>
                 <Button
-                  icon={this.state.pose == 'init' ? 'maximize' : 'minimize' }
+                  icon={this.state.pose == 'mounted' ? 'maximize' : 'minimize' }
                   minimal
                   onClick={this.didToggleZoom}
                 />
@@ -373,19 +338,19 @@ class MapCard extends Component {
               <ButtonGroup vertical alignText='left' minimal>
                 <Button
                   icon='layout-circle'
-                  text='Mine'
+                  text={i18nT('sections.atlas.layers.user')}
                   active={this.state.overlayUser === true}
                   onClick={() => this.didChangeOverlay({ overlayUser: true })}/>
                 { this.user.groupId !== 'beta' &&
                   <Button
                     icon='layout-group-by'
-                    text='My Group'
+                    text={i18nT('sections.atlas.layers.group')}
                     active={this.state.groupId === this.user.groupId}
                     onClick={() => this.didChangeOverlay({ overlayUser: false, groupId: this.user.groupId })}/>
                 }
                 <Button
                   icon='layout-sorted-clusters'
-                  text='Everything'
+                  text={i18nT('sections.atlas.layers.everything')}
                   active={this.state.groupId === 'beta'}
                   onClick={() => this.didChangeOverlay({ overlayUser: false, groupId: 'beta' })}/>
               </ButtonGroup>
@@ -400,7 +365,7 @@ class MapCard extends Component {
               ref={(el) => this.canvasRef = el}/>
 
           </Card>
-        </CardBox>
+        </motion.div>
       </div>
     )
   }

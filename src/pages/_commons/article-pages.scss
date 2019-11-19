@@ -1,0 +1,113 @@
+@import 'styles/fontfaces';
+@import 'styles/colors';
+@import 'styles/variables';
+
+section.article {
+  padding: 10px 30px;
+  background: #fff;
+  box-shadow: 0 0 20px -5px #0000000c;
+  border-radius: 5px;
+  margin: 5px 0 10px;
+
+  h1, h2, h3, h4, h5, h6, p, ul {
+    max-width: 520px;
+  }
+
+  blockquote {
+    position: relative;
+    margin: 5px 0;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      border-radius: 5px;
+      background-color: $light-gray4;
+    }
+  }
+
+  article {
+    font-size: 1rem;
+    font-weight: 400;
+    color: $dark-gray3;
+
+    h1 {
+      font-size: 1.8em;
+    }
+
+    h2 {
+      margin: 1em 0 .5em 0;
+    }
+
+    h3 {
+      margin: 10px 0 5px 0;
+    }
+
+    h1, h2, h3, code, pre {
+      font: {
+        family: $typeface-display;
+        weight: 600;
+      }
+    }
+
+    code {
+      background: transparentize($light-gray4, .6);
+      font: {
+        family: $typeface-mono;
+        style: italic;
+        weight: 400;
+      }
+
+      &:before {
+        content: "{";
+      }
+      &:after {
+        content: "}";
+      }
+    }
+
+    h1, h2, h3, h4, h5 {
+      position: relative;
+    }
+
+    a.section-id {
+      position: absolute;
+      left: -20px;
+      opacity: .6;
+      color: $gray2;
+
+      &:hover, &:focus {
+        opacity: .8;
+        text-decoration: none;
+      }
+    }
+
+    ul {
+      li {
+        margin: 0 0 10px 0;
+      }
+    }
+
+    ol {
+      padding-left: 5px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    video {
+      border-radius: 5px;
+      max-width: 100%;
+      box-shadow: $pt-elevation-shadow-3;
+    }
+
+  }
+
+  &.dev {
+    font-family: $typeface-mono;
+  }
+}

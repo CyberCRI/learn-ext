@@ -5,10 +5,14 @@ import * as FiIcon from 'react-icons/fi'
 import _ from 'lodash'
 
 import { browser } from '~procs/stubs'
+import store from '~mixins/persistence'
 
 import RootAPI, { RuntimeParams } from '~mixins/root-api'
+import { i18n } from '@ilearn/modules/i18n'
 import { userId } from '~mixins/utils'
 
+
+const i18nT = i18n.context('pages.settings.panels.account')
 
 class AccountSelector extends Component {
   constructor (props) {
@@ -72,8 +76,10 @@ class AccountSelector extends Component {
             groupId,
             signedIn: true,
           }
-          browser.storage.local
-            .set({ user: payload })
+          store
+            .set('user', payload)
+            .set('user.uid', payload.uid)
+            .set('user.signedIn', payload.signedIn)
 
           this.setState({ loading: false, status: 0, ...payload })
         })
@@ -85,23 +91,24 @@ class AccountSelector extends Component {
     const inputIntent = this.state.username.length >= 2 ? Intent.PRIMARY : Intent.DANGER
     return (
       <form onSubmit={this.didUpdateUserSettings}>
-        <Callout icon='id-number' title='Account' intent={Intent.DEFAULT}>
-          <p>Specify the email you want to use iLearn with.</p>
+        <Callout icon='id-number' intent={Intent.DEFAULT}>
+          <p>{i18nT('intro.description')}</p>
 
-          {this.state.signedIn && <p>You are signed in!</p>}
-          {this.state.status === -1 && <p>Trouble reaching server. Please try again.</p>}
+          {this.state.signedIn && <p>{i18nT('success.description')}</p>}
+          {this.state.status === -1 && <p>{i18nT('error.description')}</p>}
 
-          <FormGroup inline label='Your Email'>
+          <FormGroup inline label={i18nT('form.emailInput.label')}>
             <InputGroup
               leftIcon='id-number'
               disabled={this.state.loading}
               value={this.state.username}
               intent={inputIntent}
+              type='email'
               onChange={this.didChangeUsername}/>
           </FormGroup>
 
           <RadioGroup
-            label='Group'
+            label={i18nT('form.groupRadio.label')}
             inline
             selectedValue={this.state.groupId}
             onChange={this.didPickGroupId}>
@@ -111,7 +118,7 @@ class AccountSelector extends Component {
           </RadioGroup>
 
           <Button
-            text='Save'
+            text={i18nT('form.submitButton.label')}
             type='submit'
             intent={inputIntent}
             loading={this.state.loading}

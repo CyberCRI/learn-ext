@@ -2,12 +2,14 @@ import React, { useRef, useState } from 'react'
 import { useToggle, useUpdateEffect, useKey, useLogger, useDebounce } from 'react-use'
 
 import { InputGroup, Button, ButtonGroup } from '@blueprintjs/core'
+import { i18n } from '@ilearn/modules/i18n'
 
+const i18nT = i18n.context('pages.dashboard')
 
 const SortOrderButton = ({ downwards=true, onToggle, ...props }) => {
   return (
     <Button
-      text='Sort'
+      text={i18nT('actions.sort')}
       icon={downwards ? 'sort-desc' : 'sort-asc'}
       onClick={onToggle}
       {...props}/>
@@ -62,7 +64,7 @@ export const OmniBar = ({ onChange }) => {
         value={query}
         onChange={queryDidChange}
         inputRef={boxRef}
-        placeholder='Search'
+        placeholder={i18nT('searchInput.placeholder')}
         leftIcon='search'
         rightElement={<SearchButton/>}
         large/>

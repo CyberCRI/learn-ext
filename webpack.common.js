@@ -2,28 +2,57 @@ const WebpackBar = require('webpackbar')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
-const _ = require('lodash')
+const WebpackHookPlugin = require('webpack-hook-plugin')
+const { LicenseWebpackPlugin } = require('license-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const glob = require('glob')
+const _ = require('lodash')
 
 const { dotenv, abspath, locale } = require('./modules/plugins')
+const { pugMdFilter } = require('./modules/plugins/pugjs-markdown')
 
 
 const BuildTargets = {
   chrome: {
     buildPath: abspath('./.builds/chrome'),
-    manifestPath: './src/manifest.chrome.json',
+    assets: [
+      { from: './src/manifest.chrome.json', to: './manifest.json' },
+    ],
+    rules: [],
+    plugins: [],
   },
   firefox: {
     buildPath: abspath('./.builds/firefox'),
-    manifestPath: './src/manifest.gecko.json',
+    assets: [
+      { from: './src/manifest.gecko.json', to: './manifest.json' },
+    ],
+    rules: [],
+    plugins: [],
+  },
+  web: {
+    buildPath: abspath('./.builds/web'),
+    assets: [
+      { from: './assets/icons/browsers/apple-touch-icon.png', to: './apple-touch-icon.png' },
+      { from: './assets/media/favicons/browserconfig.xml', to: './browserconfig.xml' },
+    ],
+    rules: [
+      {
+        test: abspath('node_modules/webextension-polyfill/dist/browser-polyfill.js'),
+        use: 'null-loader',
+      },
+    ],
+    plugins: [
+      // In web builds, we'd like to make discover page to be index.html for the time being.
+      new WebpackHookPlugin({
+        onBuildExit: ['cp ./.builds/web/pages/discover.html ./.builds/web/index.html'],
+      }),
+    ],
   },
 }
 const target = BuildTargets[dotenv.flags.target || 'firefox']
 
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
-  { from: target.manifestPath, to: './manifest.json' },
   { from: './assets/icons', to: './icons' },
   {
     from: './assets/locales/*.yml',
@@ -32,10 +61,14 @@ const copySourceBundleRules = [
     transform: locale.transpile,
   },
   {
-    from: './modules/atlas/dotatlas/*.js',
-    to: './atlas/',
-    flatten: true,
+    from: './modules/atlas/dotatlas/dotatlas.js',
+    to: './atlas/dotatlas.js',
   },
+  { from: './assets/media/favicons', to: './media/favicons' },
+  { from: './assets/media/illustrations', to: './media/illustrations' },
+  { from: './assets/media/logos', to: './media/logos' },
+  { from: './assets/icons/browsers/favicon.ico', to: './favicon.ico' },
+  ...target.assets,
 ]
 
 // Setup html generator plugin using HtmlWebpackPlugin
@@ -54,7 +87,10 @@ const staticPages = glob
       plugin: new HtmlWebpackPlugin({
         filename: `pages/${pageName}.html`,
         template: `src/pages/${pageName}/markup.pug`,
-        chunks: [ 'vendors', 'pages_root', chunkName ],
+        templateParameters: {
+          env: dotenv.PackageEnv.vars,
+        },
+        chunks: [ 'vendors', 'modules', chunkName ],
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
     }
@@ -66,20 +102,18 @@ const staticPages = glob
 const staticEntrypoints = staticPages
   .reduce((acc, { entrypoint }) => {
     const [ chunkName, entryPath ] = entrypoint
-    acc[chunkName] = entryPath
+    acc[chunkName] = [ './src/pages/index.js', entryPath ]
     return acc
   }, {})
 
 const staticPageGeneratorPlugins = staticPages
   .reduce((acc, { plugin }) => [ ...acc, plugin ], [])
 
-
 module.exports = {
   entry: {
     app_root: './src/index.js',
     background: './src/procs/background.js',
 
-    pages_root: './src/pages/index.js',
     ...staticEntrypoints,
   },
   output: {
@@ -108,6 +142,7 @@ module.exports = {
       '~pages': abspath('src/pages'),
       '~page-commons': abspath('src/pages/_commons'),
       '~media': abspath('assets/media'),
+      '~views': abspath('src/views'),
       '@ilearn/modules': abspath('modules'),
     },
     extensions: [ '.mjs', '.esm.js', '.js', '.jsx', '.json' ],
@@ -165,24 +200,50 @@ module.exports = {
       },
       {
         test: /\.pug$/,
-        use: ['pug-loader'],
+        use: [{
+          loader: 'pug-loader',
+          options: {
+            filters: {
+              'md-transpile': pugMdFilter,
+            },
+          },
+        }],
       },
       {
         test: /\.svg$/,
-        use: [ 'svg-inline-loader' ],
+        use: ['svg-inline-loader'],
       },
+      ...target.rules,
     ],
   },
 
   optimization: {
+    concatenateModules: false,
+    namedModules: true,
+    moduleIds: 'named',
     splitChunks: {
-      // chunks: 'all',
+      minChunks: 1,
       cacheGroups: {
-        vendor: {
+        vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
           chunks: 'all',
           reuseExistingChunk: true,
+          priority: 1,
+        },
+        i18n: {
+          test: /[\\/]modules\/i18n[\\/]/,
+          name: 'i18n',
+          chunks: 'all',
+          reuseExistingChunk: false,
+          priority: 5,
+        },
+        modules: {
+          test: /[\\/]modules[\\/]/,
+          name: 'modules',
+          chunks: 'all',
+          // reuseExistingChunk: true,
+          // priority: 2,
         },
       },
     },
@@ -195,21 +256,32 @@ module.exports = {
     modules: false,
     version: false,
     warnings: false,
-    excludeAssets: /^(fonts|icons|atlas)\/.*/,
+    excludeAssets: /^(fonts|icons|atlas|media)\/.*/,
     assets: dotenv.flags.verbose === 'yes',
     assetsSort: 'name',
   },
 
   node: {
-    global: false,
+    global: true,
   },
+
+  performance: {
+    hints: false,
+  },
+  bail: true,
+
 
   plugins: [
     new WebpackBar({ name: 'webext-ilearn', profile: false, basic: false }),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
-    new CopyWebpackPlugin(copySourceBundleRules, { copyUnmodified: true }),
+    new CopyWebpackPlugin(copySourceBundleRules, {
+      copyUnmodified: true,
+      ignore: ['.DS_Store'],
+    }),
     new MomentLocalesPlugin({ localesToKeep: ['fr'] }),
+    new LicenseWebpackPlugin({ perChunkOutput: false, outputFilename: 'module.licenses.txt' }),
     dotenv.PackageEnv.webpackPlugin,
     ...staticPageGeneratorPlugins,
+    ...target.plugins,
   ],
 }

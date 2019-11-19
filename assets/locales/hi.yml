@@ -1,0 +1,173 @@
+# [1] Extension Specific Strings
+extension:
+  name: वी लर्न इक्स्टेन्शन
+  description: संयोगित ज्ञान वी लर्न के साथ
+
+command:
+  toggle_action: इस पेज को वी लर्न में संग्रहित करें
+
+actions:
+  page:
+    # Page action appears in address bar
+    title: संग्रहित करें
+
+menu:
+  action:
+    openDashboard: डैश बोर्ड
+    openMap: मानचित्र
+    addResource: वी लर्न में संग्रहित करें
+
+# [2] Navigation and Pages Strings
+navigationBar:
+  heading: वी लर्न
+
+  links:
+    dashboard:
+      label: संग्रह
+    discover:
+      label: अनुसंधान
+    settings:
+      label: समायोजन
+    help:
+      label: सहायता
+
+pages:
+  dashboard:
+    meta:
+      pageTitle: डैश बोर्ड | वी लर्न
+
+    actions:
+      sort: क्रम
+    searchInput:
+      placeholder: खोजें
+
+  discover:
+    meta:
+      pageTitle: अनुसंधान | वी लर्न
+
+    sections:
+      atlas:
+        title: संग्रह मानचित्र
+
+        layers:
+          user: मेरा संग्रह
+          everything: पूर्ण संग्रह
+          group: मेरा समूह
+
+  settings:
+    meta:
+      pageTitle: समायोजन | वी लर्न
+
+    tabs:
+      general: सामान्य
+      account: अकाउंट
+      privacy: प्राइवसी
+      support: सहायता
+
+    panels:
+      privacy:
+        # Introduction text
+        title: प्राइवसी
+        description: आपका डेटा आपके पूर्ण नियंत्रण में है।
+
+        # Form Elements
+        sharing:
+          title: अपना योगदान चुने
+
+          choices:
+            private:
+              title: गोपनीय रखें
+              description: >
+                वी लर्न में आपके द्वारा सूचित डेटा सिर्फ़ आपको ही दिखेगा। रेटिंग, एवं टैग जो आपने
+                रीसोर्स पर सम्पादित किया है उनका प्रयोग हम वी लर्न के सार्वजनिक रीसोर्स की उन्नति
+                के लिए प्रयोग करेंगे।
+            public:
+              title: पब्लिक
+              description: >
+                आपके रीसोर्स दूसरों के साथ प्रदर्शित किया जयगा।
+
+        mentorship:
+          title: शिक्षण
+          description: >
+            मैं दूसरे लोग, जिन्हें मेरे विशेषज्ञता में सहयोग चाहिए, से संपर्क प्राप्त करना चहुंग़ा।
+
+      general:
+        intro:
+          title: सामान्य
+          description: ''
+
+        form:
+          languageSelect:
+            label: भाषा (Language)
+            description: अपने पसन्द की भाषा चुने
+          themeSelect:
+            label: Display
+            description: Choose UI theme
+            fields:
+              appearance:
+                label: Appearance
+          submitButton:
+            label: सूचित करें
+
+      account:
+        intro:
+          title: 'अकाउंट और समूह'
+          description: कृपया अपना ईमेल भरें
+        success:
+          title: ''
+          description: धन्यवाद! आपका स्वागत है।
+        error:
+          title: ''
+          description: कृपया फिर से कोशिश करें। हमें सर्वर से जुड़ने में मुश्किल हो रही है।
+        form:
+          emailInput:
+            label: आपका ईमेल
+            placeholder: ईमेल
+          groupRadio:
+            label: समूह
+          submitButton:
+            label: सूचित करें
+
+      support:
+        intro:
+          title: सहायता और सहयोग
+          description: ''
+
+        tutorial:
+          title: वी लर्न का प्रयोग कैसे करें?
+          link: खोलें
+
+        changelog:
+          title: परिवर्तन इतिहास
+          link: अभिलेख देखें
+
+  onboarding:
+    meta:
+      pageTitle: वी लर्न
+
+    intro:
+      title: वी लर्न का उपयोग करने के लिए बहुत ही धन्यवाद!
+      description: ''
+
+# [3] React Components
+components:
+  suggest:
+    searchInput:
+      placeholder: कॉन्सेप्ट जोड़े
+    intro:
+      title: कॉन्सेप्ट ढूँढने के लिए यहाँ कॉन्सेप्ट टाइप करें।
+      description: इस रीसोर्स के अनुरूप कॉन्सेप्ट विकिपीडिया से प्राप्त करके हम यहाँ पे दिखाएँगे।
+    error:
+      title: कुछ नहीं मिला
+      description: कोई भी कॉन्सेप्ट {{query}} के समूप नहीं मिला। कृपया पुनः कोशिश करें।
+    inflight:
+      label: खोज जारी है
+
+  cards:
+    wikiInfoCard:
+      actions:
+        locateInMap: मानचित्र में देखें
+        moreInfo: और पढ़ें
+      errorState:
+        title: ''
+        description: विकिपीडिया में यह कॉन्सेप्ट नहीं है।

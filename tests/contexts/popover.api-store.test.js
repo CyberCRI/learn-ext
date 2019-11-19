@@ -1,13 +1,17 @@
 import { jsonFixture } from '~test-mixins'
-import { ExtAPIStore, ConceptSet, Exceptions } from '~components/popover/api-store'
-
-const SampleConcepts = jsonFixture('api.enhancedconcepts.postgresql-org')
+import { ConceptSet, Exceptions } from '~components/popover/api-store'
 
 
 describe('~components/popover/api-store', () => {
-  context('#ConceptSet', () => {
+  context('#ConceptSet', async () => {
+    let sampleConcepts
+
+    before(async () => {
+      sampleConcepts = await jsonFixture('api.enhancedconcepts.postgresql-org')
+    })
+
     it('builds the concept set index', () => {
-      const cset = new ConceptSet(SampleConcepts.concepts)
+      const cset = new ConceptSet(sampleConcepts.concepts)
       expect(cset.index)
         .to.be.an('object')
         .that.includes.keys('title', 'score', 'wiki_id', 'lang')
@@ -20,7 +24,7 @@ describe('~components/popover/api-store', () => {
     context('.append', () => {
       let cset
       beforeEach(() => {
-        cset = new ConceptSet(SampleConcepts.concepts)
+        cset = new ConceptSet(sampleConcepts.concepts)
       })
 
       it('should add a new concept to list', () => {
@@ -66,7 +70,7 @@ describe('~components/popover/api-store', () => {
       let cset
 
       beforeEach(() => {
-        cset = new ConceptSet(SampleConcepts.concepts)
+        cset = new ConceptSet(sampleConcepts.concepts)
         cset
           .append(conceptBoop)
           .append(conceptWoot)

@@ -32,9 +32,24 @@ const collectEnv = ({ prefix='', transform=true }) => {
       .snakeCase()
       .value()
   }
+  const transformValue = (value, key, object) => {
+    // Might seem ugly, but this simply handles a singular case: when values
+    // are boolean flags "yes" or "no" in env string, we return corresponding
+    // boolean value.
+    if (!transform) {
+      return value
+    }
+    if (value === 'yes') {
+      return true
+    } else if (value === 'no') {
+      return false
+    }
+    return value
+  }
   return _(process.env)
     .pickBy((v, key) => _.startsWith(key, prefix))
     .mapKeys(transformKey)
+    .mapValues(transformValue)
     .value()
 }
 

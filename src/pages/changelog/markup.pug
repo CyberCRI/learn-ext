@@ -1,11 +1,20 @@
 extends ../partials/layout.pug
 
 append head
-  title Changelog | iLearn
+  title Changelog | WeLearn
 
 block append main
-  article
-    h3 iLearn Extension was just updated! Here's what's new:
+  section.article.changelog
+    article.log
+      include:md-transpile ./changelog.md
 
-    ul
-      li Update Map Layout Changes
+    article.dev
+      h3 Build Information
+      p.
+        If you run into some error or bugs, please let us know!
+        Please include the information below to help us with debugging.
+
+      p Build: #[code=env.info_hash]
+      p Date: #[code=env.info_buildtime]
+      p Branch: #[code=env.info_branch]
+

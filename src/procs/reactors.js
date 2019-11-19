@@ -12,6 +12,7 @@ const pathReactor = (path) => {
 
 export const ExtensionPages = {
   dashboard: pathReactor('pages/dashboard.html'),
+  discover: pathReactor('pages/discover.html'),
   settings: pathReactor('pages/settings.html'),
   onboarding: pathReactor('pages/onboarding.html'),
   changelog: pathReactor('pages/changelog.html'),

@@ -6,7 +6,9 @@ import clsx from 'classnames'
 
 import { reFuse } from '~mixins/itertools'
 import Wiki from '~mixins/wikipedia'
-import { i18n } from '~procs/wrappers'
+import { i18n } from '@ilearn/modules/i18n'
+
+const i18nT = i18n.context('components.suggest')
 
 const conceptPredicate = (query, items) => {
   if (query) {
@@ -28,27 +30,29 @@ const renderSuggestion = (item, { modifiers, handleClick }) => {
   )
 }
 
-const EmptyStatePlaceholder = (
-  <NonIdealState
-    title={i18n('components.suggest.intro.title')}
-    icon='path-search'
-    description={i18n('components.suggest.intro.description')}
-    className='np--tags-non-ideal'/>
-)
+const EmptyStatePlaceholder = () => {
+  return (
+    <NonIdealState
+      title={i18nT('intro.title')}
+      icon='path-search'
+      description={i18nT('intro.description')}
+      className='np--tags-non-ideal'/>
+  )
+}
 
 const ZeroResultsState = ({ loading, query }) => {
   let props = {}
   if (loading) {
     props = {
-      title: i18n('components.suggest.inflight.label'),
+      title: i18nT('inflight.label'),
       icon: <Spinner/>,
     }
   } else if (query.length < 3) {
-    return EmptyStatePlaceholder
+    return <EmptyStatePlaceholder/>
   } else {
     props = {
-      title: i18n('components.suggest.error.title'),
-      description: i18n('components.suggest.error.description'),
+      title: i18nT('error.title'),
+      description: i18nT('error.description', { query }),
     }
   }
   return <NonIdealState {...props}/>
@@ -56,7 +60,7 @@ const ZeroResultsState = ({ loading, query }) => {
 
 const controlProps = {
   input: {
-    placeholder: i18n('components.suggest.searchInput.placeholder'),
+    placeholder: i18nT('searchInput.placeholder'),
     className: 'suggest input',
     minimal: true,
   },
@@ -113,13 +117,13 @@ export const ConceptSuggest = ({ onSelect, lang }) => {
         popoverProps={controlProps.popover}
 
         noResults={<ZeroResultsState loading={loading} query={query}/>}
-        initialContent={EmptyStatePlaceholder}
+        initialContent={<EmptyStatePlaceholder/>}
 
         query={query}
         onItemSelect={didSelectItem}
         onQueryChange={(q) => setQuery(q)}>
         <Tag interactive large minimal intent='primary'>
-          {i18n('components.suggest.searchInput.placeholder')}
+          {i18nT('searchInput.placeholder')}
         </Tag>
       </Select>
     </div>

@@ -1,0 +1,43 @@
+extends ../partials/layout.pug
+
+append head
+  title About Us | WeLearn
+
+mixin sponsorItem(title, url, urlText, imageUrl)
+  li.bp3-card.bp3-elevation-1.bp3-interactive
+    a.sponsor(
+      href=url
+      title=title
+      rel='noopener noreferrer'
+      target='_blank'
+      external)
+      figure
+        img(src=imageUrl, alt=title, height=80)
+        figcaption
+          h3 #{title}
+          p #{urlText}
+
+block append main
+  section.article.about
+    h1 Sponsors
+    p WeLearn is a project by CRI Paris, supported by Mairie de Paris.
+
+    ul.sponsor-list
+      +sponsorItem(
+        "Ministère de l'Éducation Nationale et de la Jeunesse",
+        'https://www.education.gouv.fr/',
+        'education.gouv.fr',
+        '/media/logos/ministry-de-la-education.png')
+      +sponsorItem(
+        'Mairie de Paris',
+        'https://paris.fr/',
+        'paris.fr',
+        '/media/logos/marie-de-paris.png')
+      +sponsorItem(
+        'Centre de Recherches Interdisciplinaires',
+        'https://www.cri-paris.org/',
+        'cri-paris.org',
+        '/media/logos/cri/color.png')
+
+  section.small-text
+    include:md-transpile ./footnotes.md

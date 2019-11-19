@@ -20,7 +20,7 @@
 
     &:after {
       content: '';
-      background: linear-gradient(90deg, #fff0 10px, #fff);
+      background: linear-gradient(90deg, #fff0 10px, $light-gray5);
       position: absolute;
       right: 0;
       top: 0;
@@ -77,6 +77,47 @@
 
     .url {
       flex: 1;
+    }
+  }
+}
+
+.page-infobox {
+  display: grid;
+  align-items: normal;
+  padding: 10px 15px;
+
+  grid-template-columns: auto 5px 25px;
+  grid-template-rows: auto 5px 1.2rem;
+  grid-template-areas:
+    "title . icon"
+    ". . icon"
+    "url . icon";
+
+  font-size: .8rem;
+  background: $light-gray5;
+
+  .favicon {
+    grid-area: icon;
+    width: 25px;
+    height: 25px;
+  }
+
+  h3 {
+    grid-area: title;
+    margin: 0;
+
+    font: {
+      family: $typeface-text;
+      weight: 400;
+    }
+  }
+
+  .pill.url {
+    grid-area: url;
+    overflow: hidden;
+
+    .path {
+      display: none;
     }
   }
 }

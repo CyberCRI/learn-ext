@@ -1,17 +1,17 @@
 import React from 'react'
 import { Button } from '@blueprintjs/core'
-import { MdSettingsApplications, MdExplore } from 'react-icons/md'
 import { Port } from '~procs/portal'
-import { i18n } from '~procs/wrappers'
-
-const ToolButtons = [
-  { id: 'dashboard', label: i18n('navigationBar.links.dashboard.label'), icon: <MdExplore/> },
-  { id: 'settings', xlabel: i18n('navigationBar.links.settings.label'), icon: <MdSettingsApplications/> },
-]
+import { i18n } from '@ilearn/modules/i18n'
 
 const dispatcher = new Port('PopoverTools').connect()
 
 export const PopoverTools = (props) => {
+  const i18nT = i18n.context('navigationBar.links')
+  const buttons = [
+    { id: 'dashboard', label: i18nT('dashboard.label'), icon: 'book' },
+    { id: 'settings', label: i18nT('settings.label'), icon: 'settings' },
+  ]
+
   const buildProps = ({ id, label, icon }) => {
     return {
       key: id,
@@ -24,7 +24,7 @@ export const PopoverTools = (props) => {
   }
   return (
     <div className='popover-tools bp3-dark'>
-      {ToolButtons.map((btn) =>
+      {buttons.map((btn) =>
         <Button small minimal {...buildProps(btn)}/>
       )}
     </div>

@@ -1,117 +1,38 @@
 import { Effects, AutoResizing, Theme } from './dotatlas'
 import FileSaver from 'file-saver'
 import { hexToRGBA } from './misc'
+import _ from 'lodash'
+
+import baseMap from './data/map-base-points.json'
+import baseLabels from './data/map-base-labels.json'
 
 const ThemeChange = new CustomEvent('theme-change', { detail: 'dark' })
 
-
-const portals = {
-  sci: { color: hexToRGBA('3B3C3E') },
-  tech: { color: hexToRGBA('10416B') },
-  pol: { color: hexToRGBA('2B3546') },
-  geo: { color: hexToRGBA('186B4B') },
-  hist: { color: hexToRGBA('48392B') },
-  art: { color: hexToRGBA('681D33') },
-  spo: { color: hexToRGBA('58517B') },
-  soc: { color: hexToRGBA('473746') },
-}
-
-const fetchLayer = async (layername) => {
-  return await fetch(`http://localhost:8503/srv/map-layers/${layername}.json`)
-    .then((r) => r.json())
-}
-
-const fetchGroupLayer = async (groupId) => {
-  return await fetch(`https://ilearn.cri-paris.org/prod/api/map/group?group_id=beta`)
+const fetchGroupLayer = async (id) => {
+  const layers = {
+    mooc: 'https://welearn.noop.pw/api/map?group_id=mooc',
+    beta: 'https://welearn.noop.pw/api/map?group_id=mooc',
+    user: 'https://welearn.noop.pw/api/map?user_id=f8a3b78dfe023f9465d9da742741c28d',
+  }
+  return await fetch(layers[id])
     .then((r) => r.json())
     .then(({ concepts }) => {
+      let title
 
+      return concepts.map((p) => {
+        title = p.title_fr || p.title_en
+
+        return {
+          x: p.x_map_fr,
+          y: p.y_map_fr,
+          markerShape: 'square',
+          label: _.truncate(title, { length: 16, separator: ' ' }),
+          elevation: Math.max(p.elevation, .01),
+        }
+      }).filter((p) => p.x && p.y)
     })
 }
 
-
-const getDataset = async () => {
-  const baseCoords = await fetchLayer('la-coords-base')
-  const labelCoords = await fetchLayer('lb-labels')
-
-  const tieredLabels = labelCoords.map((ox) => {
-    return {
-      ...ox,
-      labelColor: ox.tier === 1 ? hexToRGBA('ffffff') : hexToRGBA('000000'),
-      labelPriority: (11 - ox.tier),
-      labelOpacity: (11 - ox.tier) / 10,
-      labelBoxOpacity: ox.tier === 1 ? 0.8 : null,
-      labelBoxColor: portals[ox.portal].color,
-      markerColor: ox.tier === 1 ? hexToRGBA('ffffff') : portals[ox.portal].color,
-      markerSize: (11 - ox.tier),
-      markerOpacity: (11 - ox.tier) / 10,
-    }
-  })
-
-  const coordsElevation = labelCoords.map((ox) => {
-    return { ...ox, elevation: 1 }
-  })
-
-  return { baseCoords, labelCoords, tieredLabels, coordsElevation }
-}
-
-
-const createLayers = ({ dataset, callbacks, dotatlas }) => {
-
-  const elevation = DotAtlas.createLayer({
-    points: dataset.coordsElevation,
-    type: 'elevation',
-    contourWidth: 0,
-    maxRadiusDivider: 15,
-    elevationPow: .9,
-  })
-
-  const hoverMarkers = DotAtlas.createLayer({
-    points: [],
-    type: 'marker',
-    markerFillOpacity: 0.5,
-    markerStrokeWidth: 0,
-    markerSizeMultiplier: 0,
-  })
-
-  const hoverOutline = DotAtlas.createLayer({
-    points: [],
-    type: 'outline',
-    outlineFillColor: [ 255, 255, 255, 10 ],
-    outlineStrokeColor: [ 0, 0, 0, 128 ],
-    outlineStrokeWidth: 0.5,
-
-    // How much to offset the outline boundary from the markers.
-    outlineRadiusOffset: 1,
-    outlineRadiusMultiplier: 10,
-  })
-
-  const markers = DotAtlas.createLayer({
-    points: dataset.tieredLabels,
-    type: 'marker',
-    markerSizeMultiplier: 5,
-    markerStrokeWidth: 0,
-
-    pointHoverRadiusMultiplier: 10.0,
-    onPointHover: (e) => {
-      hoverMarkers.set('points', e.points)
-      hoverOutline.set('points', e.points)
-      dotatlas.redraw()
-    },
-  })
-
-  const labels = DotAtlas.createLayer({
-    points: dataset.tieredLabels,
-    type: 'label',
-    labelFontFamily: 'Barlow',
-    labelFontSize: 14,
-    labelFontWeight: 400,
-    labelFontVariant: 'normal',
-    opacity: 0,
-  })
-
-  return { elevation, markers, labels, hoverMarkers, hoverOutline }
-}
 
 const atlasInit = async (node) => {
   const container = document.getElementById(node)
@@ -123,15 +44,109 @@ const atlasInit = async (node) => {
     bob.style.top = `${y}px`
   }
 
+  const basePts = baseMap.map((o) => ({ ...o, elevation: 0.01 }))
+  const baseLbls = baseLabels
+  const selection = new Set()
+
+  const elevation = DotAtlas.createLayer({
+    type: 'elevation',
+    points: basePts,
+    elevationPow: 1,
+    maxRadiusDivider: 15,
+    contourWidth: 0,
+    lightAltitude: 10,
+    lightIntensity: .2,
+  })
+
+  const selectionMarkers = DotAtlas.createLayer({
+    type: 'marker',
+    points: [],
+    markerFillOpacity: 1,
+  })
+
+  const selectionOutline = DotAtlas.createLayer({
+    type: 'outline',
+    outlineFillColor: [0x95, 0xD0, 0xDF, 0x55],
+    outlineStrokeColor: [0x22, 0x29, 0x30, 0x90],
+    outlineStrokeWidth: .4,
+    points: [],
+    outlineRadiusOffset: 15,
+  })
+
+  const hoverMarkers = DotAtlas.createLayer({
+    points: [],
+    type: 'marker',
+    markerFillOpacity: 0.2,
+    markerStrokeWidth: 1,
+    markerSizeMultiplier: 5,
+  })
+
+  const hoverOutline = DotAtlas.createLayer({
+    points: [],
+    type: 'outline',
+    outlineFillColor: [160, 204, 255, 100],
+    outlineStrokeColor: [36, 60, 75, 255],
+    outlineStrokeWidth: 0.5,
+
+    // How much to offset the outline boundary from the markers.
+    outlineRadiusOffset: 10,
+    outlineRadiusMultiplier: 15,
+  })
+
+  const markers = DotAtlas.createLayer({
+    type: 'marker',
+    points: baseLbls,
+
+    markerSizeMultiplier: 5,
+    markerStrokeWidth: 0,
+    markerOpacity: 1,
+
+    minAbsoluteMarkerSize: 0,
+
+    pointHoverRadiusMultiplier: 10,
+    onPointHover: (e) => {
+      hoverMarkers.set('points', e.points)
+      hoverOutline.set('points', e.points)
+      dotatlas.redraw()
+    },
+    onPointClick: (e) => {
+      if (e.ctrlKey) {
+        selection.clear()
+      }
+
+      if (e.points.length > 0) {
+        e.points.forEach((point) => selection.add(point))
+      }
+
+      selectionOutline.set('points', Array.from(selection))
+      dotatlas.redraw()
+    }
+  })
+
+  const labels = DotAtlas.createLayer({
+    type: 'label',
+    points: baseLbls,
+    labelFontFamily: 'IBM Plex Sans',
+    labelFontSize: 15,
+    labelFontWeight: 800,
+    labelFontVariant: 'normal',
+    labelOpacity: 1,
+  })
+
   const dotatlas = DotAtlas
     .with(AutoResizing, Theme)
     .embed({
       element: container,
-      layers: [],
+      layers: [
+        elevation,
+        markers,
+        selectionOutline,
+        selectionMarkers,
+        hoverOutline,
+        hoverMarkers,
+        labels,
+      ],
       pixelRatio: 2,
-      onHover: (e) => {
-        locateBob()
-      },
       onClick: (e) => {
         bob.dataset.x = e.x
         bob.dataset.y = e.y
@@ -139,8 +154,6 @@ const atlasInit = async (node) => {
       },
       onMouseWheel: (e) => {
         const zoom = dotatlas.get('zoom')
-
-        locateBob()
         if ((zoom >= 20 && e.delta > 0) || (zoom <= 1 && e.delta < 0)) {
           e.preventDefault()
         }
@@ -148,23 +161,55 @@ const atlasInit = async (node) => {
       onDoubleClick: (e) => console.log(e),
     })
 
-  const dataset = await getDataset()
-  const layers = createLayers({ dataset, dotatlas })
+  const prev_pts = {
+    elevation: elevation.get('points'),
+    labels: labels.get('points'),
+    markers: markers.get('points'),
+  }
 
-  dotatlas.set({
-    layers: [
-      layers.elevation,
-      layers.markers,
-      layers.hoverOutline,
-      layers.hoverMarkers,
-      layers.labels,
-    ],
-  })
+  const updateOverlay = (id) => {
+    fetchGroupLayer(id)
+      .then((pts) => {
+        elevation.set('points', [...prev_pts.elevation, ...pts])
+        elevation.update('xy')
+
+        labels.set('points', [...prev_pts.labels, ...pts])
+        labels.update('xy')
+        labels.update('labelVisibilityScales')
+        labels.update('labelOpacity')
+        labels.update('labelColor')
+        labels.update('labelBoxColor')
+        labels.update('labelBoxOpacity')
+
+        markers.set('points', [...prev_pts.markers, ...pts])
+        markers.update('xy')
+        markers.update('markerSize')
+
+        markers.update('markerColor')
+        markers.update('markerOpacity')
+        markers.update('markerShape')
+
+        elevation.update('elevation')
+
+        dotatlas.redraw()
+      })
+  }
+
+  const onRaF = () => {
+    locateBob()
+    window.requestAnimationFrame(onRaF)
+  }
+
+  updateOverlay('user')
+  window.requestAnimationFrame(onRaF)
 
   dotatlas.saveView = () => {
     const blob = dotatlas.get('imageData')
     FileSaver.saveAs(blob, 'atlas.png')
   }
+
+  // window.setTimeout(dotatlas.saveView, 4000)
+  // dotatlas.saveView()
 
   window.atlas = dotatlas
 }

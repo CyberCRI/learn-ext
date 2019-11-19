@@ -1,3 +1,7 @@
-$typeface-display: 'Inter', '-apple-system', 'BlinkMacSystemFont', sans-serif;
-$typeface-text: 'Barlow', '-apple-system', 'BlinkMacSystemFont', sans-serif;
-$typeface-mono: 'Overpass Mono', monospace;
+$typeface-display: 'Barlow', 'Rajdhani', '-apple-system', 'BlinkMacSystemFont', sans-serif;
+$typeface-text: 'Barlow', 'Rajdhani', '-apple-system', 'BlinkMacSystemFont', sans-serif;
+$typeface-mono: 'IBM Plex Mono', monospace;
+$typeface-code: 'IBM Plex Mono', 'Oxygen Mono', 'Source Code Pro', 'Menlo', monospace;
+$typeface-header: 'Barlow', 'Oxygen Mono', 'Source Code Pro', 'Menlo', monospace;
+
+$typeface-display-hindi: 'Rajdhani', 'Kohinoor Devanagari', '-apple-system', 'BlinkMacSystemFont', sans-serif;

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Card, Elevation } from '@blueprintjs/core'
+import { Card, Elevation, Button } from '@blueprintjs/core'
 import _ from 'lodash'
 import clsx from 'classnames'
 
 import { ConceptList } from '~components/concepts'
-import { LanguagePill, DateTimePill, ResourceLinkPill } from '~components/pills'
+import { DateTimePill, ResourceLinkPill } from '~components/pills'
 import OG from '~mixins/opengraph'
 
 
@@ -34,21 +34,28 @@ export const Backdrop = ({ url }) => {
   )
 }
 
-export const ResourceCard = ({ url, ...props}) => {
-
+export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
+  const isRemovable = onDelete !== undefined
+  const didClickDelete = () => {
+    onDelete && onDelete(props.resource_id)
+  }
   return (
     <Card elevation={Elevation.TWO} interactive className='card resource'>
-      <Backdrop url={url}/>
+      { !props.skipMedia && <Backdrop url={url}/> }
       <div className='content'>
         <h4 className='title'>{props.title}</h4>
-        <DateTimePill timestamp={props.created_on}/>
+        {isRemovable && <Button onClick={didClickDelete} text='Delete' icon='delete'/> }
+        {!!props.created_on && <DateTimePill timestamp={props.created_on}/>}
 
-        <ConceptList
-          concepts={props.concepts.map((c) => ({
-            title: c[`title_${props.lang}`] || c.title_en,
-            ...c,
-          }))}
-          lang={props.lang}/>
+        {!props.skipConceptList &&
+          <ConceptList
+            concepts={concepts.map((c) => ({
+              title: c[`title_${props.lang}`] || c.title_en,
+              ...c,
+            }))}
+            lang={props.lang}
+            removable={isRemovable}
+            noAnimation/>}
         <ResourceLinkPill url={url} short linked/>
       </div>
     </Card>

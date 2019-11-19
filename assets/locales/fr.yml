@@ -1,181 +1,176 @@
 # [1] Extension Specific Strings
 extension:
-  name:
-    message: iLearn Extension
-  description:
-    message: Recherche collaborative avec iLearn
+  name: WeLearn Extension
+  description: Recherche collaborative avec WeLearn
 
 command:
-  toggle_action:
-    message: Ajouter la ressource à votre bibliothèque iLearn
+  toggle_action: Ajouter la ressource à votre bibliothèque WeLearn
 
 actions:
   page:
     # Page action appears in address bar
-    title:
-      message: Ajouter dans iLearn
+    title: Ajouter dans WeLearn
 
 menu:
   action:
-    openDashboard:
-      message: Accéder à Mes Ressources
-    addResource:
-      message: Ajouter cette page dans iLearn
+    openDashboard: Accéder à Mes Ressources
+    openMap: Ouvrir la Carte
+    addResource: Ajouter cette page dans WeLearn
 
 # [2] Navigation and Pages Strings
 navigationBar:
-  heading:
-    message: iLearn
+  heading: WeLearn
 
   links:
     dashboard:
-      label:
-        message: Mes Ressources
+      label: Mes Ressources
     discover:
-      label:
-        message: Ma Carte
+      label: Ma Carte
     settings:
-      label:
-        message: Préférences
+      label: Préférences
     help:
-      label:
-        message: Support
+      label: Support
 
 pages:
   dashboard:
     meta:
-      pageTitle:
-        message: Mes Ressources | iLearn
+      pageTitle: Mes Ressources | WeLearn
 
     actions:
-      sort:
-        message: Trier
+      sort: Trier
     searchInput:
-      placeholder:
-        message: Rechercher
+      placeholder: Rechercher
+
+  discover:
+    meta:
+      pageTitle: Discover | WeLearn
+
+    sections:
+      atlas:
+        title: Your Knowledge Map
+
+        layers:
+          user: My Resources
+          everything: Everything
+          group: My Group
 
   settings:
     meta:
-      pageTitle:
-        message: Préférences | iLearn
+      pageTitle: Préférences | WeLearn
 
     tabs:
-      account:
-        message: Compte
-      privacy:
-        message: Confidentialité
-      support:
-        message: Assistance
+      general: General
+      account: Compte
+      privacy: Confidentialité
+      support: Assistance
 
     panels:
       privacy:
         # Introduction text
-        title:
-          message: Confidentialité
-        description:
-          message: Vos données n’appartiennent qu’à vous.
+        title: Confidentialité
+        description: Vos données n’appartiennent qu’à vous.
 
         # Form Elements
         sharing:
-          title:
-            message: Choisissez ce que vous partagez
+          title: Choisissez ce que vous partagez
 
           choices:
             private:
-              title:
-                message: Privé
-              description:
-                message: |
-                  Mes données ne sont visibles que par moi-même. Les ressources
-                  que j’ajoute à iLearn bénéficient à la communauté de façon
-                  anonyme.
+              title: Privé
+              description: >
+                Mes données ne sont visibles que par moi-même. Les ressources
+                que j’ajoute à WeLearn bénéficient à la communauté de façon
+                anonyme.
             public:
-              title:
-                message: Publique
-              description:
-                message: |
-                  Mes données sont partagées avec tous les utilisateurs d’iLearn
-                  (pas encore disponible).
+              title: Publique
+              description: >
+                Mes données sont partagées avec tous les utilisateurs d’WeLearn
+                (pas encore disponible).
 
         mentorship:
-          title:
-            message: Mentorat
-          description:
-            message: |
-              Je veux être contacté par des apprenants qui cherchent un mentor
-              avec des compétences et intérêts proches des miens
-              (pas encore disponible).
+          title: Mentorat
+          description: >
+            Je veux être contacté par des apprenants qui cherchent un mentor
+            avec des compétences et intérêts proches des miens
+            (pas encore disponible).
 
+      general:
+        intro:
+          title: Réglages Généraux
+          description: ''
 
-    userAccount:
-      intro:
-        title:
-          message: ''
-        description:
-          message: Merci de renseigner votre adresse e-mail.
-      success:
-        title:
-          message: ''
-        description:
-          message: Vous êtes enregistré-e !
-      error:
-        title:
-          message: ''
-        description:
-          message: Problème de connexion avec le serveur. Veuillez essayer de nouveau.
-      form:
-        emailInput:
-          label:
-            message: Adresse e-mail
-          placeholder:
-            message: E-mail
-        groupRadio:
-          label:
-            message: Groupe
-        submitButton:
-          label:
-            message: Enregistrer
+        form:
+          languageSelect:
+            label: Langue
+            description: Choisissez votre langue préférée
+          themeSelect:
+            label: Display
+            description: Choisissez le thème de l'interface utilisateur
+            fields:
+              appearance:
+                label: Apparence Visuelle
+          submitButton:
+            label: Enregistrer
+
+      account:
+        intro:
+          title: 'Compte et Groupe'
+          description: Merci de renseigner votre adresse e-mail.
+        success:
+          title: ''
+          description: Vous êtes enregistré-e !
+        error:
+          title: ''
+          description: Problème de connexion avec le serveur. Veuillez essayer de nouveau.
+        form:
+          emailInput:
+            label: Adresse e-mail
+            placeholder: E-mail
+          groupRadio:
+            label: Groupe
+          submitButton:
+            label: Enregistrer
+
+      support:
+        intro:
+          title: Help & Support
+          description: ''
+
+        tutorial:
+          title: Tutorial
+          link: Open
+
+        changelog:
+          title: Update History
+          link: Changelog
 
   onboarding:
     meta:
-      pageTitle:
-        message: iLearn
+      pageTitle: WeLearn
 
     intro:
-      title:
-        message: Merci d'utiliser iLearn !
-      description:
-        message: ''
+      title: Merci d'utiliser WeLearn !
+      description: ''
 
 # [3] React Components
 components:
   suggest:
     searchInput:
-      placeholder:
-        message: Ajouter un Concept
+      placeholder: Ajouter un Concept
     intro:
-      title:
-        message: Taper l'intitulé du concept
-      description:
-        message: Nous allons vous suggérer les concepts les plus pertinents par rapport à cet intitulé.
+      title: Taper l'intitulé du concept
+      description: Nous allons vous suggérer les concepts les plus pertinents par rapport à cet intitulé.
     error:
-      title:
-        message: Aucun résultat
-      description:
-        message: Aucun concept ne correspond à {query}
+      title: Aucun résultat
+      description: Aucun concept ne correspond à {{query}}
     inflight:
-      label:
-        message: Recherche en cours
+      label: Recherche en cours
 
   cards:
     wikiInfoCard:
       actions:
-        locateInMap:
-          message: Localiser
-        moreInfo:
-          message: Voir plus
+        locateInMap: Localiser
+        moreInfo: Voir plus
       errorState:
-        title:
-          message: ''
-        description:
-          message: Wikipédia ne semble pas avoir de page pour ce concept.
+        title: ''
+        description: Wikipédia ne semble pas avoir de page pour ce concept.

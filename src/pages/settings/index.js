@@ -1,17 +1,18 @@
 import React from 'react'
 import { renderReactComponent } from '~mixins/react-helpers'
-import * as FiIcon from 'react-icons/fi'
-import { IconContext } from 'react-icons'
+import { Helmet } from 'react-helmet'
+
 import SettingsTabs from './tabs'
+import { i18n } from '@ilearn/modules/i18n'
 import './style.sass'
 
 
 const SettingsContainer = (props) => {
   return (
     <div>
-      <IconContext.Provider value={{ size: '3em', color: '#fff' }}>
-        <div><FiIcon.FiSettings/></div>
-      </IconContext.Provider>
+      <Helmet>
+        <title>{i18n.t('pages.settings.meta.pageTitle')}</title>
+      </Helmet>
       <SettingsTabs />
     </div>
   )

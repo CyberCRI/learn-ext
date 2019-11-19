@@ -3,6 +3,18 @@
   .omnibar {
     padding: 0 10%;
   }
+
+  .pager {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  .grid.error {
+    max-width: 480px;
+    margin: 50px auto;
+  }
 }
 
 .resources {
@@ -10,6 +22,10 @@
   list-style: none;
   margin: 30px auto;
   padding: 0;
+
+  &.info-box {
+    text-align: center;
+  }
 
   > li {
   }

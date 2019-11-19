@@ -35,20 +35,20 @@ kept in a more logical order.
 
 ```yaml
 extension:
-  name:
-    message: 'iLearn Extension'
-  description:
-    message: 'Collaborative Learning with iLearn'
+  name: 'iLearn Extension'
+  description: 'Collaborative Learning with iLearn'
 
 actions:
   page:
-    title:
-      message: 'Add the resource to your ilearn library'
+    title: 'Add the resource to your ilearn library'
 ```
 
 The transformation function flattens this nested structure until it finds
-the last level object that is, the object that contains `message` key. To
+the last level object that is, the object that contains phrases. To
 flatten the `name`, all the parent `keys` are prepended to it.
+
+> Aside: This spec was updated to remove the requirement for "message" leaf
+> nodes. In the transformation routine we add that object implicitly.
 
 For example, the above file would transform to this `json`:
 
@@ -85,12 +85,13 @@ See [src/procs/wrappers.js](../../src/procs/wrappers.js) for complete signature.
 
 #### In content/browser scripts and webpages
 
-*This section is currently incomplete.*
-
+We use multi-approach translation strategy. Sice `i18n` API is only available in
+extension context, we use the same locale objects with `node-polyglot` library
+and initialize it with phrases from the same locale set as above. No API changes
+is necessary!
 
 ### Gotchas
 
 To avoid unnecessary complexity, the transformation function is opinionated.
-It only transforms the object if there's a `message` key in it. Rest of the contents
-of the element are copied as is, hence all the advance keys such as `placeholder`
-and `examples` are supported as long as they're in the same object.
+It only transforms the deepest phrase keys and only supports substitution via
+`<%- substitution %>` syntax.

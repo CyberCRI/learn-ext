@@ -1,180 +1,175 @@
 # [1] Extension Specific Strings
 extension:
-  name:
-    message: iLearn Extension
-  description:
-    message: Collaborative Learning with iLearn
+  name: WeLearn Extension
+  description: Collaborative Learning with WeLearn
 
 command:
-  toggle_action:
-    message: Add the resource to your ilearn library
+  toggle_action: Add the resource to your WeLearn library
 
 actions:
   page:
     # Page action appears in address bar
-    title:
-      message: Add to iLearn
+    title: Add to WeLearn
 
 menu:
   action:
-    openDashboard:
-      message: Open Dashboard
-    addResource:
-      message: Add this page to iLearn
+    openDashboard: Open Dashboard
+    openMap: Browse Map
+    addResource: Add this page to WeLearn
 
 # [2] Navigation and Pages Strings
 navigationBar:
-  heading:
-    message: iLearn
+  heading: WeLearn
 
   links:
     dashboard:
-      label:
-        message: My Resources
+      label: My Resources
     discover:
-      label:
-        message: Discover
+      label: Discover
     settings:
-      label:
-        message: Settings
+      label: Settings
     help:
-      label:
-        message: Help
+      label: Help
 
 pages:
   dashboard:
     meta:
-      pageTitle:
-        message: Dashboard | iLearn
+      pageTitle: Dashboard | WeLearn
 
     actions:
-      sort:
-        message: Sort
+      sort: Sort
     searchInput:
-      placeholder:
-        message: Search
+      placeholder: Search
+
+  discover:
+    meta:
+      pageTitle: Discover | WeLearn
+
+    sections:
+      atlas:
+        title: Your Knowledge Map
+
+        layers:
+          user: My Resources
+          everything: Everything
+          group: My Group
 
   settings:
     meta:
-      pageTitle:
-        message: Settings | iLearn
+      pageTitle: Settings | WeLearn
 
     tabs:
-      account:
-        message: Account
-      privacy:
-        message: Privacy
-      support:
-        message: Support
+      general: General
+      account: Account
+      privacy: Privacy
+      support: Support
 
     panels:
       privacy:
         # Introduction text
-        title:
-          message: Privacy
-        description:
-          message: We believe that your data belongs to you and only you.
+        title: Privacy
+        description: We believe that your data belongs to you and only you.
 
         # Form Elements
         sharing:
-          title:
-            message: Choose what you share
+          title: Choose what you share
 
           choices:
             private:
-              title:
-                message: Private
-              description:
-                message: |
-                  Data added to iLearn by you will only be visible to you. Resource
-                  ratings, or tags will be used anonymously for improving the
-                  community resources on iLearn.
+              title: Private
+              description: >
+                Data added to WeLearn by you will only be visible to you. Resource
+                ratings, or tags will be used anonymously for improving the
+                community resources on WeLearn.
             public:
-              title:
-                message: Public
-              description:
-                message: |
-                  Your resources will be shared with other iLearn users (not
-                  available yet).
+              title: Public
+              description: >
+                Your resources will be shared with other WeLearn users (not
+                available yet).
 
         mentorship:
-          title:
-            message: Mentorship
-          description:
-            message: |
-              I want to be contacted by learners who need a mentor with similar
-              skills and interests as me (not available yet).
+          title: Mentorship
+          description: >
+            I want to be contacted by learners who need a mentor with similar
+            skills and interests as me (not available yet).
 
+      general:
+        intro:
+          title: General
+          description: ''
 
-    userAccount:
-      intro:
-        title:
-          message: ''
-        description:
-          message: Specify the email you want to use iLearn with.
-      success:
-        title:
-          message: ''
-        description:
-          message: You are signed in!
-      error:
-        title:
-          message: ''
-        description:
-          message: Trouble reaching server. Please try again.
-      form:
-        emailInput:
-          label:
-            message: Your email
-          placeholder:
-            message: Email
-        groupRadio:
-          label:
-            message: Group
-        submitButton:
-          label:
-            message: Save
+        form:
+          languageSelect:
+            label: Language
+            description: Choose your preferred language
+          themeSelect:
+            label: Display
+            description: Choose UI theme
+            fields:
+              appearance:
+                label: Appearance
+          submitButton:
+            label: Apply Changes
+
+      account:
+        intro:
+          title: 'Account & Group'
+          description: Specify the email you want to use WeLearn with.
+        success:
+          title: ''
+          description: You are signed in!
+        error:
+          title: ''
+          description: Trouble reaching server. Please try again.
+        form:
+          emailInput:
+            label: Your email
+            placeholder: Email
+          groupRadio:
+            label: Group
+          submitButton:
+            label: Save
+
+      support:
+        intro:
+          title: Help & Support
+          description: ''
+
+        tutorial:
+          title: Tutorial
+          link: Open
+
+        changelog:
+          title: Update History
+          link: Changelog
 
   onboarding:
     meta:
-      pageTitle:
-        message: iLearn
+      pageTitle: WeLearn
 
     intro:
-      title:
-        message: Thanks for using iLearn!
-      description:
-        message: ''
+      title: Thanks for using WeLearn!
+      description: ''
 
 # [3] React Components
 components:
   suggest:
     searchInput:
-      placeholder:
-        message: Add Concept
+      placeholder: Add Concept
     intro:
-      title:
-        message: Type to find concepts.
-      description:
-        message: We will suggest relevant concepts to tag this resource with.
+      title: Type to find concepts.
+      description: We will suggest relevant concepts to tag this resource with.
     error:
-      title:
-        message: Nothing found
-      description:
-        message: No concepts match ${query}
+      title: Nothing found
+      description: No concepts match {{query}}
     inflight:
-      label:
-        message: Searching
+      label: Searching
 
   cards:
     wikiInfoCard:
       actions:
-        locateInMap:
-          message: Locate in Map
-        moreInfo:
-          message: Read More
+        locateInMap: Locate in Map
+        moreInfo: Read More
       errorState:
-        title:
-          message: ''
-        description:
-          message: Wikipedia does not seem to have a page for this concept.
+        title: ''
+        description: Wikipedia does not seem to have a page for this concept.
