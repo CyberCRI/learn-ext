@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="96" height="96" viewBox="0 0 96 96">
+  <defs>
+    <rect id="icon-rounded@2x-a" width="96" height="96" x="0" y="0" rx="8"/>
+    <polygon id="icon-rounded@2x-d" points="36 0 42.652 39.652 59.217 39.652"/>
+    <filter id="icon-rounded@2x-c" width="130.1%" height="117.7%" x="-15.1%" y="-11.3%" filterUnits="objectBoundingBox">
+      <feOffset dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
+    </filter>
+    <path id="icon-rounded@2x-f" d="M21.1304348,42 L69.4063506,17.9845698 C70.0513239,17.6637202 70.834278,17.9264743 71.1551276,18.5714475 C71.3229636,18.9088321 71.3366871,19.3023158 71.1927643,19.6505736 L61.9565217,42 L61.9565217,42 L21.1304348,42 Z"/>
+    <filter id="icon-rounded@2x-e" width="111.2%" height="121.9%" x="-6.8%" y="-4.3%" filterUnits="objectBoundingBox">
+      <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
+    </filter>
+    <path id="icon-rounded@2x-h" d="M1.32243315,18.3353904 L11.0869565,42 L11.0869565,42 L54.2608696,42 L3.10699309,16.6689939 C2.46143664,16.3493193 1.67896228,16.6134987 1.35928769,17.2590552 C1.19254529,17.5957777 1.17911355,17.9880512 1.32243315,18.3353904 Z"/>
+    <filter id="icon-rounded@2x-g" width="110.6%" height="120.8%" x="-2.4%" y="-4.1%" filterUnits="objectBoundingBox">
+      <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="icon-rounded@2x-b" fill="#fff">
+      <use xlink:href="#icon-rounded@2x-a"/>
+    </mask>
+    <use fill="#D9E1E6" xlink:href="#icon-rounded@2x-a"/>
+    <g mask="url(#icon-rounded@2x-b)">
+      <polygon fill="#F6CA64" points="0 0 96 0 96 96 0 96"/>
+      <circle cx="48" cy="48" r="41.478" fill="#FCB757"/>
+      <circle cx="48" cy="48" r="22.696" fill="#FED798"/>
+      <polygon fill="#91D2C8" points="0 62.348 96 82.824 96 96 0 96 0 75.783"/>
+      <g transform="translate(11.87 33.783)">
+        <polygon fill="#FFF" stroke="#979797" stroke-width=".5" points="36 0 13.565 39.652 59.217 39.652"/>
+        <use fill="#000" filter="url(#icon-rounded@2x-c)" xlink:href="#icon-rounded@2x-d"/>
+        <use fill="#FFF" xlink:href="#icon-rounded@2x-d"/>
+        <use fill="#000" filter="url(#icon-rounded@2x-e)" xlink:href="#icon-rounded@2x-f"/>
+        <use fill="#FFF" xlink:href="#icon-rounded@2x-f"/>
+        <use fill="#000" filter="url(#icon-rounded@2x-g)" xlink:href="#icon-rounded@2x-h"/>
+        <use fill="#FFF" xlink:href="#icon-rounded@2x-h"/>
+        <polygon stroke="#312F30" stroke-linejoin="round" stroke-width="1.304" points="36 0 13.565 39.652 59.217 39.652"/>
+        <polygon stroke="#312F30" stroke-linejoin="round" stroke-width="1.304" points="36 0 42.652 39.652 59.217 39.652"/>
+        <path fill="#FFF" stroke="#312F30" stroke-linejoin="round" stroke-width="1.304" d="M21.1304348,42 L70.652506,17.3646549 C71.03949,17.1721451 71.5092625,17.3297976 71.7017722,17.7167815 C71.8024738,17.9192123 71.8107079,18.1553026 71.7243542,18.3642572 L61.9565217,42 L61.9565217,42 L21.1304348,42 Z"/>
+        <path fill="#FFF" stroke="#312F30" stroke-linejoin="round" stroke-width="1.304" d="M0.79345989,17.0534082 L11.0869565,42 L11.0869565,42 L54.2608696,42 L1.86419585,16.0535702 C1.47686198,15.8617655 1.00737737,16.0202731 0.815572613,16.407607 C0.715527176,16.6096405 0.70746813,16.8450046 0.79345989,17.0534082 Z"/>
+      </g>
+      <polygon fill="#A5DDED" points="0 75.783 96 69.547 96 96 0 96"/>
+      <polygon fill="#57B5CB" fill-opacity=".66" points="0 90.671 96 75.783 96 96 0 96"/>
+    </g>
+    <path stroke="#222930" stroke-linejoin="round" d="M22.1277997 74.609822L12.2452535 50.4473756C12.0361782 49.9361947 12.2810833 49.3523116 12.7922642 49.1432364 13.057777 49.0346405 13.3571406 49.0452989 13.6142581 49.1725022L33.5982114 59.0591302 33.5982114 59.0591302M63.6602285 60.0242559L82.6483158 50.8480835C83.1455792 50.6077763 83.7434983 50.8160804 83.9838056 51.3133438 84.107442 51.5691825 84.1164029 51.8655381 84.0084496 52.1283793L76.0687407 71.4597333 76.0687407 71.4597333" mask="url(#icon-rounded@2x-b)"/>
+    <polyline stroke="#222930" stroke-linejoin="round" points="33.274 59.443 48 33.213 63.66 60.348" mask="url(#icon-rounded@2x-b)"/>
+    <polygon fill="#A5DDED" points="13.75 74.919 81.397 70.489 67.647 79.504 14.966 84.405" mask="url(#icon-rounded@2x-b)"/>
+  </g>
+</svg>

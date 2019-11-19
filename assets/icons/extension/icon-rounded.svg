@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="0 0 48 48">
+  <defs>
+    <rect id="icon-rounded-a" width="48" height="48" x="0" y="0" rx="4"/>
+    <polygon id="icon-rounded-d" points="21.75 0 25.769 23.957 35.777 23.957"/>
+    <filter id="icon-rounded-c" width="121.4%" height="112.5%" x="-10.7%" y="-6.3%" filterUnits="objectBoundingBox">
+      <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
+    </filter>
+    <path id="icon-rounded-f" d="M12.7663043,25.375 L42.2575231,10.7042414 C42.5800098,10.5438166 42.9714868,10.6751936 43.1319116,10.9976803 C43.2158296,11.1663725 43.2226914,11.3631144 43.15073,11.5372433 L37.4320652,25.375 L37.4320652,25.375 L12.7663043,25.375 Z"/>
+    <filter id="icon-rounded-e" width="107.7%" height="114.8%" x="-4.8%" y="-5.1%" filterUnits="objectBoundingBox">
+      <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
+    </filter>
+    <path id="icon-rounded-h" d="M0.661216575,10.7437822 L6.69836957,25.375 L6.69836957,25.375 L32.7826087,25.375 L1.55349654,9.91058389 C1.23071832,9.75074659 0.839481138,9.88283631 0.679643844,10.2056145 C0.596272647,10.3739758 0.589556775,10.5701125 0.661216575,10.7437822 Z"/>
+    <filter id="icon-rounded-g" width="110.3%" height="120.3%" x="-1.2%" y="-8%" filterUnits="objectBoundingBox">
+      <feOffset dx="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
+      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="icon-rounded-b" fill="#fff">
+      <use xlink:href="#icon-rounded-a"/>
+    </mask>
+    <use fill="#D9E1E6" xlink:href="#icon-rounded-a"/>
+    <g mask="url(#icon-rounded-b)">
+      <g transform="translate(-5 -6)">
+        <polygon fill="#F6CA64" points="0 0 58 0 58 58 0 58"/>
+        <circle cx="29" cy="29" r="25.06" fill="#FCB757"/>
+        <circle cx="29" cy="29" r="13.712" fill="#FED798"/>
+        <polygon fill="#91D2C8" points="0 37.668 58 50.04 58 58 0 58 0 45.785"/>
+        <g transform="translate(7.171 20.41)">
+          <polygon fill="#FFF" stroke="#979797" stroke-width=".5" points="21.75 0 8.196 23.957 35.777 23.957"/>
+          <use fill="#000" filter="url(#icon-rounded-c)" xlink:href="#icon-rounded-d"/>
+          <use fill="#FFF" xlink:href="#icon-rounded-d"/>
+          <use fill="#000" filter="url(#icon-rounded-e)" xlink:href="#icon-rounded-f"/>
+          <use fill="#FFF" xlink:href="#icon-rounded-f"/>
+          <use fill="#000" filter="url(#icon-rounded-g)" xlink:href="#icon-rounded-h"/>
+          <use fill="#FFF" xlink:href="#icon-rounded-h"/>
+          <polygon stroke="#312F30" stroke-linejoin="round" stroke-width=".652" points="21.75 0 8.196 23.957 35.777 23.957"/>
+          <polygon stroke="#312F30" stroke-linejoin="round" stroke-width=".652" points="21.75 0 25.769 23.957 35.777 23.957"/>
+          <path fill="#FFF" stroke="#312F30" stroke-linejoin="round" stroke-width=".652" d="M12.7663043,25.375 L42.8806008,10.394284 C43.0740928,10.2980291 43.3089791,10.3768553 43.4052339,10.5703473 C43.4555847,10.6715627 43.4597018,10.7896078 43.4165249,10.8940851 L37.4320652,25.375 L37.4320652,25.375 L12.7663043,25.375 Z"/>
+          <path fill="#FFF" stroke="#312F30" stroke-linejoin="round" stroke-width=".652" d="M0.396729945,10.102791 L6.69836957,25.375 L6.69836957,25.375 L32.7826087,25.375 L0.932097926,9.60287207 C0.738430991,9.50696969 0.503688683,9.58622353 0.407786307,9.77989046 C0.357763588,9.88090722 0.353734065,9.99858926 0.396729945,10.102791 Z"/>
+        </g>
+        <polygon fill="#A5DDED" points="0 45.785 58 42.018 58 58 0 58"/>
+        <polygon fill="#57B5CB" fill-opacity=".66" points="0 54.78 58 45.785 58 58 0 58"/>
+      </g>
+    </g>
+    <polyline stroke="#222930" stroke-linejoin="round" stroke-width="1.5" points="8.845 39.75 2.857 24.272 15 30 24 14 33.452 30.313 45.319 25.085 40.359 37.305" mask="url(#icon-rounded-b)"/>
+    <line x1="12.026" x2="33.679" y1="28.871" y2="39.037" stroke="#222930" stroke-linejoin="round" mask="url(#icon-rounded-b)"/>
+    <line x1="35.451" x2="24.524" y1="29.649" y2="34.838" stroke="#222930" stroke-linejoin="round" mask="url(#icon-rounded-b)"/>
+    <polygon fill="#A5DDED" points="3.419 39.276 44.452 36.555 39.774 41.506 4.762 44.483" mask="url(#icon-rounded-b)"/>
+    <line x1="23.935" x2="27.141" y1="14.312" y2="33.463" stroke="#222930" stroke-linejoin="round" mask="url(#icon-rounded-b)"/>
+  </g>
+</svg>
