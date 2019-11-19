@@ -145,9 +145,7 @@ const setupDebugger = (atlas, layers, element) => {
     .onChange(layerPropSetter(layers.labels, 'labelFontSize'))
 
   ui.close()
-  if (!env.is_dev) {
-    ui.hide()
-  }
+  ui.hide()
 
   return ui
 }
