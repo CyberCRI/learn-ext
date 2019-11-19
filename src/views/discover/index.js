@@ -11,12 +11,12 @@ import './styles.scss'
 
 const DiscoverView = () => {
   return (
-    <div>
+    <>
       <Helmet>
         <title>{i18n.t('pages.discover.meta.pageTitle')}</title>
       </Helmet>
       <OverlayCards/>
-    </div>
+    </>
   )
 }
 
