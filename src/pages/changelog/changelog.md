@@ -11,7 +11,7 @@
 
 Here is what's new in this version of WeLearn extension:
 
-## v0.0.41
+## v0.0.41-42
 
 This is a preview release.
 
