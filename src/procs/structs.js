@@ -8,7 +8,7 @@ export const InstallEventReason = {
 
 export const IconStack = {
   action: {
-    idle: 'icons/extension/anchor-idle.png',
-    active: 'icons/extension/anchor-active.png',
+    idle: 'icons/extension/anchor-idle@2x.png',
+    active: 'icons/extension/anchor-active@2x.png',
   },
 }
