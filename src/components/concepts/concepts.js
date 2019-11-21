@@ -53,7 +53,7 @@ export const ConceptTag = (props) => {
       interactive
       minimal
       large
-      className='np--concept-tag'
+      className='np--concept-tag concept tag'
       onRemove={onRemove}>
       <Popover
         content={<WikiCard title={title} lang={lang}/>}
@@ -63,7 +63,7 @@ export const ConceptTag = (props) => {
         hoverCloseDelay={500}
         hoverOpenDelay={200}
         inheritDarkTheme={true}
-        boundary='window'
+        boundary='viewport'
         position={Position.BOTTOM}/>
     </Tag>
   )
@@ -83,7 +83,7 @@ export const ConceptList = (props) => {
         animate='visible'
         exit='hidden'
         variants={conceptListVariants}
-        className='np--concepts-list'>
+        className='np--concepts-list concept list'>
         {concepts.map((item) =>
           <motion.li key={item.title} positionTransition variants={conceptVariants}>
             <ConceptTag

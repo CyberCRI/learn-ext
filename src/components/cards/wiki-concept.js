@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Elevation, AnchorButton, ButtonGroup, NonIdealState } from '@blueprintjs/core'
-import { FaWikipediaW, FaBandAid } from 'react-icons/fa'
+import { FaWikipediaW } from 'react-icons/fa'
 import clsx from 'classnames'
 import _ from 'lodash'
 
