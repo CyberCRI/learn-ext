@@ -26,7 +26,7 @@ export const Backdrop = ({ url }) => {
   }
 
   const imageDidNotLoad = (e) => {
-    setDisplay({ hidden: true })
+    setDisplay({ height: 0, hidden: true })
   }
 
   const bgClasses = clsx('backdrop', { hidden: display.hidden })
