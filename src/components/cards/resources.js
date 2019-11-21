@@ -57,6 +57,15 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
             removable={isRemovable}
             noAnimation/>}
         <ResourceLinkPill url={url} short linked/>
+        <a
+          ariaHidden={true}
+          role='presentation'
+          href={url}
+          title={props.title}
+          target='_blank'
+          rel='noopener,nofollow'
+          tabindex={1}
+          className='overlay-link'>Open {props.title} in new tab</a>
       </div>
     </Card>
   )
