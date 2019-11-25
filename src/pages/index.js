@@ -11,7 +11,7 @@ import store from '~mixins/persistence'
 const AppDidLoad = new Event('apploaded')
 
 window.addEventListener('load', async () => {
-  const appLang = await store.get('pref.lang')
+  const appLang = await store.get('pref.lang') || 'en'
 
   // Add language attribute to document
   $('html').attr('lang', appLang)
