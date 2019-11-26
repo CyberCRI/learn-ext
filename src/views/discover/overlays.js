@@ -37,7 +37,14 @@ export const MapKeyboardShortcutsDialog = (props) => {
       title='Keyboard Shortcuts'
       icon='key-command'
       onClose={() => hotkeysDialog.close()}>
-      <p><kbd>c</kbd> Clear Selection</p>
+      <div>
+        <ul>
+          <li><kbd>↑</kbd> <kbd>↓</kbd> <kbd>→</kbd> <kbd>←</kbd> Move Around</li>
+          <li><kbd>w</kbd> <kbd>s</kbd> <kbd>d</kbd> <kbd>a</kbd></li>
+          <li><kbd>shift ↑</kbd> Zoom Out</li>
+          <li><kbd>shift ↓</kbd> Zoom In</li>
+        </ul>
+      </div>
     </Dialog>
   )
 }
@@ -52,6 +59,11 @@ export const MapDropdownMenuContent = (props) => {
       <Menu.Item
         icon='lightbulb'
         text='Using Discover Map'/>
+      <Menu.Item
+        icon='code-block'
+        text='About DotAtlas'
+        target='_blank'
+        href='https://get.carrotsearch.com/dotatlas/latest/'/>
     </Menu>
   )
 }
