@@ -40,10 +40,10 @@ const ListSortOrderPriority = (() => {
 
 
 export const ConceptTag = (props) => {
-  const { title, lang } = props
+  const { title, wikidata_id, lang } = props
   const didClickRemove = () => {
     console.debug(`[ConceptTag] Removing <${title}>`)
-    props.onRemove && props.onRemove({ title })
+    props.onRemove && props.onRemove({ title, wikidata_id })
   }
 
   const onRemove = props.removable === true ? didClickRemove : null
@@ -85,7 +85,7 @@ export const ConceptList = (props) => {
         variants={conceptListVariants}
         className='np--concepts-list concept list'>
         {concepts.map((item) =>
-          <motion.li key={item.title} positionTransition variants={conceptVariants}>
+          <motion.li key={item.wikidata_id} positionTransition variants={conceptVariants}>
             <ConceptTag
               removable={removable}
               onRemove={props.onRemove}
