@@ -28,6 +28,7 @@ const iFrameStyles = {
   height: '100vh',
   border: 'none',
   outline: 'none',
+  pointerEvents: 'all',
   zIndex: 12600322,
 }
 
