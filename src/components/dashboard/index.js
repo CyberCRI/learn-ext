@@ -87,8 +87,16 @@ const DashboardView = () => {
   }
 
   const deleteResource = (resource_id) => {
-    setResources(_(resources).reject(['resource_id', resource_id]).value())
-    console.log('will delete', resource_id)
+    API
+      .deleteResource({ resource_id })
+      .then(() => {
+        setResources(
+          _(resources)
+            .reject(['resource_id', resource_id])
+            .value())
+      })
+  }
+
   }
 
   return (
@@ -98,7 +106,10 @@ const DashboardView = () => {
       </Helmet>
       <OmniBar onChange={(q) => setFilters(q)}/>
       <ResourcesInfo len={resources.length} count={count}/>
-      <ResourceGrid resources={resources} filters={filters}/>
+      <ResourceGrid
+        resources={resources}
+        filters={filters}
+        onDelete={deleteResource}
       <div className='pager'>
         {statusError && <ErrorDescription/>}
         {isLoading && <Spinner/>}
