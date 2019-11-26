@@ -126,7 +126,7 @@ const Support = () => (
     <AnchorButton text={i18nT('support.tutorial.link')} href='/pages/support.html'/>
     <AnchorButton text={i18nT('support.changelog.link')} href='/pages/changelog.html'/>
 
-    <p>Version: 0.0.40</p>
+    <p>Version: {env.info_version}</p>
   </PosedCard>
 )
 
