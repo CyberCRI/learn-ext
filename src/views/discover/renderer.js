@@ -39,8 +39,8 @@ export const setupMapView = async (conf) => {
     type: 'elevation',
     points: mapShapePoints,
 
-    elevationPow: 1,
-    maxRadiusDivider: 18,
+    elevationPow: .1,
+    maxRadiusDivider: 13.8,
     contourWidth: 0,
     lightAltitude: 5,
     lightIntensity: .2,
@@ -262,7 +262,7 @@ export const setupMapView = async (conf) => {
       .forEach((p) => {
         pt = pts.get(p.wikiDataId)
         if (pt) {
-          p.markerOpacity = 1
+          p.markerOpacity = .8
           p.canPick = true
         } else {
           p.markerOpacity = 0
