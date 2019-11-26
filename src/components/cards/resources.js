@@ -9,7 +9,7 @@ import OG from '~mixins/opengraph'
 
 
 export const Backdrop = ({ url }) => {
-  const [ display, setDisplay ] = useState({})
+  const [ display, setDisplay ] = useState({ hidden: true })
   const imageDidLoad = (e) => {
     const { naturalWidth, naturalHeight, height } = e.target
     // If the ratio of the image dimension exceeds width that's much greater
@@ -21,7 +21,7 @@ export const Backdrop = ({ url }) => {
     } else {
       // Use the rendered image height for the figure height. We'll rely on CSS
       // so it won't exceed max-height value.
-      setDisplay({ height })
+      setDisplay({ height, hidden: false })
     }
   }
 
