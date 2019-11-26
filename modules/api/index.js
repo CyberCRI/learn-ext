@@ -55,6 +55,23 @@ export const API = {
   entireMapLayer: () => {
     return request({ url: pathFor('map') })
   },
+
+  deleteResource: ({ resource_id }) => {
+    return store
+      .get('user')
+      .then(({ uid }) => {
+        return request({
+          url: pathFor(`user/${uid}/resource/${resource_id}`),
+          method: 'delete',
+        })
+      })
+  },
+  deleteConceptFromResource: ({ resource_id, wikidata_id }) => {
+    return request({
+      url: pathFor(`resource/${resource_id}/concept/${wikidata_id}`),
+      method: 'delete',
+    })
+  },
 }
 
 export const ResourceAPI = {
@@ -68,30 +85,3 @@ export const MapLayerAPI = {
   group: API.groupMapLayer,
   everything: API.entireMapLayer,
 }
-
-// User
-const EndpointUser = {
-  create: (email, group_id) => {
-    request({
-      url: 'api/user',
-      method: 'post',
-      data: { email, group_id },
-    })
-  },
-
-  update: (user_id, group_id) => {
-    request({
-      url: `api/user/${user_id}`,
-      method: 'put',
-      data: { group_id },
-    })
-  },
-
-  delete: (user_id) => {
-    request({
-      url: `api/user/${user_id}`,
-      method: 'delete',
-    })
-  },
-}
-
