@@ -43,12 +43,19 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
   const didClickDelete = () => {
     onDelete && onDelete(props.resource_id)
   }
+  const didRemoveConcept = (concept) => {
+    const payload = {
+      resource_id: props.resource_id,
+      wikidata_id: concept.wikidata_id,
+    }
+    props.onRemoveConcept && props.onRemoveConcept(payload)
+  }
+
   return (
     <Card elevation={Elevation.TWO} interactive className='card resource'>
       { !props.skipMedia && <Backdrop url={url}/> }
       <div className='content'>
         <h4 className='title'>{props.title}</h4>
-        {isRemovable && <Button onClick={didClickDelete} text='Delete' icon='delete'/> }
         {!!props.created_on && <DateTimePill timestamp={props.created_on}/>}
 
         {!props.skipConceptList &&
@@ -59,6 +66,7 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
             }))}
             lang={props.lang}
             removable={isRemovable}
+            onRemove={didRemoveConcept}
             noAnimation/>}
         <ResourceLinkPill url={url} short linked/>
         <a
@@ -68,7 +76,7 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
           title={props.title}
           target='_blank'
           rel='noopener,nofollow'
-          tabindex={1}
+          tabIndex={1}
           className='overlay-link'>Open {props.title} in new tab</a>
       </div>
     </Card>
