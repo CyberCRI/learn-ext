@@ -2,6 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import urlParse from 'url-parse'
 import clsx from 'classnames'
+import { useToggle } from 'react-use'
 
 import OpenGraph from '~mixins/opengraph'
 
@@ -29,7 +30,7 @@ export const LanguagePill = ({ lang, ...props }) => {
   )
 }
 
-export const DateTimePill = ({ timestamp, lang='en', ...props }) => {
+export const DateTimePill = ({ timestamp, lang='en-gb', ...props }) => {
   const displayTime = moment
     .utc(timestamp)
     .locale(lang)
