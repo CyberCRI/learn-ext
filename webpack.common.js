@@ -278,7 +278,7 @@ module.exports = {
       copyUnmodified: true,
       ignore: ['.DS_Store'],
     }),
-    new MomentLocalesPlugin({ localesToKeep: ['fr'] }),
+    new MomentLocalesPlugin({ localesToKeep: ['fr', 'en-gb', 'hi', 'zh-cn'] }),
     new LicenseWebpackPlugin({ perChunkOutput: false, outputFilename: 'module.licenses.txt' }),
     dotenv.PackageEnv.webpackPlugin,
     ...staticPageGeneratorPlugins,
