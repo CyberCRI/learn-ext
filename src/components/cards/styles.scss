@@ -240,7 +240,7 @@ div.card {
       img {
         width: 100%;
         height: auto;
-        transform: scale(1.2) translateY(-10%);
+        transform: scale(1.2) translateY(-5%);
       }
     }
 
@@ -263,7 +263,37 @@ div.card {
       }
 
       .concept.tag {
+        position: relative;
         z-index: 10;
+      }
+
+      .action.delete {
+        z-index: 10;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+
+        button {
+          background: transparentize($light-gray5, .5);
+          backdrop-filter: blur(10px);
+          transition: .2s all;
+          border-radius: 50%;
+          transform: scale(1);
+          opacity: 1;
+        }
+        &:hover {
+          button {
+            background: transparentize($light-gray5, .2);
+            transform: scale(1.1);
+          }
+        }
+
+        &:active {
+          button {
+            background: transparentize($light-gray5, .2);
+            transform: scale(.9);
+          }
+        }
       }
 
       a.overlay-link {
