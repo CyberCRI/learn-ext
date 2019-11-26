@@ -1,7 +1,7 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.0.42",
-  "version_name": "0.0.42-alpha",
+  "version": "0.0.43",
+  "version_name": "0.0.43-alpha",
   "manifest_version": 2,
 
   "description": "__MSG_extension_description__",

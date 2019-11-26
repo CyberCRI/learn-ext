@@ -11,12 +11,18 @@
 
 Here is what's new in this version of WeLearn extension:
 
-## v0.0.41-42
+## v0.0.43
 
-This is a preview release.
+- You can finally Delete resources or concepts linked to the resources from
+  your library.
+- A new version of DotAtlas. This was generously provided by DotAtlas team
+  for WeLearn Project. [carrotsearch.com](https://carrotsearch.com/)
+- Few minor bug fixes.
 
-- Make all the resource cards open the resource url in new tab on clicks.
-- Fix a few typos in changelog (we got the email wrong.)
+> **PS**: We'll add an option to _not_ open this page automatically when the
+> extension updates, in the next release! Our apologies if we interrupted
+> your workflow.
+
 
 ## Next Up
 
@@ -26,6 +32,15 @@ Next release is planned soon. Major features are:
 - Customise your privacy preferences.
 - We'll further strip-down the extension and make the web-based interface
   default.
+
+## v0.0.41-42
+
+Released on `2019-11-22`
+
+This is a preview release.
+
+- Make all the resource cards open the resource url in new tab on clicks.
+- Fix a few typos in changelog (we got the email wrong.)
 
 ## v0.0.40
 
