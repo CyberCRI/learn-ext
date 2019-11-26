@@ -100,14 +100,16 @@ release:bump () {
 }
 
 release:pack () {
-  _info 'Linting Extension Sources'
+  _info 'Linting Extension Sources [firefox]'
   web-ext lint
-  _info 'Building Package'
+  _info 'Building Package [firefox]'
   web-ext build --overwrite-dest
+  _info 'Building Package [chrome]'
+  (cd .builds && zip -r chrome.zip ./chrome -x ./chrome/report.html)
 }
 
 release:sign () {
-  _info 'Requesting Signing Service'
+  _info 'Requesting Signing Service [firefox]'
   web-ext sign \
     --api-key $DEV_WEBEXT_API_KEY \
     --api-secret $DEV_WEBEXT_API_SECRET \
