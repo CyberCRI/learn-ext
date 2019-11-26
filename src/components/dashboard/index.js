@@ -97,6 +97,23 @@ const DashboardView = () => {
       })
   }
 
+  const removeConcept = (payload) => {
+    console.log('Removing concept', payload)
+    API
+      .deleteConceptFromResource(payload)
+      .then(() => {
+        // Remove concept from this resource's concept list and update the state.
+        // We'll do it better later in refactor.
+        const { resource_id, wikidata_id } = payload
+        const updatedResources = resources.map((r) => {
+          if (r.resource_id === resource_id) {
+            const concepts = r.concepts.filter((c) => c.wikidata_id !== wikidata_id)
+            return { ...r, concepts }
+          }
+          return r
+        })
+        setResources(updatedResources)
+      })
   }
 
   return (
@@ -110,6 +127,7 @@ const DashboardView = () => {
         resources={resources}
         filters={filters}
         onDelete={deleteResource}
+        onRemoveConcept={removeConcept}/>
       <div className='pager'>
         {statusError && <ErrorDescription/>}
         {isLoading && <Spinner/>}
