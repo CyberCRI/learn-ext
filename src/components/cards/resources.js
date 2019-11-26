@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Card, Elevation, Button } from '@blueprintjs/core'
+import { Card, Elevation, Button, Tooltip } from '@blueprintjs/core'
+import { useUpdateEffect } from 'react-use'
 import _ from 'lodash'
 import clsx from 'classnames'
 
@@ -38,6 +39,70 @@ export const Backdrop = ({ url }) => {
   )
 }
 
+export const DeleteResourceButton = ({ onConfirm, ...props }) => {
+  const [ intent, setIntention ] = useState('init')
+
+  const didClickButton = () => {
+    if (intent === 'init') {
+      // Ask for confirmation, and revert to `init` state unless intent changes
+      // within 4000ms.
+      setIntention('confirm')
+    } else if (intent === 'confirm') {
+      // Emit deletion event.
+      setIntention('undo')
+      onConfirm()
+    }
+  }
+
+  useUpdateEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (intent === 'confirm') {
+        setIntention('init')
+      }
+    }, 4000)
+    return () => {
+      // Make sure to clean up after ourselves.
+      window.clearTimeout(timer)
+    }
+  }, [ intent ])
+
+  const buttonParams = {
+    init: {
+      icon: 'cross',
+      text: 'Delete',
+      intent: 'default',
+    },
+    confirm: {
+      icon: 'outdated',
+      text: 'Click again to confirm!',
+      intent: 'danger',
+    },
+    undo: {
+      icon: 'undo',
+      text: 'Undo',
+      loading: true,
+    },
+  }
+
+  const impliedProps = buttonParams[intent]
+
+  return (
+    <Tooltip
+      content={<span>{impliedProps.text}</span>}
+      position='left-top'
+      intent={impliedProps.intent}
+      usePortal={false}
+      className='action delete container'>
+      <Button
+        onClick={didClickButton}
+        small
+        minimal
+        rightIcon={impliedProps.icon}
+        loading={impliedProps.loading}/>
+    </Tooltip>
+  )
+}
+
 export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
   const isRemovable = onDelete !== undefined
   const didClickDelete = () => {
@@ -68,6 +133,8 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
             removable={isRemovable}
             onRemove={didRemoveConcept}
             noAnimation/>}
+
+        {isRemovable && <DeleteResourceButton onConfirm={didClickDelete}/>}
         <ResourceLinkPill url={url} short linked/>
         <a
           ariaHidden={true}
