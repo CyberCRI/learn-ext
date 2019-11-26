@@ -1,5 +1,9 @@
 @import 'styles/index'
 
+html
+  // Set Root Document Font Size.
+  font-size: 14px
+
 body
   font:
     family: $typeface-display
@@ -50,6 +54,7 @@ body
     .footer-content
       display: flex
       justify-content: space-between
+      align-items: center
 
     a
       color: inherit
@@ -65,7 +70,7 @@ body
 
       li
         display: inline-block
-        margin-right: 20px
+        margin-left: 20px
 
 
 // Misc Elements
@@ -110,3 +115,6 @@ section.card
 
 h1, h2, h3, h4, h5
   margin: 0 0 5px 0
+
+code, pre
+  font-family: $typeface-mono

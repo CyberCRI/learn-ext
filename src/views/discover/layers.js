@@ -51,7 +51,7 @@ const normaliseConcept = (concept) => {
     lang,
 
     wikiDataId: concept.wikidata_id,
-    elevation: Math.max(concept.elevation, .1),
+    elevation: Math.max(concept.elevation, .2),
     ...defaultConceptValues,
   }
 }

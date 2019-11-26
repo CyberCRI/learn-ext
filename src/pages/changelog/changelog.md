@@ -3,20 +3,26 @@
 > Thanks for trying WeLearn! This document highlights major and minor changes
 > to the extension and web app.
 
-> Found a bug? Let us know! WeLearn is available as a prototype quality software,
-> which essentially means that there are bugs, missing features, and incomplete
-> user experience. You can help us! Let us know any feature requests, bugs,
+> Found a bug? You can help us! Let us know any feature requests, bugs,
 > or problems. Write to us at [welearn@cri-paris.org][email].
+> 
+> WeLearn is available as a prototype quality software, which essentially means
+> that there are bugs, missing features, and incomplete user experience. 
 
 Here is what's new in this version of WeLearn extension:
 
-## Highlights for v0.0.40
+## v0.0.43
 
-- A new codename: iLearn is now WeLearn.
-- Brand new Discover Tab. Use it to see your learning landscape.
-- Browse through your group, or other users' resources on Discover.
-- Access your resources on any device, any time. We're live at
-  [v2.ilearn.cri-paris.org][homepage].
+- You can finally Delete resources or concepts linked to the resources from
+  your library.
+- A new version of DotAtlas. This was generously provided by DotAtlas team
+  for WeLearn Project. [carrotsearch.com](https://carrotsearch.com/)
+- Few minor bug fixes.
+
+> **PS**: We'll add an option to _not_ open this page automatically when the
+> extension updates, in the next release! Our apologies if we interrupted
+> your workflow.
+
 
 ## Next Up
 
@@ -26,6 +32,27 @@ Next release is planned soon. Major features are:
 - Customise your privacy preferences.
 - We'll further strip-down the extension and make the web-based interface
   default.
+
+## v0.0.41-42
+
+Released on `2019-11-22`
+
+This is a preview release.
+
+- Make all the resource cards open the resource url in new tab on clicks.
+- Fix a few typos in changelog (we got the email wrong.)
+
+## v0.0.40
+
+Released on `2019-11-18`
+
+### Summary
+- A new codename: iLearn is now WeLearn.
+- Brand new Discover Tab. Use it to see your learning landscape.
+- Browse through your group, or other users' resources on Discover.
+- Access your resources on any device, any time. We're live at
+  [v2.ilearn.cri-paris.org][homepage].
+
 
 > **PS**: v0.0.38 and v0.0.39 were not published due to incomplete feature
 > set, and production bugs.
