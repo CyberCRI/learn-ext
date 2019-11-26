@@ -76,9 +76,16 @@ export const UrlPill = ({ url, linked=false, short=false, ...props }) => {
 }
 
 export const FaviconPill = ({ url, title='', ...props }) => {
+  const [ reveal, setVisibility ] = useToggle(false)
+  const imageDidLoad = () => setVisibility(true)
+
   return (
-    <Pill kind='favicon' {...props}>
-      <img src={OpenGraph.icon(url)} title={title}/>
+    <Pill kind='favicon' className={reveal && 'reveal'} {...props}>
+      <img
+        src={OpenGraph.icon(url)}
+        title={title}
+        ariaRole='presentation'
+        onLoad={imageDidLoad}/>
     </Pill>
   )
 }
