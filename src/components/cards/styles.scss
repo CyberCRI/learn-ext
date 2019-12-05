@@ -248,8 +248,9 @@ div.card {
       font: {
         family: $typeface-text;
         weight: 600;
-        size: 1rem;
+        size: 1.1rem;
       }
+      color: $ink1;
       margin: 0 0 10px 0;
       overflow-wrap: break-word;
     }

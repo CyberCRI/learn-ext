@@ -137,7 +137,7 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
         {isRemovable && <DeleteResourceButton onConfirm={didClickDelete}/>}
         <ResourceLinkPill url={url} short linked/>
         <a
-          ariaHidden={true}
+          ariahidden='true'
           role='presentation'
           href={url}
           title={props.title}

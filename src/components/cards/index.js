@@ -88,3 +88,4 @@ class InteractiveCard extends Component {
 
 export { BasicCard, InteractiveCard }
 export { WikiCard } from './wiki-concept'
+export { ResourceCard } from './resources'
