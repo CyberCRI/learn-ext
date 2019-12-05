@@ -1,0 +1,12 @@
+body {
+  background: $ink1;
+
+  header {
+    @include bg-vibrant-tint($ink1, .2);
+  }
+
+  main {
+    padding: 0;
+  }
+}
+
