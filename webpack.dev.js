@@ -11,12 +11,6 @@ module.exports = smartMerge(base_config, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin(),
-    new LiveReloadPlugin({
-      hostname: 'localhost',
-      port: 0, // Finds a free port starting 35729
-      appendScriptTag: false,
-      protocol: 'http',
-    }),
   ],
 
   module: {
