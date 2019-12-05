@@ -8,6 +8,8 @@
     "@babel/runtime": "^7.7.2",
     "@blueprintjs/core": "^3.17.2",
     "@blueprintjs/select": "^3.11.2",
+    "@terwanerik/scrolltrigger": "^1.0.3",
+    "animate.css": "^3.7.2",
     "bulma": "^0.8.0",
     "cash-dom": "^4.1.5",
     "dat.gui": "^0.7.6",

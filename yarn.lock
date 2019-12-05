@@ -2862,6 +2862,13 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@terwanerik/scrolltrigger@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@terwanerik/scrolltrigger/-/scrolltrigger-1.0.3.tgz#61d64719286c501f8244911feee27c02a6563aa9"
+  integrity sha512-qKYqGnQZSbbCyDoh9yHnOVmKNPaGEg1aTXUkKEmYvgzbqQrPSVpMX5/d3gxlUiCiIsWKyvOQJXeExb8R9Mdh9A==
+  dependencies:
+    object-extend "^0.5.0"
+
 "@types/anymatch@*":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@types/anymatch/-/anymatch-1.3.1.tgz#336badc1beecb9dacc38bea2cf32adf627a8421a"
@@ -3507,6 +3514,11 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
+
+animate.css@^3.7.2:
+  version "3.7.2"
+  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-3.7.2.tgz#e73e0d50e92cb1cfef1597d9b38a9481020e08ea"
+  integrity sha512-0bE8zYo7C0KvgOYrSVfrzkbYk6IOTVPNqkiHg2cbyF4Pq/PXzilz4BRWA3hwEUBoMp5VBgrC29lQIZyhRWdBTw==
 
 ansi-align@^3.0.0:
   version "3.0.0"
@@ -12095,6 +12107,11 @@ object-copy@^0.1.0:
     copy-descriptor "^0.1.0"
     define-property "^0.2.5"
     kind-of "^3.0.3"
+
+object-extend@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/object-extend/-/object-extend-0.5.0.tgz#f73c5cad05d520d882ccb1ff4cde79fe9880e8bb"
+  integrity sha1-9zxcrQXVINiCzLH/TN55/piA6Ls=
 
 object-inspect@^1.6.0:
   version "1.6.0"
