@@ -37,7 +37,7 @@ export const SkeletonCard = () => (
 export const ErrorCard = () => (
   <Card className='info-card error bp3-dark'>
     <NonIdealState
-      icon={<FaBandAid/>}
+      icon='offline'
       description={i18nT('errorState.description')}
       className='reason'/>
   </Card>
