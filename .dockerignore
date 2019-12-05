@@ -1,0 +1,14 @@
+**/*.pyc
+**/.DS_Store
+*.log
+.build
+.docker-data
+.dockerignore
+.env
+.git
+.prod.env
+assets
+media
+node_modules
+static
+webpack-stats.json
