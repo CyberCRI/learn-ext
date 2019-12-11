@@ -85,7 +85,7 @@ export const FaviconPill = ({ url, title='', ...props }) => {
       <img
         src={OpenGraph.icon(url)}
         title={title}
-        ariaRole='presentation'
+        ariarole='presentation'
         onLoad={imageDidLoad}/>
     </Pill>
   )

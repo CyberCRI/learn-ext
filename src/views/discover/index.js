@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet'
 import { renderReactComponent } from '~mixins/react-helpers'
 import { i18n } from '@ilearn/modules/i18n'
 import { setupMapView } from './renderer'
-import { fetchResources } from './store'
 import { OverlayCards, OverlayConcepts, OverlayTools } from './overlays'
 
 import './styles.scss'

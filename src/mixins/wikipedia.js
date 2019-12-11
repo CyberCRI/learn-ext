@@ -1,9 +1,11 @@
 // Wrapper implementing the API calls to wikipedia for searches.
 // Exposes the Wiki object with `opensearch` and `summary` methods.
-import { request, nsuuid } from '~mixins'
-import { context, Runtime } from '~mixins/utils'
 import Enum from 'enum'
 import _ from 'lodash'
+
+import { request } from './request'
+import { nsuuid, runtimeContext } from './utils'
+
 
 const HEADERS = {
   'Api-User-Agent': env.wikiapi_user_agent,
@@ -62,9 +64,9 @@ class WikiAPI {
         .value()
     }
 
-    const requestType = context() === Runtime.extension
-      ? 'json'
-      : 'jsonp'
+    const requestType = runtimeContext.isBrowser
+      ? 'jsonp'
+      : 'json'
 
     return request({
       url: endpoint,

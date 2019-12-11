@@ -1,0 +1,1550 @@
+[
+  {
+    "resource_id": "50ab1e76a57b9f11696da081d534cba6",
+    "title": "How to Fold a Julia Fractal — Acko.net",
+    "url": "https://acko.net/blog/how-to-fold-a-julia-fractal/",
+    "lang": "en",
+    "readability_score": 69.878,
+    "concepts": [
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Fractale",
+        "wikidata_id": "Q81392",
+        "title_en": "Fractal",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Ensemble de Julia",
+        "wikidata_id": "Q848427",
+        "title_en": "Julia set",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Nombre réel",
+        "wikidata_id": "Q12916",
+        "title_en": "Real number",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Nombre",
+        "wikidata_id": "Q11563",
+        "title_en": "Number",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Nombre complexe",
+        "wikidata_id": "Q11567",
+        "title_en": "Complex number",
+        "trueskill_mu": 50.0
+      }
+    ]
+  },
+  {
+    "resource_id": "62518a1baa73d89c98da3d04109f74a8",
+    "title": "Définition | Dinosaure | Futura Planète",
+    "url": "https://www.futura-sciences.com/planete/definitions/paleontologie-dinosaure-3746/",
+    "lang": "fr",
+    "readability_score": null,
+    "concepts": [
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Dinosaur",
+        "wikidata_id": "Q3707983",
+        "title_en": null,
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Histoire évolutive des mammifères",
+        "wikidata_id": "Q785301",
+        "title_en": "Evolution of mammals",
+        "trueskill_mu": 50.0
+      }
+    ]
+  },
+  {
+    "resource_id": "69fa5673bd5c4e8ca5dbb3782a268b28",
+    "title": "Is an Interstellar Asteroid Trapped Near Jupiter? Get the Facts.",
+    "url": "https://news.nationalgeographic.com/2018/05/interstellar-asteroid-jupiter-bz509-astronomy-space-science/",
+    "lang": "en",
+    "readability_score": null,
+    "concepts": [
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": null,
+        "wikidata_id": "Q17100689",
+        "title_en": "Jumping-Jupiter scenario",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": null,
+        "wikidata_id": "Q3809431",
+        "title_en": "Exoplanetology",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Nuage de Oort",
+        "wikidata_id": "Q40864",
+        "title_en": "Oort cloud",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Planète Neuf",
+        "wikidata_id": "Q22133699",
+        "title_en": "Planet Nine",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Formation et évolution du Système solaire",
+        "wikidata_id": "Q3535",
+        "title_en": "Formation and evolution of the Solar System",
+        "trueskill_mu": 50.0
+      }
+    ]
+  },
+  {
+    "resource_id": "6b79f2110de4ae86ac4011932d454f54",
+    "title": "Why Momentum Really Works",
+    "url": "https://distill.pub/2017/momentum/",
+    "lang": "en",
+    "readability_score": 54.431,
+    "concepts": [
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Coloration de graphe",
+        "wikidata_id": "Q504843",
+        "title_en": "Graph coloring",
+        "trueskill_mu": 45.569
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Algorithme du gradient",
+        "wikidata_id": "Q1199743",
+        "title_en": "Gradient descent",
+        "trueskill_mu": 45.569
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Méthode hill-climbing",
+        "wikidata_id": "Q820272",
+        "title_en": "Hill climbing",
+        "trueskill_mu": 45.569
+      }
+    ]
+  },
+  {
+    "resource_id": "5cb77c76d10f780cdb20a3c7f79e2e19",
+    "title": "MECHANICAL TV - WHAT WAS IT LIKE?",
+    "url": "http://www.hawestv.com/mtv_exp/mtv_exp.htm",
+    "lang": "en",
+    "readability_score": 55.034,
+    "concepts": [
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Télévision mécanique",
+        "wikidata_id": "Q1638417",
+        "title_en": "Mechanical television",
+        "trueskill_mu": 47.334
+      }
+    ]
+  },
+  {
+    "resource_id": "959294f2fcb87cf33721fb7fef726ebe",
+    "title": "Extracting Audio from Pictures",
+    "url": "https://mediapreservation.wordpress.com/2012/06/20/extracting-audio-from-pictures/",
+    "lang": "en",
+    "readability_score": 62.135,
+    "concepts": [
+      {
+        "trueskill_sigma": 15.304,
+        "title_fr": "Digital video noise reduction",
+        "wikidata_id": "Q1070689",
+        "title_en": "Digital image processing",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 15.304,
+        "title_fr": "Coordonnées polaires",
+        "wikidata_id": "Q62494",
+        "title_en": "Polar coordinate system",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 15.304,
+        "title_fr": null,
+        "wikidata_id": "Q6805985",
+        "title_en": "Media preservation",
+        "trueskill_mu": 50.0
+      }
+    ]
+  },
+  {
+    "resource_id": "909ce2e7b59091a3ee8bd87b73c611ab",
+    "title": "A Visual Exploration of Gaussian Processes",
+    "url": "https://distill.pub/2019/visual-exploration-gaussian-processes/",
+    "lang": "en",
+    "readability_score": 46.934,
+    "concepts": [
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": null,
+        "wikidata_id": "Q7049464",
+        "title_en": "Nonlinear dimensionality reduction",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": null,
+        "wikidata_id": "Q4874475",
+        "title_en": "Bayesian interpretation of kernel regularization",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": null,
+        "wikidata_id": "Q16000131",
+        "title_en": "Kernel embedding of distributions",
+        "trueskill_mu": 50.0
+      }
+    ]
+  },
+  {
+    "resource_id": "d9bde384c68da1ce05bb426eea3d338c",
+    "title": "How to Land on Mars",
+    "url": "https://www.nytimes.com/interactive/2018/11/25/science/insight-how-to-land-on-mars.html",
+    "lang": "en",
+    "readability_score": 63.449,
+    "concepts": [
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Sol martien",
+        "wikidata_id": "Q6774744",
+        "title_en": "Martian soil",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "InSight",
+        "wikidata_id": "Q1660590",
+        "title_en": "InSight",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": null,
+        "wikidata_id": "Q48485",
+        "title_en": "Curiosity (rover)",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": null,
+        "wikidata_id": "Q5598087",
+        "title_en": "Gravity turn",
+        "trueskill_mu": 50.0
+      }
+    ]
+  },
+  {
+    "resource_id": "de075ed751672dd853dd729aaa0a986f",
+    "title": "« La crise écologique impose une politique d’éducation à la nature plus ambitieuse »",
+    "url": "https://www.lemonde.fr/idees/article/2018/12/20/la-crise-ecologique-impose-une-politique-d-education-a-la-nature-plus-ambitieuse_5400378_3232.html",
+    "lang": "fr",
+    "readability_score": 67.884,
+    "concepts": [
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Nature",
+        "wikidata_id": "Q7860",
+        "title_en": "Nature",
+        "trueskill_mu": 40.529
+      },
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Éducation à l'environnement et au développement durable",
+        "wikidata_id": "Q948732",
+        "title_en": "Environmental education",
+        "trueskill_mu": 40.529
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Psychologie environnementale",
+        "wikidata_id": "Q618752",
+        "title_en": "Environmental psychology",
+        "trueskill_mu": 40.529
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Biotope",
+        "wikidata_id": "Q175208",
+        "title_en": "Biotope",
+        "trueskill_mu": 40.529
+      }
+    ]
+  },
+  {
+    "resource_id": "a958a7fb4ed7c9f23c2641d4d48a77e8",
+    "title": "Magnets that double efficiency of water splitting could help usher in a hydrogen economy",
+    "url": "https://www.chemistryworld.com/news/magnets-that-double-efficiency-of-water-splitting-could-help-usher-in-a-hydrogen-economy/3010618.article",
+    "lang": "en",
+    "readability_score": 48.042,
+    "concepts": [
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Énergie renouvelable",
+        "wikidata_id": "Q12705",
+        "title_en": "Renewable energy",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Énergie durable",
+        "wikidata_id": "Q1962383",
+        "title_en": "Sustainable energy",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Durabilité",
+        "wikidata_id": "Q219416",
+        "title_en": "Sustainability",
+        "trueskill_mu": 50.0
+      }
+    ]
+  },
+  {
+    "resource_id": "2d77af0a182ddfa940d534719a55612c",
+    "title": "‘I’ll work on it over the weekend’: high workload and other pressures faced by early-career researchers",
+    "url": "https://www.nature.com/articles/d41586-019-01914-z?error=cookies_not_supported&code=30eb4a0c-31b2-4f27-8ae7-a3711be18ab9",
+    "lang": "en",
+    "readability_score": 49.184,
+    "concepts": [
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Secrétaire permanent",
+        "wikidata_id": "Q57901836",
+        "title_en": "Permanent secretary",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Carrière (psychologie)",
+        "wikidata_id": "Q282049",
+        "title_en": "Career",
+        "trueskill_mu": 50.0
+      }
+    ]
+  },
+  {
+    "resource_id": "f1439613ee1678fb1ca9941e3fb85390",
+    "title": "Cult of the nudibranch — searching for new varieties of striking sea slug",
+    "url": "https://www.abc.net.au/news/2019-01-03/citizen-scientists-searching-for-nudibranchs/10669956",
+    "lang": "en",
+    "readability_score": 67.11,
+    "concepts": [
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Sciences participatives",
+        "wikidata_id": "Q1093434",
+        "title_en": "Citizen science",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Australie",
+        "wikidata_id": "Q408",
+        "title_en": "Australia",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Queensland",
+        "wikidata_id": "Q36074",
+        "title_en": "Queensland",
+        "trueskill_mu": 50.0
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Nudibranchia",
+        "wikidata_id": "Q733595",
+        "title_en": "Nudibranch",
+        "trueskill_mu": 50.0
+      }
+    ]
+  },
+  {
+    "resource_id": "f84d0391e07beed2b9df11913d3ebf36",
+    "title": "Reverse Engineering Cyclic Redundancy Codes",
+    "url": "https://hackaday.com/2019/06/27/reverse-engineering-cyclic-redundancy-codes/",
+    "lang": "en",
+    "readability_score": 60.595,
+    "concepts": [
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Contrôle de redondance cyclique",
+        "wikidata_id": "Q245471",
+        "title_en": "Cyclic redundancy check",
+        "trueskill_mu": 44.389
+      },
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": null,
+        "wikidata_id": "Q15994998",
+        "title_en": "Computation of cyclic redundancy checks",
+        "trueskill_mu": 44.389
+      }
+    ]
+  },
+  {
+    "resource_id": "88edce1b7a63a4e887f51755d36a3103",
+    "title": "Learning Synths",
+    "url": "https://learningsynths.ableton.com/",
+    "lang": "en",
+    "readability_score": 80.767,
+    "concepts": [
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Electro",
+        "wikidata_id": "Q217597",
+        "title_en": "Electro (music)",
+        "trueskill_mu": 33.707
+      },
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": null,
+        "wikidata_id": "Q6941627",
+        "title_en": "Music Note",
+        "trueskill_mu": 33.707
+      },
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Synthétiseur",
+        "wikidata_id": "Q163829",
+        "title_en": "Synthesizer",
+        "trueskill_mu": 33.707
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Navigateur web",
+        "wikidata_id": "Q6368",
+        "title_en": "Web browser",
+        "trueskill_mu": 33.707
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Microsoft Windows",
+        "wikidata_id": "Q1406",
+        "title_en": "Microsoft Windows",
+        "trueskill_mu": 33.707
+      }
+    ]
+  },
+  {
+    "resource_id": "85b1582734bd270b96f71a09f07c2422",
+    "title": "Visualizing Science: Illustration and Beyond",
+    "url": "https://blogs.scientificamerican.com/sa-visual/visualizing-science-illustration-and-beyond/",
+    "lang": "en",
+    "readability_score": 56.708,
+    "concepts": [
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Visualisation de données",
+        "wikidata_id": "Q6504956",
+        "title_en": "Data visualization",
+        "trueskill_mu": 46.448
+      },
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Graphisme d'information en France",
+        "wikidata_id": "Q845734",
+        "title_en": "Infographic",
+        "trueskill_mu": 46.448
+      },
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Visualisation scientifique",
+        "wikidata_id": "Q2737866",
+        "title_en": "Scientific visualization",
+        "trueskill_mu": 46.448
+      }
+    ]
+  },
+  {
+    "resource_id": "2aa35ae77379e4126bf960bb611812a9",
+    "title": "An Introduction to Sigma Delta Converters",
+    "url": "https://www.beis.de/Elektronik/DeltaSigma/SigmaDelta.html",
+    "lang": "en",
+    "readability_score": 57.819,
+    "concepts": [
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": null,
+        "wikidata_id": "Q25303896",
+        "title_en": "Chirp compression",
+        "trueskill_mu": 42.181
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": null,
+        "wikidata_id": "Q598973",
+        "title_en": "Pulse-density modulation",
+        "trueskill_mu": 42.181
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": "Convertisseur analogique-numérique",
+        "wikidata_id": "Q190169",
+        "title_en": "Analog-to-digital converter",
+        "trueskill_mu": 42.181
+      },
+      {
+        "trueskill_sigma": 16.666,
+        "title_fr": null,
+        "wikidata_id": "Q1184820",
+        "title_en": "Delta-sigma modulation",
+        "trueskill_mu": 42.181
+      }
+    ]
+  },
+  {
+    "resource_id": "1910f1bffa6be935142840a099887668",
+    "title": "Wired Bacteria Form Nature’s Power Grid: ‘We Have an Electric Planet’",
+    "url": "https://www.nytimes.com/2019/07/01/science/bacteria-microbes-electricity.html",
+    "lang": "en",
+    "readability_score": 69.025,
+    "concepts": [
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Bactérie",
+        "wikidata_id": "Q10876",
+        "title_en": "Bacteria",
+        "trueskill_mu": 39.925
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": null,
+        "wikidata_id": "Q16982265",
+        "title_en": "Geopsychrobacter electrodiphilus",
+        "trueskill_mu": 39.925
+      }
+    ]
+  },
+  {
+    "resource_id": "e47ae2e99dc387fcb5c5a425887be031",
+    "title": "Pontcysyllte Aqueduct - Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Pontcysyllte_Aqueduct",
+    "lang": "en",
+    "readability_score": 69.527,
+    "concepts": [
+      {
+        "trueskill_sigma": 14.855,
+        "title_fr": "Pont-canal de Pontcysyllte",
+        "wikidata_id": "Q158822",
+        "title_en": "Pontcysyllte Aqueduct",
+        "trueskill_mu": 26.138
+      }
+    ]
+  },
+  {
+    "resource_id": "008e6b36dbfb6f10104a1d45e9b5dc33",
+    "title": "Chernobyl Fungus Feeds On Radiation - ScienceAGoGo",
+    "url": "http://www.scienceagogo.com/news/20070422222547data_trunc_sys.shtml",
+    "lang": "en",
+    "readability_score": 39.381,
+    "concepts": [
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Mélanine",
+        "wikidata_id": "Q187526",
+        "title_en": "Melanin",
+        "trueskill_mu": 55.623
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Fungi",
+        "wikidata_id": "Q764",
+        "title_en": "Fungus",
+        "trueskill_mu": 55.623
+      }
+    ]
+  },
+  {
+    "resource_id": "d08310d99c63d94db4b80d4baeb7a685",
+    "title": "All-optical machine learning using diffractive deep neural networks",
+    "url": "https://science.sciencemag.org/content/361/6406/1004",
+    "lang": "en",
+    "readability_score": 43.207,
+    "concepts": [
+      {
+        "trueskill_sigma": 15.304,
+        "title_fr": "Réseau de neurones artificiels",
+        "wikidata_id": "Q192776",
+        "title_en": "Artificial neural network",
+        "trueskill_mu": 53.597
+      },
+      {
+        "trueskill_sigma": 15.304,
+        "title_fr": "Apprentissage profond",
+        "wikidata_id": "Q197536",
+        "title_en": "Deep learning",
+        "trueskill_mu": 53.597
+      },
+      {
+        "trueskill_sigma": 15.304,
+        "title_fr": null,
+        "wikidata_id": "Q55624999",
+        "title_en": "Neural network",
+        "trueskill_mu": 53.597
+      }
+    ]
+  },
+  {
+    "resource_id": "fc538bd5c47774c67b2b867d8414ec55",
+    "title": "Preparing for ‘the perfect storm’ - HackerNoon.com",
+    "url": "https://hackernoon.com/preparing-for-the-perfect-storm-21ae6468003e?gi=18442128c0b3",
+    "lang": "en",
+    "readability_score": 48.074,
+    "concepts": [
+      {
+        "trueskill_sigma": 11.255,
+        "title_fr": "Résilience (écologie)",
+        "wikidata_id": "Q4105196",
+        "title_en": "Ecological resilience",
+        "trueskill_mu": 50.984
+      },
+      {
+        "trueskill_sigma": 9.543,
+        "title_fr": null,
+        "wikidata_id": "Q5333513",
+        "title_en": "Economic impacts of climate change",
+        "trueskill_mu": 50.703
+      },
+      {
+        "trueskill_sigma": 11.804,
+        "title_fr": null,
+        "wikidata_id": "Q6047656",
+        "title_en": "Internal Family Systems Model",
+        "trueskill_mu": 50.537
+      }
+    ]
+  },
+  {
+    "resource_id": "8d922d46eadc2fc6392a678b1ddd3094",
+    "title": "Dix idées fausses que se font les scientifiques de la vulgarisation",
+    "url": "https://theconversation.com/dix-idees-fausses-que-se-font-les-scientifiques-de-la-vulgarisation-89191",
+    "lang": "fr",
+    "readability_score": 76.062,
+    "concepts": [
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Culture scientifique",
+        "wikidata_id": "Q30750412",
+        "title_en": null,
+        "trueskill_mu": 36.199
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Public",
+        "wikidata_id": "Q2388316",
+        "title_en": "Public",
+        "trueskill_mu": 36.199
+      }
+    ]
+  },
+  {
+    "resource_id": "6bfaa167c765aea6267e6dc8444b7477",
+    "title": "Les Plus anciens monuments de la langue française publiés pour les cours universitaires par Eduard Koschwitz",
+    "url": "https://gallica.bnf.fr/ark:/12148/bpt6k3733294/f12.image",
+    "lang": "fr",
+    "readability_score": 72.97,
+    "concepts": [
+      {
+        "trueskill_sigma": 8.725,
+        "title_fr": "Langage",
+        "wikidata_id": "Q315",
+        "title_en": "Language",
+        "trueskill_mu": 24.206
+      },
+      {
+        "trueskill_sigma": 9.6,
+        "title_fr": "Pair",
+        "wikidata_id": "Q415963",
+        "title_en": "Pair",
+        "trueskill_mu": 35.722
+      },
+      {
+        "trueskill_sigma": 9.6,
+        "title_fr": "Collège doctoral de recherche avancée",
+        "wikidata_id": "Q2983844",
+        "title_en": "The Graduate University for Advanced Studies",
+        "trueskill_mu": 35.722
+      }
+    ]
+  },
+  {
+    "resource_id": "c3948f9b51e66b919e9a7872cda698a0",
+    "title": "Where do analogies break down?",
+    "url": "https://neilkakkar.com/analogies.html",
+    "lang": "en",
+    "readability_score": 72.034,
+    "concepts": [
+      {
+        "trueskill_sigma": 9.021,
+        "title_fr": "Analogie",
+        "wikidata_id": "Q185816",
+        "title_en": "Analogy",
+        "trueskill_mu": 38.914
+      },
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Point Break",
+        "wikidata_id": "Q1146552",
+        "title_en": "Point Break",
+        "trueskill_mu": 38.332
+      }
+    ]
+  },
+  {
+    "resource_id": "0f1f94fd904632e847a08b6a7024b6bd",
+    "title": "Carcassonne. L'éducation à l'époque wisigothique (Ve-VIIIe)",
+    "url": "https://www.ladepeche.fr/article/2017/10/22/2670329-l-education-a-l-epoque-wisigothique-ve-viiie.html",
+    "lang": "fr",
+    "readability_score": 67.543,
+    "concepts": [
+      {
+        "trueskill_sigma": 6.456,
+        "title_fr": "Histoire",
+        "wikidata_id": "Q309",
+        "title_en": "History",
+        "trueskill_mu": 35.659
+      },
+      {
+        "trueskill_sigma": 6.62,
+        "title_fr": "Éducation",
+        "wikidata_id": "Q8434",
+        "title_en": "Education",
+        "trueskill_mu": 34.973
+      }
+    ]
+  },
+  {
+    "resource_id": "f43bf8b00050ea56dc8cca785b4b5531",
+    "title": "A Fine Map from Alexander von Humboldt (1851)",
+    "url": "https://longstreet.typepad.com/thesciencebookstore/2019/08/jf-der-erdkorper-in-seiner-gestaltung-erdansichten-entworfen-von-tr-bromme-ausgefuhrt-v-e-winckelmann-published-i.html",
+    "lang": "en",
+    "readability_score": 58.535,
+    "concepts": [
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Alexander von Humboldt",
+        "wikidata_id": "Q6694",
+        "title_en": "Alexander von Humboldt",
+        "trueskill_mu": 45.48
+      }
+    ]
+  },
+  {
+    "resource_id": "14aef74d055509d8c02bd770779b98f4",
+    "title": "La fonte du pergélisol menace de libérer massivement un puissant gaz à effet de serre",
+    "url": "https://www.futura-sciences.com/planete/actualites/climatologie-fonte-pergelisol-menace-liberer-massivement-puissant-gaz-effet-serre-59701/",
+    "lang": "fr",
+    "readability_score": 64.794,
+    "concepts": [
+      {
+        "trueskill_sigma": 7.274,
+        "title_fr": "Hydrate de méthane",
+        "wikidata_id": "Q389036",
+        "title_en": "Methane clathrate",
+        "trueskill_mu": 42.602
+      },
+      {
+        "trueskill_sigma": 9.177,
+        "title_fr": "Méthane",
+        "wikidata_id": "Q37129",
+        "title_en": "Methane",
+        "trueskill_mu": 42.636
+      },
+      {
+        "trueskill_sigma": 9.68,
+        "title_fr": "Changement climatique brutal",
+        "wikidata_id": "Q2956049",
+        "title_en": "Abrupt climate change",
+        "trueskill_mu": 42.397
+      },
+      {
+        "trueskill_sigma": 10.018,
+        "title_fr": "Réchauffement climatique",
+        "wikidata_id": "Q7942",
+        "title_en": "Global warming",
+        "trueskill_mu": 42.746
+      }
+    ]
+  },
+  {
+    "resource_id": "4cfd831ae96c27bb09dc56e635363868",
+    "title": "L'instruction en Gaule romaine - les gallo-romains",
+    "url": "https://sites.google.com/site/lesgalloromains/les-gallo-romains-dans-tous-leurs-etats/les-fiches/aide-memoire-les-cadeaux-entretiennent-l-amitie/fiche-quand-les-gallo-romains-se-mettent-a-ecrire/un-peu-de-demographie/essai/les-femmes-et-les-enfants/les-enfants-en-gaule-romaine/l-instruction-en-gaule-romaine",
+    "lang": "fr",
+    "readability_score": 75.937,
+    "concepts": [
+      {
+        "trueskill_sigma": 8.48,
+        "title_fr": "Culture gallo-romaine",
+        "wikidata_id": "Q1364601",
+        "title_en": "Gallo-Roman culture",
+        "trueskill_mu": 32.562
+      },
+      {
+        "trueskill_sigma": 4.699,
+        "title_fr": "Histoire",
+        "wikidata_id": "Q309",
+        "title_en": "History",
+        "trueskill_mu": 34.924
+      }
+    ]
+  },
+  {
+    "resource_id": "5f18f54c66c1d89f190b4686a77385ac",
+    "title": "Introducing Megapack: Utility-Scale Energy Storage",
+    "url": "https://www.tesla.com/fr_FR/blog/introducing-megapack-utility-scale-energy-storage",
+    "lang": "en",
+    "readability_score": 45.735,
+    "concepts": [
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": null,
+        "wikidata_id": "Q3112394",
+        "title_en": "Energy policy of the United States",
+        "trueskill_mu": 52.259
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": null,
+        "wikidata_id": "Q1832610",
+        "title_en": "Grid energy storage",
+        "trueskill_mu": 52.259
+      }
+    ]
+  },
+  {
+    "resource_id": "f338adbe40a87cc099105bdc9ef56bc1",
+    "title": "Writing Boot Sector Code - Susam Pal",
+    "url": "https://susam.in/blog/writing-boot-sector-code/",
+    "lang": "en",
+    "readability_score": 78.148,
+    "concepts": [
+      {
+        "trueskill_sigma": 15.848,
+        "title_fr": null,
+        "wikidata_id": "Q4413527",
+        "title_en": "X86 memory segmentation",
+        "trueskill_mu": 34.183
+      },
+      {
+        "trueskill_sigma": 15.848,
+        "title_fr": null,
+        "wikidata_id": "Q16252328",
+        "title_en": "Honeywell ARGUS",
+        "trueskill_mu": 34.183
+      },
+      {
+        "trueskill_sigma": 15.848,
+        "title_fr": null,
+        "wikidata_id": "Q17163399",
+        "title_en": "OS/360 Object File Format",
+        "trueskill_mu": 34.183
+      },
+      {
+        "trueskill_sigma": 15.848,
+        "title_fr": null,
+        "wikidata_id": "Q5424505",
+        "title_en": "Design of the FAT file system",
+        "trueskill_mu": 34.183
+      },
+      {
+        "trueskill_sigma": 15.848,
+        "title_fr": null,
+        "wikidata_id": "Q18153289",
+        "title_en": "GOFF",
+        "trueskill_mu": 34.183
+      }
+    ]
+  },
+  {
+    "resource_id": "c5f99697b20e660c9d3f293019ef3213",
+    "title": "A Topographic Map of the Moon",
+    "url": "http://tabletopwhale.com/2019/08/19/a-topographic-map-of-the-moon.html",
+    "lang": "en",
+    "readability_score": 73.964,
+    "concepts": [
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Phase lunaire",
+        "wikidata_id": "Q26388",
+        "title_en": "Lunar phase",
+        "trueskill_mu": 37.31
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Lune",
+        "wikidata_id": "Q405",
+        "title_en": "Moon",
+        "trueskill_mu": 37.31
+      }
+    ]
+  },
+  {
+    "resource_id": "8207d4c5d00c665644d41dff92f928b6",
+    "title": "Voyager 2’s Discoveries From Interstellar Space",
+    "url": "https://www.nytimes.com/2019/11/04/science/voyager-2-interstellar-solar-wind.html",
+    "lang": "en",
+    "readability_score": 67.054,
+    "concepts": [
+      {
+        "trueskill_sigma": 11.422,
+        "title_fr": "Nuage interstellaire",
+        "wikidata_id": "Q1054444",
+        "title_en": "Interstellar cloud",
+        "trueskill_mu": 41.118
+      },
+      {
+        "trueskill_sigma": 10.743,
+        "title_fr": "Voyager 2",
+        "wikidata_id": "Q48475",
+        "title_en": "Voyager 2",
+        "trueskill_mu": 41.533
+      },
+      {
+        "trueskill_sigma": 12.066,
+        "title_fr": "Système solaire",
+        "wikidata_id": "Q544",
+        "title_en": "Solar System",
+        "trueskill_mu": 42.992
+      },
+      {
+        "trueskill_sigma": 12.066,
+        "title_fr": "Vent solaire",
+        "wikidata_id": "Q79833",
+        "title_en": "Solar wind",
+        "trueskill_mu": 42.992
+      }
+    ]
+  },
+  {
+    "resource_id": "86b980107151871c552f23c5237b29b9",
+    "title": "Communicating Science Through Visual Media: Synaptic Pruning",
+    "url": "https://www.youtube.com/watch?v=rxPT78F_ZVE",
+    "lang": "en",
+    "readability_score": 55.414,
+    "concepts": [
+      {
+        "trueskill_sigma": 7.726,
+        "title_fr": "Élagage synaptique",
+        "wikidata_id": "Q2124069",
+        "title_en": "Synaptic pruning",
+        "trueskill_mu": 42.468
+      }
+    ]
+  },
+  {
+    "resource_id": "97b927b58550c5e8f63f2e3680c57697",
+    "title": "An Infinity of Suns and Planets (1798)",
+    "url": "https://longstreet.typepad.com/thesciencebookstore/2017/04/an-infinity-of-suns-and-planets-1798.html",
+    "lang": "en",
+    "readability_score": 48.655,
+    "concepts": [
+      {
+        "trueskill_sigma": 11.553,
+        "title_fr": "Thomas Wright (astronome)",
+        "wikidata_id": "Q460791",
+        "title_en": "Thomas Wright (astronomer)",
+        "trueskill_mu": 50.704
+      },
+      {
+        "trueskill_sigma": 10.988,
+        "title_fr": "Ouroboros",
+        "wikidata_id": "Q237970",
+        "title_en": "Ouroboros",
+        "trueskill_mu": 50.694
+      },
+      {
+        "trueskill_sigma": 10.443,
+        "title_fr": "Lucrèce",
+        "wikidata_id": "Q47154",
+        "title_en": "Lucretius",
+        "trueskill_mu": 50.669
+      },
+      {
+        "trueskill_sigma": 11.796,
+        "title_fr": "Univers",
+        "wikidata_id": "Q1",
+        "title_en": "Universe",
+        "trueskill_mu": 50.651
+      },
+      {
+        "trueskill_sigma": 11.796,
+        "title_fr": "Système solaire",
+        "wikidata_id": "Q544",
+        "title_en": "Solar System",
+        "trueskill_mu": 50.651
+      }
+    ]
+  },
+  {
+    "resource_id": "4e9c8dc48ee5cbf63036fa839563c6ae",
+    "title": "Les réseaux de neurones convolutifs.",
+    "url": "https://www.natural-solutions.eu/blog/la-reconnaissance-dimage-avec-les-rseaux-de-neurones-convolutifs",
+    "lang": "fr",
+    "readability_score": 75.268,
+    "concepts": [
+      {
+        "trueskill_sigma": 10.689,
+        "title_fr": "Convolution",
+        "wikidata_id": "Q2996486",
+        "title_en": null,
+        "trueskill_mu": 37.287
+      },
+      {
+        "trueskill_sigma": 10.689,
+        "title_fr": "Réseau neuronal convolutif",
+        "wikidata_id": "Q17084460",
+        "title_en": "Convolutional neural network",
+        "trueskill_mu": 37.287
+      }
+    ]
+  },
+  {
+    "resource_id": "b83f4dd60b23898b3614d157e2c5d1ff",
+    "title": "Action potentials and synapses",
+    "url": "https://qbi.uq.edu.au/brain-basics/brain/brain-physiology/action-potentials-and-synapses",
+    "lang": "en",
+    "readability_score": 39.662,
+    "concepts": [
+      {
+        "trueskill_sigma": 11.679,
+        "title_fr": "Synapse",
+        "wikidata_id": "Q187181",
+        "title_en": "Synapse",
+        "trueskill_mu": 53.361
+      },
+      {
+        "trueskill_sigma": 11.422,
+        "title_fr": "Potentiel d'action",
+        "wikidata_id": "Q194277",
+        "title_en": "Action potential",
+        "trueskill_mu": 53.415
+      },
+      {
+        "trueskill_sigma": 13.834,
+        "title_fr": null,
+        "wikidata_id": "Q15623463",
+        "title_en": "Graded potential",
+        "trueskill_mu": 52.1
+      },
+      {
+        "trueskill_sigma": 13.834,
+        "title_fr": null,
+        "wikidata_id": "Q5058372",
+        "title_en": "Cellular neuroscience",
+        "trueskill_mu": 52.1
+      },
+      {
+        "trueskill_sigma": 13.834,
+        "title_fr": "Potentiel postsynaptique excitateur",
+        "wikidata_id": "Q1207387",
+        "title_en": "Excitatory postsynaptic potential",
+        "trueskill_mu": 52.1
+      }
+    ]
+  },
+  {
+    "resource_id": "e2a9bf644d40a7de35341b91828d2efc",
+    "title": "The HP 9100 ROM",
+    "url": "http://www.hp9825.com/html/the_hp_9100_rom.html",
+    "lang": "en",
+    "readability_score": 57.483,
+    "concepts": [
+      {
+        "trueskill_sigma": 8.589,
+        "title_fr": null,
+        "wikidata_id": "Q7834120",
+        "title_en": "Transformer Read Only Storage",
+        "trueskill_mu": 41.319
+      },
+      {
+        "trueskill_sigma": 9.361,
+        "title_fr": null,
+        "wikidata_id": "Q5170214",
+        "title_en": "Core rope memory",
+        "trueskill_mu": 46.159
+      },
+      {
+        "trueskill_sigma": 7.815,
+        "title_fr": "HP 9000",
+        "wikidata_id": "Q1272701",
+        "title_en": "HP 9000",
+        "trueskill_mu": 46.301
+      }
+    ]
+  },
+  {
+    "resource_id": "e647891b1ab9ae81c146254fe7d59967",
+    "title": "Comic: Topological Manifolds | Adam Munich",
+    "url": "https://adammunich.com/topological-manifolds/",
+    "lang": "en",
+    "readability_score": 66.676,
+    "concepts": [
+      {
+        "trueskill_sigma": 10.268,
+        "title_fr": "Variété topologique",
+        "wikidata_id": "Q2721559",
+        "title_en": "Topological manifold",
+        "trueskill_mu": 34.766
+      },
+      {
+        "trueskill_sigma": 10.691,
+        "title_fr": "Site web",
+        "wikidata_id": "Q35127",
+        "title_en": "Website",
+        "trueskill_mu": 41.625
+      }
+    ]
+  },
+  {
+    "resource_id": "f69379c24554557b7baf4a13c641555d",
+    "title": "Will Mapping Ancient Rome Save Western Urbanism—and Civilization?",
+    "url": "https://www.theamericanconservative.com/urbs/will-mapping-ancient-rome-save-western-urbanism-and-civilization/",
+    "lang": "en",
+    "readability_score": 50.913,
+    "concepts": [
+      {
+        "trueskill_sigma": 10.298,
+        "title_fr": null,
+        "wikidata_id": "Q908472",
+        "title_en": "Domus Augustana",
+        "trueskill_mu": 49.533
+      },
+      {
+        "trueskill_sigma": 8.296,
+        "title_fr": "Rome antique",
+        "wikidata_id": "Q1747689",
+        "title_en": "Ancient Rome",
+        "trueskill_mu": 49.55
+      },
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Princeton University Press",
+        "wikidata_id": "Q1708210",
+        "title_en": "Princeton University Press",
+        "trueskill_mu": 49.517
+      }
+    ]
+  },
+  {
+    "resource_id": "d2fcfca4fe54392a25b4fdb63dae1c1e",
+    "title": "Illusions of Sound Perception, from Rhythm and Transforms, Sethares",
+    "url": "http://sethares.engr.wisc.edu/htmlRT/4%20sound_illusions.html",
+    "lang": "en",
+    "readability_score": 53.509,
+    "concepts": [
+      {
+        "trueskill_sigma": 11.039,
+        "title_fr": "Gamme de Shepard",
+        "wikidata_id": "Q1191396",
+        "title_en": "Shepard tone",
+        "trueskill_mu": 48.185
+      },
+      {
+        "trueskill_sigma": 9.951,
+        "title_fr": "Hauteur (musique)",
+        "wikidata_id": "Q118819",
+        "title_en": "Pitch (music)",
+        "trueskill_mu": 48.268
+      },
+      {
+        "trueskill_sigma": 9.951,
+        "title_fr": "Illusion",
+        "wikidata_id": "Q182593",
+        "title_en": "Illusion",
+        "trueskill_mu": 48.268
+      }
+    ]
+  },
+  {
+    "resource_id": "91318ad41a9add3ee280a1abeb4b995c",
+    "title": "Get started | Learning Music (Beta)",
+    "url": "https://learningmusic.ableton.com/",
+    "lang": "en",
+    "readability_score": 67.924,
+    "concepts": [
+      {
+        "trueskill_sigma": 12.129,
+        "title_fr": "Forme musicale",
+        "wikidata_id": "Q862597",
+        "title_en": "Musical form",
+        "trueskill_mu": 40.508
+      }
+    ]
+  },
+  {
+    "resource_id": "b58642a6a5a9e52648de94ff873b2af5",
+    "title": "Co-intervention avec un assistant de langue",
+    "url": "https://lv41.wordpress.com/2018/12/15/co-intervention-avec-un-assistant-de-langue/",
+    "lang": "fr",
+    "readability_score": 48.459,
+    "concepts": [
+      {
+        "trueskill_sigma": 9.021,
+        "title_fr": "Linguistique",
+        "wikidata_id": "Q8162",
+        "title_en": "Linguistics",
+        "trueskill_mu": 50.775
+      }
+    ]
+  },
+  {
+    "resource_id": "79d463fbf19c76475a67edaf35fa396b",
+    "title": "LED multiplexing layouts for hand-crafting",
+    "url": "http://crawlingrobotfortress.blogspot.com/2019/02/led-multiplexing-layouts-for-hand.html",
+    "lang": "en",
+    "readability_score": 57.767,
+    "concepts": [
+      {
+        "trueskill_sigma": 11.461,
+        "title_fr": null,
+        "wikidata_id": "Q611961",
+        "title_en": "Charlieplexing",
+        "trueskill_mu": 45.947
+      },
+      {
+        "trueskill_sigma": 10.824,
+        "title_fr": "Multiplexeur",
+        "wikidata_id": "Q189434",
+        "title_en": "Multiplexer",
+        "trueskill_mu": 46.081
+      },
+      {
+        "trueskill_sigma": 12.317,
+        "title_fr": "Wrapper (électronique)",
+        "wikidata_id": "Q605181",
+        "title_en": "Wire wrap",
+        "trueskill_mu": 45.298
+      },
+      {
+        "trueskill_sigma": 12.317,
+        "title_fr": "Circuit imprimé",
+        "wikidata_id": "Q173350",
+        "title_en": "Printed circuit board",
+        "trueskill_mu": 45.298
+      }
+    ]
+  },
+  {
+    "resource_id": "3baf75a8c39aaed2ae52c3e0909bd24e",
+    "title": "A computer built from NOR gates: inside the Apollo Guidance Computer",
+    "url": "http://www.righto.com/2019/09/a-computer-built-from-nor-gates-inside.html?m=1",
+    "lang": "en",
+    "readability_score": 59.726,
+    "concepts": [
+      {
+        "trueskill_sigma": 13.531,
+        "title_fr": "Processeur",
+        "wikidata_id": "Q5300",
+        "title_en": "Central processing unit",
+        "trueskill_mu": 43.197
+      },
+      {
+        "trueskill_sigma": 13.531,
+        "title_fr": null,
+        "wikidata_id": "Q18343761",
+        "title_en": "Memory cell (computing)",
+        "trueskill_mu": 43.197
+      },
+      {
+        "trueskill_sigma": 13.531,
+        "title_fr": "Unité arithmétique et logique",
+        "wikidata_id": "Q192903",
+        "title_en": "Arithmetic logic unit",
+        "trueskill_mu": 43.197
+      }
+    ]
+  },
+  {
+    "resource_id": "ff719a4b94d54ea63d497615c7cdc6ab",
+    "title": "La répétition espacée, meilleure technique de mémorisation | Le Monde des Langues",
+    "url": "https://www.mondelangues.fr/repetition-espacee-et-cartes-memoire",
+    "lang": "fr",
+    "readability_score": 68.595,
+    "concepts": [
+      {
+        "trueskill_sigma": 10.689,
+        "title_fr": "Acquisition des langues étrangères",
+        "wikidata_id": "Q1455178",
+        "title_en": "Second-language acquisition",
+        "trueskill_mu": 40.644
+      },
+      {
+        "trueskill_sigma": 10.689,
+        "title_fr": "Répétition espacée",
+        "wikidata_id": "Q1095869",
+        "title_en": "Spaced repetition",
+        "trueskill_mu": 40.644
+      }
+    ]
+  },
+  {
+    "resource_id": "747c03ff572824f7b23a09c101fac255",
+    "title": "OpenAI’s AI-powered robot learned how to solve a Rubik’s cube one-handed",
+    "url": "https://www.theverge.com/2019/10/15/20914575/openai-dactyl-robotic-hand-rubiks-cube-one-handed-solve-dexterity-ai",
+    "lang": "en",
+    "readability_score": 59.74,
+    "concepts": [
+      {
+        "trueskill_sigma": 10.44,
+        "title_fr": "Rubik's Cube",
+        "wikidata_id": "Q47043",
+        "title_en": "Rubik's Cube",
+        "trueskill_mu": 41.271
+      },
+      {
+        "trueskill_sigma": 9.515,
+        "title_fr": "OpenAI",
+        "wikidata_id": "Q21708200",
+        "title_en": "OpenAI",
+        "trueskill_mu": 42.193
+      },
+      {
+        "trueskill_sigma": 9.515,
+        "title_fr": "Bras manipulateur",
+        "wikidata_id": "Q40687",
+        "title_en": "Robotic arm",
+        "trueskill_mu": 42.193
+      }
+    ]
+  },
+  {
+    "resource_id": "a45a530e7719251a056c5d0fa9acc6f8",
+    "title": "System Vision Design: High Speed Image Processing",
+    "url": "http://www.k2.t.u-tokyo.ac.jp/vision/DPM/",
+    "lang": "en",
+    "readability_score": 41.227,
+    "concepts": [
+      {
+        "trueskill_sigma": 10.965,
+        "title_fr": "Application affine",
+        "wikidata_id": "Q382497",
+        "title_en": "Affine transformation",
+        "trueskill_mu": 54.539
+      },
+      {
+        "trueskill_sigma": 9.769,
+        "title_fr": null,
+        "wikidata_id": "Q6821251",
+        "title_en": "Mesh parameterization",
+        "trueskill_mu": 54.427
+      },
+      {
+        "trueskill_sigma": 9.04,
+        "title_fr": "Mapping vidéo",
+        "wikidata_id": "Q2743790",
+        "title_en": "Projection mapping",
+        "trueskill_mu": 54.231
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Différenciation cellulaire",
+        "wikidata_id": "Q210861",
+        "title_en": "Cellular differentiation",
+        "trueskill_mu": 54.646
+      }
+    ]
+  },
+  {
+    "resource_id": "f41dbe507a0ab5bdd336ce9cabdc4b47",
+    "title": "Raycasting",
+    "url": "https://lodev.org/cgtutor/raycasting.html",
+    "lang": "en",
+    "readability_score": 65.021,
+    "concepts": [
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Espace vectoriel",
+        "wikidata_id": "Q125977",
+        "title_en": "Vector space",
+        "trueskill_mu": 42.046
+      },
+      {
+        "trueskill_sigma": 14.575,
+        "title_fr": "Vecteur euclidien",
+        "wikidata_id": "Q44528",
+        "title_en": "Euclidean vector",
+        "trueskill_mu": 42.046
+      }
+    ]
+  },
+  {
+    "resource_id": "0167d555469a5d8c681f14883acaa146",
+    "title": "TROS: How IBM mainframes stored microcode in transformers",
+    "url": "http://www.righto.com/2019/11/tros-how-ibm-mainframes-stored.html",
+    "lang": "en",
+    "readability_score": 68.162,
+    "concepts": [
+      {
+        "trueskill_sigma": 11.43,
+        "title_fr": "Microprogrammation",
+        "wikidata_id": "Q175869",
+        "title_en": "Microcode",
+        "trueskill_mu": 40.492
+      },
+      {
+        "trueskill_sigma": 11.522,
+        "title_fr": "Micro-informatique",
+        "wikidata_id": "Q32738",
+        "title_en": "Microcomputer",
+        "trueskill_mu": 40.501
+      },
+      {
+        "trueskill_sigma": 9.881,
+        "title_fr": "IBM 360 et 370",
+        "wikidata_id": "Q609843",
+        "title_en": "IBM System/360",
+        "trueskill_mu": 40.646
+      },
+      {
+        "trueskill_sigma": 9.449,
+        "title_fr": null,
+        "wikidata_id": "Q7834120",
+        "title_en": "Transformer Read Only Storage",
+        "trueskill_mu": 41.037
+      },
+      {
+        "trueskill_sigma": 10.291,
+        "title_fr": "Mémoire à tores magnétiques",
+        "wikidata_id": "Q839647",
+        "title_en": "Magnetic-core memory",
+        "trueskill_mu": 41.48
+      }
+    ]
+  },
+  {
+    "resource_id": "24a97056c8c34cbde951dd5bf5173ce2",
+    "title": "Distilling knowledge from Neural Networks to build smaller and faster models",
+    "url": "https://blog.floydhub.com/knowledge-distillation/",
+    "lang": "en",
+    "readability_score": 55.001,
+    "concepts": [
+      {
+        "trueskill_sigma": 10.689,
+        "title_fr": "Maximum de vraisemblance",
+        "wikidata_id": "Q1045555",
+        "title_en": "Maximum likelihood estimation",
+        "trueskill_mu": 47.484
+      },
+      {
+        "trueskill_sigma": 10.689,
+        "title_fr": "Réseau neuronal convolutif",
+        "wikidata_id": "Q17084460",
+        "title_en": "Convolutional neural network",
+        "trueskill_mu": 47.484
+      }
+    ]
+  },
+  {
+    "resource_id": "c0d31396fa3b492d8a476128e75fc18e",
+    "title": "Explaining 4K 60Hz Video Through USB-C Hub",
+    "url": "https://www.bigmessowires.com/2019/05/19/explaining-4k-60hz-video-through-usb-c-hub/",
+    "lang": "en",
+    "readability_score": 63.628,
+    "concepts": [
+      {
+        "trueskill_sigma": 11.667,
+        "title_fr": null,
+        "wikidata_id": "Q5282626",
+        "title_en": "DisplayLink",
+        "trueskill_mu": 42.861
+      },
+      {
+        "trueskill_sigma": 11.228,
+        "title_fr": "USB Type-C",
+        "wikidata_id": "Q20026619",
+        "title_en": "USB-C",
+        "trueskill_mu": 43.113
+      },
+      {
+        "trueskill_sigma": 13.534,
+        "title_fr": "Commutateur écran-clavier-souris",
+        "wikidata_id": "Q828426",
+        "title_en": "KVM switch",
+        "trueskill_mu": 43.303
+      },
+      {
+        "trueskill_sigma": 13.534,
+        "title_fr": "Banana Pi",
+        "wikidata_id": "Q16837517",
+        "title_en": "Banana Pi",
+        "trueskill_mu": 43.303
+      },
+      {
+        "trueskill_sigma": 13.534,
+        "title_fr": "UDOO",
+        "wikidata_id": "Q16000371",
+        "title_en": "UDOO",
+        "trueskill_mu": 43.303
+      }
+    ]
+  },
+  {
+    "resource_id": "81fbc9fbab098894c1a11bce0e43750d",
+    "title": "The Modern Life of Origami, an Art as Old as Paper",
+    "url": "https://www.nytimes.com/2019/11/22/arts/design/modern-origami-art.html",
+    "lang": "en",
+    "readability_score": 73.049,
+    "concepts": [
+      {
+        "trueskill_sigma": 7.78,
+        "title_fr": "Origami",
+        "wikidata_id": "Q83357",
+        "title_en": "Origami",
+        "trueskill_mu": 38.439
+      }
+    ]
+  },
+  {
+    "resource_id": "5534e7d23489e45c7546eba3b1e355b0",
+    "title": "The origins of social networking",
+    "url": "https://www.bbc.com/news/technology-12224588",
+    "lang": "en",
+    "readability_score": 65.389,
+    "concepts": [
+      {
+        "trueskill_sigma": 11.337,
+        "title_fr": "Bulletin board system",
+        "wikidata_id": "Q210499",
+        "title_en": "Bulletin board system",
+        "trueskill_mu": 42.364
+      },
+      {
+        "trueskill_sigma": 13.177,
+        "title_fr": "Community Memory",
+        "wikidata_id": "Q4140566",
+        "title_en": "Community Memory",
+        "trueskill_mu": 42.592
+      },
+      {
+        "trueskill_sigma": 13.177,
+        "title_fr": "Réseautage social",
+        "wikidata_id": "Q3220391",
+        "title_en": "Social networking service",
+        "trueskill_mu": 42.592
+      }
+    ]
+  }
+]

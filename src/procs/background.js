@@ -5,6 +5,8 @@ import { userId } from '~mixins/utils'
 import { InstallEventReason, IconStack } from './structs'
 import { initContextMenus } from './contextMenus'
 
+import store from '~mixins/persistence'
+
 const tabState = {}
 const ports = {}
 
@@ -51,7 +53,10 @@ const reactOnInstalled = async ({ reason, temporary }) => {
   if (reason === InstallEventReason.updated) {
     // Extension was updated. Later, we might open a changelog page. For now,
     // do nothing at all.
-    ExtensionPages.changelog.open()
+    const shouldOpenChangelogs = await store.get('autoShowChangelog', true)
+    if (shouldOpenChangelogs) {
+      ExtensionPages.changelog.open()
+    }
   }
 }
 

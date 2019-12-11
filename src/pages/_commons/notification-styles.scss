@@ -1,0 +1,13 @@
+.notifications.global {
+  // Top Level container for all notifications.
+
+  .notice {
+    align-items: center;
+  }
+}
+
+#notice {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+}

@@ -61,7 +61,7 @@ const copySourceBundleRules = [
     transform: locale.transpile,
   },
   {
-    from: './modules/atlas/dotatlas/dotatlas.js',
+    from: dotenv.flags.dotatlas_prod || './modules/atlas/dotatlas/dotatlas.js',
     to: './atlas/dotatlas.js',
   },
   { from: './assets/media/favicons', to: './media/favicons' },

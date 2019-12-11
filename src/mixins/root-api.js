@@ -1,9 +1,9 @@
 // Wrapper implementing the API calls to the ilearn api.
 import { browser } from '~procs/stubs'
-import { request } from '~mixins'
-import { context, Runtime } from '~mixins/utils'
-import store from '~mixins/persistence'
 import _ from 'lodash'
+
+import { request } from './request'
+import store from './persistence'
 
 
 // Get the absolute url for specific api routes.

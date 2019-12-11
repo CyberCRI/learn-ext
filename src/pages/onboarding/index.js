@@ -1,19 +1,40 @@
-import React, { Component } from 'react'
-import { Card, Callout, Divider, Intent, Tabs, Tab, Elevation } from '@blueprintjs/core'
+import React from 'react'
+import ScrollTrigger from '@terwanerik/scrolltrigger'
+
 import { renderReactComponent } from '~mixins/react-helpers'
-import { AccountSelector } from '~components/input/settings'
 
-import './style.sass'
+import { LoginSignupButton, DemoCards } from './presentation'
+
+import './style.scss'
+import 'animate.css/animate.css'
 
 
-const WelcomeCard = () => (
-  <Card elevation={Elevation.THREE}>
-    <h2>Thanks for using WeLearn!</h2>
-
-    <AccountSelector/>
-  </Card>
+const OnboardView = () => (
+  <>
+    <LoginSignupButton/>
+  </>
 )
 
+const initTriggers = async () => {
+  const trigger = new ScrollTrigger({
+    trigger: {
+      toggle: {
+        'class': {
+          in: 'visible',
+          out: 'invisible',
+        },
+      },
+    },
+  })
+  trigger.add('[data-trigger]')
+}
+
+const initComponents = async () => {
+  renderReactComponent('login-button', OnboardView)
+  renderReactComponent('demo-cards', DemoCards)
+}
+
 document.addEventListener('apploaded', () => {
-  renderReactComponent('onboarding', WelcomeCard)
+  initTriggers()
+  initComponents()
 })

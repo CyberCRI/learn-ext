@@ -25,7 +25,7 @@ body
 body
   > header
     @extend .root-container
-    background: #1b2638
+    background: $ink1
     height: 80px
     margin-bottom: -20px
     color: #f9f9fa
@@ -37,6 +37,10 @@ body
       background: transparent
       box-shadow: none
       z-index: unset
+      white-space: nowrap
+      display: flex
+      overflow: auto
+      justify-content: space-between
 
       a
         text-transform: uppercase
@@ -48,7 +52,7 @@ body
 
   > footer
     padding: 20px 10%
-    background: #1b2638
+    background: $ink1
     color: #f9f9fa
 
     .footer-content

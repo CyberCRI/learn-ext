@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Callout, Intent } from '@blueprintjs/core'
 import { InputGroup, ControlGroup, Button, RadioGroup, Radio, FormGroup } from '@blueprintjs/core'
-import * as FiIcon from 'react-icons/fi'
 import _ from 'lodash'
 
 import { browser } from '~procs/stubs'
@@ -82,6 +81,7 @@ class AccountSelector extends Component {
             .set('user.signedIn', payload.signedIn)
 
           this.setState({ loading: false, status: 0, ...payload })
+          this.props.onComplete && this.props.onComplete(payload)
         })
         .fail(() => this.setState({ loading: false, status: -1 }))
     }
@@ -122,7 +122,7 @@ class AccountSelector extends Component {
             type='submit'
             intent={inputIntent}
             loading={this.state.loading}
-            icon={<FiIcon.FiSave/>}
+            icon='log-in'
             onClick={this.didUpdateUserSettings}/>
         </Callout>
       </form>

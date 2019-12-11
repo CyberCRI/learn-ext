@@ -1,3 +1,5 @@
+import { isUndefined } from 'lodash'
+
 import { browser } from '~procs/stubs'
 import { runtimeContext } from '~mixins/utils'
 
@@ -11,8 +13,11 @@ const attemptParseJson = (value) => {
 }
 
 class ExtensionStorage {
-  async get (key) {
+  async get (key, fallback) {
     const value = await browser.storage.local.get(key)
+    if (isUndefined(value)) {
+      return fallback
+    }
     return attemptParseJson(value[key])
   }
 
@@ -25,8 +30,11 @@ class ExtensionStorage {
 }
 
 class WebStorage {
-  async get (key) {
+  async get (key, fallback) {
     const value = window.localStorage.getItem(key)
+    if (isUndefined(value)) {
+      return fallback
+    }
     return attemptParseJson(value)
   }
 

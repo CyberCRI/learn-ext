@@ -5,5 +5,119 @@ append head
 
 append scripts
 
+mixin dotbg
+  svg.fill-parent(width='100%' height='100%')
+    pattern#dots(x=0 y=0 width=10 height=10 patternUnits='userSpaceOnUse' patternContentUnits='userSpaceOnUse')
+      circle.dotUnit(cx=5 cy=5 r=1)
+    rect#bg(x=0 y=0 width='100%' height='100%' fill='url(#dots)')
+
+mixin img-ref(name, classes='')
+  img(
+    src="https://welearn.cri-paris.org/static/media/" + name
+    class=classes
+    role='presentation')
+
+
 append main
-  div#onboarding
+  div.presentation
+
+    section.slide.tile.blurb
+      div.tile.is-6.is-parent
+        div.align-middle.animated.fadeInUp
+          img(src='/icons/browsers/icon-round-v1.png' height=80)
+          h1 Making the web a learner-friendly place.
+          // Let's make an over engineered solution.
+          p WeLearn will index and qualify learning resources.
+          p It lets people analyse their own learning path, and help them search for pedagogical resources.
+          span#login-button
+
+      div.tile.is-6.is-parent
+        div.toc
+          a.ref.learn(href='#j-learn')
+            span.index 1
+            h2 Learn
+            p Curate your Library
+
+          a.ref.discover(href='#j-discover')
+            span.index 2
+            h2 Discover
+            p Efficiently find Resources
+
+          a.ref.visualise(href='#j-discover')
+            span.index 3
+            h2 Visualise
+            p A landscape of your learning
+
+
+    section#j-learn.slide.tile.whatis
+      div.tile.is-6.is-parent
+        div.align-middle.fadeInUp(data-trigger)
+          h1 Learn
+          h2 When you find a resource you like, click the anchor to add it to your library.
+
+      div.tile.is-6.is-parent
+        div.align-middle
+          +img-ref('shot-toolbar.png', 'fit-cover')
+
+    section.slide.resources-demo
+      div#demo-cards
+      +dotbg
+
+    section#j-discover.slide.tile.discover
+      div.tile.is-6.is-parent
+        div.align-middle.fadeInUp(data-trigger)
+          h1 Discover
+          ol
+            li Browse resources on your Knowledge Map.
+            li Find qualified resources from your peers.
+            li Create your own learning path.
+
+      div.tile.is-6
+        +img-ref('shot-discover-page.jpg', 'screenshot')
+
+    section.slide.tile.wikipedia
+      div.tile.is-8.is-parent
+        +img-ref('shot-wikipedia-concepts.jpg', 'screenshot')
+      div.tile.is-4.is-parent
+        div.align-middle
+          h1 Standing on the Shoulder of the Giants
+          h2 Wikipedia Integration
+
+    section.slide.tile.close-off
+      div.tile.is-2.is-parent
+        div.align-middle
+          h1 Open, Inclusive, and Private.
+      div.tile.is-2.is-parent
+      div.tile.is-8.is-parent
+        div.align-middle.fit-box
+          ul.misc-features
+            li.privacy
+              +img-ref('heart.png')
+              h2 Privacy by design.
+              p
+
+            li.i18n
+              +img-ref('i18n.png')
+              h2 We speak many languages!
+
+            li.a11y
+              +img-ref('a11y.png')
+              h2 Accessible
+
+            li.open
+              +img-ref('star.png')
+              h2 Open source
+              a.bp3-button(href='https://github.com/CyberCRI/learn-ext') GitHub
+
+
+    //- Disabled these to rush a release!
+    //- section.slide.tile.callout
+    //-   div.tile.is-6.is-parent
+    //-     div.align-middle
+    //-       h1 Ready to get started?
+    //-       h2 Login or Signup.
+
+    //-       p Or, Browse as guest.
+
+    //-       //- span or, skip this, it's just to make things pretty.
+
