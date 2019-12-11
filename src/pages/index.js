@@ -2,7 +2,7 @@ import '~styles/fonts.css'
 import './style.sass'
 
 import $ from 'cash-dom'
-import { NavigationBar } from '~page-commons'
+import { NavigationBar, initNotifications } from '~page-commons'
 import { renderReactComponent } from '~mixins/react-helpers'
 import store from '~mixins/persistence'
 
@@ -19,5 +19,7 @@ window.addEventListener('load', async () => {
   $('body').addClass(`lang-${appLang}`)
 
   renderReactComponent('navbar', NavigationBar)
+  initNotifications()
+
   document.dispatchEvent(AppDidLoad)
 })
