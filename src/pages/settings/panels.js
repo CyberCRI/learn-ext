@@ -39,17 +39,15 @@ const PosedCard = (props) => (
 
 const General = () => {
   const [ lang, setLang ] = useState('en')
+  const [ autoOpenChangelog, setAutoOpenchangelog ] = useState(true)
 
   const promptReload = () => {
     window.setTimeout(() => window.location.reload(), 500)
   }
 
-  useEffect(() => {
-    store.get('pref.lang').then((value) => {
-      if (value) {
-        setLang(value)
-      }
-    })
+  useEffect(async () => {
+    setLang(await store.get('pref.lang', 'en'))
+    setAutoOpenchangelog(await store.get('pref.autoShowChangelog', true))
   }, [])
 
   return (
@@ -57,13 +55,13 @@ const General = () => {
       <h1>{i18nT('general.intro.title')}</h1>
 
       <Formik
-        initialValues={{ lang }}
+        initialValues={{ lang, autoOpenChangelog }}
         enableReinitialize
         onSubmit={(values, actions) => {
           store.set('pref.lang', values.lang)
+          store.set('pref.autoShowChangelog', values.autoOpenChangelog)
           promptReload()
-        }}
-        render={(props) => (
+        }}>{(props) => (
           <Form>
             <label htmlFor='lang'>{i18nT('general.form.languageSelect.label')}</label>
             <Field as={HTMLSelect} name='lang'>
@@ -73,6 +71,14 @@ const General = () => {
               <option value='hi'>हिन्दी (Hindi)</option>
             </Field>
             <p>{i18nT('general.form.languageSelect.description')}</p>
+
+            <Field name='autoOpenChangelog'>{({ field }) => (
+              <Switch
+                label='Automatically open Changelog when Extension Updates.'
+                checked={field.value}
+                {...field}/>
+            )}</Field>
+
             <Button
               icon='tick-circle'
               type='submit'
@@ -80,9 +86,7 @@ const General = () => {
               {i18nT('general.form.submitButton.label')}
             </Button>
           </Form>
-        )}
-      />
-
+      )}</Formik>
     </PosedCard>
   )
 }
