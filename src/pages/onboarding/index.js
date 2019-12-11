@@ -3,7 +3,7 @@ import ScrollTrigger from '@terwanerik/scrolltrigger'
 
 import { renderReactComponent } from '~mixins/react-helpers'
 
-import { LoginSignupButton, LoginSignupDialog, DemoCards } from './presentation'
+import { LoginSignupButton, DemoCards } from './presentation'
 
 import './style.scss'
 import 'animate.css/animate.css'
@@ -11,7 +11,6 @@ import 'animate.css/animate.css'
 
 const OnboardView = () => (
   <>
-    <LoginSignupDialog/>
     <LoginSignupButton/>
   </>
 )
@@ -21,8 +20,8 @@ const initTriggers = async () => {
     trigger: {
       toggle: {
         'class': {
-          in: ['st-visible', 'animated'],
-          out: ['st-invisible'],
+          in: 'visible',
+          out: 'invisible',
         },
       },
     },
