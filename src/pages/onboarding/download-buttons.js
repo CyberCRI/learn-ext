@@ -55,8 +55,8 @@ const DownloadLinks = () => {
       {browser.firefox && <FirefoxLink/>}
       {browser.chrome && <ChromeLink/>}
 
-      <Popover position={Position.BOTTOM_LEFT} modifiers={{ offset: '10' }} flip={false}>
-        <Button minimal small icon='compressed'>Download Options</Button>
+      <Popover position={Position.LEFT} modifiers={{ offset: '10' }} flip={false}>
+        <Button minimal small icon='compressed'>Extension Download Options</Button>
         <div className='download-options'>
           <h4>Using a different browser?</h4>
           <p>To download extension for a different browser, you may use the links below:</p>

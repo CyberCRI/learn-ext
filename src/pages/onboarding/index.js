@@ -4,6 +4,7 @@ import ScrollTrigger from '@terwanerik/scrolltrigger'
 import { renderReactComponent } from '~mixins/react-helpers'
 
 import { LoginSignupButton, DemoCards } from './presentation'
+import { DownloadLinks } from './download-buttons'
 
 import './style.scss'
 import 'animate.css/animate.css'
@@ -30,6 +31,7 @@ const initTriggers = async () => {
 }
 
 const initComponents = async () => {
+  renderReactComponent('download-buttons', DownloadLinks)
   renderReactComponent('login-button', OnboardView)
   renderReactComponent('demo-cards', DemoCards)
 }
