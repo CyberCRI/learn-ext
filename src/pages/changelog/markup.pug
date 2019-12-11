@@ -3,6 +3,10 @@ extends ../partials/layout.pug
 append head
   title Changelog | WeLearn
 
+mixin github_link(kind, fragment)
+  a(href='https://github.com/CyberCRI/learn-ext/' + kind + '/' + fragment)
+    code=fragment
+
 block append main
   section.article.changelog
     article.log
@@ -15,7 +19,6 @@ block append main
         Please include the information below to help us with debugging.
 
       p Version: #[code=env.info_version]
-      p Build: #[code=env.info_hash]
+      p Build: #[+github_link('commit', env.info_hash)]
+      p Branch: #[+github_link('tree', env.info_branch)]
       p Date: #[code=env.info_buildtime]
-      p Branch: #[code=env.info_branch]
-
