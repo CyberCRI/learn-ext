@@ -90,6 +90,7 @@ const staticPages = glob
         templateParameters: {
           env: dotenv.PackageEnv.vars,
         },
+        hash: true,
         chunks: [ 'vendors', 'modules', chunkName ],
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
