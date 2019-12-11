@@ -2,6 +2,7 @@ import React from 'react'
 import { Navbar, Alignment, AnchorButton } from '@blueprintjs/core'
 
 import { i18n } from '@ilearn/modules/i18n'
+import { DemoUserNotice } from './notifications'
 
 
 const NavigationBar = () => {
@@ -25,6 +26,7 @@ const NavigationBar = () => {
           icon='mountain'/>
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
+        <DemoUserNotice/>
         <AnchorButton
           text={i18nT('links.settings.label')}
           minimal
