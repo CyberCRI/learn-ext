@@ -8,6 +8,7 @@ import { AccountSelector } from '~components/input/settings'
 import { ResourceCard } from '~components/cards'
 import { initDemoUser } from '~mixins/initializers'
 
+import store from '~mixins/persistence'
 import sampleResources from './resource-sample.json'
 
 
@@ -40,6 +41,8 @@ const GuestAccountInitializer = (props) => {
     initDemoUser()
       .then(() => {
         setStatus(2)
+        // Show notification next time.
+        store.set('pref.show_demo_notice', true)
         shouldNavigateToDiscoverTab()
       })
       .catch(() => {
