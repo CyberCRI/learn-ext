@@ -56,8 +56,11 @@
     "activeTab",
     "storage",
     "contextMenus",
-    "https://*.ilearn.cri-paris.org/*",
-    "https://*.wikipedia.org/*"
+    "https://welearn.cri-paris.org/*",
+    "https://opt.ilearn.cri-paris.org/*",
+    "https://ilearn.cri-paris.org/*",
+    "https://en.wikipedia.org/*",
+    "https://fr.wikipedia.org/*"
   ],
   "omnibox": {
     "keyword": "welearn"
