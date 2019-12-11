@@ -11,7 +11,21 @@
 
 Here is what's new in this version of WeLearn extension:
 
+## v0.0.44
+Released on `2019-12-11`
+
+- A brand new Onboarding Page, designed to give a quick overview about how
+  to use WeLearn and associated features.
+- Browse as guest. Want to evaluate WeLearn without sharing your email? Now
+  you can browse with a demo user account.
+- The entire codebase for WeLearn Web Extension, and Web App is public.
+  Check it out: [CyberCRI/learn-ext](https://github.com/CyberCRI/learn-ext).
+- You can disable changelogs from showing automatically in settings.
+
+Please feel free to open new issues for any bugs or feature request on GitHub!
+
 ## v0.0.43
+Released on `2019-11-26`
 
 - You can finally Delete resources or concepts linked to the resources from
   your library.
@@ -71,4 +85,4 @@ Released on `2019-09-10`
   WeLearn, let us know!
 
 [email]: mailto:welearn@cri-paris.org
-[homepage]: https://v2.ilearn.cri-paris.org
+[homepage]: https://welearn.cri-paris.org
