@@ -79,8 +79,9 @@ section.slide {
 
     .toc {
       display: flex;
+      align-self: center;
       justify-content: space-between;
-      align-items: center;
+      align-items: stretch;
       width: 100%;
 
       a.ref {
@@ -176,6 +177,7 @@ section.slide {
         width: 180px;
         border-radius: 5px;
         display: block;
+        text-align: center;
 
         img {
           width: 80px;
@@ -275,3 +277,19 @@ section.slide {
     margin: auto 10px;
   }
 }
+
+.bp3-dialog {
+  padding-bottom: 0;
+
+  & > .prompt {
+    padding: 20px;
+  }
+
+  .demo-controller {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: baseline;
+  }
+}
+
