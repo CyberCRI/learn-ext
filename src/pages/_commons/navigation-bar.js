@@ -10,7 +10,10 @@ const NavigationBar = () => {
   return (
     <Navbar className='np-navbar bp3-dark'>
       <Navbar.Group align={Alignment.LEFT}>
-        <Navbar.Heading>{i18nT('heading')}</Navbar.Heading>
+        <AnchorButton
+          text={i18nT('heading')}
+          minimal
+          href='/pages/onboarding.html'/>
         <Navbar.Divider/>
 
         <AnchorButton
