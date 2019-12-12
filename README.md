@@ -1,6 +1,6 @@
 Hi 🖖
 
-You're looking at the source code for iLearn project which powers [iLearn Browser Extension](https://ilearn.cri-paris.org).
+You're looking at the source code for WeLearn project which powers [WeLearn Browser Extension](https://ilearn.cri-paris.org).
 
 ## Components
 
@@ -16,7 +16,7 @@ scripts with our friendly `./panda` glue-scripts. Use `./panda help` for command
 - `release`: Build production version, sign with mozilla extension signing service, and upload the artifacts.
 
 ```
-iLearn Ext Panda! (@,@)
+WeLearn Ext Panda! (@,@)
 
 Usage:
   panda <command> [--command-options] [<arguments>]
