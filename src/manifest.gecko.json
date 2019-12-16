@@ -20,7 +20,8 @@
 
   "icons": {
     "48": "icons/extension/icon-rounded.svg",
-    "96": "icons/extension/icon-rounded@2x.svg"
+    "96": "icons/extension/icon-rounded@2x.svg",
+    "128": "icons/extension/store-icon-128.png"
   },
 
   "default_locale": "en",

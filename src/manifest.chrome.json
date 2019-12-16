@@ -11,7 +11,8 @@
 
   "icons": {
     "48": "icons/extension/icon-rounded.png",
-    "96": "icons/extension/icon-rounded@2x.png"
+    "96": "icons/extension/icon-rounded@2x.png",
+    "128": "icons/extension/store-icon-128.png"
   },
 
   "default_locale": "en",
