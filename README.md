@@ -1,6 +1,8 @@
 Hi 🖖
 
-You're looking at the source code for iLearn project which powers [iLearn Browser Extension](https://ilearn.cri-paris.org).
+You're looking at the source code for WeLearn project which powers [WeLearn Browser Extension](https://welearn.cri-paris.org).
+
+[![Netlify Status][netlify-badge-src]][netlify-deploys]
 
 ## Components
 
@@ -71,3 +73,6 @@ After cloning this repo:
 
 
 `:wq`
+
+[netlify-badge-src]: https://api.netlify.com/api/v1/badges/1f116bf7-ef4c-4d8d-99bc-4d4d8b93ad43/deploy-status
+[netlify-deploys]: https://app.netlify.com/sites/welearn-dev/deploys
