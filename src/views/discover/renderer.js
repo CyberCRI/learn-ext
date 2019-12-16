@@ -107,8 +107,8 @@ export const setupMapView = async (conf) => {
   const labels = DotAtlas.createLayer({
     type: 'label',
     points: labelledPoints,
-    labelFontFamily: 'Barlow, Inter',
-    labelFontSize: 15,
+    labelFontFamily: 'Barlow',
+    labelFontSize: 14,
     labelFontWeight: 400,
     labelFontVariant: 'normal',
     labelOpacity: 1,
