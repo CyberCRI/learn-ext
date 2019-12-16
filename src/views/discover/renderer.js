@@ -108,7 +108,7 @@ export const setupMapView = async (conf) => {
     type: 'label',
     points: labelledPoints,
     labelFontFamily: 'Barlow',
-    labelFontSize: 12,
+    labelFontSize: 14,
     labelFontWeight: 400,
     labelFontVariant: 'normal',
     labelOpacity: 1,
