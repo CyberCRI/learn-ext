@@ -11,6 +11,12 @@
 
 Here is what's new in this version of WeLearn extension:
 
+## v0.0.45
+Released on `2019-12-16`
+
+- Bugfix #44: Labels on map are not rendered correctly if devicePixelRatio is
+  fractional. Fixed in #51.
+
 ## v0.0.44
 Released on `2019-12-11`
 
