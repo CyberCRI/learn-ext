@@ -27,7 +27,13 @@ source ./tools/pandalib.sh
 PATH="$PATH:./node_modules/.bin"
 
 # ... and that the local .env file is also sourced.
-source ./.env
+if [[ -f ".env" ]]; then
+  _info 'Sourcing local .env file'
+  source ./.env
+else
+  _info 'Sourcing sample .env to maintain variable declaration'
+  source ./.env.sample
+fi
 
 # ... and that it isnt too verbose.
 export FLAGS_VERBOSE='no'
