@@ -53,7 +53,8 @@ const reactOnInstalled = async ({ reason, temporary }) => {
   if (reason === InstallEventReason.updated) {
     // Extension was updated. Later, we might open a changelog page. For now,
     // do nothing at all.
-    const shouldOpenChangelogs = await store.get('autoShowChangelog', true)
+    const shouldOpenChangelogs = await store.get('pref.autoShowChangelog', true)
+    console.info('Extension was updated. Should Open Changelog:', shouldOpenChangelogs)
     if (shouldOpenChangelogs) {
       ExtensionPages.changelog.open()
     }
