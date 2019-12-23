@@ -163,6 +163,15 @@ release:build-all () {
   release:build
 }
 
+#=== Tests
+test:ci () {
+  _info 'Starting Karma with JSDom.'
+
+  # rc is the return code. This makes sure we return correct exit status for CI.
+  karma start --single-run && rc=$? || rc=$?
+  return $rc
+}
+
 _get_target () {
   local _target
   for __arg in "${_COMMAND_ARGV[@]:-}"

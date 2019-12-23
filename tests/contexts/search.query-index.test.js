@@ -5,8 +5,8 @@ import { conceptIndexSet, resourceIndex, matchQuerySet } from '~views/discover/q
 describe('~search/query-index', () => {
   let sample = {}
   before(async () => {
-    sample.concepts = await jsonFixture('api.user-concept.20191105')
-    sample.resources = await jsonFixture('api.user-resource.20191105')
+    sample.concepts = jsonFixture('api.user-concept.20191105')
+    sample.resources = jsonFixture('api.user-resource.20191105')
   })
 
   context('#conceptIndexSet', () => {

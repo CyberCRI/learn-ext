@@ -11396,6 +11396,13 @@ karma-file-fixtures-preprocessor@^3.0.1:
   resolved "https://registry.yarnpkg.com/karma-file-fixtures-preprocessor/-/karma-file-fixtures-preprocessor-3.0.1.tgz#b20c2547e613523e8911071607a5232626de3eeb"
   integrity sha512-uGNF0ZGyyB+K8TXWeJz6iiMrOSVO74XqYcGsZNRE54c+qhEbqCBt/dr4hd9MKF/I/GPDFZIiNjfh8MLWutLJIw==
 
+karma-firefox-launcher@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/karma-firefox-launcher/-/karma-firefox-launcher-1.2.0.tgz#64fe03dd10300f9754d48f9ebfbf31f6c94a200c"
+  integrity sha512-j9Zp8M8+VLq1nI/5xZGfzeaEPtGQ/vk3G+Y8vpmFWLvKLNZ2TDjD6cu2dUu7lDbu1HXNgatsAX4jgCZTkR9qhQ==
+  dependencies:
+    is-wsl "^2.1.0"
+
 karma-jsdom-launcher@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/karma-jsdom-launcher/-/karma-jsdom-launcher-8.0.0.tgz#1116c685a7a9a42cda552cad148183fcce194811"

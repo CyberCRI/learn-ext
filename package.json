@@ -92,6 +92,7 @@
     "karma-chai": "^0.1.0",
     "karma-chai-as-promised": "^0.1.2",
     "karma-file-fixtures-preprocessor": "^3.0.1",
+    "karma-firefox-launcher": "^1.2.0",
     "karma-jsdom-launcher": "^8.0.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",
@@ -147,6 +148,7 @@
     "build:dev": "./panda dev:build --web",
     "build:prod": "./panda release:build --web",
     "start:dev-server": "./panda dev:server --web",
-    "start:dev": "./panda dev:watch --web"
+    "start:dev": "./panda dev:watch --web",
+    "test": "./panda test:ci"
   }
 }
