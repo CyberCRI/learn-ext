@@ -149,6 +149,6 @@
     "build:prod": "./panda release:build --web",
     "start:dev-server": "./panda dev:server --web",
     "start:dev": "./panda dev:watch --web",
-    "test": "./panda test:ci"
+    "test": "./panda test:ci --web"
   }
 }
