@@ -11,6 +11,12 @@
 
 Here is what's new in this version of WeLearn extension:
 
+## v0.0.46
+Released on `2019-12-30`
+
+- Bugfix #53: Regression in WikiPedia suggestions which don't include the page
+  summary. Fixed in #56.
+
 ## v0.0.45
 Released on `2019-12-16`
 

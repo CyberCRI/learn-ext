@@ -19,7 +19,90 @@ export const PageTypes = new Enum([
 ], { name: 'WikiPageType', ignoreCase: true })
 
 
+const endpointPayload = (lang='en') => {
+  // Prepare common request parameters. Interesting bits here are:
+  // - Api-User-Agent: Identifies us as consumer of api.
+  // - type: If we're running in browser context, jsonp works.
+  return {
+    url: `https://${lang}.wikipedia.org/w/api.php`,
+    type: runtimeContext.isBrowser ? 'jsonp' : 'json',
+    headers: HEADERS,
+    crossOrigin: true,
+  }
+}
+
+
 class WikiAPI {
+  srquery (query, lang='en') {
+    // The opensearch api endpoint we've been using is not particularly reliable
+    // in terms of quality of results. Of course that's not ideal, and with
+    // Julien's help on figuring out the wikipedia api parameters, we switch to
+    // `action: query`.
+    //
+    // Similar to how other endpoints are handled, a transformation is applied
+    // to the response which extracts results to an object list.
+    //
+    // API Sandbox: https://to.noop.pw/wikiapi-sandbox--query
+    //
+    // Relevant: Issue #53.
+    const apiProps = ['pageprops', 'pageterms', 'pageimages', 'extracts', 'links']
+    const payload = {
+      // Main query term go here, under gsrsearch.
+      gsrsearch: query,
+
+      action: 'query',
+      format: 'json',
+      requestid: nsuuid(query),
+      redirects: 1,
+      converttitles: 1,
+      formatversion: 2,
+
+      prop: apiProps.join('|'),
+      plnamespace: 0,
+
+      wbptterms: 'description',
+
+      // Control "extracts" props.
+      exsentences: 2,
+      exlimit: 16,
+      exintro: 1,
+      explaintext: 1,
+      exsectionformat: 'plain',
+
+      generator: 'search',
+      gsrnamespace: 0,
+      gsrqiprofile: 'classic',
+      gsrwhat: 'text',
+      gsrinfo: ['totalhits', 'suggestion'].join('|'),
+      gsrenablerewrites: 1,
+      gsrsort: 'relevance',
+    }
+
+    const transform = (response) => {
+      // This transformation is quite simple -- we pick the keys we're
+      // interested in.
+      const transformItem = (item) => {
+        const i = _(item)
+        return {
+          lang,
+          isDisambiguation: i.has('pageprops.disambiguation'),
+          title: i.get('title'),
+          subtitle: i.get('pageprops.wikibase-shortdesc'),
+          description: i.get('terms.description.0'),
+          extract: i.get('extract'),
+
+          wikidataId: i.get('pageprops.wikibase_item'),
+          thumbnail: i.get('thumbnail'),
+        }
+      }
+      return response.query.pages.map(transformItem)
+    }
+
+
+    return request({ data: payload, ...endpointPayload(lang)})
+      .then(transform)
+  }
+
   opensearch (query, lang='en') {
     // Request Opensearch endpoint from Wikipedia API.
     // The request payload keeps a `requestid` to keep track of the request sent
@@ -32,7 +115,6 @@ class WikiAPI {
     // The response is further transformed to a collection.
     //
     // Also see: WikiAPI.transformOpenSearch
-    const endpoint = `https://${lang}.wikipedia.org/w/api.php`
     const payload = {
       action: 'opensearch',
       format: 'json',
@@ -64,17 +146,8 @@ class WikiAPI {
         .value()
     }
 
-    const requestType = runtimeContext.isBrowser
-      ? 'jsonp'
-      : 'json'
-
-    return request({
-      url: endpoint,
-      type: requestType,
-      data: payload,
-      crossOrigin: true,
-      headers: HEADERS,
-    }).then(transform)
+    return request({ data: payload, ...endpointPayload(lang)})
+      .then(transform)
   }
 
   summary (title, lang='en') {

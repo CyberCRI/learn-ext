@@ -1,6 +1,24 @@
 import Wiki from '~mixins/wikipedia'
 
 describe('~mixins/wikipedia', () => {
+  context('#opensearch', () => {
+    it('should query wikipedia api with matching pages', async () => {
+      const results = await Wiki.srquery('india')
+      expect(results)
+        .to.be.an('array')
+
+      expect(results[0])
+        .to.be.an('object')
+        .that.includes.keys('lang', 'title', 'wikidataId')
+    })
+
+    it('should respect language setting', async () => {
+      const results = await Wiki.srquery('india', 'hi')
+      expect(results[0])
+        .to.include({ 'lang': 'hi' })
+    })
+  })
+
   context('#summary', () => {
     it('should transform api response', async () => {
       const summary = await Wiki.summary('France')
