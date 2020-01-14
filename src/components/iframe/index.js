@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import { useLogger, useMount } from 'react-use'
-import posed from 'react-pose'
+import { useMount } from 'react-use'
+import { motion } from 'framer-motion'
 import { Port } from '~procs/portal'
 
 
-const PosedIframe = posed.iframe({
+const iframeVariants = {
   open: {
     opacity: 1,
-    applyAtStart: { display: 'block' },
+    display: 'block',
   },
   closed: {
     opacity: 0,
-    applyAtEnd: { display: 'none' },
+    transitionEnd: { display: 'none' },
   },
-})
+}
 
 // Inline iframe styles.
 // [NOTE] To ensure the iframe is almost _always_ on top. We use a "safe" zIndex
@@ -46,7 +46,12 @@ const FrameContainer = (props) => {
       .addAction('close', () => changePose('closed'))
   })
 
-  return <PosedIframe src={props.src} pose={pose} style={iFrameStyles}/>
+  return <motion.iframe
+    src={props.src}
+    initial='hidden'
+    animate={pose}
+    variants={iframeVariants}
+    style={iFrameStyles}/>
 }
 
 export default FrameContainer
