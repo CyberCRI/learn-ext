@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "tooling"
+version = "0.1.0"
+description = ""
+authors = ["Prashant Sinha <prashant+git@noop.pw>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+addict = "^2.2.1"
+hues = "^0.2.2"
+pydash = "^4.7.6"
+requests = "^2.22.0"
+pandas = "^0.25.3"
+Click = "^7.0"
+
+[tool.poetry.dev-dependencies]
+ipython = "^7.11.1"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
