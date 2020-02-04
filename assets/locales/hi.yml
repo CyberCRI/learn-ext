@@ -30,6 +30,16 @@ navigationBar:
       label: समायोजन
     help:
       label: सहायता
+    login:
+      label: लॉगिन
+
+  loginDialog:
+    title: Learning Planet के द्वारा लॉगिन करें
+    description: >
+      आपको सुरक्षित अनुभव देने के लिए हम Learning Planet का प्रयोग करते हैं। यदी
+      आपके पास CRI अकाउंट है, फिर आप अपने वर्तमान अकाउंट का उपयोग करें, अथवा आप नया
+      अकाउंट बना सकते हैं।
+    buttonLabel: Learning Planet के द्वारा लॉगिन करें
 
 pages:
   dashboard:
@@ -40,6 +50,23 @@ pages:
       sort: क्रम
     searchInput:
       placeholder: खोजें
+
+    resourceLists:
+      states:
+        empty:
+          title: कृपया रीसोर्स जोड़े
+          description: >
+            आपके डैश बोर्ड पे आपका स्वागत है! जैसे ही आप रीसोर्स जोड़ना शुरू करेंगे, इस
+            पेज के द्वारा आप उन्हें धुँध सकेंगे।
+        noMatch:
+          title: कुछ नहीं मिला
+          description: >
+            क्षमा करें, कोई भी रीसोर्स इस कीवर्ड के समूप नहीं मिला। कृपया पुनः कोशिश करें।
+        error:
+          title: अज्ञात एरर
+          description: >
+            कृपया सुनिश्चित करें की आपका इंटर्नेट काम कर रहा है, वरना हमारा सर्वर काम नहीं
+            कर रहा है। कृपया पुनः प्रयास करें।
 
   discover:
     meta:
@@ -148,6 +175,13 @@ pages:
     intro:
       title: वी लर्न का उपयोग करने के लिए बहुत ही धन्यवाद!
       description: ''
+
+    extensionDownload:
+      options:
+        label: इक्स्टेन्शन डाउनलोड करने के विकल्प
+        title: क्या आप अन्य ब्राउज़र का प्रयोग कर रहें हैं?
+        description: >
+          हमारा ब्राउज़र इक्स्टेन्शन निम्न ब्राउज़रों के लिए उपलब्ध है।
 
 # [3] React Components
 components:

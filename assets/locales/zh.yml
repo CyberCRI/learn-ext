@@ -30,6 +30,16 @@ navigationBar:
       label: 设置
     help:
       label: 帮助
+    login:
+      label: Login
+
+  loginDialog:
+    title: Login or Sign Up with Learning Planet
+    description: >
+      WeLearn uses Learning Planet for secure authentication.
+      If you already have an account at CRI, you can use your existing
+      credentials to login or alternatively create a new account.
+    buttonLabel: Login with Learning Planet
 
 pages:
   dashboard:
@@ -40,6 +50,25 @@ pages:
       sort: 排序
     searchInput:
       placeholder: 搜索
+
+    resourceLists:
+      states:
+        empty:
+          title: Add some resources
+          description: >
+            Welcome to your Dashboard. As you add resources, you will see them
+            here. To get you started quickly, we've added few resources from
+            the community.
+        noMatch:
+          title: Nothing Matches your search query
+          description: >
+            Can't find any resource matching your query. We've listed
+            approximate matches.
+        error:
+          title: Something isn't working right
+          description: >
+            Either there is a problem with your network connection, or our
+            server is having trouble. Please try again.
 
   discover:
     meta:
@@ -148,6 +177,14 @@ pages:
     intro:
       title: 感谢使用WeLearn
       description: ''
+
+    extensionDownload:
+      options:
+        label: Extension Download Options
+        title: Using a different browser?
+        description: >
+          Our browser extension is currently available for the following
+          browsers.
 
 # [3] React Components
 components:
