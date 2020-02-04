@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import * as FiIcon from 'react-icons/fi'
-import { IconContext } from 'react-icons'
 import { Card, Callout, Intent } from '@blueprintjs/core'
 import { FormGroup, InputGroup, Button, AnchorButton, Tag } from '@blueprintjs/core'
 import { RadioGroup, HTMLSelect, Radio, Switch, Alignment } from '@blueprintjs/core'
 import { Formik, Form, Field } from 'formik'
 import { motion } from 'framer-motion'
 
-import { AccountSelector } from '~components/input/settings'
 import store from '~mixins/persistence'
 
 import { i18n } from '@ilearn/modules/i18n'
@@ -95,12 +93,20 @@ const General = () => {
   )
 }
 
-const Account = () => (
-  <PosedCard>
-    <h1>{i18nT('account.intro.title')}</h1>
-    <AccountSelector />
-  </PosedCard>
-)
+const Account = () => {
+  return <>
+    <PosedCard>
+      <h1>{i18nT('account.intro.title')}</h1>
+      <p>You're logged in as <code>{window.jstate.user.email}</code>.</p>
+
+      <AnchorButton text='Log Out' href={window.jstate.urls.logout} icon='log-out'/>
+
+      <div className='promo lp'>
+        <img src='/media/logos/learning-planet.png' height='36px'/>
+      </div>
+    </PosedCard>
+  </>
+}
 
 const Privacy = () => (
   <PosedCard>
