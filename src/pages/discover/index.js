@@ -1,7 +1,5 @@
 import { setupInstance, renderView } from '~views/discover'
 
-import { ensureLogin } from '~components/input/loginSensor'
-
 import './style.scss'
 
 // Alrighty! devicePixelRatio is explosive. It needs to be a nice round integer.
@@ -15,7 +13,7 @@ const pixelRatioClamped = () => {
   return Math.ceil(ratio)
 }
 
-const init = () => {
+const init = async () => {
   setupInstance({
     element: document.getElementById('atlas'),
     pixelRatio: pixelRatioClamped(),
@@ -25,6 +23,5 @@ const init = () => {
 }
 
 document.addEventListener('apploaded', () => {
-  ensureLogin({ autoRedirect: true })
-    .then(init)
+  init()
 })
