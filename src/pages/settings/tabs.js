@@ -20,12 +20,12 @@ const SettingsTabs = (props) => {
           vertical
           id='pages-settings'
           className='np-tabs-settings'>
-      <Tab id='general'
-           title={<TabTitle title={i18nT('general')} icon='wrench'/>}
-           panel={<Panels.General/>}/>
       <Tab id='account'
            title={<TabTitle title={i18nT('account')} icon='user'/>}
            panel={<Panels.Account/>}/>
+      <Tab id='general'
+           title={<TabTitle title={i18nT('general')} icon='wrench'/>}
+           panel={<Panels.General/>}/>
       <Tab id='privacy'
            title={<TabTitle title={i18nT('privacy')} icon='shield'/>}
            panel={<Panels.Privacy/>}/>
