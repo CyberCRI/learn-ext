@@ -15,6 +15,6 @@ export default create({
   inputBorderRadius: 4,
   inputBorderColor: 'lightgrey',
 
-  brandTitle: 'iLearn - Design Specs',
-  brandUrl: 'https://ilearn.cri-paris.org',
+  brandTitle: 'WeLearn - Design Specs',
+  brandUrl: 'https://welearn.cri-paris.org',
 })
