@@ -1,0 +1,12 @@
+.bp3-dialog.login-dialog {
+  background: #fff;
+
+  &>.bp3-dialog-header {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  &>.bp3-callout {
+    background: transparent;
+  }
+}
