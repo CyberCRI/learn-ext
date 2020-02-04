@@ -1,7 +1,7 @@
 import '~styles/fonts.css'
 import './style.sass'
 
-import { NavigationBar, initNotifications } from '~page-commons'
+import { NavigationBar } from '~page-commons'
 import { renderReactComponent } from '~mixins/react-helpers'
 
 
