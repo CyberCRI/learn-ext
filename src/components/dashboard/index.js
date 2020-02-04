@@ -5,10 +5,11 @@ import { Helmet } from 'react-helmet'
 import moment from 'moment'
 import _ from 'lodash'
 
+import { API } from '@ilearn/modules/api'
 import { i18n } from '@ilearn/modules/i18n'
 import { ResourceGrid, ResourceCollectionView } from './resources'
 import { OmniBar, FilterTools } from './tools'
-import { API } from '@ilearn/modules/api'
+import * as Placeholder from './placeholders'
 
 import './styles.scss'
 
@@ -16,15 +17,6 @@ const ResourcesInfo = ({ count, len }) => {
   return (
     <div className='resources info-box'>
       <p>Showing {len} of {count} resources</p>
-    </div>
-  )
-}
-
-const ErrorDescription = (props) => {
-  return (
-    <div className='resources error'>
-      <h1>:(</h1>
-      <p>Couldn't load resources.</p>
     </div>
   )
 }
@@ -129,7 +121,7 @@ const DashboardView = () => {
         onDelete={deleteResource}
         onRemoveConcept={removeConcept}/>
       <div className='pager'>
-        {statusError && <ErrorDescription/>}
+        {statusError && <Placeholder.ErrorDescription/>}
         {isLoading && <Spinner/>}
         {offset > 0 && !isLoading &&
           <Button icon='arrow-down' loading={isLoading} text='Load More' onClick={maybeLoadNext}/>}
