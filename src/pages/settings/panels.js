@@ -45,9 +45,13 @@ const General = () => {
     window.setTimeout(() => window.location.reload(), 500)
   }
 
-  useEffect(async () => {
-    setLang(await store.get('pref.lang', 'en'))
-    setAutoOpenchangelog(await store.get('pref.autoShowChangelog', true))
+  useEffect(() => {
+    // async effects end up returning a promise, while here I just want to do
+    // use await syntax, so an iife is the way to go:
+    (async () => {
+      setLang(await store.get('pref.lang', 'en'))
+      setAutoOpenchangelog(await store.get('pref.autoShowChangelog', true))
+    })()
   }, [])
 
   return (
