@@ -28,7 +28,26 @@ body {
   background: $ink1;
 
   header {
-    @include bg-vibrant-tint($ink1, .2);
+    z-index: 10;
+    width: 100%;
+    position: absolute;
+    display: block;
+    background: transparent;
+
+    #navbar {
+      margin-top: 5px;
+
+      .bp3-navbar {
+        @include bg-vibrant-tint($ink1, .2);
+        border-radius: 5px;
+        padding: 0 5px;
+        height: auto;
+      }
+
+      .bp3-navbar-group {
+        height: 40px;
+      }
+    }
   }
 
   main {
@@ -153,6 +172,10 @@ section.slide {
     padding: 20px 0;
     overflow: hidden;
     display: flex;
+    // Set a minimum height here.
+    min-height: 350px;
+    height: auto;
+    transition: .2s all;
   }
 
   &.callout {
@@ -303,6 +326,14 @@ section.slide {
   padding: 10px;
   max-width: 250px;
   color: #000;
+
+  &.boxed {
+    max-width: 500px;
+    border-radius: 5px;
+    margin: 0 -10px;
+    background: $light-gray4;
+    font-size: 1rem;
+  }
 }
 
 .np-download-link {
