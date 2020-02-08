@@ -11,6 +11,15 @@
 
 Here is what's new in this version of WeLearn extension:
 
+## v0.0.47
+Under Preparation
+
+This is a lots of changes for a single release! So, we're gonna make a leap here.
+
+- Real authentication system! Thanks for waiting. As previously mentioned, we've
+  set up an OpenID and OAuth2 based identity service at Learning Planet.
+- 
+
 ## v0.0.46
 Released on `2019-12-30`
 
