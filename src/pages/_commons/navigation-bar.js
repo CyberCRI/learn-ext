@@ -25,23 +25,29 @@ const LoginSignupDialog = createComponent(dialogVisibility, (props, state) => (
     onClose={dialogControl.hide}
     title={i18nT('loginDialog.title')}
     className='login-dialog'>
-    <Callout>
-      <div>
-        <img src='/media/logos/learning-planet.png' height='36px'/>
+    <Callout className='login-opts'>
+      <div className='lp-logo'>
+        <img
+          src='/media/logos/learning-planet.png'
+          height='36px'
+          title='Learning Planet Logo'/>
+      </div>
+      <div className='lp-blurb'>
         <p>{i18nT('loginDialog.description')}</p>
+        <AnchorButton
+          text={i18nT('loginDialog.buttonLabel')}
+          href={window.jstate.urls.login}
+          intent='primary'
+          className='login-button'
+          rightIcon='arrow-right'/>
       </div>
 
-      <AnchorButton
-        text={i18nT('loginDialog.buttonLabel')}
-        href={window.jstate.urls.login}
-        icon='arrow-right'/>
-
-      <small>
+      <div className='smalltext'>
         <p>If you have previously used WeLearn please ensure you use the same email
         address when you login or register.</p>
         <p>Having trouble? In case your account does not link automatically or if your email
         was wrong, just drop us a mail -- we will find and connect your account.</p>
-      </small>
+      </div>
     </Callout>
   </Dialog>
 ))

@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.0.46",
+  "version": "0.0.47",
   "manifest_version": 2,
 
   "browser_specific_settings": {
@@ -11,7 +11,7 @@
   },
 
   "description": "__MSG_extension_description__",
-  "homepage_url": "https://v2.ilearn.cri-paris.org",
+  "homepage_url": "https://welearn.cri-paris.org",
 
   "developer": {
     "name": "Centre de Recherches Interdisciplinaires",

@@ -1,11 +1,11 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.0.46",
-  "version_name": "0.0.46-alpha",
+  "version": "0.0.47",
+  "version_name": "0.0.47-alpha",
   "manifest_version": 2,
 
   "description": "__MSG_extension_description__",
-  "homepage_url": "https://ilearn.cri-paris.org",
+  "homepage_url": "https://welearn.cri-paris.org",
 
   "author": "Centre de Recherches Interdisciplinaires",
 
