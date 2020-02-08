@@ -20,6 +20,7 @@ const BuildTargets = {
     ],
     rules: [],
     plugins: [],
+    includePages: ['changelog', 'ingress', 'settings'],
   },
   firefox: {
     buildPath: abspath('./.builds/firefox'),
@@ -28,6 +29,7 @@ const BuildTargets = {
     ],
     rules: [],
     plugins: [],
+    includePages: ['changelog', 'ingress', 'settings'],
   },
   web: {
     buildPath: abspath('./.builds/web'),
@@ -95,6 +97,13 @@ const staticPages = glob
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
     }
+  })
+  .filter((page) => {
+    if (target.includePages) {
+      return target.includePages.indexOf(page.name) > 0
+    }
+    // Unless explicitly marked, include all pages.
+    return true
   })
 
 // Gather staticPages entries into separate plugin and entrypoint entities.

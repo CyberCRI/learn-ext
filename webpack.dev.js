@@ -19,7 +19,7 @@ module.exports = smartMerge(base_config, {
         test: /\.css$/,
         use: [ {
           loader: MiniCssExtractPlugin.loader,
-          options: { hmr: true },
+          options: { hmr: false },
         } ],
       },
       {
@@ -27,7 +27,7 @@ module.exports = smartMerge(base_config, {
         exclude: /node_modules/,
         use: [ {
           loader: MiniCssExtractPlugin.loader,
-          options: { hmr: true },
+          options: { hmr: false },
         } ],
       },
     ],
