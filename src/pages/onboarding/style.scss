@@ -59,6 +59,11 @@ body {
   color: $light-gray4;
   font-size: 1.2rem;
 
+  @media(max-width: 512px) {
+    font-size: 1rem;
+    --slidesMargin: 10px;
+  }
+
   h1 {
     margin: 1em 0;
     font-size: 1.5em;
@@ -80,6 +85,10 @@ body {
       padding: 10px 10%;
       margin: 0;
       position: relative;
+
+      @media(max-width: 512px) {
+        padding: 10px 12px;
+      }
     }
   }
 }
@@ -95,6 +104,10 @@ section.slide {
     @include bg-cover($bg-blurb, center);
     color: $ink1;
     min-height: 50vh;
+
+    .logo {
+      margin-top: 40px;
+    }
 
     .toc {
       display: flex;
@@ -198,9 +211,14 @@ section.slide {
         padding: 10px;
         margin: 5px;
         width: 180px;
-        border-radius: 5px;
+        border-radius: 6px;
         display: block;
         text-align: center;
+
+        @media(max-width: 512px) {
+          width: 120px;
+          padding: 8px;
+        }
 
         img {
           width: 80px;
