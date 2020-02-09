@@ -2492,6 +2492,16 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
+"@hookstate/core@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@hookstate/core/-/core-1.5.2.tgz#4031309ec417422920df0efd0f5b31301da23fbe"
+  integrity sha512-BTCvtFteyB2UuhY+U7P6+/ffoEQ89mpWUPlvJFCOK/uJlNj/fIcyoanjwrKf+wqNlTejIFixt4W2hof9r4uCTQ==
+
+"@hookstate/persistence@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@hookstate/persistence/-/persistence-1.5.2.tgz#a34991fe078d8245d417229722ac95a95c7419d6"
+  integrity sha512-mj9k+VwXY7KIgFP/VtLLEq1SKMeGu+n1i3WnCVQjDiM41sk6y+MQchJbNvxRvqoUOedKF/1/SUyF1kGcPZmr4Q==
+
 "@hot-loader/react-dom@^16.11.0":
   version "16.11.0"
   resolved "https://registry.yarnpkg.com/@hot-loader/react-dom/-/react-dom-16.11.0.tgz#c0b483923b289db5431516f56ee2a69448ebf9bd"
