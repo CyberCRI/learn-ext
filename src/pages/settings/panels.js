@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import * as FiIcon from 'react-icons/fi'
-import { Card, Callout, Intent } from '@blueprintjs/core'
+import { Card, Callout, Intent, Spinner } from '@blueprintjs/core'
 import { FormGroup, InputGroup, Button, AnchorButton, Tag } from '@blueprintjs/core'
 import { RadioGroup, HTMLSelect, Radio, Switch, Alignment } from '@blueprintjs/core'
+import { Select } from "@blueprintjs/select";
 import { Formik, Form, Field } from 'formik'
 import { motion } from 'framer-motion'
 
+import { request } from '~mixins/request'
 import store from '~mixins/persistence'
+import { ConnectExtensionPrompt } from '~components/cards/auth'
 
+import { ServiceAPI } from '@ilearn/modules/api'
 import { i18n } from '@ilearn/modules/i18n'
 
 
@@ -19,8 +23,7 @@ const RadioLabel = (props) => {
   return (
     <Radio
       label={<span>{icon} {props.label} </span>}
-      value={props.value}
-      alignIndicator={Alignment.RIGHT}/>
+      value={props.value}/>
   )
 }
 
@@ -65,21 +68,27 @@ const General = () => {
           promptReload()
         }}>{(props) => (
           <Form>
-            <label htmlFor='lang'>{i18nT('general.form.languageSelect.label')}</label>
-            <Field as={HTMLSelect} name='lang'>
-              <option value='en'>English</option>
-              <option value='fr'>Français (French)</option>
-              <option value='zh'>简体中文 (Chinese)</option>
-              <option value='hi'>हिन्दी (Hindi)</option>
-            </Field>
-            <p>{i18nT('general.form.languageSelect.description')}</p>
+            <FormGroup
+              helperText={i18nT('general.form.languageSelect.description')}
+              label={i18nT('general.form.languageSelect.label')}
+              labelFor='lang'>
+              <Field as={HTMLSelect} name='lang'>
+                <option value='en'>English</option>
+                <option value='fr'>Français (French)</option>
+                <option value='zh'>简体中文 (Chinese)</option>
+                <option value='hi'>हिन्दी (Hindi)</option>
+              </Field>
+            </FormGroup>
 
-            <Field name='autoOpenChangelog'>{({ field }) => (
-              <Switch
-                label='Automatically open Changelog when Extension Updates.'
-                checked={field.value}
-                {...field}/>
-            )}</Field>
+            <FormGroup
+              label='Extension Preferences'>
+              <Field name='autoOpenChangelog'>{({ field }) => (
+                <Switch
+                  label='Automatically open Changelog when Extension Updates.'
+                  checked={field.value}
+                  {...field}/>
+              )}</Field>
+            </FormGroup>
 
             <Button
               icon='tick-circle'
@@ -94,16 +103,72 @@ const General = () => {
 }
 
 const Account = () => {
+  const [group, setGroup] = React.useState({})
+  const [groups, setGroups] = React.useState([])
+  const [status, setStatus] = React.useState(0)
+
+  React.useEffect(() => {
+    if (window.jstate.user.groups.length > 0) {
+      // groupid
+      setGroup(window.jstate.user.groups[0].guid)
+    }
+    ServiceAPI
+      .groupList()
+      .then(({ results }) => {
+        setGroups(results)
+        setStatus(1)
+      })
+      .catch((err) => {
+        setStatus(-1)
+      })
+  }, [])
+
+  const handleChanges = () => {
+    setStatus(0)
+    ServiceAPI
+      .setUserGroup({ guid: group })
+      .then(() => {
+        setStatus(1)
+      })
+      .catch((err) => {
+        setStatus(-1)
+        console.error(err)
+      })
+  }
+
   return <>
     <PosedCard>
       <h1>{i18nT('account.intro.title')}</h1>
       <p>You're logged in as <code>{window.jstate.user.email}</code>.</p>
 
-      <AnchorButton text='Log Out' href={window.jstate.urls.logout} icon='log-out'/>
+      <FormGroup
+        helperText='Choose your group'
+        label='Group'>
+        <RadioGroup
+          inline
+          selectedValue={group}
+          onChange={(e) => setGroup(e.currentTarget.value)}>
+          {groups.map((i) => (
+            <Radio
+              key={i.guid}
+              label={i.label}
+              value={i.guid}/>
+          ))}
+        </RadioGroup>
+      </FormGroup>
 
-      <div className='promo lp'>
+      <Button
+        icon='tick-circle'
+        type='submit'
+        loading={status == 0}
+        onClick={handleChanges}>
+        {i18nT('general.form.submitButton.label')}
+      </Button>
+
+      <FormGroup>
         <img src='/media/logos/learning-planet.png' height='36px'/>
-      </div>
+        <AnchorButton text='Log Out' href={window.jstate.urls.logout} icon='log-out'/>
+      </FormGroup>
     </PosedCard>
   </>
 }
@@ -113,21 +178,24 @@ const Privacy = () => (
     <h1>{i18nT('privacy.title')}</h1>
     <p>{i18nT('privacy.description')}</p>
 
-    <RadioGroup
-      label={i18nT('privacy.sharing.title')}
-      alignIndicator={Alignment.RIGHT}>
-      <RadioLabel
-        label={i18nT('privacy.sharing.choices.private.title')}
-        icon={FiIcon.FiLock}
-        value='me'/>
-      <RadioLabel
-        label={i18nT('privacy.sharing.choices.public.title')}
-        icon={FiIcon.FiGlobe}
-        value='all'/>
-    </RadioGroup>
+    <FormGroup
+      label={i18nT('privacy.sharing.title')}>
+      <RadioGroup disabled>
+        <RadioLabel
+          label={i18nT('privacy.sharing.choices.private.title')}
+          icon={FiIcon.FiLock}
+          value='me'/>
+        <RadioLabel
+          label={i18nT('privacy.sharing.choices.public.title')}
+          icon={FiIcon.FiGlobe}
+          value='all'/>
+      </RadioGroup>
+    </FormGroup>
 
-    <h1>{i18nT('privacy.mentorship.title')}</h1>
-    <Switch label={i18nT('privacy.mentorship.description')}/>
+    <FormGroup
+      label={i18nT('privacy.mentorship.title')}>
+      <Switch label={i18nT('privacy.mentorship.description')}/>
+    </FormGroup>
   </PosedCard>
 )
 
@@ -140,8 +208,17 @@ const Support = () => (
     <AnchorButton text={i18nT('support.tutorial.link')} href='/pages/support.html'/>
     <AnchorButton text={i18nT('support.changelog.link')} href='/pages/changelog.html'/>
 
-    <p>Version: {env.info_version}</p>
+    <p>Version: <code>{env.info_version}</code></p>
   </PosedCard>
 )
 
-export default { General, Account, Privacy, Support }
+const Extension = () => (
+  <PosedCard>
+    <h1>Browser Extension</h1>
+    <p>Here you can connect your browser extension or other channels</p>
+
+    <ConnectExtensionPrompt/>
+  </PosedCard>
+)
+
+export default { General, Account, Privacy, Support, Extension }

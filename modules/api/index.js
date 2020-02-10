@@ -1,74 +1,75 @@
 import { request } from '~mixins'
-import store from '~mixins/persistence'
 
 const pathFor = (route, subs) => {
   return `${env.ngapi_host}/api/${route}`
 }
 
+const getUser = async () => {
+  const u = window.jstate.user
+  try {
+    u.groupId = u.groups[0].guid
+  } catch {}
+
+  return u
+}
+
+
 export const API = {
-  userResources: ({ limit=20, start=1 }) => {
-    return store
-      .get('user')
+  userResources: ({ limit=20, skip=1 }) => {
+    return getUser()
       .then(({ uid }) => {
         return request({
-          url: pathFor(`user/${uid}/resource`),
-          data: { limit, start },
+          url: pathFor(`resources/user/${uid}`),
+          data: { limit, skip },
         })
       })
   },
-  groupResources: ({ limit=20, start=1 }) => {
-    return store
-      .get('user')
+  groupResources: ({ limit=20, skip=1 }) => {
+    return getUser()
       .then(({ groupId }) => {
         return request({
-          url: pathFor(`group/${groupId}/resources`),
-          data: { limit, start },
+          url: pathFor(`resources/group/${groupId}`),
+          data: { limit, skip },
         })
       })
   },
-  allResources: ({ limit=20, start=1 }) => {
+  allResources: ({ limit=20, skip=1 }) => {
     return request({
       url: pathFor('resources/'),
-      data: { limit, start },
+      data: { limit, skip },
     })
   },
   userMapLayer: () => {
-    return store
-      .get('user')
+    return getUser()
       .then(({ uid }) => {
         return request({
-          url: pathFor('map'),
+          url: pathFor('resources/map/user'),
           data: { user_id: uid },
         })
       })
   },
   groupMapLayer: () => {
-    return store
-      .get('user')
+    return getUser()
       .then(({ groupId }) => {
         return request({
-          url: pathFor('map'),
+          url: pathFor('resources/map/group'),
           data: { group_id: groupId },
         })
       })
   },
   entireMapLayer: () => {
-    return request({ url: pathFor('map') })
+    return request({ url: pathFor('resources/map/base') })
   },
 
   deleteResource: ({ resource_id }) => {
-    return store
-      .get('user')
-      .then(({ uid }) => {
-        return request({
-          url: pathFor(`user/${uid}/resource/${resource_id}`),
-          method: 'delete',
-        })
-      })
+    return request({
+      url: pathFor(`users/resource/${resource_id}`),
+      method: 'delete',
+    })
   },
   deleteConceptFromResource: ({ resource_id, wikidata_id }) => {
     return request({
-      url: pathFor(`resource/${resource_id}/concept/${wikidata_id}`),
+      url: pathFor(`users/resource/${resource_id}/concept/${wikidata_id}`),
       method: 'delete',
     })
   },
@@ -84,4 +85,20 @@ export const MapLayerAPI = {
   user: API.userMapLayer,
   group: API.groupMapLayer,
   everything: API.entireMapLayer,
+}
+
+export const ServiceAPI = {
+  groupList: () => {
+    return request({
+      url: pathFor('groups/'),
+    })
+  },
+
+  setUserGroup: ({ guid }) => {
+    return request({
+      url: pathFor('users/me/groups'),
+      method: 'patch',
+      data: { guid },
+    })
+  },
 }

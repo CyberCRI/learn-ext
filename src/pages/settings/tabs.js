@@ -1,6 +1,5 @@
 import React from 'react'
 import { Divider, Tabs, Tab, Icon } from '@blueprintjs/core'
-import * as FiIcon from 'react-icons/fi'
 
 import Panels from './panels'
 import { i18n } from '@ilearn/modules/i18n'
@@ -26,6 +25,9 @@ const SettingsTabs = (props) => {
       <Tab id='general'
            title={<TabTitle title={i18nT('general')} icon='wrench'/>}
            panel={<Panels.General/>}/>
+      <Tab id='extension'
+           title={<TabTitle title={i18nT('extension')} icon='code-block'/>}
+           panel={<Panels.Extension/>}/>
       <Tab id='privacy'
            title={<TabTitle title={i18nT('privacy')} icon='shield'/>}
            panel={<Panels.Privacy/>}/>
