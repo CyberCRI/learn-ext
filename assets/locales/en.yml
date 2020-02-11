@@ -91,6 +91,7 @@ pages:
       general: General
       account: Account
       privacy: Privacy
+      extension: Extension
       support: Support
 
     panels:

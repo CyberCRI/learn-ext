@@ -91,6 +91,7 @@ pages:
       general: 通用
       account: 账户
       privacy: 隐私
+      extension: Extension
       support: 支持
 
     panels:

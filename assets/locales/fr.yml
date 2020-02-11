@@ -91,6 +91,7 @@ pages:
       general: General
       account: Compte
       privacy: Confidentialité
+      extension: Extension
       support: Assistance
 
     panels:
