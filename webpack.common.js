@@ -20,7 +20,7 @@ const BuildTargets = {
     ],
     rules: [],
     plugins: [],
-    includePages: ['changelog', 'ingress', 'settings'],
+    includePages: ['changelog', 'popover', 'settings', 'extension-auth'],
   },
   firefox: {
     buildPath: abspath('./.builds/firefox'),
@@ -29,7 +29,7 @@ const BuildTargets = {
     ],
     rules: [],
     plugins: [],
-    includePages: ['changelog', 'ingress', 'settings'],
+    includePages: ['changelog', 'popover', 'settings', 'extension-auth'],
   },
   web: {
     buildPath: abspath('./.builds/web'),
@@ -93,7 +93,7 @@ const staticPages = glob
           env: dotenv.PackageEnv.vars,
         },
         hash: true,
-        chunks: [ 'vendors', 'modules', chunkName ],
+        chunks: [ 'vendors', 'modules', 'page_init', chunkName ],
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
     }
@@ -112,7 +112,7 @@ const staticPages = glob
 const staticEntrypoints = staticPages
   .reduce((acc, { entrypoint }) => {
     const [ chunkName, entryPath ] = entrypoint
-    acc[chunkName] = [ './src/pages/index.js', entryPath ]
+    acc[chunkName] = entryPath
     return acc
   }, {})
 
@@ -123,6 +123,7 @@ module.exports = {
   entry: {
     app_root: './src/index.js',
     background: './src/procs/background.js',
+    page_init: './src/pages/index.js',
 
     ...staticEntrypoints,
   },
