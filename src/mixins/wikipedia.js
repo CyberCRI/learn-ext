@@ -189,7 +189,13 @@ const Wiki = new WikiAPI()
 
 export default Wiki
 
-
+// [!todo] switch to prefixsearch next since that endpoint is specifically
+// designed for searching with prefixes (obviously...). However this will
+// require a second query to `query` action (of course) to get the props
+// that include wikidata ids. Note that there is cri api gateway also available
+// which we'll switch to later. Later, because we want to have spanish language
+// as well.
+//
 // /w/api.php?
 //   action=query&
 //   format=json&

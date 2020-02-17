@@ -1,15 +1,16 @@
 import React, { useRef, useState } from 'react'
 import { useClickAway, useLogger, useToggle, useMount, useUpdateEffect } from 'react-use'
-import { Spinner } from '@blueprintjs/core'
+import { Spinner, Card, Button } from '@blueprintjs/core'
+import { motion } from 'framer-motion'
 
 import { Port } from '~procs/portal'
-import { HookedCard } from '~components/cards/cards'
 import { ConceptList } from '~components/concepts'
 import { ConceptSuggest } from '~components/concepts/suggest'
 import { UrlPill, FaviconPill } from '~components/pills'
 
-import RootAPI from '~mixins/root-api'
 import { RatingPicker, PopoverTools } from '.'
+import { request } from '~mixins/request'
+import { browser } from '~procs/stubs'
 
 
 const dispatcher = new Port('PopOverlay').connect()
@@ -34,16 +35,28 @@ const PageConcepts = (props) => {
 
   if (props.url && props.url !== url) {
     setUrl(props.url)
-    RootAPI
-      .fetchConcepts(props.url)
-      .then((data) => {
-        setLanguage(data.lang)
-        setConcepts(data.concepts)
+
+    request({
+      url: `${env.ngapi_host}/meta/preproc`,
+      data: {
+        url: props.url,
+      },
+    }).then((data) => {
+      setLanguage(data.lang)
+
+      request({
+        url: `${env.ngapi_host}/textract/infer/link`,
+        data: {
+          url: props.url,
+          lang: data.lang,
+        },
+      }).then((data) => {
+        setConcepts(data)
         setStatus(200)
+      }).fail((err) => {
+        console.error(err)
       })
-      .fail((data) => {
-        setStatus(500)
-      })
+    })
   }
 
   const shouldLearn = () => {
@@ -52,11 +65,11 @@ const PageConcepts = (props) => {
       concepts: concepts,
       knowledge_progression: kprog,
     }
-    RootAPI
-      .learn(payload)
-      .then((data) => {
-        setStatus(201)
-      })
+    // RootAPI
+    //   .learn(payload)
+    //   .then((data) => {
+    //     setStatus(201)
+    //   })
   }
 
   const shouldClose = () => {
@@ -66,32 +79,22 @@ const PageConcepts = (props) => {
     })
   }
 
+  browser.storage.local.get('auth_token').then(console.log)
+
+
+
   // Only run when `kprog` or `concepts` updates:
-  useUpdateEffect(shouldLearn, [ concepts, kprog ])
-  useUpdateEffect(shouldClose, [ kprog ])
+  // useUpdateEffect(shouldLearn, [ concepts, kprog ])
+  // useUpdateEffect(shouldClose, [ kprog ])
 
   const didAddConcept = (item) => {
-    const ixTitle = _(concepts).map('title').value()
-    if (!_.includes(ixTitle, item.title)) {
-      RootAPI
-        .newConcept({ url, lang: language, title: item.title })
-        .then((data) => {
-          // API Response returns the standard concept struct.
-          setConcepts([ ...concepts, data ])
-        })
+    const ixTitle = _(concepts).map('wikidata_id').value()
+    if (!_.includes(ixTitle, item.wikidata_id)) {
+      setConcepts([ ...concepts, item ])
     }
   }
   const didRemoveConcept = (item) => {
-    const payload = {
-      url,
-      title: item.title,
-      lang: language,
-    }
-    RootAPI
-      .removeConcept(payload)
-      .then((data) => {
-        setConcepts(_.reject(concepts, [ 'title', item.title ]))
-      })
+    setConcepts(_.reject(concepts, [ 'wikidata_id', item.wikidata_id ]))
   }
   const didPickRating = (value) => {
     setKProg(value)
@@ -112,6 +115,19 @@ const PageConcepts = (props) => {
   )
 }
 
+
+const popVariants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    scaleY: 1,
+  },
+  closed: {
+    y: -50,
+    opacity: 0,
+    scaleY: .5,
+  },
+}
 
 export const PopOverlay = (props) => {
   const [ isOpen, toggle ] = useToggle(false)
@@ -147,13 +163,21 @@ export const PopOverlay = (props) => {
 
   return (
     <div className='popoverlay' ref={ref}>
-      <HookedCard isOpen={isOpen} className='page-action'>
-        <div>
-          <PopoverTools/>
-          <PageInfo {...tabInfo}/>
-          <PageConcepts {...tabInfo}/>
-        </div>
-      </HookedCard>
+      <motion.div
+        initial='closed'
+        animate={isOpen ? 'open' : 'closed'}
+        variants={popVariants}>
+        <Card className='page-action'>
+          <div>
+            <PopoverTools/>
+            <PageInfo {...tabInfo}/>
+            <PageConcepts {...tabInfo}/>
+
+            <Button text='Save'/>
+            <Button text='Cancel'/>
+          </div>
+        </Card>
+      </motion.div>
     </div>
   )
 }
