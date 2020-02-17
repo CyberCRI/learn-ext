@@ -20,7 +20,7 @@ const BuildTargets = {
     ],
     rules: [],
     plugins: [],
-    includePages: ['changelog', 'popover', 'settings', 'extension-auth'],
+    includePages: ['changelog', 'popover', 'extension-auth'],
   },
   firefox: {
     buildPath: abspath('./.builds/firefox'),
@@ -29,7 +29,7 @@ const BuildTargets = {
     ],
     rules: [],
     plugins: [],
-    includePages: ['changelog', 'popover', 'settings', 'extension-auth'],
+    includePages: ['changelog', 'popover', 'extension-auth'],
   },
   web: {
     buildPath: abspath('./.builds/web'),
