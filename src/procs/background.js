@@ -202,3 +202,13 @@ browser.browserAction.onClicked.addListener(didClickBrowserAction)
 initContextMenus({
   pageMenu: didSelectPageMenuItem,
 })
+
+browser.tabs.onUpdated.addListener((tid, change, tab) => {
+  if (tab && tab.title) {
+    // We can access this tab
+    browser.browserAction.setIcon({ tabId: tid, path: IconStack.action.active })
+  } else {
+    browser.browserAction.setIcon({ tabId: tid, path: IconStack.action.idle })
+  }
+})
+
