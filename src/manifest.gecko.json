@@ -67,7 +67,7 @@
     "keyword": "welearn"
   },
   "options_ui": {
-    "page": "pages/settings.html",
+    "page": "pages/extension-auth.html",
     "open_in_tab": true,
     "browser_style": false,
     "chrome_style": false
