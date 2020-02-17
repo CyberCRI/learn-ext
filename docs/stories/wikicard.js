@@ -17,6 +17,7 @@ storiesOf('WikiCard', module)
     const lang = radios('Wikipedia Language', {
       English: 'en',
       French: 'fr',
+      Spanish: 'es',
     }, 'en')
     return (<WikiCard title='Big Ben' lang={lang}/>)
   })

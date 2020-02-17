@@ -91,7 +91,7 @@ class WikiAPI {
           description: i.get('terms.description.0'),
           extract: i.get('extract'),
 
-          wikidataId: i.get('pageprops.wikibase_item'),
+          wikidata_id: i.get('pageprops.wikibase_item'),
           thumbnail: i.get('thumbnail'),
         }
       }
@@ -188,3 +188,24 @@ class WikiAPI {
 const Wiki = new WikiAPI()
 
 export default Wiki
+
+
+// /w/api.php?
+//   action=query&
+//   format=json&
+//   list=prefixsearch&
+//   pssearch=ibm%20sel
+
+// /w/api.php?
+//   action=query&
+//   format=json&
+//   prop=extracts|pageprops|extlinks|info|langlinks|pageimages|images&
+//   pageids=23861711&
+//   exsentences=4&
+//   exlimit=5&
+//   exintro=1&
+//   explaintext=1&
+//   elexpandurl=1&
+//   inprop=url|displaytitle
+
+// https://apigw.cri-paris.org/api/wpgw/search?search=json&lang=en

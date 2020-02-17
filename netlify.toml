@@ -1,5 +1,5 @@
 # Configuration for netlify previews of the pages.
 [build]
   base = "."
-  publish = ".builds/web/"
-  command = "./panda release:build --web"
+  publish = ".builds/stories/"
+  command = "npm run build:storybook"

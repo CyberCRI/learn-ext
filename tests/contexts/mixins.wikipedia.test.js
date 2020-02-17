@@ -9,7 +9,7 @@ describe('~mixins/wikipedia', () => {
 
       expect(results[0])
         .to.be.an('object')
-        .that.includes.keys('lang', 'title', 'wikidataId')
+        .that.includes.keys('lang', 'title', 'wikidata_id')
     })
 
     it('should respect language setting', async () => {
