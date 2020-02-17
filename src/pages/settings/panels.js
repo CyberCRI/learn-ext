@@ -5,7 +5,7 @@ import { FormGroup, InputGroup, Button, AnchorButton, Tag } from '@blueprintjs/c
 import { RadioGroup, HTMLSelect, Radio, Switch, Alignment } from '@blueprintjs/core'
 import { Select } from "@blueprintjs/select";
 import { Formik, Form, Field } from 'formik'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { request } from '~mixins/request'
 import store from '~mixins/persistence'
@@ -27,15 +27,15 @@ const RadioLabel = (props) => {
   )
 }
 
-const panelVariants = {
-  hidden: { x: -20, opacity: 0 },
-  visible: { x: 0, opacity: 1 },
-}
-
-const PosedCard = (props) => (
-  <motion.div initial='hidden' animate='visible' variants={panelVariants}>
-    <Card {...props}/>
-  </motion.div>
+const PanelContainer = (props) => (
+  <AnimatePresence>
+    <motion.div
+      initial={{ x: -20, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ opacity: 0 }}>
+      <Card {...props}/>
+    </motion.div>
+  </AnimatePresence>
 )
 
 const General = () => {
@@ -56,7 +56,7 @@ const General = () => {
   }, [])
 
   return (
-    <PosedCard>
+    <PanelContainer>
       <h1>{i18nT('general.intro.title')}</h1>
 
       <Formik
@@ -98,7 +98,7 @@ const General = () => {
             </Button>
           </Form>
       )}</Formik>
-    </PosedCard>
+    </PanelContainer>
   )
 }
 
@@ -137,7 +137,7 @@ const Account = () => {
   }
 
   return <>
-    <PosedCard>
+    <PanelContainer>
       <h1>{i18nT('account.intro.title')}</h1>
       <p>You're logged in as <code>{window.jstate.user.email}</code>.</p>
 
@@ -169,12 +169,12 @@ const Account = () => {
         <img src='/media/logos/learning-planet.png' height='36px'/>
         <AnchorButton text='Log Out' href={window.jstate.urls.logout} icon='log-out'/>
       </FormGroup>
-    </PosedCard>
+    </PanelContainer>
   </>
 }
 
 const Privacy = () => (
-  <PosedCard>
+  <PanelContainer>
     <h1>{i18nT('privacy.title')}</h1>
     <p>{i18nT('privacy.description')}</p>
 
@@ -196,11 +196,11 @@ const Privacy = () => (
       label={i18nT('privacy.mentorship.title')}>
       <Switch label={i18nT('privacy.mentorship.description')}/>
     </FormGroup>
-  </PosedCard>
+  </PanelContainer>
 )
 
 const Support = () => (
-  <PosedCard>
+  <PanelContainer>
     <h1>{i18nT('support.intro.title')}</h1>
     <p>{i18nT('support.intro.description')}</p>
 
@@ -209,16 +209,16 @@ const Support = () => (
     <AnchorButton text={i18nT('support.changelog.link')} href='/pages/changelog.html'/>
 
     <p>Version: <code>{env.info_version}</code></p>
-  </PosedCard>
+  </PanelContainer>
 )
 
 const Extension = () => (
-  <PosedCard>
+  <PanelContainer>
     <h1>Browser Extension</h1>
     <p>Here you can connect your browser extension or other channels</p>
 
     <ConnectExtensionPrompt/>
-  </PosedCard>
+  </PanelContainer>
 )
 
 export default { General, Account, Privacy, Support, Extension }
