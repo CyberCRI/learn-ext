@@ -48,6 +48,9 @@ const LoginSignupDialog = createComponent(dialogVisibility, (props, state) => (
         <p>Having trouble? In case your account does not link automatically or if your email
         was wrong, just drop us a mail -- we will find and connect your account.</p>
       </div>
+
+      <p><a href='https://www.learning-planet.org/en'>Learn more about Learning Planet</a></p>
+
     </Callout>
   </Dialog>
 ))
