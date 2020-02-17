@@ -1,7 +1,8 @@
+import jwtDecode from 'jwt-decode'
+
 import { browser } from '~procs/stubs'
 import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
 import { ExtensionPages } from './reactors'
-import { userId } from '~mixins/utils'
 import { InstallEventReason, IconStack } from './structs'
 import { initContextMenus } from './contextMenus'
 
@@ -31,18 +32,39 @@ const dispatchReaction = (msg) => {
   console.info(`Consuming action=<${msg.action}>`, msg)
 }
 
+const LS_TOKEN_KEY = 'auth_token'
+const getStoredToken = async () => {
+  const token = (await browser.storage.local.get(LS_TOKEN_KEY))[LS_TOKEN_KEY]
+  const decoded = jwtDecode(token)
+  return {
+    authToken: token,
+    email: decoded.sub,
+    uid: decoded.aud,
+    issuer: decoded.iss,
+    validAfter: decoded.nbf,
+  }
+}
+const userLoggedIn = async () => {
+  const token = await browser.storage.local.get(LS_TOKEN_KEY)
+
+  if (typeof token[LS_TOKEN_KEY] === 'string') {
+    // Decode JWT token to confirm we are actually logged in.
+    try {
+      // Simply ensure if `aud` key exists in the decoded token, as it should.
+      const decoded = jwtDecode(token[LS_TOKEN_KEY])
+      return !!decoded.aud
+    } catch (e) {
+      // Nope. Not Logged in! Fall through to the end.
+    }
+  }
+  return false
+}
+
 const reactOnInstalled = async ({ reason, temporary }) => {
   if (reason === InstallEventReason.installed) {
     if (temporary) {
-      // Initialise the store with our nugget user.
-      await browser.storage.local.set({
-        user: {
-          uid: userId('nugget@noop.pw'),
-          username: 'nugget@noop.pw',
-          groupId: 'beta',
-          signedIn: true,
-        },
-      })
+      // We used to set a demo user info here. It's not needed anymore.
+      // This is left in for later refactor.
     } else {
       // Bonjour les enfants!
       // This is not a temporary installation. Lets open onboarding page!
