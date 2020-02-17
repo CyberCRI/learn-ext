@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import * as FiIcon from 'react-icons/fi'
-import { Card, Callout, Intent, Spinner } from '@blueprintjs/core'
-import { FormGroup, InputGroup, Button, AnchorButton, Tag } from '@blueprintjs/core'
-import { RadioGroup, HTMLSelect, Radio, Switch, Alignment } from '@blueprintjs/core'
-import { Select } from "@blueprintjs/select";
+import { Card, FormGroup, Button, AnchorButton } from '@blueprintjs/core'
+import { RadioGroup, HTMLSelect, Radio, Switch } from '@blueprintjs/core'
 import { Formik, Form, Field } from 'formik'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import { request } from '~mixins/request'
 import store from '~mixins/persistence'
 import { ConnectExtensionPrompt } from '~components/cards/auth'
 
@@ -66,7 +63,8 @@ const General = () => {
           store.set('pref.lang', values.lang)
           store.set('pref.autoShowChangelog', values.autoOpenChangelog)
           promptReload()
-        }}>{(props) => (
+        }}>
+        {(props) => (
           <Form>
             <FormGroup
               helperText={i18nT('general.form.languageSelect.description')}
@@ -97,7 +95,8 @@ const General = () => {
               {i18nT('general.form.submitButton.label')}
             </Button>
           </Form>
-      )}</Formik>
+        )}
+      </Formik>
     </PanelContainer>
   )
 }
