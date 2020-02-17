@@ -17,13 +17,12 @@ export const resourcesDomain = createStore('user')
   .on(pickLayer, (_, layerId) => layerId)
 
 export const fetchResources = createEffect()
-  .use(async ({ limit=100, start=1 }) => {
+  .use(async ({ limit=100, skip=1 }) => {
     const domain = resourcesDomain.getState()
-    const response = await ResourceAPI[domain]({ limit, start })
-    const offset = response.pagination.start + response.pagination.limit
-    if (offset < response.pagination.count) {
-      console.log(`[Resources] Fetching next batch <limit: ${limit}, start: ${offset}, domain: ${domain}>`)
-      fetchResources({ limit, start: offset })
+    const response = await ResourceAPI[domain]({ limit, skip })
+
+    if (response.pagination.next) {
+      fetchResources({ limit, skip: response.pagination.next })
     }
     return response.results
   })
