@@ -31,6 +31,7 @@ const ListSortOrderPriority = (() => {
     [ 'title', 'asc' ],
     [ 'title_en', 'asc' ],
     [ 'title_fr', 'asc' ],
+    [ 'title_es', 'asc' ],
     [ 'similarity_score', 'desc' ],
     [ 'elo', 'desc' ],
     [ 'trueskill.sigma', 'asc' ],
@@ -40,7 +41,11 @@ const ListSortOrderPriority = (() => {
 
 
 export const ConceptTag = (props) => {
-  const { title, wikidata_id, lang } = props
+  // [!todo] U G L Y ! This will break. It's not properly defined behaviour
+  // either. Needs fixes asap.
+  const { title_en, title_fr, title_es, wikidata_id, lang } = props
+  const title = title_en || title_fr || title_es || props.title
+
   const didClickRemove = () => {
     console.debug(`[ConceptTag] Removing <${title}>`)
     props.onRemove && props.onRemove({ title, wikidata_id })
@@ -73,7 +78,7 @@ export const ConceptList = (props) => {
   const { lang, removable=false } = props
   const concepts = _(props.concepts)
     .orderBy(...ListSortOrderPriority)
-    .filter((o) => o.title || o.title_en || o.title_fr)
+    .filter((o) => o.title || o.title_en || o.title_fr || o.title_es)
     .value()
 
   return (
