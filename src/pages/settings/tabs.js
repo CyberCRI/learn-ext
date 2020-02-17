@@ -16,6 +16,7 @@ const TabTitle = ({ title, icon }) => (
 const SettingsTabs = (props) => {
   return (
     <Tabs large
+          renderActiveTabPanelOnly
           vertical
           id='pages-settings'
           className='np-tabs-settings'>
