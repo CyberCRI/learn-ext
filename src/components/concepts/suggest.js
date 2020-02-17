@@ -116,9 +116,10 @@ export const ConceptSuggest = ({ onSelect, lang }) => {
   return (
     <div className='suggest root'>
       <Select
+        resetOnQuery={false}
+        resetOnSelect={false}
+        resetOnClose={false}
         filterable
-        resetOnClose
-        resetOnSelect
         itemListPredicate={conceptPredicate}
         itemRenderer={renderSuggestion}
         items={items}
