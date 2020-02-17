@@ -29,7 +29,7 @@ const iFrameStyles = {
   border: 'none',
   outline: 'none',
   pointerEvents: 'all',
-  zIndex: 12600322,
+  zIndex: 1992600322,
 }
 
 
