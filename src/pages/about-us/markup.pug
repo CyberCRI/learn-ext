@@ -27,7 +27,7 @@ block append main
         "Ministère de l'Éducation Nationale et de la Jeunesse",
         'https://www.education.gouv.fr/',
         'education.gouv.fr',
-        '/media/logos/ministry-de-la-education.png')
+        '/media/logos/republique-francaise.png')
       +sponsorItem(
         'Mairie de Paris',
         'https://paris.fr/',
@@ -44,8 +44,11 @@ block append main
         'fondationbs.org',
         '/media/logos/fondation-bettencourt.png')
 
-    figure
-      img(src='/media/logos/learning-planet.png', height=35)
+      +sponsorItem(
+        'Learning Planet',
+        'https://www.learning-planet.org/en',
+        'learning-planet.org',
+        '/media/logos/learning-planet-mark.png')
 
   section.small-text
     include:md-transpile ./footnotes.md
