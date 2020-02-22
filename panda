@@ -54,21 +54,21 @@ dev:storybook () {
 dev:watch () {
   prep:all
   export ILRN_IS_DEV='yes'
-  webpack --config webpack.dev.js --watch
+  webpack --watch
 }
 
 dev:server () {
   _info 'Starting dev-server'
   export ILRN_IS_DEV='yes'
   prep:all
-  webpack-dev-server --config webpack.dev.js --hot
+  webpack-dev-server --hot
 }
 
 dev:build () {
   _info 'Building [dev]'
   export ILRN_IS_DEV='yes'
   prep:all
-  webpack --config webpack.dev.js
+  webpack
 }
 
 dev:webext () {
@@ -117,17 +117,19 @@ release:pack () {
 release:build () {
   _info "<*> Compiling [target -> ${FLAGS_TARGET}]"
   export ILRN_IS_DEV='no'
+  export NODE_ENV='production'
   prep:all
-  webpack --config webpack.prod.js
+  webpack
   _success 'Done'
 }
 
 release:dev () {
   export FLAGS_VERBOSE='no'
   export ILRN_IS_DEV='yes'
+  export NODE_ENV='production'
   _info 'Building preview release'
   prep:all
-  webpack --config webpack.prod.js
+  webpack
   _success 'Done!'
 }
 

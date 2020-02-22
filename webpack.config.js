@@ -1,15 +1,19 @@
+const webpack = require('webpack')
 const WebpackBar = require('webpackbar')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const WebpackHookPlugin = require('webpack-hook-plugin')
-const { LicenseWebpackPlugin } = require('license-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const glob = require('glob')
 const _ = require('lodash')
 
 const { dotenv, abspath, locale } = require('./modules/plugins')
-const { pugMdFilter } = require('./modules/plugins/pugjs-markdown')
+
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
 
 const BuildTargets = {
@@ -93,6 +97,7 @@ const staticPages = glob
           env: dotenv.PackageEnv.vars,
         },
         hash: true,
+        minify: false,
         chunks: [ 'vendors', 'modules', 'page_init', chunkName ],
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
@@ -116,10 +121,31 @@ const staticEntrypoints = staticPages
     return acc
   }, {})
 
-const staticPageGeneratorPlugins = staticPages
-  .reduce((acc, { plugin }) => [ ...acc, plugin ], [])
+const scssLoader = (() => {
+  return [
+    IS_PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
+    {
+      loader: require.resolve('css-loader'),
+      options: { importLoaders: 1 },
+    },
+    {
+      loader: require.resolve('postcss-loader'),
+      options: { plugins: [
+        require('autoprefixer'),
+        require('cssnano')({ preset: 'default' }),
+      ] },
+    },
+    {
+      loader: require.resolve('sass-loader'),
+      options: { sassOptions: {
+        includePaths: [ abspath('./src') ],
+      }},
+    },
+  ]
+})()
 
 module.exports = {
+  mode: IS_PRODUCTION ? 'production' : 'development',
   entry: {
     app_root: './src/index.js',
     background: './src/procs/background.js',
@@ -139,65 +165,35 @@ module.exports = {
         return '[name].js'
       }
     },
+    pathinfo: false,
     path: target.buildPath,
   },
 
   resolve: {
-    // Alias allows importing modules independent of base paths.
     alias: {
       '~mixins': abspath('src/mixins'),
       '~procs': abspath('src/procs'),
       '~components': abspath('src/components'),
       '~styles': abspath('src/styles'),
-      '~pug-partials': abspath('src/pages/partials'),
       '~pages': abspath('src/pages'),
       '~page-commons': abspath('src/pages/_commons'),
-      '~media': abspath('assets/media'),
       '~views': abspath('src/views'),
       '@ilearn/modules': abspath('modules'),
     },
-    extensions: [ '.mjs', '.esm.js', '.js', '.jsx', '.json' ],
+    extensions: ['.mjs', '.esm.js', '.js', '.jsx', '.json', '.es.js'],
   },
 
   module: {
     rules: [
-      {
-        test: /\.css$/,
-        use: [
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          {
-            loader: 'postcss-loader',
-            options: { plugins: [
-              require('autoprefixer'),
-              require('cssnano'),
-            ] },
-          },
-        ],
-      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
       {
-        test: /\.s(c|a)ss$/,
+        test: /\.s?(c|a)ss$/,
         exclude: /node_modules/,
-        use: [
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          {
-            loader: 'postcss-loader',
-            options: { plugins: [
-              require('autoprefixer'),
-              require('cssnano'),
-            ] },
-          },
-          {
-            loader: 'sass-loader',
-            options: { sassOptions: {
-              includePaths: [ abspath('./src') ],
-            }},
-          },
-        ],
+        use: scssLoader,
       },
       {
         test: /\.(eot|ttf|woff|woff2)$/,
@@ -215,14 +211,10 @@ module.exports = {
           loader: 'pug-loader',
           options: {
             filters: {
-              'md-transpile': pugMdFilter,
+              'md-transpile': require('./modules/plugins/pugjs-markdown').transpile,
             },
           },
         }],
-      },
-      {
-        test: /\.svg$/,
-        use: ['svg-inline-loader'],
       },
       ...target.rules,
     ],
@@ -233,7 +225,7 @@ module.exports = {
     namedModules: true,
     moduleIds: 'named',
     splitChunks: {
-      minChunks: 1,
+      minChunks: 3,
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
@@ -258,6 +250,20 @@ module.exports = {
         },
       },
     },
+    minimize: IS_PRODUCTION,
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        extractComments: true,
+        exclude: /\.(html)/,
+        terserOptions: {
+          keep_classnames: true,
+          drop_console: true,
+        },
+        // chunkFilter: (chunk) => chunk.name !== 'vendor',
+      }),
+    ],
   },
 
   stats: {
@@ -268,19 +274,29 @@ module.exports = {
     version: false,
     warnings: false,
     excludeAssets: /^(fonts|icons|atlas|media)\/.*/,
-    assets: dotenv.flags.verbose === 'yes',
+    assets: IS_PRODUCTION,
     assetsSort: 'name',
   },
 
-  node: {
-    global: true,
+  devtool: IS_PRODUCTION ? 'source-map' : 'eval-cheap-module-source-map',
+  devServer: {
+    port: 8517,
+    hot: true,
+    hotOnly: true,
+    clientLogLevel: 'error',
+    public: 'localhost:8517',
+    useLocalIp: true,
+    stats: 'minimal',
+    inline: true,
+    watchContentBase: true,
+    open: false,
+    overlay: true,
+    writeToDisk: false,
   },
 
-  performance: {
-    hints: false,
-  },
+  node: { global: true },
+  performance: { hints: false },
   bail: true,
-
 
   plugins: [
     new WebpackBar({ name: 'webext-ilearn', profile: false, basic: false }),
@@ -290,9 +306,12 @@ module.exports = {
       ignore: ['.DS_Store'],
     }),
     new MomentLocalesPlugin({ localesToKeep: ['fr', 'en-gb', 'hi', 'zh-cn'] }),
-    new LicenseWebpackPlugin({ perChunkOutput: false, outputFilename: 'module.licenses.txt' }),
     dotenv.PackageEnv.webpackPlugin,
-    ...staticPageGeneratorPlugins,
+    ...staticPages.reduce((acc, { plugin }) => [ ...acc, plugin ], []),
     ...target.plugins,
+    // Remove contents of build directory
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
 }
