@@ -1,5 +1,5 @@
 // Karma configuration
-const base_config = require('./webpack.common')
+const base_config = require('./webpack')
 const { dotenv, abspath } = require('./modules/plugins')
 
 

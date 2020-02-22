@@ -7,9 +7,5 @@ const abspath = (x) => path.resolve(__dirname, '../..', x)
 // Pre-configured webpack-merge instance
 const smartMerge = webpack_merge.smartStrategy({ 'module.rules.use': 'prepend' })
 
-// Get the runtime mode
-const buildTarget = {
-  isProduction: /(webpack\.prod\.js)/.test(process.argv.join()),
-}
 
-module.exports = { abspath, buildTarget, smartMerge }
+module.exports = { abspath, smartMerge }

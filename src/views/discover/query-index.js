@@ -22,7 +22,7 @@ import { Set, Map } from 'immutable'
 export const conceptIndexSet = (concepts=[]) => {
   // Transform `concepts` to a set of { concept.wikiDataId }.
   return _(concepts)
-    .map((c) => c.wikiDataId || c.wikidata_id)
+    .map((c) => c.wikidata_id || c.wikiDataId)
     .thru(Set)
     .value()
 }

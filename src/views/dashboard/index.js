@@ -29,7 +29,7 @@ const DashboardView = () => {
   const [ filters, setFilters ] = useSetState({ query: '' })
 
   const [ count, setCount ] = useState(0)
-  const [ offset, setOffset ] = useState(1)
+  const [ offset, setOffset ] = useState(0)
 
   const fetchBatch = () => {
     API

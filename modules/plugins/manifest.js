@@ -2,7 +2,8 @@
 // manifest from the base template.
 const _ = require('lodash')
 const subproc = require('child_process')
-const { buildTarget } = require('./utils')
+
+const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
 // Obtain latest git revision for this version
 const gitRevision = subproc
@@ -12,14 +13,9 @@ const gitRevision = subproc
 
 
 const applyTransformations = (mbase) => {
-  const targetMode = buildTarget.isProduction ? 'prod' : 'dev'
+  const targetMode = IS_PRODUCTION ? 'prod' : 'dev'
   let overrides = {
     version_name: `${mbase.version}${targetMode}${gitRevision}`,
-  }
-  if (buildTarget.isProduction) {
-    // overrides.content_scripts = [
-    //   { css: [ 'css/app_root.css' ] },
-    // ]
   }
   return _.merge(_.cloneDeep(mbase), overrides)
 }

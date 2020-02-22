@@ -13,6 +13,11 @@
 
 
 #discover-view {
+  ul.resources {
+    list-style: none;
+    margin: auto;
+  }
+
   .matches {
     list-style: none;
     & > p {
@@ -77,7 +82,7 @@
     .layers {
       background: transparentize($light-gray5, .5);
       backdrop-filter: blur(8px);
-      border-radius: 4px;
+      border-radius: 5px;
       padding: 2px;
 
       button {

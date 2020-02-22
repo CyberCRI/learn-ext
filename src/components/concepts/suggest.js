@@ -4,7 +4,6 @@ import { Tag, NonIdealState, Spinner } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import clsx from 'classnames'
 
-import { reFuse } from '~mixins/itertools'
 import Wiki from '~mixins/wikipedia'
 import { i18n } from '@ilearn/modules/i18n'
 
@@ -75,7 +74,7 @@ const controlProps = {
     minimal: true,
   },
   popover: {
-    position: 'left',
+    position: 'bottom-left',
     minimal: false,
     className: 'suggest target',
     portalClassName: 'suggest popover',

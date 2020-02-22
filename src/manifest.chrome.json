@@ -48,9 +48,8 @@
     "activeTab",
     "storage",
     "contextMenus",
-    "https://welearn.cri-paris.org/*",
-    "https://opt.ilearn.cri-paris.org/*",
-    "https://ilearn.cri-paris.org/*",
+    "https://next.welearn.cri-paris.org/*",
+    "https://welearn.dev.noop.pw/*",
     "https://en.wikipedia.org/*",
     "https://fr.wikipedia.org/*"
   ],

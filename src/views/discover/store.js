@@ -17,7 +17,7 @@ export const resourcesDomain = createStore('user')
   .on(pickLayer, (_, layerId) => layerId)
 
 export const fetchResources = createEffect()
-  .use(async ({ limit=100, skip=1 }) => {
+  .use(async ({ limit=100, skip=0 }) => {
     const domain = resourcesDomain.getState()
     const response = await ResourceAPI[domain]({ limit, skip })
 

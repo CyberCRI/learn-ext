@@ -1,4 +1,4 @@
-import { request } from '~mixins'
+import queryStrings from 'query-string'
 
 const pathFor = (route, subs) => {
   return `${env.ngapi_host}/api/${route}`
@@ -13,30 +13,43 @@ const getUser = async () => {
   return u
 }
 
+const request = async ({ url, method = 'get', query, data, ...options }) => {
+  const body = method === 'get' ? undefined : JSON.stringify(data)
+  const reqUrl = queryStrings.stringifyUrl({ url, query })
+
+  const r = await fetch(reqUrl, {
+    method, body,
+    mode: 'cors',
+    // credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return await r.json()
+}
+
 
 export const API = {
-  userResources: ({ limit=20, skip=1 }) => {
+  userResources: ({ limit=20, skip=0 }) => {
     return getUser()
       .then(({ uid }) => {
         return request({
           url: pathFor(`resources/user/${uid}`),
-          data: { limit, skip },
+          query: { limit, skip },
         })
       })
   },
-  groupResources: ({ limit=20, skip=1 }) => {
+  groupResources: ({ limit=20, skip=0 }) => {
     return getUser()
       .then(({ groupId }) => {
         return request({
           url: pathFor(`resources/group/${groupId}`),
-          data: { limit, skip },
+          query: { limit, skip },
         })
       })
   },
-  allResources: ({ limit=20, skip=1 }) => {
+  allResources: ({ limit=20, skip=0 }) => {
     return request({
       url: pathFor('resources/'),
-      data: { limit, skip },
+      query: { limit, skip },
     })
   },
   userMapLayer: () => {
@@ -44,7 +57,7 @@ export const API = {
       .then(({ uid }) => {
         return request({
           url: pathFor('resources/map/user'),
-          data: { user_id: uid },
+          query: { user_id: uid },
         })
       })
   },
@@ -53,7 +66,7 @@ export const API = {
       .then(({ groupId }) => {
         return request({
           url: pathFor('resources/map/group'),
-          data: { group_id: groupId },
+          query: { group_id: groupId },
         })
       })
   },
@@ -64,13 +77,13 @@ export const API = {
   deleteResource: ({ resource_id }) => {
     return request({
       url: pathFor(`users/resource/${resource_id}`),
-      method: 'delete',
+      method: 'DELETE',
     })
   },
   deleteConceptFromResource: ({ resource_id, wikidata_id }) => {
     return request({
       url: pathFor(`users/resource/${resource_id}/concept/${wikidata_id}`),
-      method: 'delete',
+      method: 'DELETE',
     })
   },
 }
@@ -97,8 +110,19 @@ export const ServiceAPI = {
   setUserGroup: ({ guid }) => {
     return request({
       url: pathFor('users/me/groups'),
-      method: 'patch',
+      method: 'PATCH',
       data: { guid },
     })
+  },
+}
+
+export const IngressAPI = {
+  preprocess: ({ link }) => {
+    const payload = { url: link }
+    return request({ url: `${env.ngapi_host}/meta/preproc`, payload })
+  },
+  doc2vec: ({ link, lang }) => {
+    const payload = { url: link, lang }
+    return request({ url: pathFor('textract/infer/link'), payload })
   },
 }

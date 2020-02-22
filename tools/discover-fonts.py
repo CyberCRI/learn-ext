@@ -119,7 +119,7 @@ def generate_css(df):
 
 @click.command()
 @click.option('-p', '--path', default='assets/fonts', help='Directory containing fonts')
-@click.option('-u', '--urlprefix', default='../../assets/fonts', help='Public URL Prefix')
+@click.option('-u', '--urlprefix', default='/fonts', help='Public URL Prefix')
 @click.option('-o', '--output', default='src/styles/_fonts.scss', help='CSS file output path')
 @click.option('-t', '--take', multiple=True)
 @click.option('--silent', is_flag=True, help='Disable logs')
