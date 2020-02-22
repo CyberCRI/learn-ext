@@ -1,0 +1,146 @@
+@import 'styles/index';
+
+html {
+  // Set Root Document Font Size.
+  font-size: 14px;
+}
+
+body {
+  font: {
+    family: $typeface-display;
+    weight: 400;
+  }
+  display: flex;
+  flex-direction: column;
+  background: #f9f9fa;
+  margin: 0;
+  min-height: 100vh;
+
+  &.lang-hi {
+    font-family: $typeface-display-hindi;
+  }
+}
+
+.root-container {
+  padding: 0 10%;
+  @media(max-width: 500px) {
+    padding: 0 10px;
+  }
+}
+
+body {
+  > header {
+    @extend .root-container;
+    background: $ink1;
+    height: 80px;
+    margin-bottom: -20px;
+    color: #f9f9fa;
+
+    nav {
+      padding: 6px 0;
+    }
+
+    .bp3-navbar.np-navbar {
+      background: transparent;
+      box-shadow: none;
+      z-index: unset;
+      white-space: nowrap;
+      display: flex;
+      overflow: auto;
+      justify-content: space-between;
+
+      a, .bp3-button {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    }
+  }
+
+  > main {
+    @extend .root-container;
+    flex-grow: 2;
+  }
+
+  > footer {
+    padding: 20px 10%;
+    background: $ink1;
+    color: #f9f9fa;
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    a {
+      color: inherit;
+
+      &:hover, &:focus {
+        text-decoration: underline;
+        color: inherit;
+      }
+    }
+
+    ul.inline {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        display: inline-block;
+        margin-left: 20px;
+      }
+    }
+  }
+}
+
+
+// Misc Elements
+kbd {
+  display: inline-block;
+  padding: 2px 4px;
+  background: $light-gray1;
+  color: $dark-gray2;
+  border-bottom: 2px solid $dark-gray2;
+  border-radius: 4px;
+  font-family: $typeface-mono;
+  font-style: italic;
+  margin: 0 2px;
+}
+
+section.card {
+  position: relative;
+  border-radius: 5px;
+  margin-bottom: 25px;
+  box-shadow: 0 0 2rem #100e17;
+
+  min-height: 250px;
+
+  overflow: hidden;
+
+  div.header {
+    background: linear-gradient(#051027 4%, #0c0c26 50% , #000000 95%);
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+
+    h1, h2, h3, h4 {
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: #fff;
+
+      font: {
+        weight: 400;
+        size: 1.6rem;
+      }
+    }
+  }
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0 0 5px 0;
+}
+
+code, pre {
+  font-family: $typeface-mono;
+}

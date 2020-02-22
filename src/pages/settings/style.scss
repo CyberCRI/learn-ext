@@ -1,0 +1,41 @@
+@import 'styles/colors';
+@import 'styles/variables';
+
+.np-tab-title {
+  display: flex;
+  align-items: center;
+
+  &.with-icon .icon {
+    margin-right: 5px;
+  }
+}
+
+.np-tabs-settings {
+  .bp3-tab-panel {
+    flex-grow: 1;
+  }
+}
+
+main {
+  display: flex;
+
+  .settings {
+    flex: 1;
+    background: $light-gray4;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+}
+
+
+.bp3-form-group {
+  background: $light-gray5;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 0 -10px 10px -10px;
+
+  label.bp3-label {
+    font-weight: 600;
+  }
+}
