@@ -15,7 +15,7 @@ const conceptListVariants = {
     transition: { staggerChildren: .8 },
   },
   visible: {
-    transition: { staggerChildren: .2 },
+    transition: { staggerChildren: .8 },
   },
 }
 
@@ -98,6 +98,30 @@ export const ConceptList = (props) => {
               {...item}/>
           </motion.li>
         )}
+      </motion.ul>
+    </AnimatePresence>
+  )
+}
+
+export const ConceptListLoadingState = ({ nconcepts=5, ...props }) => {
+  const concepts = Array(nconcepts).fill().map((_, i) => ({
+    key: i,
+    label: 'Kitties are so cute!'.slice(Math.floor(Math.random() * 5)),
+  }))
+  return (
+    <AnimatePresence initial='hidden'>
+      <motion.ul
+        initial='hidden'
+        animate='visible'
+        exit='hidden'
+        variants={conceptListVariants}
+        className='np--concepts-list concept list'>
+        {concepts.map((item) =>
+          <motion.li key={item.key} positionTransition variants={conceptVariants}>
+            <Tag minimal large className='np--concept-tag concept tag bp3-skeleton'>
+              <span>{item.label}</span>
+            </Tag>
+          </motion.li>)}
       </motion.ul>
     </AnimatePresence>
   )
