@@ -7,8 +7,6 @@ import { Dialog, Button, Callout } from '@blueprintjs/core'
 import { i18n } from '@ilearn/modules/i18n'
 import { DemoUserNotice } from './notifications'
 
-import './navbar.scss'
-
 const dialogVisibility = createStore(false)
 const dialogControl = createApi(dialogVisibility, {
   show: () => true,

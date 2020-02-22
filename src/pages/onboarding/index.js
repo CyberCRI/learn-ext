@@ -1,5 +1,6 @@
 import ScrollTrigger from '@terwanerik/scrolltrigger'
 
+import { setup } from '../_commons'
 import { renderReactComponent } from '~mixins/react-helpers'
 
 import { DemoCards } from './presentation'
@@ -8,7 +9,8 @@ import { DownloadLinks } from './download-buttons'
 import './style.scss'
 
 
-const initTriggers = async () => {
+window.addEventListener('load', async () => {
+  await setup()
   const trigger = new ScrollTrigger({
     trigger: {
       toggle: {
@@ -20,14 +22,7 @@ const initTriggers = async () => {
     },
   })
   trigger.add('[data-trigger]')
-}
 
-const initComponents = async () => {
   renderReactComponent('download-buttons', DownloadLinks)
   renderReactComponent('demo-cards', DemoCards)
-}
-
-document.addEventListener('apploaded', () => {
-  initComponents()
-  initTriggers()
 })

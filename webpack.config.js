@@ -98,7 +98,7 @@ const staticPages = glob
         },
         hash: true,
         minify: false,
-        chunks: [ 'vendors', 'modules', 'page_init', chunkName ],
+        chunks: [ 'vendors', 'modules', chunkName ],
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
     }
@@ -148,7 +148,6 @@ module.exports = {
   mode: IS_PRODUCTION ? 'production' : 'development',
   entry: {
     background: './src/procs/background.js',
-    page_init: './src/pages/index.js',
     content_script: './src/procs/content-script',
 
     ...staticEntrypoints,
@@ -225,13 +224,13 @@ module.exports = {
     namedModules: true,
     moduleIds: 'named',
     splitChunks: {
-      minChunks: 3,
+      minChunks: 4,
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
           chunks: 'all',
-          reuseExistingChunk: true,
+          // reuseExistingChunk: true,
           priority: 1,
         },
         i18n: {

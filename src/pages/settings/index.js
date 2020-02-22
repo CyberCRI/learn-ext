@@ -3,6 +3,7 @@ import { renderReactComponent } from '~mixins/react-helpers'
 import { Helmet } from 'react-helmet'
 
 import SettingsTabs from './tabs'
+import { setup } from '../_commons'
 import { i18n } from '@ilearn/modules/i18n'
 import './style.scss'
 
@@ -18,6 +19,7 @@ const SettingsContainer = (props) => {
   )
 }
 
-document.addEventListener('apploaded', () => {
+window.addEventListener('load', async () => {
+  await setup()
   renderReactComponent('settings', SettingsContainer)
 })

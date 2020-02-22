@@ -1,3 +1,4 @@
+import { setup } from '../_commons'
 import { setupInstance, renderView } from '~views/discover'
 
 import './style.scss'
@@ -13,15 +14,13 @@ const pixelRatioClamped = () => {
   return Math.ceil(ratio)
 }
 
-const init = async () => {
+window.addEventListener('load', async () => {
+  await setup()
   setupInstance({
     element: document.getElementById('atlas'),
     pixelRatio: pixelRatioClamped(),
   })
 
   renderView()
-}
-
-document.addEventListener('apploaded', () => {
-  init()
 })
+

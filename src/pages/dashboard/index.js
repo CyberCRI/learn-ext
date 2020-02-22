@@ -1,11 +1,10 @@
+import { setup } from '../_commons'
 import { renderReactComponent } from '~mixins/react-helpers'
 
 import { DashboardView } from '~views/dashboard'
 
-const init = async () => {
+window.addEventListener('load', async () => {
+  await setup()
   renderReactComponent('resources', DashboardView)
-}
-
-document.addEventListener('apploaded', () => {
-  init()
 })
+

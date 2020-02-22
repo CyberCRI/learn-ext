@@ -1,7 +1,8 @@
 import queryStrings from 'query-string'
 import jwt from 'jwt-decode'
 
-import { setup } from '~views/ingress'
+import { setup } from '../_commons'
+import { setup as setupIngress } from '~views/ingress'
 
 import './style.scss'
 
@@ -24,11 +25,11 @@ const discoverDependencies = async () => {
   return deps
 }
 
-
-document.addEventListener('apploaded', () => {
+window.addEventListener('load', async () => {
+  await setup()
   discoverDependencies()
     .then((args) => {
-      setup(args)
+      setupIngress(args)
     })
     .catch((e) => {
       // render error state.
