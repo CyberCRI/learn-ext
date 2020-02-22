@@ -1,5 +1,3 @@
-import jwtDecode from 'jwt-decode'
-
 import { browser } from '~procs/stubs'
 import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
 import { ExtensionPages } from './reactors'
@@ -30,34 +28,6 @@ const dispatchReaction = (msg) => {
     ExtensionPages.settings.open()
   }
   console.info(`Consuming action=<${msg.action}>`, msg)
-}
-
-const LS_TOKEN_KEY = 'auth_token'
-const getStoredToken = async () => {
-  const token = (await browser.storage.local.get(LS_TOKEN_KEY))[LS_TOKEN_KEY]
-  const decoded = jwtDecode(token)
-  return {
-    authToken: token,
-    email: decoded.sub,
-    uid: decoded.aud,
-    issuer: decoded.iss,
-    validAfter: decoded.nbf,
-  }
-}
-const userLoggedIn = async () => {
-  const token = await browser.storage.local.get(LS_TOKEN_KEY)
-
-  if (typeof token[LS_TOKEN_KEY] === 'string') {
-    // Decode JWT token to confirm we are actually logged in.
-    try {
-      // Simply ensure if `aud` key exists in the decoded token, as it should.
-      const decoded = jwtDecode(token[LS_TOKEN_KEY])
-      return !!decoded.aud
-    } catch (e) {
-      // Nope. Not Logged in! Fall through to the end.
-    }
-  }
-  return false
 }
 
 const reactOnInstalled = async ({ reason, temporary }) => {
@@ -164,7 +134,7 @@ const maybeInjectContentScripts = async (tabId) => {
     // Also, initialize the tabState value!
     tabState[tabId] = { isOpen: false }
     await execCScript({ file: '/vendors.js' })
-    await execCScript({ file: '/app_root.js' })
+    await execCScript({ file: '/content_script.js' })
   }
 }
 
@@ -173,11 +143,6 @@ const maybeTogglePopover = async (tabId) => {
   // Since it executes the entire scripts, we can be sure that the port would
   // already be there.
   await maybeInjectContentScripts(tabId)
-  const tabInfo = await getTabInfo(tabId)
-  const currentTab = await browser.tabs.getCurrent()
-
-  console.log(currentTab)
-
   const action = tabState[tabId].isOpen ? 'close' : 'open'
 
   broadcastToPorts(tabId, { action })
@@ -202,13 +167,3 @@ browser.browserAction.onClicked.addListener(didClickBrowserAction)
 initContextMenus({
   pageMenu: didSelectPageMenuItem,
 })
-
-browser.tabs.onUpdated.addListener((tid, change, tab) => {
-  if (tab && tab.title) {
-    // We can access this tab
-    browser.browserAction.setIcon({ tabId: tid, path: IconStack.action.active })
-  } else {
-    browser.browserAction.setIcon({ tabId: tid, path: IconStack.action.idle })
-  }
-})
-

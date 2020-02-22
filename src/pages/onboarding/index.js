@@ -6,7 +6,6 @@ import { DemoCards } from './presentation'
 import { DownloadLinks } from './download-buttons'
 
 import './style.scss'
-import 'animate.css/animate.css'
 
 
 const initTriggers = async () => {

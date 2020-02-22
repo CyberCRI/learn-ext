@@ -1,7 +1,6 @@
 // High order communication using ports.
 // Coordinates messages to, and from the runtime <-> background processes.
 import { browser } from '~procs/stubs'
-import { context, Runtime } from '~mixins/utils'
 
 
 export class Port {
@@ -18,19 +17,6 @@ export class Port {
   }
 
   connect () {
-    // Connect to the message callback on this port.
-    // We'll fall back with a fake "port" in case the components are inside
-    // a web environment. This is to ease development outside the extension.
-    if (context() !== Runtime.extension) {
-      // Fallback. Provide a stub port object, with `postMessage` function.
-      this.port = {
-        portStub: true,
-        postMessage: (msg) => {
-          console.debug(`[PortStub ${this.portName}] postMessage`, msg)
-        },
-      }
-      return this
-    }
     this.port = browser.runtime.connect({ name: this.portName })
     this.port.onMessage.addListener(this.didRecieveMessage)
     return this

@@ -1,0 +1,208 @@
+@import 'styles/colors';
+@import 'styles/fontfaces';
+
+html, body {
+  background: transparent;
+  margin: none;
+  outline: none;
+}
+
+.popover-tools {
+  padding: 2px 5px;
+  background: $blue3;
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+
+  .tool-button {
+    svg {
+      height: 1em;
+      width: 1em;
+      margin-right: 5px;
+    }
+  }
+}
+
+.page-infobox {
+  display: grid;
+  align-items: normal;
+  padding: 10px 15px;
+
+  grid-template-columns: auto 5px 25px;
+  grid-template-rows: auto 5px 1.2rem;
+  grid-template-areas:
+    "title . icon"
+    ". . icon"
+    "url . icon";
+
+  font-size: .8rem;
+  background: $light-gray5;
+
+  .favicon {
+    grid-area: icon;
+    width: 25px;
+    height: 25px;
+  }
+
+  h3 {
+    grid-area: title;
+    margin: 0;
+
+    font: {
+      family: $typeface-text;
+      weight: 400;
+    }
+  }
+
+  .pill.url {
+    grid-area: url;
+    overflow: hidden;
+
+    .path {
+      display: none;
+    }
+  }
+}
+
+.popoverlay {
+  width: 100%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  overflow: auto;
+
+  .container {
+    display: grid;
+    align-items: normal;
+    padding: 10px;
+    width: min-content;
+
+    grid-template:
+      'ppt-card concepts'
+      'ppt-card concepts'
+      / 2fr 1fr;
+
+    grid-row-gap: 10px;
+    grid-column-gap: 10px;
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: $ink1;
+    // backdrop-filter: blur(5px);
+  }
+
+  nav.toolbar {
+    text-align: right;
+    padding: 5px;
+    background: $ink1;
+    margin: 5px 10px;
+    border-radius: 5px;
+    position: relative;
+
+    .icon {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      left: -40px;
+      top: 1px;
+    }
+  }
+
+  .page-concepts-root {
+    grid-area: concepts;
+    width: 350px;
+    transform-origin: top;
+    transform-style: flat;
+    z-index: 10;
+    justify-self: flex-start;
+    align-self: bottom;
+  }
+
+  .webpage-card {
+    grid-area: ppt-card;
+    transform-origin: top;
+    justify-self: end;
+    z-index: 5;
+    align-self: top;
+  }
+
+  .add-to-welearn {
+    grid-area: ppt-card;
+    justify-self: end;
+    align-self: bottom;
+    z-index: 4;
+  }
+
+  button.save-btn {
+    // background: $ink1;
+    // color: $white;
+    // text-transform: uppercase;
+    letter-spacing: .1px;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px -2px rgba(0,0,0,0.30);
+  }
+
+  ul.np--concepts-list {
+    padding: 0 8px;
+    font-weight: 400;
+  }
+}
+
+// Popover card styles
+.popoverlay .page-action {
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0;
+  margin-bottom: 15px;
+
+  // Resets for correct child elements layout.
+  position: relative;
+  z-index: 10;
+  background: #fff;
+  box-shadow: 0 5px 10px -2px rgba(0,0,0,0.30);
+
+  h3.title {
+    font: {
+      weight: 500;
+      size: 1em;
+    }
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: $gray1;
+    padding: 10px;
+    margin: 0;
+  }
+}
+
+// Popover Elements
+.concept-popover {
+  $height: 250px;
+
+  width: 220px;
+  max-height: $height;
+
+  .bp3-popover-content {
+    padding: 0;
+  }
+
+  ul.bp3-menu {
+    max-height: $height;
+    overflow: auto;
+    padding: 5px 10px;
+  }
+}

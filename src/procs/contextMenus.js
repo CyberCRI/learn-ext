@@ -1,6 +1,5 @@
 import { browser } from './stubs'
 import { ExtensionPages } from './reactors'
-import _ from 'lodash'
 
 
 const i18nT = (key) => {

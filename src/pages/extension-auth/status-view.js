@@ -1,5 +1,7 @@
 import React from 'react'
-import { AnchorButton, Card } from '@blueprintjs/core'
+import { AnchorButton, Button, Card } from '@blueprintjs/core'
+
+import { clearStoredToken } from '~procs/token-utils'
 
 export const AuthNewConnection = (props) => {
   return <>
@@ -21,11 +23,15 @@ export const AuthPromptConnection = (props) => {
 }
 
 export const AuthStatus = (props) => {
+  const didClickDisconnect = () => {
+    clearStoredToken().then(() => window.location.reload())
+  }
   return <>
     <Card>
       <p>Connected to WeLearn as</p>
       {props.newLogin && <p>Welcome!</p>}
       <pre>{props.token.email}</pre>
+      <Button text='Disconnect' onClick={didClickDisconnect}/>
     </Card>
   </>
 }

@@ -147,9 +147,9 @@ const scssLoader = (() => {
 module.exports = {
   mode: IS_PRODUCTION ? 'production' : 'development',
   entry: {
-    app_root: './src/index.js',
     background: './src/procs/background.js',
     page_init: './src/pages/index.js',
+    content_script: './src/procs/content-script',
 
     ...staticEntrypoints,
   },

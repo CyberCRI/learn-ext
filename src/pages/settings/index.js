@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet'
 
 import SettingsTabs from './tabs'
 import { i18n } from '@ilearn/modules/i18n'
-import './style.sass'
+import './style.scss'
 
 
 const SettingsContainer = (props) => {
