@@ -167,6 +167,8 @@ div.card {
       display: block;
       position: relative;
       height: auto;
+      width: auto;
+      width: fit-content;
       max-height: 100px;
       margin: 0;
       padding: 0;
