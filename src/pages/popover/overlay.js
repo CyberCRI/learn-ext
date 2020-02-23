@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react'
-import { useClickAway, useToggle, useMount } from 'react-use'
-import { Button } from '@blueprintjs/core'
+import { useClickAway, useToggle, useMount, useAsync, useAsyncFn } from 'react-use'
+import { AnchorButton, Button, Callout } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
+import queryStrings from 'query-string'
 
 import { Port } from '~procs/portal'
 import { ConceptList, ConceptListLoadingState } from '~components/concepts'
@@ -13,9 +14,16 @@ import { RatingPicker } from './rating'
 import { IngressAPI } from '@ilearn/modules/api'
 import { browser } from '~procs/stubs'
 
+import { getStoredToken } from '~procs/token-utils'
 
 const dispatcher = new Port('PopOverlay').connect()
 
+const getAuthApiUrl = () => queryStrings.stringifyUrl({
+  url: `${env.ngapi_host}/api/auth/extension`,
+  query: {
+    callback: browser.runtime.getURL('pages/extension-auth.html'),
+  },
+})
 
 export const PageInfo = ({ title, url }) => {
   return (
@@ -27,15 +35,51 @@ export const PageInfo = ({ title, url }) => {
   )
 }
 
+const SignInButton = (props) => (
+  <>
+    <AnchorButton
+      text='Sign in to add to WeLearn'
+      fill large intent='warning'
+      href={getAuthApiUrl()}
+      target='_blank'
+      className='sign-in'/>
+    <Callout icon='mountain' className='sign-in-info'>
+      Signing in authorizes this extension to add resources to your library.
+    </Callout>
+  </>
+)
+
 const PageConcepts = (props) => {
   const [ url, setUrl ] = useState(props.url)
   const [ concepts, setConcepts ] = useState([])
   const [ kprog, setKProg ] = useState(.5)
   const [ language, setLanguage ] = useState('en')
   const [ status, setStatus ] = useState(100)
-  const [ token, setToken ] = useState()
+  const [ saveCount, setSaveCount ] = useState(0)
 
-  const [ isSaving, setIsSaving ] = useState(false)
+  const authn = useAsync(async () => {
+    return await getStoredToken()
+  }, [])
+
+  const [ bookmarkState, addBookmark ] = useAsyncFn(async () => {
+    const payload = {
+      title: props.title,
+      url: url,
+      lang: language,
+      readability_score: 40,
+      concepts,
+    }
+    await fetch(`${env.ngapi_host}/api/users/resource`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Extension-Auth': authn.value.authToken,
+      }})
+    setSaveCount(saveCount + 1)
+  }, [concepts, language, url, authn])
+
+  const didSave = (!bookmarkState.error && saveCount > 0)
 
   useMount(() => {
     IngressAPI
@@ -49,13 +93,7 @@ const PageConcepts = (props) => {
             setConcepts(data)
             setStatus(200)
           })
-          .fail((err) => {
-            console.error(err)
-          })
       })
-    browser.storage.local
-      .get('auth_token')
-      .then(({ auth_token }) => setToken(auth_token))
   })
 
   const didAddConcept = (item) => {
@@ -67,33 +105,6 @@ const PageConcepts = (props) => {
   const didRemoveConcept = (item) => {
     setConcepts(_.reject(concepts, [ 'wikidata_id', item.wikidata_id ]))
   }
-  const didPickRating = (value) => {
-    setKProg(value)
-  }
-  const didClickSave = () => {
-    const payload = {
-      title: props.title,
-      url: url,
-      lang: language,
-      readability_score: 40,
-      concepts,
-    }
-    setIsSaving(true)
-
-    fetch(`${env.ngapi_host}/api/users/resource`, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Extension-Auth': token,
-      }})
-      .then(() => {
-        setIsSaving(false)
-      })
-      .fail(() => {
-        console.error(":(")
-      })
-  }
 
   return (
     <div>
@@ -104,9 +115,19 @@ const PageConcepts = (props) => {
 
         <ConceptList concepts={concepts} lang={language} removable onRemove={didRemoveConcept}/>
         <ConceptSuggest lang={language} onSelect={didAddConcept}/>
-        <RatingPicker rating={kprog} onChange={didPickRating}/>
+        <RatingPicker rating={kprog} onChange={(value) => setKProg(value)}/>
       </div>
-      <Button text='Add to WeLearn' fill intent='primary' large onClick={didClickSave} loading={isSaving} className='save-btn'/>
+
+      {authn.error
+        ? <SignInButton/>
+        : <Button
+          text={didSave ? 'Added to WeLearn' : 'Add to WeLearn'}
+          intent={didSave ? 'success' : 'primary'}
+          icon={didSave ? 'tick-circle' : 'map-create'}
+          fill large
+          onClick={addBookmark}
+          loading={bookmarkState.loading}
+          className='save-btn'/>}
     </div>
   )
 }
@@ -163,10 +184,6 @@ export const PopOverlay = (props) => {
           small minimal icon='book'
           text='Dashboard'
           onClick={() => dispatcher.invokeReaction('dashboard')}/>
-        <Button
-          small minimal icon='log-in'
-          text='Connect'
-          onClick={() => dispatcher.invokeReaction('settings')}/>
       </nav>
 
       {tab &&

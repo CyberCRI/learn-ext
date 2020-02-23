@@ -24,7 +24,7 @@ export const RatingPicker = ({ rating, onChange, ...props }) => {
   }
 
   return (
-    <ButtonGroup fill>
+    <ButtonGroup fill className='rating'>
       {KpRatings.map((r) => <Button {...buildProps(r)}/>)}
     </ButtonGroup>
   )
