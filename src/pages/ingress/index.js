@@ -12,14 +12,11 @@ const discoverDependencies = async () => {
   // Try to get lang, exauth and rurl from queryArgs, if exauth or rurl missing,
   // bail.
   const deps = {
-    rurl: queryArgs.rurl,
-    exauth: queryArgs.exauth,
-    lang: queryArgs.lang || navigator.language || 'en',
+    url: queryArgs.rurl,
+    token: queryArgs.exauth,
   }
 
-  console.log(jwt(deps.exauth))
-
-  if (!deps.rurl || !deps.exauth) {
+  if (!deps.url || !deps.token) {
     throw new Error('rurl and exauth are both required.')
   }
   return deps

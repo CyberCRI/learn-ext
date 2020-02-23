@@ -3,6 +3,7 @@ include ../partials/mixins.pug
 
 append head
   title Add to WeLearn | WeLearn
+  meta(http-equiv='Content-Security-Policy' content='connect-src https://*.wikipedia.org https://welearn.as.noop.pw:8403')
 
 block append body
   div#ingress
