@@ -20,7 +20,6 @@ const request = async ({ url, method = 'get', query, data, ...options }) => {
   const r = await fetch(reqUrl, {
     method, body,
     mode: 'cors',
-    // credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
   })
   return await r.json()
@@ -119,10 +118,10 @@ export const ServiceAPI = {
 export const IngressAPI = {
   preprocess: ({ link }) => {
     const payload = { url: link }
-    return request({ url: `${env.ngapi_host}/meta/preproc`, payload })
+    return request({ url: `${env.ngapi_host}/meta/preproc`, query: payload })
   },
   doc2vec: ({ link, lang }) => {
     const payload = { url: link, lang }
-    return request({ url: pathFor('textract/infer/link'), payload })
+    return request({ url: `${env.ngapi_host}/textract/infer/link`, query: payload })
   },
 }
