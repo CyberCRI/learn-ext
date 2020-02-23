@@ -31,6 +31,10 @@ export const AuthStatus = (props) => {
       <p>Connected to WeLearn as</p>
       {props.newLogin && <p>Welcome!</p>}
       <pre>{props.token.email}</pre>
+
+      <p>You can close this page now. Please reload the previous tab to start
+      using WeLearn.</p>
+
       <Button text='Disconnect' onClick={didClickDisconnect}/>
     </Card>
   </>
