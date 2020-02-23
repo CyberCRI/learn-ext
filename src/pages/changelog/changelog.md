@@ -11,14 +11,27 @@
 
 Here is what's new in this version of WeLearn extension:
 
-## v0.0.47
-Under Preparation
+## v0.1.0
+Released on `2020-02-24`
 
-This is a lots of changes for a single release! So, we're gonna make a leap here.
+Welcome to WeLearn `v0.1.0`! It's been a while since we released an update,
+here's why:
 
-- Real authentication system! Thanks for waiting. As previously mentioned, we've
-  set up an OpenID and OAuth2 based identity service at Learning Planet.
-- 
+- Real authentication system! Thanks for waiting. We've set up an OpenID and
+  OAuth2 based identity service at [Learning Planet](https://learning-planet.org).
+  It's powered by `KeyCloak`, an open source authentication system.
+- Faster and more stable Browser Extension. You may have noticed that the new
+  `Add to WeLearn` interface.
+- New map layout on discover tab.
+- Sprinkles of bugfixes everywhere.
+
+We would like to thank our users and beta testers for their feedback, bug requests,
+and patience. We'd also like to invite you to our [GitHub repository][github], if
+you wish to contribute in any way.
+
+**PS**: We'll be switching to release faster with smaller releases and feature-only
+updates starting now. If you want to be notified, you may subscribe on GitHub, or
+check the `Open Changelog when Extension updates` in settings. Thank you!
 
 ## v0.0.46
 Released on `2019-12-30`
@@ -107,3 +120,4 @@ Released on `2019-09-10`
 
 [email]: mailto:welearn@cri-paris.org
 [homepage]: https://welearn.cri-paris.org
+[github]: https://github.com/CyberCRI/learn-ext

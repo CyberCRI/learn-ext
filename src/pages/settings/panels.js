@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import * as FiIcon from 'react-icons/fi'
 import { Card, FormGroup, Button, AnchorButton } from '@blueprintjs/core'
-import { RadioGroup, HTMLSelect, Radio, Switch } from '@blueprintjs/core'
+import { RadioGroup, HTMLSelect, Radio, Switch, Callout } from '@blueprintjs/core'
 import { Formik, Form, Field } from 'formik'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -201,13 +201,20 @@ const Privacy = () => (
 const Support = () => (
   <PanelContainer>
     <h1>{i18nT('support.intro.title')}</h1>
-    <p>{i18nT('support.intro.description')}</p>
 
-    <p>{i18nT('support.tutorial.title')}</p>
+    <p>
+      The fastest way to get help for any issues is by sending us an email.
+      You can reach us at <a href='mailto:welearn@cri-paris.org'>welearn@cri-paris.org</a>.
+    </p>
+
+    <p>You may wish to check out our tutorial for tips on using WeLearn.</p>
     <AnchorButton text={i18nT('support.tutorial.link')} href='/pages/support.html'/>
-    <AnchorButton text={i18nT('support.changelog.link')} href='/pages/changelog.html'/>
 
-    <p>Version: <code>{env.info_version}</code></p>
+    <Callout title='WeLearn Version' icon='info-sign' className='version-info'>
+      <p><code>{env.info_version}@{env.info_hash}</code></p>
+
+      <a href='/pages/changelog.html'>Changelog</a>
+    </Callout>
   </PanelContainer>
 )
 

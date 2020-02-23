@@ -26,9 +26,6 @@ const SettingsTabs = (props) => {
       <Tab id='general'
            title={<TabTitle title={i18nT('general')} icon='wrench'/>}
            panel={<Panels.General/>}/>
-      <Tab id='extension'
-           title={<TabTitle title={i18nT('extension')} icon='code-block'/>}
-           panel={<Panels.Extension/>}/>
       <Tab id='privacy'
            title={<TabTitle title={i18nT('privacy')} icon='shield'/>}
            panel={<Panels.Privacy/>}/>
