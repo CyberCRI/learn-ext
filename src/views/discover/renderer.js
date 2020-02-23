@@ -36,8 +36,8 @@ export const setupMapView = async (conf) => {
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
     points: allPoints.toJS(),
-    elevationPow: .1,
-    maxRadiusDivider: 19.4,
+    elevationPow: 1,
+    maxRadiusDivider: 22,
     contourWidth: 0,
     lightAltitude: 5,
     lightIntensity: .2,
@@ -77,9 +77,9 @@ export const setupMapView = async (conf) => {
     type: 'marker',
     points: allPoints.toJS(),
 
-    markerSizeMultiplier: 5,
+    markerSizeMultiplier: 4,
     markerStrokeWidth: 0,
-    markerOpacity: 0.8,
+    markerOpacity: 0.7,
 
     minAbsoluteMarkerSize: 0,
 
@@ -105,7 +105,7 @@ export const setupMapView = async (conf) => {
     type: 'label',
     points: allPoints.toJS(),
     labelFontFamily: 'Barlow',
-    labelFontSize: 14,
+    labelFontSize: 15,
     labelFontWeight: 400,
     labelFontVariant: 'normal',
     labelOpacity: 1,
