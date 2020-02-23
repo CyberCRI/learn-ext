@@ -1,5 +1,4 @@
 import { browser } from '~procs/stubs'
-import uuid_v5 from 'uuid/v5'
 import Enum from 'enum'
 
 // Enumerate the context this code is running into.
@@ -11,13 +10,6 @@ export const Runtime = new Enum([
   'browser',
   'node',
 ], { name: 'Runtime', ignoreCase: true })
-
-
-export const nsuuid = (param) => {
-  // Read as: Namespace UUID.
-  // Generate a uuid within application namespace appending the parameters.
-  return uuid_v5(`${env.uuid5_namespace}/${param}`, uuid_v5.URL)
-}
 
 
 export const runtimeContext = {
