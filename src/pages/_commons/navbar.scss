@@ -1,0 +1,44 @@
+@import 'styles/colors';
+
+.bp3-dialog.login-dialog {
+  background: #fff;
+
+  &>.bp3-dialog-header {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  &>.bp3-callout {
+    background: transparent;
+  }
+
+  .login-opts {
+    display: grid;
+
+    grid-template:
+      'logo blurb' auto
+      'smtxt smtxt' auto
+      / auto 1fr;
+
+
+    grid-row-gap: 10px;
+    grid-column-gap: 15px;
+
+    .lp-logo {
+      grid-area: logo;
+      align-self: center;
+    }
+    .lp-blurb {
+      grid-area: blurb;
+    }
+    .smalltext {
+      grid-area: smtxt;
+      font-size: small;
+      color: $dark-gray5;
+    }
+
+    .login-button {
+      text-transform: uppercase;
+    }
+  }
+}

@@ -1,6 +1,5 @@
 import { browser } from './stubs'
 import { ExtensionPages } from './reactors'
-import _ from 'lodash'
 
 
 const i18nT = (key) => {
@@ -29,12 +28,12 @@ const attachPageMenu = (handler) => {
     contexts: ['page'],
     title: i18nT('menu.action.addResource'),
     documentUrlPatterns: ['http://*/*', 'https://*/*'],
-    onclick: handler,
+    onclick: handler.pageMenu,
   })
 }
 
 export const initContextMenus = (handlers) => {
   // Setup all the context menus here.
   attachActionMenu()
-  attachPageMenu(handlers.pageMenu)
+  attachPageMenu(handlers)
 }

@@ -1,7 +1,6 @@
 import { browser } from '~procs/stubs'
 import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
 import { ExtensionPages } from './reactors'
-import { userId } from '~mixins/utils'
 import { InstallEventReason, IconStack } from './structs'
 import { initContextMenus } from './contextMenus'
 
@@ -34,15 +33,8 @@ const dispatchReaction = (msg) => {
 const reactOnInstalled = async ({ reason, temporary }) => {
   if (reason === InstallEventReason.installed) {
     if (temporary) {
-      // Initialise the store with our nugget user.
-      await browser.storage.local.set({
-        user: {
-          uid: userId('nugget@noop.pw'),
-          username: 'nugget@noop.pw',
-          groupId: 'beta',
-          signedIn: true,
-        },
-      })
+      // We used to set a demo user info here. It's not needed anymore.
+      // This is left in for later refactor.
     } else {
       // Bonjour les enfants!
       // This is not a temporary installation. Lets open onboarding page!
@@ -142,7 +134,7 @@ const maybeInjectContentScripts = async (tabId) => {
     // Also, initialize the tabState value!
     tabState[tabId] = { isOpen: false }
     await execCScript({ file: '/vendors.js' })
-    await execCScript({ file: '/app_root.js' })
+    await execCScript({ file: '/content_script.js' })
   }
 }
 
@@ -151,11 +143,6 @@ const maybeTogglePopover = async (tabId) => {
   // Since it executes the entire scripts, we can be sure that the port would
   // already be there.
   await maybeInjectContentScripts(tabId)
-  const tabInfo = await getTabInfo(tabId)
-  const currentTab = await browser.tabs.getCurrent()
-
-  console.log(currentTab)
-
   const action = tabState[tabId].isOpen ? 'close' : 'open'
 
   broadcastToPorts(tabId, { action })

@@ -36,7 +36,7 @@ $pt-icon-size-large: 20px;
 
 // Grids & dimensions
 
-$pt-border-radius: 4px;
+$pt-border-radius: 5px;
 
 // Buttons
 $pt-button-height: $pt-grid-size * 2.8;
@@ -98,7 +98,7 @@ $pt-dark-elevation-shadow-4: border-shadow($pt-dark-border-shadow-opacity),
                              0 18px 46px 6px rgba($black, $pt-dark-drop-shadow-opacity);
 
 // Transitions
-$pt-transition-ease: cubic-bezier(0.4, 1, 0.75, 0.9);
+$pt-transition-ease: ease;//cubic-bezier(0.4, 1, 0.75, 0.9);
 $pt-transition-ease-bounce: cubic-bezier(0.54, 1.12, 0.38, 1.11);
 $pt-transition-duration: 100ms;
 

@@ -1,6 +1,5 @@
+import { setup } from '../_commons'
 import { setupInstance, renderView } from '~views/discover'
-
-import { ensureLogin } from '~components/input/loginSensor'
 
 import './style.scss'
 
@@ -15,16 +14,13 @@ const pixelRatioClamped = () => {
   return Math.ceil(ratio)
 }
 
-const init = () => {
+window.addEventListener('load', async () => {
+  await setup()
   setupInstance({
     element: document.getElementById('atlas'),
     pixelRatio: pixelRatioClamped(),
   })
 
   renderView()
-}
-
-document.addEventListener('apploaded', () => {
-  ensureLogin({ autoRedirect: true })
-    .then(init)
 })
+

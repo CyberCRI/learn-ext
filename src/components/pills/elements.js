@@ -81,11 +81,12 @@ export const FaviconPill = ({ url, title='', ...props }) => {
   const imageDidLoad = () => setVisibility(true)
 
   return (
-    <Pill kind='favicon' className={reveal && 'reveal'} {...props}>
+    <Pill kind='favicon' {...props}>
       <img
         src={OpenGraph.icon(url)}
         title={title}
-        ariarole='presentation'
+        className={reveal ? 'reveal' : 'hidden'}
+        role='presentation'
         onLoad={imageDidLoad}/>
     </Pill>
   )

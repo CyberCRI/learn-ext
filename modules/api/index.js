@@ -1,75 +1,88 @@
-import { request } from '~mixins'
-import store from '~mixins/persistence'
+import queryStrings from 'query-string'
 
 const pathFor = (route, subs) => {
   return `${env.ngapi_host}/api/${route}`
 }
 
+const getUser = async () => {
+  const u = window.jstate.user
+  try {
+    u.groupId = u.groups[0].guid
+  } catch {}
+
+  return u
+}
+
+const request = async ({ url, method = 'get', query, data, ...options }) => {
+  const body = method === 'get' ? undefined : JSON.stringify(data)
+  const reqUrl = queryStrings.stringifyUrl({ url, query })
+
+  const r = await fetch(reqUrl, {
+    method, body,
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return await r.json()
+}
+
+
 export const API = {
-  userResources: ({ limit=20, start=1 }) => {
-    return store
-      .get('user')
+  userResources: ({ limit=20, skip=0 }) => {
+    return getUser()
       .then(({ uid }) => {
         return request({
-          url: pathFor(`user/${uid}/resource`),
-          data: { limit, start },
+          url: pathFor(`resources/user/${uid}`),
+          query: { limit, skip },
         })
       })
   },
-  groupResources: ({ limit=20, start=1 }) => {
-    return store
-      .get('user')
+  groupResources: ({ limit=20, skip=0 }) => {
+    return getUser()
       .then(({ groupId }) => {
         return request({
-          url: pathFor(`group/${groupId}/resources`),
-          data: { limit, start },
+          url: pathFor(`resources/group/${groupId}`),
+          query: { limit, skip },
         })
       })
   },
-  allResources: ({ limit=20, start=1 }) => {
+  allResources: ({ limit=20, skip=0 }) => {
     return request({
       url: pathFor('resources/'),
-      data: { limit, start },
+      query: { limit, skip },
     })
   },
   userMapLayer: () => {
-    return store
-      .get('user')
+    return getUser()
       .then(({ uid }) => {
         return request({
-          url: pathFor('map'),
-          data: { user_id: uid },
+          url: pathFor('resources/map/user'),
+          query: { user_id: uid },
         })
       })
   },
   groupMapLayer: () => {
-    return store
-      .get('user')
+    return getUser()
       .then(({ groupId }) => {
         return request({
-          url: pathFor('map'),
-          data: { group_id: groupId },
+          url: pathFor('resources/map/group'),
+          query: { group_id: groupId },
         })
       })
   },
   entireMapLayer: () => {
-    return request({ url: pathFor('map') })
+    return request({ url: pathFor('resources/map/base') })
   },
 
   deleteResource: ({ resource_id }) => {
-    return store
-      .get('user')
-      .then(({ uid }) => {
-        return request({
-          url: pathFor(`user/${uid}/resource/${resource_id}`),
-          method: 'delete',
-        })
-      })
+    return request({
+      url: pathFor(`users/resource/${resource_id}`),
+      method: 'DELETE',
+    })
   },
   deleteConceptFromResource: ({ resource_id, wikidata_id }) => {
     return request({
-      url: pathFor(`resource/${resource_id}/concept/${wikidata_id}`),
-      method: 'delete',
+      url: pathFor(`users/resource/${resource_id}/concept/${wikidata_id}`),
+      method: 'DELETE',
     })
   },
 }
@@ -84,4 +97,31 @@ export const MapLayerAPI = {
   user: API.userMapLayer,
   group: API.groupMapLayer,
   everything: API.entireMapLayer,
+}
+
+export const ServiceAPI = {
+  groupList: () => {
+    return request({
+      url: pathFor('groups/'),
+    })
+  },
+
+  setUserGroup: ({ guid }) => {
+    return request({
+      url: pathFor('users/me/groups'),
+      method: 'PATCH',
+      data: { guid },
+    })
+  },
+}
+
+export const IngressAPI = {
+  preprocess: ({ link }) => {
+    const payload = { url: link }
+    return request({ url: `${env.ngapi_host}/meta/preproc`, query: payload })
+  },
+  doc2vec: ({ link, lang }) => {
+    const payload = { url: link, lang }
+    return request({ url: `${env.ngapi_host}/textract/infer/link`, query: payload })
+  },
 }

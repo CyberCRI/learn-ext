@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Card, Elevation, AnchorButton, ButtonGroup, NonIdealState } from '@blueprintjs/core'
+import { useAsync } from 'react-use'
 import { FaWikipediaW } from 'react-icons/fa'
-import clsx from 'classnames'
 import _ from 'lodash'
 
 import Wiki from '~mixins/wikipedia'
@@ -44,7 +44,7 @@ export const ErrorCard = () => (
 )
 
 export const PageInfoCard = (props) => (
-  <Card interactive elevation={Elevation.TWO} className={clsx('info-card', 'bp3-dark')}>
+  <Card interactive elevation={Elevation.TWO} className='bp3-dark info-card'>
     <div className='content'>
       <h3 className='title'>
         {props.title}
@@ -71,23 +71,17 @@ export const PageInfoCard = (props) => (
 
 
 const WikiCard = (props) => {
-  const [ pageInfo, setPageInfo ] = useState(null)
+  const pageInfo = useAsync(async () => {
+    return await Wiki.summary(props.title, props.lang)
+  }, [])
 
-  useEffect(() => {
-    Wiki.summary(props.title, props.lang)
-      .then(setPageInfo)
-      .fail(() => setPageInfo({ error: true }))
-  }, [props])
-
-  if (!pageInfo) {
-    return <SkeletonCard />
+  if (pageInfo.loading) {
+    return <SkeletonCard/>
+  } else if (pageInfo.error) {
+    return <ErrorCard/>
   }
 
-  if (pageInfo.error) {
-    return <ErrorCard />
-  }
-
-  return <PageInfoCard {...pageInfo}/>
+  return <PageInfoCard {...pageInfo.value}/>
 }
 
 

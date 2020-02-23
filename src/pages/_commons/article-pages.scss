@@ -58,15 +58,15 @@ section.article {
       font: {
         family: $typeface-mono;
         style: italic;
-        weight: 400;
+        weight: 500;
       }
 
-      &:before {
-        content: "{";
-      }
-      &:after {
-        content: "}";
-      }
+      // &:before {
+      //   content: "{";
+      // }
+      // &:after {
+      //   content: "}";
+      // }
     }
 
     h1, h2, h3, h4, h5 {
@@ -76,7 +76,7 @@ section.article {
     a.section-id {
       position: absolute;
       left: -20px;
-      opacity: .6;
+      opacity: .4;
       color: $gray2;
 
       &:hover, &:focus {

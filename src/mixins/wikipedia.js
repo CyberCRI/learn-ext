@@ -1,36 +1,22 @@
 // Wrapper implementing the API calls to wikipedia for searches.
 // Exposes the Wiki object with `opensearch` and `summary` methods.
-import Enum from 'enum'
 import _ from 'lodash'
-
-import { request } from './request'
-import { nsuuid, runtimeContext } from './utils'
+import queryStrings from 'query-string'
 
 
-const HEADERS = {
-  'Api-User-Agent': env.wikiapi_user_agent,
+const wikiRequest = async ({ lang, params }) => {
+  const endpoint = `https://${lang}.wikipedia.org/w/api.php`
+  const url = queryStrings.stringifyUrl({ url: endpoint, query: params })
+
+  const r = await fetch(url, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Api-User-Agent': env.wikiapi_user_agent,
+    },
+  })
+  return await r.json()
 }
-
-export const PageTypes = new Enum([
-  'standard',
-  'stub',
-  'disambiguation',
-  'empty',
-], { name: 'WikiPageType', ignoreCase: true })
-
-
-const endpointPayload = (lang='en') => {
-  // Prepare common request parameters. Interesting bits here are:
-  // - Api-User-Agent: Identifies us as consumer of api.
-  // - type: If we're running in browser context, jsonp works.
-  return {
-    url: `https://${lang}.wikipedia.org/w/api.php`,
-    type: runtimeContext.isBrowser ? 'jsonp' : 'json',
-    headers: HEADERS,
-    crossOrigin: true,
-  }
-}
-
 
 class WikiAPI {
   srquery (query, lang='en') {
@@ -46,13 +32,12 @@ class WikiAPI {
     //
     // Relevant: Issue #53.
     const apiProps = ['pageprops', 'pageterms', 'pageimages', 'extracts', 'links']
-    const payload = {
+    const params = {
       // Main query term go here, under gsrsearch.
       gsrsearch: query,
 
       action: 'query',
       format: 'json',
-      requestid: nsuuid(query),
       redirects: 1,
       converttitles: 1,
       formatversion: 2,
@@ -91,16 +76,13 @@ class WikiAPI {
           description: i.get('terms.description.0'),
           extract: i.get('extract'),
 
-          wikidataId: i.get('pageprops.wikibase_item'),
+          wikidata_id: i.get('pageprops.wikibase_item'),
           thumbnail: i.get('thumbnail'),
         }
       }
       return response.query.pages.map(transformItem)
     }
-
-
-    return request({ data: payload, ...endpointPayload(lang)})
-      .then(transform)
+    return wikiRequest({ lang, params }).then(transform)
   }
 
   opensearch (query, lang='en') {
@@ -115,14 +97,13 @@ class WikiAPI {
     // The response is further transformed to a collection.
     //
     // Also see: WikiAPI.transformOpenSearch
-    const payload = {
+    const params = {
       action: 'opensearch',
       format: 'json',
       namespace: 0,
       redirects: 'resolve',
       limit: 15,
       suggest: 1,
-      requestid: nsuuid(query),
       search: query,
     }
 
@@ -146,8 +127,7 @@ class WikiAPI {
         .value()
     }
 
-    return request({ data: payload, ...endpointPayload(lang)})
-      .then(transform)
+    return wikiRequest({ lang, params }).then(transform)
   }
 
   summary (title, lang='en') {
@@ -176,15 +156,43 @@ class WikiAPI {
         thumbnail: r.get('thumbnail.source', null),
       }
     }
-    return request({
-      url: url,
-      type: 'json',
-      crossOrigin: true,
-      headers: HEADERS,
-    }).then(transform)
+
+    const fetchPageProps = async () => {
+      const r = await fetch(url, { crossOrigin: 'cors' })
+      return await r.json()
+    }
+
+    return fetchPageProps().then(transform)
   }
 }
 
 const Wiki = new WikiAPI()
 
 export default Wiki
+
+// [!todo] switch to prefixsearch next since that endpoint is specifically
+// designed for searching with prefixes (obviously...). However this will
+// require a second query to `query` action (of course) to get the props
+// that include wikidata ids. Note that there is cri api gateway also available
+// which we'll switch to later. Later, because we want to have spanish language
+// as well.
+//
+// /w/api.php?
+//   action=query&
+//   format=json&
+//   list=prefixsearch&
+//   pssearch=ibm%20sel
+
+// /w/api.php?
+//   action=query&
+//   format=json&
+//   prop=extracts|pageprops|extlinks|info|langlinks|pageimages|images&
+//   pageids=23861711&
+//   exsentences=4&
+//   exlimit=5&
+//   exintro=1&
+//   explaintext=1&
+//   elexpandurl=1&
+//   inprop=url|displaytitle
+
+// https://apigw.cri-paris.org/api/wpgw/search?search=json&lang=en

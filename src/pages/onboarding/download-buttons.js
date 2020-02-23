@@ -4,6 +4,10 @@ import { Card, Elevation, Popover, Button, Position } from '@blueprintjs/core'
 import { FaChrome, FaFirefox } from 'react-icons/fa'
 import { IconContext } from 'react-icons'
 
+import { i18n } from '@ilearn/modules/i18n'
+
+const i18nT = i18n.context('pages.onboarding.extensionDownload')
+
 
 const detectBrowser = () => {
   // Bare minimum detection of browser using userAgent.
@@ -14,7 +18,7 @@ const detectBrowser = () => {
   const ua = window.navigator.userAgent
   const firefox = /firefox/i.test(ua)
   const chrome = /chrome/i.test(ua)
-  return { firefox, chrome }
+  return { firefox, chrome, any: chrome || firefox }
 }
 
 const DownloadButton = (props) => {
@@ -48,6 +52,22 @@ const FirefoxLink = (props) => (
   </DownloadButton>
 )
 
+const AvailableDownloads = ({ boxed = false }) => (
+  <div className={clsx('download-options', { boxed })}>
+    <h4>{i18nT('options.title')}</h4>
+    <p>{i18nT('options.description')}</p>
+    <FirefoxLink small/>
+    <ChromeLink small/>
+  </div>
+)
+
+const DownloadOptions = () => (
+  <Popover position={Position.LEFT} modifiers={{ offset: '10' }} flip={false}>
+    <Button minimal icon='download' text={i18nT('options.label')}/>
+    <AvailableDownloads/>
+  </Popover>
+)
+
 const DownloadLinks = () => {
   const browser = detectBrowser()
   return (
@@ -55,15 +75,8 @@ const DownloadLinks = () => {
       {browser.firefox && <FirefoxLink/>}
       {browser.chrome && <ChromeLink/>}
 
-      <Popover position={Position.LEFT} modifiers={{ offset: '10' }} flip={false}>
-        <Button minimal small icon='compressed'>Extension Download Options</Button>
-        <div className='download-options'>
-          <h4>Using a different browser?</h4>
-          <p>To download extension for a different browser, you may use the links below:</p>
-          <FirefoxLink small/>
-          <ChromeLink small/>
-        </div>
-      </Popover>
+      {!browser.any && <AvailableDownloads boxed/>}
+      {browser.any && <DownloadOptions/>}
     </div>
   )
 }

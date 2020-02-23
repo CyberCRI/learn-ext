@@ -1,4 +1,4 @@
 import './styles.scss'
 
-export { ConceptList, ConceptTag } from './concepts'
+export { ConceptList, ConceptTag, ConceptListLoadingState } from './concepts'
 export { ConceptSuggest } from './suggest'
