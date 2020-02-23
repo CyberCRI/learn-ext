@@ -70,6 +70,7 @@ const copySourceBundleRules = [
     from: dotenv.flags.dotatlas_prod || './modules/atlas/dotatlas/dotatlas.js',
     to: './atlas/dotatlas.js',
   },
+  { from: './assets/fonts', to: './fonts' },
   { from: './assets/media/favicons', to: './media/favicons' },
   { from: './assets/media/illustrations', to: './media/illustrations' },
   { from: './assets/media/logos', to: './media/logos' },
@@ -98,7 +99,7 @@ const staticPages = glob
         },
         hash: true,
         minify: false,
-        chunks: [ 'vendors', 'modules', chunkName ],
+        chunks: [ 'vendors', 'modules', 'common_css', chunkName ],
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
     }
@@ -149,6 +150,7 @@ module.exports = {
   entry: {
     background: './src/procs/background.js',
     content_script: './src/procs/content-script',
+    common_css: './src/pages/_commons/common.scss',
 
     ...staticEntrypoints,
   },
@@ -230,7 +232,6 @@ module.exports = {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
           chunks: 'all',
-          // reuseExistingChunk: true,
           priority: 1,
         },
         i18n: {
@@ -244,8 +245,6 @@ module.exports = {
           test: /[\\/]modules[\\/]/,
           name: 'modules',
           chunks: 'all',
-          // reuseExistingChunk: true,
-          // priority: 2,
         },
       },
     },
@@ -260,7 +259,6 @@ module.exports = {
           keep_classnames: true,
           drop_console: true,
         },
-        // chunkFilter: (chunk) => chunk.name !== 'vendor',
       }),
     ],
   },

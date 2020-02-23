@@ -142,6 +142,7 @@ release () {
 }
 
 release:build-all () {
+  export NODE_ENV='production'
   export FLAGS_TARGET='chrome'
   release:build
   export FLAGS_TARGET='firefox'
