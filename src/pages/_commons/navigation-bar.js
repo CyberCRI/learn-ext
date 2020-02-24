@@ -22,23 +22,28 @@ const LoginSignupDialog = createComponent(dialogVisibility, (props, state) => (
     isOpen={state}
     onClose={dialogControl.hide}
     title={i18nT('loginDialog.title')}
+    icon='log-in'
     className='login-dialog'>
-    <Callout className='login-opts'>
-      <div className='lp-logo'>
-        <img
-          src='/media/logos/learning-planet.png'
-          height='36px'
-          title='Learning Planet Logo'/>
-      </div>
+    <Callout className='login-opts' icon='info-sign'>
       <div className='lp-blurb'>
-        <p>{i18nT('loginDialog.description')}</p>
-        <AnchorButton
-          text={i18nT('loginDialog.buttonLabel')}
-          href={window.jstate.urls.login}
-          intent='primary'
-          className='login-button'
-          rightIcon='arrow-right'/>
+        <p>WeLearn uses Learning Planet for secure authentication.</p>
+        <p>
+          <strong>
+            If you already have an account at CRI, you can use your
+            existing credentials to login or alternatively create a new account.
+          </strong>
+        </p>
       </div>
+    </Callout>
+    <div className='actions'>
+
+      <AnchorButton
+        text={i18nT('loginDialog.buttonLabel')}
+        href={window.jstate.urls.login}
+        intent='primary'
+        className='login-button'
+        rightIcon='arrow-right'
+        large/>
 
       <div className='smalltext'>
         <p>If you have previously used WeLearn please ensure you use the same email
@@ -46,10 +51,13 @@ const LoginSignupDialog = createComponent(dialogVisibility, (props, state) => (
         <p>Having trouble? In case your account does not link automatically or if your email
         was wrong, just drop us a mail -- we will find and connect your account.</p>
       </div>
-
-      <p><a href='https://www.learning-planet.org/en'>Learn more about Learning Planet</a></p>
-
-    </Callout>
+      <div className='lp-logo'>
+        <img
+          src='/media/logos/learning-planet.png'
+          height='36px'
+          title='Learning Planet Logo'/>
+      </div>
+    </div>
   </Dialog>
 ))
 

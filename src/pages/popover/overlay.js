@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { useClickAway, useToggle, useMount, useAsync, useAsyncFn } from 'react-use'
+import React, { useState } from 'react'
+import { useToggle, useMount, useAsync, useAsyncFn } from 'react-use'
 import { AnchorButton, Button, Callout } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import queryStrings from 'query-string'
@@ -135,11 +135,10 @@ const PageConcepts = (props) => {
 export const PopOverlay = (props) => {
   const [ visible, toggle ] = useToggle(false)
   const [ tab, setTab ] = useState()
-  const ref = useRef(null)
 
-  useClickAway(ref, () => {
+  const didClose = () => {
     dispatcher.dispatch({ context: 'broadcast', payload: { action: 'close' } })
-  })
+  }
 
   const animateState = visible ? 'visible' : 'hidden'
 
@@ -173,6 +172,7 @@ export const PopOverlay = (props) => {
         initial='hidden'
         animate={animateState}
         transition={{ staggerChildren: .5 }}
+        onClick={didClose}
         variants={{
           visible: { opacity: .5 },
           hidden: { opacity: 0 },
@@ -191,7 +191,6 @@ export const PopOverlay = (props) => {
           initial='hidden'
           className='container'
           animate={animateState}
-          ref={ref}
           variants={{
             visible: { scale: 1, opacity: 1 },
             hidden: { scale: .8, opacity: 0 },

@@ -5,15 +5,30 @@
 
   &>.bp3-dialog-header {
     background: transparent;
-    box-shadow: none;
+    padding-left: 10px;
   }
 
   &>.bp3-callout {
     background: transparent;
   }
 
+  .actions {
+    padding: 10px;
+
+    .smalltext {
+      font-size: small;
+      color: $dark-gray5;
+    }
+
+    .login-button {
+      text-transform: uppercase;
+      border-radius: 8px;
+      margin: 0 auto 20px auto;
+    }
+  }
+
   .login-opts {
-    display: grid;
+    // display: grid;
 
     grid-template:
       'logo blurb' auto
@@ -30,15 +45,6 @@
     }
     .lp-blurb {
       grid-area: blurb;
-    }
-    .smalltext {
-      grid-area: smtxt;
-      font-size: small;
-      color: $dark-gray5;
-    }
-
-    .login-button {
-      text-transform: uppercase;
     }
   }
 }
