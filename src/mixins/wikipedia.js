@@ -38,6 +38,7 @@ class WikiAPI {
 
       action: 'query',
       format: 'json',
+      origin: '*',
       redirects: 1,
       converttitles: 1,
       formatversion: 2,
