@@ -1,7 +1,7 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.1.1",
-  "version_name": "0.1.1-alpha",
+  "version": "0.1.2",
+  "version_name": "0.1.2-alpha",
   "manifest_version": 2,
 
   "description": "__MSG_extension_description__",
@@ -47,11 +47,7 @@
   "permissions": [
     "activeTab",
     "storage",
-    "contextMenus",
-    "https://next.welearn.cri-paris.org/*",
-    "https://welearn.dev.noop.pw/*",
-    "https://en.wikipedia.org/*",
-    "https://fr.wikipedia.org/*"
+    "contextMenus"
   ],
   "omnibox": {
     "keyword": "welearn"
