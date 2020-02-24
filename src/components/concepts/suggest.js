@@ -107,7 +107,7 @@ export const ConceptSuggest = ({ onSelect, lang }) => {
         setItems(data)
         setLoadingState(false)
       })
-      .fail(() => {
+      .catch(() => {
         setLoadingState(false)
       })
   }, 300, [ query ])

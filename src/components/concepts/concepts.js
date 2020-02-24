@@ -39,6 +39,7 @@ const ListSortOrderPriority = (() => {
   return _.unzip(keyProps)
 })()
 
+const removeQuote = (x) => x.replace('\\', '')
 
 export const ConceptTag = (props) => {
   // [!todo] U G L Y ! This will break. It's not properly defined behaviour
@@ -61,8 +62,8 @@ export const ConceptTag = (props) => {
       className='np--concept-tag concept tag'
       onRemove={onRemove}>
       <Popover
-        content={<WikiCard title={title} lang={lang}/>}
-        target={<span>{title}</span>}
+        content={<WikiCard title={removeQuote(title)} lang={lang}/>}
+        target={<span>{removeQuote(title)}</span>}
         interactionKind={PopoverInteractionKind.HOVER}
         popoverClassName='wiki-popover'
         hoverCloseDelay={500}

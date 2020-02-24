@@ -22,17 +22,19 @@ const trimLabel = (label) => {
   return label
 }
 
+const removeQuote = (x) => x.replace('\\', '')
+
 const normaliseConcept = (concept) => {
   // Build a normalised Concept Object.
   // We'd prefer english concept title.
   let label, title, lang
   if (concept.title_en) {
-    label = trimLabel(concept.title_en)
-    title = concept.title_en
+    label = removeQuote(trimLabel(concept.title_en))
+    title = removeQuote(concept.title_en)
     lang = 'en'
   } else {
-    label = trimLabel(concept.title_fr)
-    title = concept.title_fr
+    label = removeQuote(trimLabel(concept.title_fr))
+    title = removeQuote(concept.title_fr)
     lang = 'fr'
   }
   return {
