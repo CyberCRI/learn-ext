@@ -27,7 +27,13 @@ source ./tools/pandalib.sh
 PATH="$PATH:./node_modules/.bin"
 
 # ... and that the local .env file is also sourced.
-source ./.env
+if [[ -f ".env" ]]; then
+  _info 'Sourcing local .env file'
+  source ./.env
+else
+  _info 'Sourcing sample .env to maintain variable declaration'
+  source ./.env.sample
+fi
 
 # ... and that it isnt too verbose.
 export FLAGS_VERBOSE='no'
@@ -48,21 +54,21 @@ dev:storybook () {
 dev:watch () {
   prep:all
   export ILRN_IS_DEV='yes'
-  webpack --config webpack.dev.js --watch
+  webpack --watch
 }
 
 dev:server () {
   _info 'Starting dev-server'
   export ILRN_IS_DEV='yes'
   prep:all
-  webpack-dev-server --config webpack.dev.js --hot
+  webpack-dev-server --hot
 }
 
 dev:build () {
   _info 'Building [dev]'
   export ILRN_IS_DEV='yes'
   prep:all
-  webpack --config webpack.dev.js
+  webpack
 }
 
 dev:webext () {
@@ -108,53 +114,81 @@ release:pack () {
   (cd .builds && zip -r chrome.zip ./chrome -x ./chrome/report.html)
 }
 
-release:sign () {
-  _info 'Requesting Signing Service [firefox]'
-  web-ext sign \
-    --api-key $DEV_WEBEXT_API_KEY \
-    --api-secret $DEV_WEBEXT_API_SECRET \
-    --id $DEV_WEBEXT_EXTENSION_ID
-}
-
 release:build () {
   _info "<*> Compiling [target -> ${FLAGS_TARGET}]"
   export ILRN_IS_DEV='no'
+  export NODE_ENV='production'
   prep:all
-  webpack --config webpack.prod.js
+  webpack
   _success 'Done'
-}
-
-release:publish () {
-  _info '<-> Syncing public releases store'
-  rsync -r ./.builds/gecko-artifacts/ $DEV_EXTENSION_STORE
 }
 
 release:dev () {
   export FLAGS_VERBOSE='no'
   export ILRN_IS_DEV='yes'
+  export NODE_ENV='production'
   _info 'Building preview release'
   prep:all
-  webpack --config webpack.prod.js
+  webpack
   _success 'Done!'
 }
 
 release () {
   export FLAGS_VERBOSE='no'
   _info '<*> Creating a PUBLIC release! <*>'
-  release:build
+  release:build-all
   release:pack
-  release:sign
-  release:publish
-  _success 'Published Succesfully!'
+  _success 'Packed all targets succesfully!'
 }
 
 release:build-all () {
+  export NODE_ENV='production'
   export FLAGS_TARGET='chrome'
   release:build
   export FLAGS_TARGET='firefox'
   release:build
   export FLAGS_TARGET='web'
   release:build
+}
+
+#=== Publishing routines
+publish:firefox () {
+  _info '<-> Publishing to firefox with self hosted server'
+  web-ext lint
+  web-ext build --overwrite-dest
+  _info '    Requesting Signing Service for signed artifact [firefox]'
+  web-ext sign \
+    --api-key $DEV_WEBEXT_API_KEY \
+    --api-secret $DEV_WEBEXT_API_SECRET \
+    --id $DEV_WEBEXT_EXTENSION_ID
+  rsync -r ./.builds/gecko-artifacts/ $DEV_EXTENSION_STORE
+}
+
+publish:chrome () {
+  _info '<-> Publishing to chrome store with shipit'
+  shipit chrome .builds/chrome
+}
+
+publish:web () {
+  _info '<-> Publishing webapp to static server'
+  rsync -r ./.builds/web/ $DEV_WEBAPP_RSYNC_PATH
+}
+
+publish () {
+  _info '<*> Publishing to chrome, firefox, and web'
+  publish:web
+  publish:chrome
+  publish:firefox
+}
+
+
+#=== Tests
+test:ci () {
+  _info 'Starting Karma with JSDom.'
+
+  # rc is the return code. This makes sure we return correct exit status for CI.
+  karma start --single-run && rc=$? || rc=$?
+  return $rc
 }
 
 _get_target () {

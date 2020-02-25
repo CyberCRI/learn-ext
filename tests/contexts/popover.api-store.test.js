@@ -7,7 +7,7 @@ describe('~components/popover/api-store', () => {
     let sampleConcepts
 
     before(async () => {
-      sampleConcepts = await jsonFixture('api.enhancedconcepts.postgresql-org')
+      sampleConcepts = jsonFixture('api.enhancedconcepts.postgresql-org')
     })
 
     it('builds the concept set index', () => {

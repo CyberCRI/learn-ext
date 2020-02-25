@@ -60,7 +60,7 @@
       visibility: hidden;
       border-radius: 2px;
       opacity: 0;
-      transition: .2s opacity;
+      transition: .5s opacity;
     }
     background: url('/icons/core/url-alt.png') no-repeat center;
     background-size: cover;
@@ -69,12 +69,9 @@
     height: var(--faviconSize);
     overflow: hidden;
 
-    &.reveal {
-      img {
-        visibility: visible;
-        opacity: 1;
-      }
-      background: transparent;
+    img.reveal {
+      visibility: visible;
+      opacity: 1;
     }
   }
 }

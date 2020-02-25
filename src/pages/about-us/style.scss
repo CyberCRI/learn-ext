@@ -11,9 +11,9 @@
 
     li {
       min-width: 180px;
-      max-width: 250px;
+      max-width: 270px;
       margin: 10px;
-      padding: 10px;
+      padding: 5px 5px 5px 10px;
       flex-grow: 1;
     }
 
@@ -36,10 +36,24 @@
           margin: 0;
         }
       }
+
+      &.wide {
+        flex-flow: column;
+
+        figcaption {
+          margin-top: 10px;
+          margin-left: 0;
+        }
+      }
     }
   }
 }
 
 section.small-text {
   font-size: smaller;
+  opacity: .8;
+
+  &:hover {
+    opacity: 1;
+  }
 }

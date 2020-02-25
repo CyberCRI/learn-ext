@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Card, Elevation, Button, Tooltip } from '@blueprintjs/core'
 import { useUpdateEffect } from 'react-use'
-import _ from 'lodash'
 import clsx from 'classnames'
 
 import { ConceptList } from '~components/concepts'
@@ -121,7 +120,7 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
       { !props.skipMedia && <Backdrop url={url}/> }
       <div className='content'>
         <h4 className='title'>{props.title}</h4>
-        {!!props.created_on && <DateTimePill timestamp={props.created_on}/>}
+        {!!props.created && <DateTimePill timestamp={props.created}/>}
 
         {!props.skipConceptList &&
           <ConceptList
@@ -136,15 +135,16 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
 
         {isRemovable && <DeleteResourceButton onConfirm={didClickDelete}/>}
         <ResourceLinkPill url={url} short linked/>
-        <a
-          ariahidden='true'
-          role='presentation'
-          href={url}
-          title={props.title}
-          target='_blank'
-          rel='noopener,nofollow'
-          tabIndex={1}
-          className='overlay-link'>Open {props.title} in new tab</a>
+        {!props.skipLink &&
+          <a
+            ariahidden='true'
+            role='presentation'
+            href={url}
+            title={props.title}
+            target='_blank'
+            rel='noopener,nofollow'
+            tabIndex={1}
+            className='overlay-link'>Open {props.title} in new tab</a>}
       </div>
     </Card>
   )

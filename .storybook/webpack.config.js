@@ -13,7 +13,7 @@
 // [@prashnts]
 //
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const baseConfig = require('../webpack.dev.js')
+const baseConfig = require('../webpack.common.js')
 const { dotenv, abspath } = require('../modules/plugins')
 
 // Replace browser-polyfill with empty module.

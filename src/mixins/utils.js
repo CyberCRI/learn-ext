@@ -1,6 +1,4 @@
 import { browser } from '~procs/stubs'
-import uuid_v5 from 'uuid/v5'
-import md5 from 'js-md5'
 import Enum from 'enum'
 
 // Enumerate the context this code is running into.
@@ -12,13 +10,6 @@ export const Runtime = new Enum([
   'browser',
   'node',
 ], { name: 'Runtime', ignoreCase: true })
-
-
-export const nsuuid = (param) => {
-  // Read as: Namespace UUID.
-  // Generate a uuid within application namespace appending the parameters.
-  return uuid_v5(`${env.uuid5_namespace}/${param}`, uuid_v5.URL)
-}
 
 
 export const runtimeContext = {
@@ -66,9 +57,4 @@ export const context = () => {
   } catch {}
 
   return Runtime.node
-}
-
-export const userId = (email) => {
-  // To obfuscate the user email, a simple hash of user email is used.
-  return md5(`ilearn_${email.toLowerCase().trim()}`)
 }

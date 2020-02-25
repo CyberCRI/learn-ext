@@ -1,6 +1,6 @@
 # Privacy Policy
 
-_This policy was last modified on 13th November._
+_This policy was last modified on 19th November._
 
 
 Thanks for using WeLearn! Protecting your privacy is our highest priority and we take it as a serious responsibility. Please read our privacy policy to know how we handle it. This privacy policy applies to all information collected by us when you use WeLearn services. It is aimed to help you understand what information we collect from you, why we collect it, and what you can do to update or delete your information.
@@ -13,7 +13,7 @@ Thanks for using WeLearn! Protecting your privacy is our highest priority and we
 
 1. **Information We Collect and How We Use It**
 
-    In order to use WeLearn service, it is necessary to create an account with your email address and thus WeLearn collects information from you through:
+    In order to use WeLearn service, it is necessary to create an account with your email address and also select a group or set it by default. Thus WeLearn collects information from you through:
 
     * Email address
     * Group memberships
@@ -22,15 +22,18 @@ Thanks for using WeLearn! Protecting your privacy is our highest priority and we
 
     * URLs/titles of the web pages when you click to save it through WeLearn
     * The date and time of your page saving actions
-    * The concepts marked for saved pages
+    * The annotation that you marked for saved pages(such as wikipedia concepts)
+    * The difficulty level that you click to attach the webpage
 
     We declare that we don’t collect information from users under 13 and we don’t collect sensitive data.
 
     The above collected information is used for providing statistics and recommendations in your WeLearn personal dashboard. It also could be used to respond to your requests, for example, to respond to your inquiries.
+    
+    WeLearn also reserves the right to authorize researchers to use collected information for their research. Each researcher needs to sign a contract with WeLearn. By contract, the usage of data is restricted to research pruposes, globalized and anonymous process.
 
 2. **Storage of Data and Sharing**
 
-    We store your data in the server, and we regularly do backups. The data is only stored for as long as we need it to provide you services or as required by law or contract. We do not utilise nor do we share your data with any third party services. Should we begin using said services due to technical reasons, we will accordingly update this Privacy Policy and notify you of those changes before it goes into effect.
+    We store your data in the server, and we regularly do backups. The data is only stored for as long as we need it to provide you services or as required by law or contract. When you request us to delete your account, we destroy your personal information, but all the resources you marked would stay in our database without connections to you. We do not use nor do we share your data with any third party services. Should we begin using said services due to technical reasons, we will accordingly update this Privacy Policy and notify you of those changes before it goes into effect.
 
 
 3. **Use of Cookies and Analytics**
@@ -44,7 +47,7 @@ Thanks for using WeLearn! Protecting your privacy is our highest priority and we
 
 5. **Phishing**
 
-    WeLearn does not and will not, at any time, request your username, password, credit card information or passport/national ID in an unsolicited email or telephone communication.
+    WeLearn does not and will not, at any time, request your password, credit card information, passport/national ID or any other sensative personal data in an unsolicited email or telephone communication.
 
 
 6. **Security**

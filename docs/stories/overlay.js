@@ -1,13 +1,8 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 
-import { PopOverlay, PageInfo } from '~components/popover/overlay'
+import { PageInfo } from '~components/popover/overlay'
 
-
-storiesOf('PopOverlay', module)
-  .add('Standard View', () => {
-    return <PopOverlay />
-  })
 
 storiesOf('PageInfo', module)
   .add('Standard Page', () => {

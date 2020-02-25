@@ -15,7 +15,7 @@ const conceptListVariants = {
     transition: { staggerChildren: .8 },
   },
   visible: {
-    transition: { staggerChildren: .2 },
+    transition: { staggerChildren: .8 },
   },
 }
 
@@ -31,6 +31,7 @@ const ListSortOrderPriority = (() => {
     [ 'title', 'asc' ],
     [ 'title_en', 'asc' ],
     [ 'title_fr', 'asc' ],
+    [ 'title_es', 'asc' ],
     [ 'similarity_score', 'desc' ],
     [ 'elo', 'desc' ],
     [ 'trueskill.sigma', 'asc' ],
@@ -38,9 +39,14 @@ const ListSortOrderPriority = (() => {
   return _.unzip(keyProps)
 })()
 
+const removeQuote = (x) => x.replace('\\', '')
 
 export const ConceptTag = (props) => {
-  const { title, wikidata_id, lang } = props
+  // [!todo] U G L Y ! This will break. It's not properly defined behaviour
+  // either. Needs fixes asap.
+  const { title_en, title_fr, title_es, wikidata_id, lang } = props
+  const title = title_en || title_fr || title_es || props.title
+
   const didClickRemove = () => {
     console.debug(`[ConceptTag] Removing <${title}>`)
     props.onRemove && props.onRemove({ title, wikidata_id })
@@ -56,8 +62,8 @@ export const ConceptTag = (props) => {
       className='np--concept-tag concept tag'
       onRemove={onRemove}>
       <Popover
-        content={<WikiCard title={title} lang={lang}/>}
-        target={<span>{title}</span>}
+        content={<WikiCard title={removeQuote(title)} lang={lang}/>}
+        target={<span>{removeQuote(title)}</span>}
         interactionKind={PopoverInteractionKind.HOVER}
         popoverClassName='wiki-popover'
         hoverCloseDelay={500}
@@ -73,7 +79,7 @@ export const ConceptList = (props) => {
   const { lang, removable=false } = props
   const concepts = _(props.concepts)
     .orderBy(...ListSortOrderPriority)
-    .filter((o) => o.title || o.title_en || o.title_fr)
+    .filter((o) => o.title || o.title_en || o.title_fr || o.title_es)
     .value()
 
   return (
@@ -93,6 +99,30 @@ export const ConceptList = (props) => {
               {...item}/>
           </motion.li>
         )}
+      </motion.ul>
+    </AnimatePresence>
+  )
+}
+
+export const ConceptListLoadingState = ({ nconcepts=5, ...props }) => {
+  const concepts = Array(nconcepts).fill().map((_, i) => ({
+    key: i,
+    label: 'Kitties are so cute!'.slice(Math.floor(Math.random() * 5)),
+  }))
+  return (
+    <AnimatePresence initial='hidden'>
+      <motion.ul
+        initial='hidden'
+        animate='visible'
+        exit='hidden'
+        variants={conceptListVariants}
+        className='np--concepts-list concept list'>
+        {concepts.map((item) =>
+          <motion.li key={item.key} positionTransition variants={conceptVariants}>
+            <Tag minimal large className='np--concept-tag concept tag bp3-skeleton'>
+              <span>{item.label}</span>
+            </Tag>
+          </motion.li>)}
       </motion.ul>
     </AnimatePresence>
   )

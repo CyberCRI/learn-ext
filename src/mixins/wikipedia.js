@@ -1,25 +1,91 @@
 // Wrapper implementing the API calls to wikipedia for searches.
 // Exposes the Wiki object with `opensearch` and `summary` methods.
-import Enum from 'enum'
 import _ from 'lodash'
-
-import { request } from './request'
-import { nsuuid, runtimeContext } from './utils'
+import queryStrings from 'query-string'
 
 
-const HEADERS = {
-  'Api-User-Agent': env.wikiapi_user_agent,
+const wikiRequest = async ({ lang, params }) => {
+  const endpoint = `https://${lang}.wikipedia.org/w/api.php`
+  const url = queryStrings.stringifyUrl({ url: endpoint, query: params })
+
+  const r = await fetch(url, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Api-User-Agent': env.wikiapi_user_agent,
+    },
+  })
+  return await r.json()
 }
 
-export const PageTypes = new Enum([
-  'standard',
-  'stub',
-  'disambiguation',
-  'empty',
-], { name: 'WikiPageType', ignoreCase: true })
-
-
 class WikiAPI {
+  srquery (query, lang='en') {
+    // The opensearch api endpoint we've been using is not particularly reliable
+    // in terms of quality of results. Of course that's not ideal, and with
+    // Julien's help on figuring out the wikipedia api parameters, we switch to
+    // `action: query`.
+    //
+    // Similar to how other endpoints are handled, a transformation is applied
+    // to the response which extracts results to an object list.
+    //
+    // API Sandbox: https://to.noop.pw/wikiapi-sandbox--query
+    //
+    // Relevant: Issue #53.
+    const apiProps = ['pageprops', 'pageterms', 'pageimages', 'extracts', 'links']
+    const params = {
+      // Main query term go here, under gsrsearch.
+      gsrsearch: query,
+
+      action: 'query',
+      format: 'json',
+      origin: '*',
+      redirects: 1,
+      converttitles: 1,
+      formatversion: 2,
+
+      prop: apiProps.join('|'),
+      plnamespace: 0,
+
+      wbptterms: 'description',
+
+      // Control "extracts" props.
+      exsentences: 2,
+      exlimit: 16,
+      exintro: 1,
+      explaintext: 1,
+      exsectionformat: 'plain',
+
+      generator: 'search',
+      gsrnamespace: 0,
+      gsrqiprofile: 'classic',
+      gsrwhat: 'text',
+      gsrinfo: ['totalhits', 'suggestion'].join('|'),
+      gsrenablerewrites: 1,
+      gsrsort: 'relevance',
+    }
+
+    const transform = (response) => {
+      // This transformation is quite simple -- we pick the keys we're
+      // interested in.
+      const transformItem = (item) => {
+        const i = _(item)
+        return {
+          lang,
+          isDisambiguation: i.has('pageprops.disambiguation'),
+          title: i.get('title'),
+          subtitle: i.get('pageprops.wikibase-shortdesc'),
+          description: i.get('terms.description.0'),
+          extract: i.get('extract'),
+
+          wikidata_id: i.get('pageprops.wikibase_item'),
+          thumbnail: i.get('thumbnail'),
+        }
+      }
+      return response.query.pages.map(transformItem)
+    }
+    return wikiRequest({ lang, params }).then(transform)
+  }
+
   opensearch (query, lang='en') {
     // Request Opensearch endpoint from Wikipedia API.
     // The request payload keeps a `requestid` to keep track of the request sent
@@ -32,15 +98,13 @@ class WikiAPI {
     // The response is further transformed to a collection.
     //
     // Also see: WikiAPI.transformOpenSearch
-    const endpoint = `https://${lang}.wikipedia.org/w/api.php`
-    const payload = {
+    const params = {
       action: 'opensearch',
       format: 'json',
       namespace: 0,
       redirects: 'resolve',
       limit: 15,
       suggest: 1,
-      requestid: nsuuid(query),
       search: query,
     }
 
@@ -64,17 +128,7 @@ class WikiAPI {
         .value()
     }
 
-    const requestType = runtimeContext.isBrowser
-      ? 'jsonp'
-      : 'json'
-
-    return request({
-      url: endpoint,
-      type: requestType,
-      data: payload,
-      crossOrigin: true,
-      headers: HEADERS,
-    }).then(transform)
+    return wikiRequest({ lang, params }).then(transform)
   }
 
   summary (title, lang='en') {
@@ -103,15 +157,43 @@ class WikiAPI {
         thumbnail: r.get('thumbnail.source', null),
       }
     }
-    return request({
-      url: url,
-      type: 'json',
-      crossOrigin: true,
-      headers: HEADERS,
-    }).then(transform)
+
+    const fetchPageProps = async () => {
+      const r = await fetch(url, { crossOrigin: 'cors' })
+      return await r.json()
+    }
+
+    return fetchPageProps().then(transform)
   }
 }
 
 const Wiki = new WikiAPI()
 
 export default Wiki
+
+// [!todo] switch to prefixsearch next since that endpoint is specifically
+// designed for searching with prefixes (obviously...). However this will
+// require a second query to `query` action (of course) to get the props
+// that include wikidata ids. Note that there is cri api gateway also available
+// which we'll switch to later. Later, because we want to have spanish language
+// as well.
+//
+// /w/api.php?
+//   action=query&
+//   format=json&
+//   list=prefixsearch&
+//   pssearch=ibm%20sel
+
+// /w/api.php?
+//   action=query&
+//   format=json&
+//   prop=extracts|pageprops|extlinks|info|langlinks|pageimages|images&
+//   pageids=23861711&
+//   exsentences=4&
+//   exlimit=5&
+//   exintro=1&
+//   explaintext=1&
+//   elexpandurl=1&
+//   inprop=url|displaytitle
+
+// https://apigw.cri-paris.org/api/wpgw/search?search=json&lang=en

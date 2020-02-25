@@ -13,8 +13,8 @@ const md = require('markdown-it')({
   .use(require('markdown-it-footnote'))
   .use(require('markdown-it-task-lists'))
 
-const pugMdFilter = (text, opts) => {
+const transpile = (text, opts) => {
   return md.render(text)
 }
 
-module.exports = { pugMdFilter }
+module.exports = { transpile }

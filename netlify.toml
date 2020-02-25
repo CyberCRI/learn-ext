@@ -1,0 +1,5 @@
+# Configuration for netlify previews of the pages.
+[build]
+  base = "."
+  publish = ".builds/stories/"
+  command = "npm run build:storybook"

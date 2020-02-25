@@ -1,7 +1,7 @@
 import { isUndefined } from 'lodash'
 
 import { browser } from '~procs/stubs'
-import { runtimeContext } from '~mixins/utils'
+import { runtimeContext } from './utils'
 
 
 const attemptParseJson = (value) => {

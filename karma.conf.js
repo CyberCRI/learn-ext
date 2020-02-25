@@ -1,5 +1,5 @@
 // Karma configuration
-const base_config = require('./webpack.common')
+const base_config = require('./webpack')
 const { dotenv, abspath } = require('./modules/plugins')
 
 
@@ -14,9 +14,9 @@ module.exports = function(config) {
     ],
     exclude: [],
     preprocessors: {
-      'src/**/*.js*': [ 'webpack', 'sourcemap' ],
-      'tests/**/*.js': [ 'webpack', 'sourcemap' ],
-      'tests/fixtures/*': 'file-fixtures',
+      'src/**/*.js*': ['webpack', 'sourcemap'],
+      'tests/**/*.js': ['webpack', 'sourcemap'],
+      'tests/fixtures/*': ['file-fixtures'],
     },
 
     fileFixtures: {

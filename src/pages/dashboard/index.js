@@ -1,13 +1,10 @@
+import { setup } from '../_commons'
 import { renderReactComponent } from '~mixins/react-helpers'
 
-import { ensureLogin } from '~components/input/loginSensor'
-import { DashboardView } from '~components/dashboard'
+import { DashboardView } from '~views/dashboard'
 
-const init = () => {
+window.addEventListener('load', async () => {
+  await setup()
   renderReactComponent('resources', DashboardView)
-}
-
-document.addEventListener('apploaded', () => {
-  ensureLogin({ autoRedirect: true })
-    .then(init)
 })
+

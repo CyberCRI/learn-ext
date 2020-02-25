@@ -1,17 +1,18 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.0.44",
-  "version_name": "0.0.44-alpha",
+  "version": "0.1.2",
+  "version_name": "0.1.2-alpha",
   "manifest_version": 2,
 
   "description": "__MSG_extension_description__",
-  "homepage_url": "https://ilearn.cri-paris.org",
+  "homepage_url": "https://welearn.cri-paris.org",
 
   "author": "Centre de Recherches Interdisciplinaires",
 
   "icons": {
     "48": "icons/extension/icon-rounded.png",
-    "96": "icons/extension/icon-rounded@2x.png"
+    "96": "icons/extension/icon-rounded@2x.png",
+    "128": "icons/extension/store-icon-128.png"
   },
 
   "default_locale": "en",
@@ -46,18 +47,13 @@
   "permissions": [
     "activeTab",
     "storage",
-    "contextMenus",
-    "https://welearn.cri-paris.org/*",
-    "https://opt.ilearn.cri-paris.org/*",
-    "https://ilearn.cri-paris.org/*",
-    "https://en.wikipedia.org/*",
-    "https://fr.wikipedia.org/*"
+    "contextMenus"
   ],
   "omnibox": {
     "keyword": "welearn"
   },
   "options_ui": {
-    "page": "pages/settings.html",
+    "page": "pages/extension-auth.html",
     "open_in_tab": true,
     "chrome_style": false
   },

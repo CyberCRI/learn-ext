@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { createEvent, createStore, createApi } from 'effector'
+import { createStore, createApi } from 'effector'
 import { useStore } from 'effector-react'
-import { Button, ButtonGroup, Divider } from '@blueprintjs/core'
+import { Button, ButtonGroup } from '@blueprintjs/core'
 import { Popover, Menu, Dialog } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import _ from 'lodash'
 
 import { i18n } from '@ilearn/modules/i18n'
-import { ResourceCollectionView } from '~components/dashboard'
+import { ResourceCollectionView } from '~components/resources'
 import { ConceptList } from '~components/concepts'
-import { selectedConcepts, matchingResourceSet, matchingConceptSet } from './store'
+import { selectedConcepts, matchingResourceSet } from './store'
 import { pickLayer, resourcesDomain } from './store'
 
 const overlayControlVariants = {

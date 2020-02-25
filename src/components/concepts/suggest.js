@@ -1,19 +1,22 @@
 import React, { useState } from 'react'
 import { useDebounce, useBoolean } from 'react-use'
-import { Tag, Card, NonIdealState, Spinner } from '@blueprintjs/core'
+import { Tag, NonIdealState, Spinner } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import clsx from 'classnames'
 
-import { reFuse } from '~mixins/itertools'
 import Wiki from '~mixins/wikipedia'
 import { i18n } from '@ilearn/modules/i18n'
 
 const i18nT = i18n.context('components.suggest')
 
+// At least these many characters should be typed in to trigger api call:
+const MINQUERY_LEN = 2
+
 const conceptPredicate = (query, items) => {
-  if (query) {
-    return reFuse(items, [ 'title' ]).search(query)
-  }
+  // NOTE: I've removed the following check, we simply return all the items.
+  // if (query) {
+  //   return reFuse(items, [ 'title' ]).search(query)
+  // }
   return items
 }
 
@@ -21,11 +24,17 @@ const renderSuggestion = (item, { modifiers, handleClick }) => {
   if (!modifiers.matchesPredicate) {
     return null
   }
-  const itemClasses = clsx('suggestion', { active: modifiers.active })
+  const itemClasses = clsx('suggestion', {
+    active: modifiers.active,
+    ambiguous: item.isDisambiguation,
+  })
 
   return (
     <div key={item.title} className={itemClasses} onClick={handleClick}>
-      <p><strong>{item.title}</strong> {item.description}</p>
+      <p>
+        <strong>{item.title}</strong>
+        {item.extract}
+      </p>
     </div>
   )
 }
@@ -47,7 +56,7 @@ const ZeroResultsState = ({ loading, query }) => {
       title: i18nT('inflight.label'),
       icon: <Spinner/>,
     }
-  } else if (query.length < 3) {
+  } else if (query.length < MINQUERY_LEN) {
     return <EmptyStatePlaceholder/>
   } else {
     props = {
@@ -65,7 +74,7 @@ const controlProps = {
     minimal: true,
   },
   popover: {
-    position: 'left',
+    position: 'bottom-left',
     minimal: false,
     className: 'suggest target',
     portalClassName: 'suggest popover',
@@ -86,19 +95,19 @@ export const ConceptSuggest = ({ onSelect, lang }) => {
   }
 
   useDebounce(() => {
-    if (query.length < 3) {
+    if (query.length < MINQUERY_LEN) {
       // Yo man! Please type more stuff.
       setItems([])
       return
     }
     setLoadingState(true)
     Wiki
-      .opensearch(query, lang)
+      .srquery(query, lang)
       .then((data) => {
         setItems(data)
         setLoadingState(false)
       })
-      .fail(() => {
+      .catch(() => {
         setLoadingState(false)
       })
   }, 300, [ query ])
@@ -106,9 +115,10 @@ export const ConceptSuggest = ({ onSelect, lang }) => {
   return (
     <div className='suggest root'>
       <Select
+        resetOnQuery={false}
+        resetOnSelect={false}
+        resetOnClose={false}
         filterable
-        resetOnClose
-        resetOnSelect
         itemListPredicate={conceptPredicate}
         itemRenderer={renderSuggestion}
         items={items}

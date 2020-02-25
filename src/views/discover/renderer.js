@@ -1,4 +1,4 @@
-import { fetchLayer, fetchUpdateLayer, bases } from './layers'
+import { fetchLayer, fetchUpdateLayer } from './layers'
 import { ThemeSwitch } from './atlas-theme'
 import FileSaver from 'file-saver'
 import Mousetrap from '@ilearn/modules/utilities/mousetrap'
@@ -32,15 +32,12 @@ const kbdCtrlKeys = {
 
 export const setupMapView = async (conf) => {
   const allPoints = await fetchLayer('everything')
-  const mapShapePoints = allPoints.union(bases.points).toJS()
-  const labelledPoints = allPoints.union(bases.labels.filter((p) => p.labelPriority === 1)).toJS()
 
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
-    points: mapShapePoints,
-
-    elevationPow: .1,
-    maxRadiusDivider: 13.8,
+    points: allPoints.toJS(),
+    elevationPow: 1,
+    maxRadiusDivider: 22,
     contourWidth: 0,
     lightAltitude: 5,
     lightIntensity: .2,
@@ -80,9 +77,9 @@ export const setupMapView = async (conf) => {
     type: 'marker',
     points: allPoints.toJS(),
 
-    markerSizeMultiplier: 5,
+    markerSizeMultiplier: 4,
     markerStrokeWidth: 0,
-    markerOpacity: 0.8,
+    markerOpacity: 0.7,
 
     minAbsoluteMarkerSize: 0,
 
@@ -106,8 +103,8 @@ export const setupMapView = async (conf) => {
 
   const labels = DotAtlas.createLayer({
     type: 'label',
-    points: labelledPoints,
-    labelFontFamily: 'Barlow, Inter',
+    points: allPoints.toJS(),
+    labelFontFamily: 'Barlow',
     labelFontSize: 15,
     labelFontWeight: 400,
     labelFontVariant: 'normal',
@@ -260,7 +257,7 @@ export const setupMapView = async (conf) => {
       .get('points')
       .filter((p) => p.userData)
       .forEach((p) => {
-        pt = pts.get(p.wikiDataId)
+        pt = pts.get(p.wikidata_id)
         if (pt) {
           p.markerOpacity = .8
           p.canPick = true
@@ -276,7 +273,7 @@ export const setupMapView = async (conf) => {
       .get('points')
       .filter((p) => p.userData)
       .forEach((p) => {
-        pt = pts.get(p.wikiDataId)
+        pt = pts.get(p.wikidata_id)
         if (pt) {
           p.labelOpacity = 1
           p.labelPriority = 0.8
@@ -294,7 +291,7 @@ export const setupMapView = async (conf) => {
       .get('points')
       .filter((p) => p.userData)
       .forEach((p) => {
-        pt = pts.get(p.wikiDataId)
+        pt = pts.get(p.wikidata_id)
         if (pt) {
           p.elevation = pt.elevation
         } else {

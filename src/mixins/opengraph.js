@@ -28,8 +28,7 @@ class MetaResolver {
     if (!urlIsSane(url)) {
       return fallbackUrl
     }
-    const { origin } = urlParse(url)
-    return resolvedUrl('logo', origin)
+    return `${env.ngapi_host}/meta/resolve/logo?url=${url}`
   }
 
   image (url) {

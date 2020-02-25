@@ -6,7 +6,6 @@ import { useEffectOnce } from 'react-use'
 import { Toaster, Tooltip, Button } from '@blueprintjs/core'
 
 import store from '~mixins/persistence'
-import { renderReactComponent } from '~mixins/react-helpers'
 
 import './notification-styles.scss'
 
@@ -19,13 +18,10 @@ export const GlobalToaster = Toaster.create({
 export const DemoUserNotice = () => {
   const [ isVisible, setVisibility ] = React.useState(false)
   useEffectOnce(() => {
-    store
-      .get('user')
-      .then((user) => {
-        if (user.demo) {
-          setVisibility(true)
-        }
-      })
+    const { user } = window.jstate
+    if (user && user.demo) {
+      setVisibility(true)
+    }
   })
   if (!isVisible) {
     return null
@@ -38,7 +34,7 @@ export const DemoUserNotice = () => {
 }
 
 export const initNotifications = async () => {
-  const user = await store.get('user')
+  const { user } = window.jstate
   const notifyDemoUser = await store.get('pref.show_demo_notice', true)
 
   if (notifyDemoUser && user && user.demo) {

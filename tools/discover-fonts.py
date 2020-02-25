@@ -108,6 +108,7 @@ def generate_css(df):
       font-family: '{row.fname}';
       font-style: {row.style};
       font-weight: {row.weight};
+      font-display: swap;
       src: local('{row.family}'), local('{row.postscriptname}'),
            url('{row.url}') format('woff2'),
            url('{row.url_alt}') format('woff');
@@ -118,8 +119,8 @@ def generate_css(df):
 
 @click.command()
 @click.option('-p', '--path', default='assets/fonts', help='Directory containing fonts')
-@click.option('-u', '--urlprefix', default='../../assets/fonts', help='Public URL Prefix')
-@click.option('-o', '--output', default='src/styles/fonts.css', help='CSS file output path')
+@click.option('-u', '--urlprefix', default='/fonts', help='Public URL Prefix')
+@click.option('-o', '--output', default='src/styles/_fonts.scss', help='CSS file output path')
 @click.option('-t', '--take', multiple=True)
 @click.option('--silent', is_flag=True, help='Disable logs')
 def webfonts_generator(path, urlprefix, output, take, silent):

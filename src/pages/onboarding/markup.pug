@@ -20,11 +20,10 @@ mixin img-ref(name, classes='')
 
 append main
   div.presentation
-
     section.slide.tile.blurb
       div.tile.is-6.is-parent
-        div.align-middle.animated.fadeInUp
-          img(src='/icons/browsers/icon-round-v1.png' height=80)
+        div.align-middle
+          img.logo(src='/icons/browsers/icon-round-v1.png' height=80)
           h1 Making the web a learner-friendly place.
           // Let's make an over engineered solution.
           p WeLearn will index and qualify learning resources.
@@ -87,10 +86,15 @@ append main
           h2 Wikipedia Integration
 
     section.slide.tile.close-off
-      div.tile.is-2.is-parent
+      div.tile.is-4.is-parent
         div.align-middle
           h1 Open, Inclusive, and Private.
-      div.tile.is-2.is-parent
+          p.
+            We manage our code, features, and bug reports on GitHub. If you have
+            quesions, ideas, or just want to say Hi! feel free to pass by our
+            repository.
+          p
+            a.bp3-button(href='https://github.com/CyberCRI/learn-ext') Contribute on GitHub
       div.tile.is-8.is-parent
         div.align-middle.fit-box
           ul.misc-features
@@ -110,8 +114,6 @@ append main
             li.open
               +img-ref('star.png')
               h2 Open source
-              a.bp3-button(href='https://github.com/CyberCRI/learn-ext') GitHub
-
 
     //- Disabled these to rush a release!
     //- section.slide.tile.callout
