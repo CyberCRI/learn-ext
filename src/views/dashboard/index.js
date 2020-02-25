@@ -8,7 +8,7 @@ import _ from 'lodash'
 import { API } from '@ilearn/modules/api'
 import { i18n } from '@ilearn/modules/i18n'
 import { ResourceGrid, ResourceCollectionView } from '~components/resources'
-import * as Placeholder from '~components/resources'
+import * as Placeholder from '~components/resources/placeholders'
 import { OmniBar, FilterTools } from './tools'
 
 import './styles.scss'

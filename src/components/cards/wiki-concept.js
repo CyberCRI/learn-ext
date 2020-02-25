@@ -2,7 +2,6 @@ import React from 'react'
 import { Card, Elevation, AnchorButton, ButtonGroup, NonIdealState } from '@blueprintjs/core'
 import { useAsync } from 'react-use'
 import { FaWikipediaW } from 'react-icons/fa'
-import _ from 'lodash'
 
 import Wiki from '~mixins/wikipedia'
 import { i18n } from '@ilearn/modules/i18n'
@@ -16,7 +15,7 @@ const skeletonFiller = (count=1) => {
   const filler = (i) => fillerWords[i % fillerWords.length]
   return (
     <span className='skels' role='presentation'>
-      {_.range(count).map((i) =>
+      {Array(count).fill().map((i) =>
         <span className='skel' key={i}>{`${filler(i)} `}</span>
       )}
     </span>

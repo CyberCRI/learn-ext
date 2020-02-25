@@ -1,5 +1,4 @@
 import React from 'react'
-import _ from 'lodash'
 import { SpringGrid, measureItems, makeResponsive, layout } from 'react-stonecutter'
 
 import { reFuse } from '~mixins/itertools'
