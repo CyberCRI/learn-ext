@@ -28,16 +28,22 @@ export const AuthStatus = (props) => {
       window.location.search = ''
     })
   }
+  const didClickClose = () => {
+    window.close()
+  }
   return <>
     <Card>
-      <p>Connected to WeLearn as</p>
-      {props.newLogin && <p>Welcome!</p>}
-      <pre>{props.token.email}</pre>
+      <p>Connected to WeLearn as <pre>{props.token.email}</pre></p>
+      {props.newLogin &&
+        <p>Welcome! You can close this page now.
+        Please reload the previous tab to start using WeLearn.</p>
+      }
 
-      <p>You can close this page now. Please reload the previous tab to start
-      using WeLearn.</p>
+      <Button text='Continue' onClick={didClickClose} intent='primary' rightIcon='arrow-right'/>
 
-      <Button text='Disconnect' onClick={didClickDisconnect}/>
+      <div style={{ marginTop: 20 }}>
+        <Button text='Disconnect' minimal small onClick={didClickDisconnect}/>
+      </div>
     </Card>
   </>
 }

@@ -40,6 +40,10 @@ const BuildTargets = {
     assets: [
       { from: './assets/icons/browsers/apple-touch-icon.png', to: './apple-touch-icon.png' },
       { from: './assets/media/favicons/browserconfig.xml', to: './browserconfig.xml' },
+      {
+        from: dotenv.flags.dotatlas_prod || './modules/atlas/dotatlas/dotatlas.js',
+        to: './atlas/dotatlas.js',
+      },
     ],
     rules: [
       {
@@ -65,10 +69,6 @@ const copySourceBundleRules = [
     to: './_locales/[name]/messages.json',
     toType: 'template',
     transform: locale.transpile,
-  },
-  {
-    from: dotenv.flags.dotatlas_prod || './modules/atlas/dotatlas/dotatlas.js',
-    to: './atlas/dotatlas.js',
   },
   { from: './assets/fonts', to: './fonts' },
   { from: './assets/media/favicons', to: './media/favicons' },

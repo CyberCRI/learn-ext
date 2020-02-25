@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useToggle, useMount, useAsyncRetry, useAsyncFn, useInterval } from 'react-use'
-import { Button, Callout } from '@blueprintjs/core'
+import { AnchorButton, Button, Callout } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import queryStrings from 'query-string'
 
@@ -36,16 +36,12 @@ export const PageInfo = ({ title, url }) => {
 }
 
 const SignInButton = (props) => {
-  const didClick = () => {
-    const url = getAuthApiUrl()
-    browser.tabs.create({ url })
-  }
-
   return <>
-    <Button
+    <AnchorButton
       text='Sign in to add to WeLearn'
       fill large intent='warning'
-      onClick={didClick}
+      href={getAuthApiUrl()}
+      target='_blank'
       className='sign-in'/>
     <Callout icon='mountain' className='sign-in-info'>
       Signing in authorizes this extension to add resources to your library.
