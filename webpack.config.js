@@ -51,12 +51,7 @@ const BuildTargets = {
         use: 'null-loader',
       },
     ],
-    plugins: [
-      // In web builds, we'd like to make discover page to be index.html for the time being.
-      new WebpackHookPlugin({
-        onBuildExit: ['cp ./.builds/web/pages/discover.html ./.builds/web/index.html'],
-      }),
-    ],
+    plugins: [],
   },
 }
 const target = BuildTargets[dotenv.flags.target || 'firefox']
@@ -123,8 +118,18 @@ const staticEntrypoints = staticPages
   }, {})
 
 const scssLoader = (() => {
+  const cssExtractPlugin = {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+      esModule: true,
+      hmr: IS_PRODUCTION,
+      reloadAll: true,
+    },
+  }
+
   return [
-    IS_PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
+    // IS_PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
+    cssExtractPlugin,
     {
       loader: require.resolve('css-loader'),
       options: { importLoaders: 1 },
@@ -285,15 +290,15 @@ module.exports = {
     useLocalIp: true,
     stats: 'minimal',
     inline: true,
-    watchContentBase: true,
+    // watchContentBase: true,
     open: false,
     overlay: true,
-    writeToDisk: false,
+    writeToDisk: true,
   },
 
   node: { global: true },
   performance: { hints: false },
-  bail: true,
+  bail: IS_PRODUCTION,
 
   plugins: [
     new WebpackBar({ name: 'webext-ilearn', profile: false, basic: false }),
