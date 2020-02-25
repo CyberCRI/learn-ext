@@ -1,6 +1,6 @@
 // Wrapper implementing the API calls to wikipedia for searches.
 // Exposes the Wiki object with `opensearch` and `summary` methods.
-import _ from 'lodash'
+import _get from 'lodash/get'
 import queryStrings from 'query-string'
 
 
@@ -67,67 +67,17 @@ class WikiAPI {
     const transform = (response) => {
       // This transformation is quite simple -- we pick the keys we're
       // interested in.
-      const transformItem = (item) => {
-        const i = _(item)
-        return {
-          lang,
-          isDisambiguation: i.has('pageprops.disambiguation'),
-          title: i.get('title'),
-          subtitle: i.get('pageprops.wikibase-shortdesc'),
-          description: i.get('terms.description.0'),
-          extract: i.get('extract'),
+      return response.query.pages.map((item) => ({
+        lang,
+        title: _get(item, 'title'),
+        subtitle: _get(item, 'pageprops.wikibase-shortdesc'),
+        description: _get(item, 'terms.description.0'),
+        extract: _get(item, 'extract'),
 
-          wikidata_id: i.get('pageprops.wikibase_item'),
-          thumbnail: i.get('thumbnail'),
-        }
-      }
-      return response.query.pages.map(transformItem)
+        wikidata_id: _get(item, 'pageprops.wikibase_item'),
+        thumbnail: _get(item, 'thumbnail'),
+      }))
     }
-    return wikiRequest({ lang, params }).then(transform)
-  }
-
-  opensearch (query, lang='en') {
-    // Request Opensearch endpoint from Wikipedia API.
-    // The request payload keeps a `requestid` to keep track of the request sent
-    // while the response is obtained through padded json `json-p` with a
-    // random callback and executed with contained payload.
-    //
-    // This was required to bypass CORS and `same-origin` policy.
-    // API Docs are at: https://to.noop.pw/wikiapi-sandbox--opensearch-docs
-    //
-    // The response is further transformed to a collection.
-    //
-    // Also see: WikiAPI.transformOpenSearch
-    const params = {
-      action: 'opensearch',
-      format: 'json',
-      namespace: 0,
-      redirects: 'resolve',
-      limit: 15,
-      suggest: 1,
-      search: query,
-    }
-
-    const transform = (response) => {
-      // Transform opensearch flat array list to a collection.
-      // r: [ <query>, [ <titles> ], [ <descriptions> ], [ <urls> ]]
-      // f(r): [ { title, description, url, id } ]
-      // where `id` is the normalised `title`.
-      //
-      // The first element of the response is ignored (hence _.tail is used).
-
-      const zipper = (title, description, url) => {
-        const id = _.kebabCase(title)
-        return { id, title, description, url }
-      }
-
-      return _
-        .chain(response)
-        .tail()
-        .unzipWith(zipper)
-        .value()
-    }
-
     return wikiRequest({ lang, params }).then(transform)
   }
 
@@ -140,21 +90,19 @@ class WikiAPI {
 
     // Wikipedia API expects title slug, which is the title, with spaces
     // replaced with underscores.
-    const titleSlug = _(title).replace(/\s+/ig, '_')
+    const titleSlug = title.replace(/\s+/ig, '_')
     const url = `${endpoint}/${encodeURIComponent(titleSlug)}`
 
-    const transform = (response) => {
-      const r = _(response)
-
+    const transform = (r) => {
       return {
-        wikibaseId: r.get('wikibase_item'),
-        lang: r.get('lang'),
-        url: r.get('content_urls.desktop.page'),
+        wikibaseId: _get(r, 'wikibase_item'),
+        lang: _get(r, 'lang'),
+        url: _get(r, 'content_urls.desktop.page'),
 
-        title: r.get('title'),
-        description: r.get('description'),
-        extract: r.get('extract'),
-        thumbnail: r.get('thumbnail.source', null),
+        title: _get(r, 'title'),
+        description: _get(r, 'description'),
+        extract: _get(r, 'extract'),
+        thumbnail: _get(r, 'thumbnail.source', null),
       }
     }
 
