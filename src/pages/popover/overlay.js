@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { useToggle, useMount, useAsync, useAsyncFn } from 'react-use'
-import { AnchorButton, Button, Callout } from '@blueprintjs/core'
+import { useToggle, useMount, useAsyncRetry, useAsyncFn, useInterval } from 'react-use'
+import { Button, Callout } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import queryStrings from 'query-string'
 
@@ -35,19 +35,23 @@ export const PageInfo = ({ title, url }) => {
   )
 }
 
-const SignInButton = (props) => (
-  <>
-    <AnchorButton
+const SignInButton = (props) => {
+  const didClick = () => {
+    const url = getAuthApiUrl()
+    browser.tabs.create({ url })
+  }
+
+  return <>
+    <Button
       text='Sign in to add to WeLearn'
       fill large intent='warning'
-      href={getAuthApiUrl()}
-      target='_blank'
+      onClick={didClick}
       className='sign-in'/>
     <Callout icon='mountain' className='sign-in-info'>
       Signing in authorizes this extension to add resources to your library.
     </Callout>
   </>
-)
+}
 
 const PageConcepts = (props) => {
   const [ url, setUrl ] = useState(props.url)
@@ -57,9 +61,14 @@ const PageConcepts = (props) => {
   const [ status, setStatus ] = useState(100)
   const [ saveCount, setSaveCount ] = useState(0)
 
-  const authn = useAsync(async () => {
+  const authn = useAsyncRetry(async () => {
     return await getStoredToken()
   }, [])
+
+  useInterval(() => {
+    authn.retry()
+    console.log('Retrying to get the token.')
+  }, authn.error ? 1000 : null )
 
   const [ bookmarkState, addBookmark ] = useAsyncFn(async () => {
     const payload = {
@@ -118,7 +127,7 @@ const PageConcepts = (props) => {
         <RatingPicker rating={kprog} onChange={(value) => setKProg(value)}/>
       </div>
 
-      {authn.error
+      {(authn.loading || authn.error)
         ? <SignInButton/>
         : <Button
           text={didSave ? 'Added to WeLearn' : 'Add to WeLearn'}
@@ -184,6 +193,9 @@ export const PopOverlay = (props) => {
           small minimal icon='book'
           text='Dashboard'
           onClick={() => dispatcher.invokeReaction('dashboard')}/>
+        <Button
+          small minimal icon='settings'
+          onClick={() => dispatcher.invokeReaction('settings')}/>
       </nav>
 
       {tab &&

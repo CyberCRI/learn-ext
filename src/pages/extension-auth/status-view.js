@@ -24,7 +24,9 @@ export const AuthPromptConnection = (props) => {
 
 export const AuthStatus = (props) => {
   const didClickDisconnect = () => {
-    clearStoredToken().then(() => window.location.reload())
+    clearStoredToken().then(() => {
+      window.location.search = ''
+    })
   }
   return <>
     <Card>
@@ -42,7 +44,6 @@ export const AuthStatus = (props) => {
 
 
 export const AuthStatusView = (props) => {
-  console.log(props)
   if (props.urlHasAToken) {
     return <AuthNewConnection {...props}/>
   }

@@ -129,6 +129,11 @@ html, body {
     button {
       text-transform: uppercase;
       letter-spacing: 1px;
+      margin-right: 5px;
+
+      &:last-child {
+        margin-right: none;
+      }
     }
   }
 
