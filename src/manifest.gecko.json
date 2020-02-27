@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "manifest_version": 2,
 
   "browser_specific_settings": {
@@ -29,8 +29,8 @@
 
   "background": {
     "scripts": [
-      "vendors.js",
-      "background.js"
+      "chunks/vendors.js",
+      "chunks/background.js"
     ]
   },
 
