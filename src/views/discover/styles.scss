@@ -35,7 +35,8 @@
 .discover-map {
   position: relative;
   border-radius: 10px 10px 0 0;
-  border: 1px solid transparentize($dark-gray2, .5);
+  // border: 1px solid transparentize($dark-gray2, .5);
+  box-shadow: $pt-elevation-shadow-2;
   overflow: hidden;
   z-index: 5;
 

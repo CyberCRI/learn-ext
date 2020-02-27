@@ -39,17 +39,20 @@ export const setupMapView = async (conf) => {
     elevationPow: 1,
     maxRadiusDivider: 22,
     contourWidth: 0,
-    lightAltitude: 5,
-    lightIntensity: .2,
+    lightAltitude: 3,
+    lightIntensity: .3,
+    lightAzimuth: 2,
+    lightness: -0.02,
+    saturation: 0.06,
   })
 
   const selectionOutline = DotAtlas.createLayer({
     type: 'outline',
-    outlineFillColor: [0x95, 0xD0, 0xDF, 0x55],
-    outlineStrokeColor: [0x22, 0x29, 0x30, 0x90],
-    outlineStrokeWidth: .4,
+    outlineFillColor: [0x95, 0xD0, 0xDF, 0x99],
+    outlineStrokeColor: [0x22, 0x29, 0x30, 0x44],
+    outlineStrokeWidth: .5,
     points: [],
-    outlineRadiusOffset: 15,
+    outlineRadiusOffset: 10,
   })
 
   const hoverMarkers = DotAtlas.createLayer({
@@ -65,19 +68,19 @@ export const setupMapView = async (conf) => {
     points: [],
     type: 'outline',
     outlineFillColor: [160, 204, 255, 100],
-    outlineStrokeColor: [36, 60, 75, 255],
-    outlineStrokeWidth: 0.1,
+    outlineStrokeColor: [36, 60, 75, 200],
+    outlineStrokeWidth: 0.5,
 
     // How much to offset the outline boundary from the markers.
-    outlineRadiusOffset: 10,
-    outlineRadiusMultiplier: 15,
+    outlineRadiusOffset: 2,
+    outlineRadiusMultiplier: 10,
   })
 
   const markers = DotAtlas.createLayer({
     type: 'marker',
     points: allPoints.toJS(),
 
-    markerSizeMultiplier: 4,
+    markerSizeMultiplier: 2,
     markerStrokeWidth: 0,
     markerOpacity: 0.7,
 
@@ -114,7 +117,7 @@ export const setupMapView = async (conf) => {
   const layers = {
     elevation,
     selectionOutline,
-    hoverMarkers,
+    // hoverMarkers,
     hoverOutline,
     markers,
     labels,
@@ -156,7 +159,7 @@ export const setupMapView = async (conf) => {
         markers,
         selectionOutline,
         hoverOutline,
-        hoverMarkers,
+        // hoverMarkers,
         labels,
       ],
       pixelRatio: conf.pixelRatio,
