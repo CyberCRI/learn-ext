@@ -1,6 +1,6 @@
 # Privacy Policy
 
-_This policy was last modified on 19th November._
+_This policy was last modified on 27th February 2020._
 
 
 Thanks for using WeLearn! Protecting your privacy is our highest priority and we take it as a serious responsibility. Please read our privacy policy to know how we handle it. This privacy policy applies to all information collected by us when you use WeLearn services. It is aimed to help you understand what information we collect from you, why we collect it, and what you can do to update or delete your information.
@@ -13,10 +13,11 @@ Thanks for using WeLearn! Protecting your privacy is our highest priority and we
 
 1. **Information We Collect and How We Use It**
 
-    In order to use WeLearn service, it is necessary to create an account with your email address and also select a group or set it by default. Thus WeLearn collects information from you through:
+    In order to use WeLearn service, it is necessary to create an account with your email address and also select a group or set it by default. Thus WeLearn collects information from you through Learning Planet platform:
 
     * Email address
     * Group memberships
+    * First name, Last name
 
     While using our service, the following information needs to be collected
 
@@ -62,7 +63,7 @@ Thanks for using WeLearn! Protecting your privacy is our highest priority and we
 
 8. **Contact Us**
 
-    If you have any questions or concerns regarding this Privacy Policy, please write to us at [WeLearn@cri-paris.org][email]. Alternatively, you may also contact us at:
+    If you have any questions or concerns regarding this Privacy Policy, please write to us at [welearn-support@cri-paris.org][email]. Alternatively, you may also contact us at:
 
     <address>
       8bis Rue Charles V
@@ -70,4 +71,4 @@ Thanks for using WeLearn! Protecting your privacy is our highest priority and we
       Paris, France 75004
     </address>    
 
-[email]: mailto:welearn@cri-paris.org
+[email]: mailto:welearn-support@cri-paris.org
