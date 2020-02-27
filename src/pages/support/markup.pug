@@ -5,18 +5,28 @@ block append head
 
 block append main
   section.article.help.intro
-    h1 Need Help?
+    h1 Frequently Asked Question
+    ul
+      li #[a(href='#what-is-welearn') What is WeLearn?]
+      li #[a(href='#how-to-use-welearn') How to use WeLearn?]
+      li #[a(href='#how-can-i-disconnect-or-switch-a-welearn-account') How can I disconnect or switch a WeLearn account?]
+      li #[a(href='#can-i-delete-my-account') Can I delete my account?]
+      li #[a(href='#does-the-welearn-browser-extension-track-my-browsing-activities') Does the WeLearn Browser Extension track my Browsing Activities?]
+      li #[a(href='#what-does-welearn-do-if-i-am-reading-articles-in-private-windows') What does WeLearn do if I am reading articles in private windows?]
+      li #[a(href='#why-do-i-feel-that-the-automatic-generated-concept-is-not-accurate') Why do I feel that the autonomic generated concept is not accurate?]
 
-    p Browse through the resources here or drop us an email.
-
-    p Jump to: #[a(href='#section-zh') Chinese 🇨🇳]
+    blockquote
+      p More questions? Please contact us #[a(href='mailto:welearn-support@cri-paris.org') welearn-support@cri-paris.org], we will reply to you shortly.
 
   section.article.help.toc
+    article#section-en.tutorial.en
+      include:md-transpile ./faq.en.md
+
     article.videos
       video(controls width=480 poster='/static/tutorials/tuto-01-intro--banner.jpg')
         source(type='video/mp4' src='/static/tutorials/tuto-01-intro.mp4')
 
-    article#section-en.tutorial.en
-      include:md-transpile ./tutorial.en.md
-    article#section-zh.tutorial.zh
-      include:md-transpile ./tutorial.zh.md
+    //- article#section-en.tutorial.en
+    //-   include:md-transpile ./tutorial.en.md
+    //- article#section-zh.tutorial.zh
+    //-   include:md-transpile ./tutorial.zh.md
