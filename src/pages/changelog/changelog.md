@@ -11,6 +11,19 @@
 
 Here is what's new in this version of WeLearn extension:
 
+## v0.1.5
+Released on `2020-02-27`
+
+(Includes tags from `v0.1.0 ~ v0.1.5`)
+
+- Removed all the `host` permissions from web extension.
+- Update the Privacy Policy.
+- Added an FAQ page.
+- Tweaked Discover Map.
+- Reduced JavaScript Bundle size.
+- Fixed incorrect counts on Dashboard.
+- Fixed an issue with Groups not saving.
+
 ## v0.1.0
 Released on `2020-02-24`
 
