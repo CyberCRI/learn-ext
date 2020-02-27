@@ -40,7 +40,7 @@ export const AuthStatus = (props) => {
       <Button text='Continue' onClick={didClickClose} intent='primary' rightIcon='arrow-right'/>
 
       <div style={{ marginTop: 20 }}>
-        <Button text='Disconnect' minimal small onClick={didClickDisconnect}/>
+        <Button text='Log Out' minimal small onClick={didClickDisconnect}/>
       </div>
     </Card>
   </>
