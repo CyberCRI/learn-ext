@@ -204,7 +204,8 @@ const Support = () => (
 
     <p>
       The fastest way to get help for any issues is by sending us an email.
-      You can reach us at <a href='mailto:welearn@cri-paris.org'>welearn@cri-paris.org</a>.
+      You can reach us at
+      <a href='mailto:welearn-support@cri-paris.org'>welearn-support@cri-paris.org</a>.
     </p>
 
     <p>You may wish to check out our tutorial for tips on using WeLearn.</p>
