@@ -1,5 +1,5 @@
 // Handlers for handling actions requested.
-import { browser } from '~procs/stubs'
+import { browser } from './stubs'
 
 const urlProvider = {
   web: (path) => `${env.webroot_url}/${path}`,
