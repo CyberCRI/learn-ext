@@ -5,7 +5,7 @@ import React from 'react'
 import { useEffectOnce } from 'react-use'
 import { Toaster, Tooltip, Button } from '@blueprintjs/core'
 
-import store from '~mixins/persistence'
+import { LocalStorage } from '@ilearn/modules/mixins'
 
 import './notification-styles.scss'
 
@@ -35,7 +35,7 @@ export const DemoUserNotice = () => {
 
 export const initNotifications = async () => {
   const { user } = window.jstate
-  const notifyDemoUser = await store.get('pref.show_demo_notice', true)
+  const notifyDemoUser = await LocalStorage.get('pref.show_demo_notice', true)
 
   if (notifyDemoUser && user && user.demo) {
     GlobalToaster.show({
@@ -46,7 +46,7 @@ export const initNotifications = async () => {
       onDismiss: (didTimeoutExpire) => {
         if (!didTimeoutExpire) {
           // Since user dismissed it themselves, we'll not show it again.
-          store.set('pref.show_demo_notice', false)
+          LocalStorage.set('pref.show_demo_notice', false)
         }
       },
     })

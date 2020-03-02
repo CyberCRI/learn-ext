@@ -3,7 +3,7 @@ import { Card, Elevation, AnchorButton, ButtonGroup, NonIdealState } from '@blue
 import { useAsync } from 'react-use'
 import { FaWikipediaW } from 'react-icons/fa'
 
-import Wiki from '~mixins/wikipedia'
+import Wiki from '@ilearn/modules/api/wikipedia'
 import { i18n } from '@ilearn/modules/i18n'
 
 const i18nT = i18n.context('components.cards.wikiInfoCard')
@@ -15,7 +15,7 @@ const skeletonFiller = (count=1) => {
   const filler = (i) => fillerWords[i % fillerWords.length]
   return (
     <span className='skels' role='presentation'>
-      {Array(count).fill().map((i) =>
+      {Array(count).fill().map((_, i) =>
         <span className='skel' key={i}>{`${filler(i)} `}</span>
       )}
     </span>
