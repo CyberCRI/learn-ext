@@ -27,18 +27,21 @@ export const i18nContext = (prefix) => {
 export const Storage = {
   get: async (key, fallback) => {
     const value = await browser.storage.local.get(key)
-    if (typeof value === 'undefined') {
+    if (typeof value[key] === 'undefined') {
       return fallback
     }
     try {
-      return JSON.parse(value)
+      return JSON.parse(value[key])
     } catch (e) {
-      return value
+      return value[key]
     }
   },
   set: async (key, value) => {
-    browser.storage.local.set({
+    return browser.storage.local.set({
       [key]: JSON.stringify(value),
     })
+  },
+  remove: async (key) => {
+    return browser.storage.local.remove(key)
   },
 }
