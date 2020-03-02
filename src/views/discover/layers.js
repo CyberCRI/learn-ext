@@ -38,8 +38,8 @@ const normaliseConcept = (concept) => {
     lang = 'fr'
   }
   return {
-    x: +concept.x_map_fr,
-    y: +concept.y_map_fr,
+    x: +concept.x_map_en,
+    y: +concept.y_map_en,
     userData: true,
     label,
     title,
