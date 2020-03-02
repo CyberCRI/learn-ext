@@ -5,7 +5,7 @@ import { RadioGroup, HTMLSelect, Radio, Switch, Callout } from '@blueprintjs/cor
 import { Formik, Form, Field } from 'formik'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import store from '~mixins/persistence'
+import { LocalStorage } from '@ilearn/modules/mixins'
 import { ConnectExtensionPrompt } from '~components/cards/auth'
 
 import { ServiceAPI } from '@ilearn/modules/api'
@@ -47,8 +47,8 @@ const General = () => {
     // async effects end up returning a promise, while here I just want to do
     // use await syntax, so an iife is the way to go:
     (async () => {
-      setLang(await store.get('pref.lang', 'en'))
-      setAutoOpenchangelog(await store.get('pref.autoShowChangelog', true))
+      setLang(await LocalStorage.get('pref.lang', 'en'))
+      setAutoOpenchangelog(await LocalStorage.get('pref.autoShowChangelog', true))
     })()
   }, [])
 
@@ -60,8 +60,8 @@ const General = () => {
         initialValues={{ lang, autoOpenChangelog }}
         enableReinitialize
         onSubmit={(values, actions) => {
-          store.set('pref.lang', values.lang)
-          store.set('pref.autoShowChangelog', values.autoOpenChangelog)
+          LocalStorage.set('pref.lang', values.lang)
+          LocalStorage.set('pref.autoShowChangelog', values.autoOpenChangelog)
           promptReload()
         }}>
         {(props) => (
