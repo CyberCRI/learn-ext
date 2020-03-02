@@ -23,8 +23,12 @@ block append main
       include:md-transpile ./faq.en.md
 
     article.videos
-      video(controls width=480 poster='/static/tutorials/tuto-01-intro--banner.jpg')
-        source(type='video/mp4' src='/static/tutorials/tuto-01-intro.mp4')
+      video(controls width=480 poster='/static/tutorials/xuanqi/poster-overlay-video.jpg')
+        source(type='video/mp4' src='/static/tutorials/xuanqi/200228WeLearn.mp4')
+        source(type='video/mp4' src='/static/tutorials/xuanqi/200228WeLearn-480p30.mp4')
+        source(type='video/mp4' src='/static/tutorials/xuanqi/200228WeLearn-720p30.m4v')
+
+      include:md-transpile ./transcript-video-xuanqi.md
 
     //- article#section-en.tutorial.en
     //-   include:md-transpile ./tutorial.en.md
