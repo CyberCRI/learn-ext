@@ -83,3 +83,52 @@ export const LayerProps = {
   },
 }
 
+// Used with dat.GUI for control properties.
+export const LayerPropConstraints = {
+  elevation: {
+    contourWidth:             [0,   10, .1],
+    elevationOffset:          [-1,  1,  .001],
+    elevationPow:             [0,   10, .1],
+    lightAltitude:            [0,   10, .1],
+    lightAzimuth:             [0,   10, .1],
+    lightIntensity:           [0,   10, .1],
+    lightness:                [-1,  1,  .001],
+    maxRadiusDivider:         [-10, 50, .1],
+    saturation:               [-1,  1,  .001],
+    visible: [true],
+  },
+  selectionOutline: {
+    outlineRadiusOffset:      [-20, 20, .1],
+    outlineStrokeWidth:       [-20, 20, .1],
+    visible: [true],
+  },
+  hoverMarkers: {
+    markerFillOpacity:        [-1,  1,  .001],
+    markerSizeMultiplier:     [-20, 20, .1],
+    markerStrokeOpacity:      [-1,  1,  .001],
+    markerStrokeWidth:        [-20, 20, .1],
+    visible: [true],
+  },
+  hoverOutline: {
+    outlineRadiusMultiplier:  [-20, 20, .1],
+    outlineRadiusOffset:      [-20, 20, .1],
+    outlineStrokeWidth:       [-20, 20, .1],
+    visible: [true],
+  },
+  markers: {
+    markerFillOpacity:        [-1,  1,  .001],
+    markerOpacity:            [-1,  1,  .001],
+    markerSizeMultiplier:     [-20, 20, .1],
+    markerStrokeOpacity:      [-1,  1,  .001],
+    markerStrokeWidth:        [-20, 20, .1],
+    minAbsoluteMarkerSize:    [-20, 20, .1],
+    pointHoverRadiusMultiplier: [-20, 20, .1],
+    visible: [true],
+  },
+  labels: {
+    labelFontSize:            [-20, 20, .1],
+    labelOpacity:             [-1,  1,  .001],
+    labelShadowSize:          [-20, 20, .1],
+    visible: [true],
+  },
+}
