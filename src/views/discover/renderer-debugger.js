@@ -22,6 +22,7 @@ const setupDebugger = (atlas, layers, element) => {
     name: 'Atlas Renderer Debug',
     closeOnTop: true,
     resizable: false,
+    hideable: false,
   })
 
   const ctrlPan = ui.addFolder('Panning Controls')
