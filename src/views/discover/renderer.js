@@ -71,7 +71,7 @@ export const setupMapView = async (conf) => {
   const layers = {
     elevation,
     selectionOutline,
-    // hoverMarkers,
+    hoverMarkers,
     hoverOutline,
     markers,
     labels,
@@ -112,7 +112,7 @@ export const setupMapView = async (conf) => {
         markers,
         selectionOutline,
         hoverOutline,
-        // hoverMarkers,
+        hoverMarkers,
         labels,
       ],
       pixelRatio: Math.ceil(Math.max(window.devicePixelRatio, 1)),
@@ -141,7 +141,8 @@ export const setupMapView = async (conf) => {
       return atlas.get('zoom')
     },
     set zoom (value) {
-      this.centerPoint = { ...this.centerPoint, zoom: value }
+      // If we let zoom value go below zero, weird things happen. Weird but cool.
+      this.centerPoint = { ...this.centerPoint, zoom: Math.max(value, 0.05) }
     },
 
     get x () {
