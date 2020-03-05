@@ -5,9 +5,7 @@ import { MapLayerAPI } from '@ilearn/modules/api'
 
 const defaultConceptValues = {
   markerShape: 'circle',
-  labelColor: [0, 0, 0, 255],
   labelOpacity: 1,
-  markerColor: [0, 0, 0, 120],
   markerSize: 2,
   labelPriority: .8,
 }
