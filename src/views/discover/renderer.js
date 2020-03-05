@@ -1,8 +1,9 @@
+/* eslint no-multi-spaces: 0 */
 import { fetchLayer, fetchUpdateLayer } from './layers'
-import { ThemeSwitch } from './atlas-theme'
 import FileSaver from 'file-saver'
 import Mousetrap from '@ilearn/modules/utilities/mousetrap'
-import _ from 'lodash'
+import _throttle from 'lodash/throttle'
+import _debounce from 'lodash/throttle'
 
 import setupDebugger from './renderer-debugger'
 import { conceptSelection, selectedConcepts } from './store'
@@ -139,7 +140,7 @@ export const setupMapView = async (conf) => {
       // labels need to be updated and that should be throttled.
       // This is an iife, since we want to save the references to throttled
       // handlers.
-      const deferredNotifyLabelsUpdate = _.debounce(() => {
+      const deferredNotifyLabelsUpdate = _debounce(() => {
         labels.update('labelVisibilityScales')
         atlas.redraw()
       }, 200)
@@ -151,7 +152,6 @@ export const setupMapView = async (conf) => {
   }
 
   const atlas = DotAtlas
-    .with(ThemeSwitch)
     .embed({
       element: conf.element,
       layers: [
@@ -162,7 +162,7 @@ export const setupMapView = async (conf) => {
         // hoverMarkers,
         labels,
       ],
-      pixelRatio: conf.pixelRatio,
+      pixelRatio: Math.ceil(Math.max(window.devicePixelRatio, 1)),
       onClick: eventTaps.didClick,
       onHover: eventTaps.didHover,
       onMouseWheel: eventTaps.didMouseWheel,
