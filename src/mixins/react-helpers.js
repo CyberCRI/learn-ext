@@ -6,7 +6,8 @@ export const renderReactComponent = async (selector, component, props) => {
 
   if (el) {
     // [!] We must capture the `component` object in this closure. Otherwise,
-    //     minification would "optimise" it and it won't work. :(
+    //     minification would "optimise" it and it won't work.
+    // - actually, does it? still? [!todo]
     const ReactComponent = component
     return ReactDOM.render(<ReactComponent {...props} />, el)
   } else {
