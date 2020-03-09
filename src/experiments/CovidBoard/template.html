@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <link rel="dns-prefetch" href="//welearn.cri-paris.org">
+  <link rel="dns-prefetch" href="//next.welearn.cri-paris.org">
+  <link rel="dns-prefetch" href="//opt.ilearn.cri-paris.org">
+  <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/aheppdfnfcfnojcaipdajboppllolgpo">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/browsers/manifest-icon.512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/browsers/favicon@2x.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/browsers/favicon.png">
+  <link rel="manifest" href="/media/favicons/site.webmanifest">
+  <link rel="mask-icon" href="/icons/browsers/safari-mask-icon.svg" color="#144782">
+  <meta name="apple-mobile-web-app-title" content="WeLearn">
+  <meta name="application-name" content="WeLearn Extension">
+  <meta name="msapplication-TileColor" content="#2b5797">
+  <meta name="theme-color" content="#11214d">
+  <meta property="og:title" content="WeLearn">
+  <meta property="og:description" content="Collaborative Learning with WeLearn">
+  <meta property="og:image" content="#TODO">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="WeLearn">
+
+  <script type="text/javascript">
+    window.jstate = {
+      "urls": {
+        "login": "{{ url_for('login') }}",
+        "logout": "{{ url_for('logout') }}"
+      },
+      "authorized": true,
+      "user": {
+        "uid": "8705149e0d3a449e9a70747df29ccea4",
+        "oauthid": "099eb368-b996-44be-8450-695f2b977c5c",
+        "email": "covid19@noop.pw",
+        "created": "2020-03-02T12:04:08.414572+00:00",
+        "updated": "2020-03-02T12:04:08.466359+00:00",
+        "group_id": null,
+        "groups": []
+      },
+      "locale": "en"
+    };
+  </script>
+
+  <title>COVID-19 | WeLearn</title>
+</head>
+<body>
+  <header>
+    <div id='navbar'></div>
+  </header>
+  <main>
+    <h1>
+      <abbr title='[Co]rona [Vi]rus [D]isease - 2019'>COVID-19</abbr>
+      <small>Explore the Knowledge Map</small>
+    </h1>
+    <aside>
+      <h2>Content</h2>
+      <ol>
+        <li><a href='#section--'>Section --</a></li>
+        <li><a href='#section--'>Section --</a></li>
+      </ol>
+    </aside>
+    <section id='map_root' class='atlas'></section>
+    <section id='res_root'></section>
+  </main>
+  <script data-inline='covid_resources' type='application/json'>
+    {{c_resources|safe}}
+  </script>
+  <script data-inline='atlas_base' type='application/json'>
+    {{atlas_base|safe}}
+  </script>
+  <script data-inline='covid_map' type='application/json'>
+    {{covid_map|safe}}
+  </script>
+  <script type="text/javascript" src="/atlas/dotatlas.js"></script>
+  <script type="text/javascript" src="/chunks/vendors.js"></script>
+  <script type="text/javascript" src="/chunks/common_css.js"></script>
+  <script type="text/javascript" src="/chunks/modules.js"></script>
+  <script type="text/javascript" src="/chunks/CovidExptView.js"></script>
+</body>
+</html>
