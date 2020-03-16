@@ -7,6 +7,21 @@ import { ConceptList } from '~components/concepts'
 import { DateTimePill, ResourceLinkPill } from '~components/pills'
 import OG from '~mixins/opengraph'
 
+const TypeInferenceMap = new Map([
+  ['wikipedia',     /.*\.wikipedia\.org/],
+  ['cri-projects',  /.*projects\.cri-paris\.org/],
+  ['github',        /.*(github.com|\.github.io)/],
+  ['youtube',       /.*\.youtube.com/],
+])
+
+function inferredResourceType (url) {
+  for (let [rtype, regex] of TypeInferenceMap) {
+    if (regex.test(url)) {
+      return rtype
+    }
+  }
+}
+
 
 export const Backdrop = ({ url }) => {
   const [ display, setDisplay ] = useState({ hidden: true })
@@ -33,7 +48,7 @@ export const Backdrop = ({ url }) => {
 
   return (
     <figure className={bgClasses} style={{ height: display.height }}>
-      <img src={OG.image(url)} onLoad={imageDidLoad} onError={imageDidNotLoad}/>
+      <img src={OG.image(url)} onLoad={imageDidLoad} onError={imageDidNotLoad} lazy='true'/>
     </figure>
   )
 }
@@ -116,7 +131,7 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
   }
 
   return (
-    <Card elevation={Elevation.TWO} interactive className='card resource'>
+    <Card elevation={Elevation.TWO} interactive className='card resource' data-type={inferredResourceType(url)}>
       { !props.skipMedia && <Backdrop url={url}/> }
       <div className='content'>
         <h4 className='title'>{props.title}</h4>
