@@ -86,6 +86,3 @@ export const MatchingResourceSet = MatchingConceptSet
     return _uniqBy(matches, 'resource_id')
   })
   .reset(pickLayer)
-
-ResourcesDomain
-  .watch(() => fetchResources({}))

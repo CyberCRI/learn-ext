@@ -2,7 +2,7 @@ import './view'
 import { setupInstance } from './view/atlas'
 import { setup as setupPage } from '~page-commons'
 
-import { ResourceList } from './view'
+import { ResourceCollectionView } from '~components/resources'
 import { renderReactComponent } from '~mixins/react-helpers'
 
 function _parseInlinedObject (name) {
@@ -17,5 +17,5 @@ window.addEventListener('load', () => {
 
   setupInstance({ element: mapContainer })
 
-  renderReactComponent('res_root', ResourceList, { items: covidResources })
+  renderReactComponent('res_root', ResourceCollectionView, { resources: covidResources })
 })

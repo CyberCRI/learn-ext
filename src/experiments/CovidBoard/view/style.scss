@@ -1,4 +1,39 @@
+@import 'styles/colors';
+
+body > header {
+}
+
+body > main {
+  width: 100%;
+  position: relative;
+  // background: $light-gray5;
+}
+
 section.atlas {
-  width: 800px;
-  height: 400px;
+  display: block;
+  // position: fixed;
+  width: 100vw;
+  min-height: 50vh;
+  height: 40vh;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+
+ul.resource-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  > li {
+    margin: 5px;
+  }
+}
+
+abbr {
+  text-decoration: none;
 }
