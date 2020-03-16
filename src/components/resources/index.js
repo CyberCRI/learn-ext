@@ -1,18 +1,21 @@
 import React from 'react'
 import { SpringGrid, measureItems, makeResponsive, layout } from 'react-stonecutter'
 
+import { useMeasure, useIntersection } from 'react-use'
+
 import { reFuse } from '~mixins/itertools'
 import { ResourceCard } from '~components/cards/resources'
 import * as Placeholder from './placeholders'
 
+import './styles.scss'
 
-const Grid = makeResponsive(measureItems(SpringGrid, { measureImages: true }), {
+const Grid = makeResponsive(SpringGrid, {
   maxWidth: 1280,
   minPadding: 40,
 })
 const springGridConf = {
   enterExitStyle: 'fromBottom',
-  springConfig: { stiffness: 200, damping: 20 },
+  springConfig: { stiffness: 170, damping: 26 },
 }
 
 const filterKeys = [
@@ -22,22 +25,24 @@ const filterKeys = [
   'concepts.title_fr',
 ]
 
+const ResourceGridItem = ({ resource, ...props }) => {
+  const cardRef = React.useRef(null)
+  const [ref, { height, x, y }] = useMeasure()
+  const visible = useIntersection(cardRef, { root: null, rootMargin: '0px', threshold: 0 })
+  const inView = visible && (visible.isIntersecting || visible.isVisible)
+
+  return (
+    <li ref={cardRef} className='grid item' data-in-view={inView}>
+      <ResourceCard {...resource} {...props}/>
+    </li>
+  )
+}
+
 export const ResourceCollectionView = ({ resources, ...props }) => {
   return (
-    <Grid
-      component='ul'
-      columnWidth={220}
-      gutterWidth={20}
-      gutterHeight={20}
-      layout={layout.pinterest}
-      {...springGridConf}
-      className='resources'>
-      {resources.map((x, i) =>
-        <li key={x.resource_id}>
-          <ResourceCard {...x} {...props}/>
-        </li>
-      )}
-    </Grid>
+    <ul className='grid root'>
+      {resources.map(r => <ResourceGridItem resource={r} key={r.resource_id} {...props}/>)}
+    </ul>
   )
 }
 
