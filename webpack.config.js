@@ -1,13 +1,14 @@
-const webpack = require('webpack')
+const glob = require('glob')
+const Webpack = require('webpack')
 const WebpackBar = require('webpackbar')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
+const AssetsPlugin = require('assets-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
-const glob = require('glob')
 const _ = require('lodash')
 
 const { dotenv, abspath, locale } = require('./modules/plugins')
@@ -46,8 +47,12 @@ const BuildTargets = {
   web: {
     buildPath: abspath('./.builds/web'),
     outputFmt: IS_PRODUCTION ? '[name].[hash]' : '[name]',
-    chunks: {},
+    chunks: {
+      CovidExptView: './src/experiments/CovidBoard',
+      // ProjIngressView: './src/experiments/projects-board',
+    },
     assets: [
+      { from: './assets/media', to: './media' },
       { from: './assets/icons/browsers/apple-touch-icon.png', to: './apple-touch-icon.png' },
       { from: './assets/media/favicons/browserconfig.xml', to: './browserconfig.xml' },
       {
@@ -70,6 +75,21 @@ const BuildTargets = {
 }
 const target = BuildTargets[dotenv.flags.target || 'firefox']
 
+const ProdPlugins = !IS_PRODUCTION ? [] : [
+  new CleanWebpackPlugin(),
+  new MomentLocalesPlugin({ localesToKeep: ['fr', 'en-gb', 'hi', 'zh-cn'] }),
+  new BundleAnalyzerPlugin({
+    analyzerMode: 'static',
+    openAnalyzer: false,
+    logLevel: 'error',
+  }),
+  new MiniCssExtractPlugin({ filename: 'chunks/[name].[hash].css' }),
+]
+
+const DevPlugins = IS_PRODUCTION ? [] : [
+  new Webpack.HotModuleReplacementPlugin(),
+]
+
 // Files that should be copied into the extension directory.
 const copySourceBundleRules = [
   { from: './assets/icons', to: './icons' },
@@ -80,9 +100,6 @@ const copySourceBundleRules = [
     transform: locale.transpile,
   },
   { from: './assets/fonts', to: './fonts' },
-  { from: './assets/media/favicons', to: './media/favicons' },
-  { from: './assets/media/illustrations', to: './media/illustrations' },
-  { from: './assets/media/logos', to: './media/logos' },
   { from: './assets/icons/browsers/favicon.ico', to: './favicon.ico' },
   ...target.assets,
 ]
@@ -131,18 +148,10 @@ const staticEntrypoints = staticPages
   }, {})
 
 const scssLoader = (() => {
-  const cssExtractPlugin = {
-    loader: MiniCssExtractPlugin.loader,
-    options: {
-      esModule: true,
-      hmr: IS_PRODUCTION,
-      reloadAll: true,
-    },
-  }
-
   return [
-    // IS_PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
-    cssExtractPlugin,
+    {
+      loader: IS_PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
+    },
     {
       loader: require.resolve('css-loader'),
       options: { importLoaders: 1 },
@@ -179,14 +188,21 @@ module.exports = {
     path: target.buildPath,
   },
 
+  cache: {
+    type: 'filesystem',
+  },
+  watchOptions: {
+    ignored: /node_modules/,
+  },
+
   resolve: {
     alias: {
-      '~mixins': abspath('src/mixins'),
-      '~procs': abspath('src/procs'),
       '~components': abspath('src/components'),
-      '~styles': abspath('src/styles'),
-      '~pages': abspath('src/pages'),
+      '~mixins': abspath('src/mixins'),
       '~page-commons': abspath('src/pages/_commons'),
+      '~pages': abspath('src/pages'),
+      '~procs': abspath('src/procs'),
+      '~styles': abspath('src/styles'),
       '~views': abspath('src/views'),
       '@ilearn/modules': abspath('modules'),
     },
@@ -231,7 +247,7 @@ module.exports = {
   },
 
   optimization: {
-    concatenateModules: false,
+    concatenateModules: true,
     namedModules: true,
     moduleIds: 'named',
     splitChunks: {
@@ -255,7 +271,6 @@ module.exports = {
       new TerserPlugin({
         cache: true,
         parallel: true,
-        extractComments: true,
         exclude: /\.(html)/,
         terserOptions: {
           keep_classnames: true,
@@ -277,15 +292,13 @@ module.exports = {
     assetsSort: 'type',
   },
 
-  devtool: IS_PRODUCTION ? 'source-map' : 'eval-cheap-module-source-map',
+  // devtool: IS_PRODUCTION ? 'source-map' : 'inline-source-map',
   devServer: {
     port: 8517,
     hot: true,
-    hotOnly: true,
     clientLogLevel: 'error',
     stats: 'minimal',
     inline: true,
-    // watchContentBase: true,
     open: false,
     overlay: true,
     writeToDisk: true,
@@ -293,22 +306,20 @@ module.exports = {
 
   node: { global: true },
   performance: { hints: false },
-  bail: IS_PRODUCTION,
 
   plugins: [
     new WebpackBar({ name: dotenv.flags.target, profile: false, basic: false }),
-    new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
     new CopyWebpackPlugin(copySourceBundleRules, {
       copyUnmodified: true,
       ignore: ['.DS_Store'],
     }),
-    new MomentLocalesPlugin({ localesToKeep: ['fr', 'en-gb', 'hi', 'zh-cn'] }),
+    new AssetsPlugin({ useCompilerPath: true }),
+
     dotenv.PackageEnv.webpackPlugin,
+
     ...staticPages.reduce((acc, { plugin }) => [ ...acc, plugin ], []),
     ...target.plugins,
-    // Remove contents of build directory
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({ filename: 'css/[name].[hash].css' }),
-    new webpack.HotModuleReplacementPlugin(),
+    ...ProdPlugins,
+    ...DevPlugins,
   ],
 }
