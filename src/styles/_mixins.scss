@@ -7,3 +7,13 @@
   right: $offset;
   bottom: $offset;
 }
+
+@mixin bg-vibrant-tint($color, $opacity: .5, $radius: 5px) {
+  // Make the background of the element have a "vibrant" tint with blurry
+  // backdrop filter, a la iOS UIKit.
+  //
+  // $opacity: Control Background opacity.
+  // $radius: Control Blur Radius.
+  background: transparentize($color, $opacity);
+  backdrop-filter: blur($radius);
+}
