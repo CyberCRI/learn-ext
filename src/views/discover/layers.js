@@ -38,15 +38,15 @@ const normaliseConcept = (concept) => {
     lang = 'fr'
   }
   return {
-    x: +concept.x_map_fr,
-    y: +concept.y_map_fr,
+    x: +concept.x_map_en,
+    y: +concept.y_map_en,
     userData: true,
     label,
     title,
     lang,
 
     wikidata_id: concept.wikidata_id,
-    elevation: Math.max(concept.elevation, .2),
+    elevation: Math.max(concept.elevation, .5),
     ...defaultConceptValues,
   }
 }

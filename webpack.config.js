@@ -5,7 +5,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
-const WebpackHookPlugin = require('webpack-hook-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const glob = require('glob')
@@ -15,28 +14,39 @@ const { dotenv, abspath, locale } = require('./modules/plugins')
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
-
 const BuildTargets = {
   chrome: {
     buildPath: abspath('./.builds/chrome'),
+    outputFmt: '[name]',
     assets: [
       { from: './src/manifest.chrome.json', to: './manifest.json' },
     ],
+    chunks: {
+      background: './src/procs/background.js',
+      content_script: './src/procs/content-script',
+    },
     rules: [],
     plugins: [],
     includePages: ['changelog', 'popover', 'extension-auth'],
   },
   firefox: {
     buildPath: abspath('./.builds/firefox'),
+    outputFmt: '[name]',
     assets: [
       { from: './src/manifest.gecko.json', to: './manifest.json' },
     ],
+    chunks: {
+      background: './src/procs/background.js',
+      content_script: './src/procs/content-script',
+    },
     rules: [],
     plugins: [],
     includePages: ['changelog', 'popover', 'extension-auth'],
   },
   web: {
     buildPath: abspath('./.builds/web'),
+    outputFmt: IS_PRODUCTION ? '[name].[hash]' : '[name]',
+    chunks: {},
     assets: [
       { from: './assets/icons/browsers/apple-touch-icon.png', to: './apple-touch-icon.png' },
       { from: './assets/media/favicons/browserconfig.xml', to: './browserconfig.xml' },
@@ -51,11 +61,10 @@ const BuildTargets = {
         use: 'null-loader',
       },
     ],
-    plugins: [
-      // In web builds, we'd like to make discover page to be index.html for the time being.
-      new WebpackHookPlugin({
-        onBuildExit: ['cp ./.builds/web/pages/discover.html ./.builds/web/index.html'],
-      }),
+    plugins: [],
+    includePages: [
+      'changelog', 'about-us', 'dashboard', 'onboarding',
+      'privacy-policy', 'settings', 'support', 'discover',
     ],
   },
 }
@@ -97,16 +106,15 @@ const staticPages = glob
         templateParameters: {
           env: dotenv.PackageEnv.vars,
         },
-        hash: true,
         minify: false,
-        chunks: [ 'vendors', 'modules', 'common_css', chunkName ],
+        chunks: [ 'vendors', 'modules', 'common_css', 'i18n', chunkName ],
       }),
       entrypoint: [ chunkName, `./src/pages/${pageName}/index.js` ],
     }
   })
   .filter((page) => {
     if (target.includePages) {
-      return target.includePages.indexOf(page.name) > 0
+      return target.includePages.indexOf(page.name) >= 0
     }
     // Unless explicitly marked, include all pages.
     return true
@@ -123,8 +131,18 @@ const staticEntrypoints = staticPages
   }, {})
 
 const scssLoader = (() => {
+  const cssExtractPlugin = {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+      esModule: true,
+      hmr: IS_PRODUCTION,
+      reloadAll: true,
+    },
+  }
+
   return [
-    IS_PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
+    // IS_PRODUCTION ? MiniCssExtractPlugin.loader : require.resolve('style-loader'),
+    cssExtractPlugin,
     {
       loader: require.resolve('css-loader'),
       options: { importLoaders: 1 },
@@ -148,24 +166,15 @@ const scssLoader = (() => {
 module.exports = {
   mode: IS_PRODUCTION ? 'production' : 'development',
   entry: {
-    background: './src/procs/background.js',
-    content_script: './src/procs/content-script',
     common_css: './src/pages/_commons/common.scss',
 
+    ...target.chunks,
     ...staticEntrypoints,
   },
   output: {
     publicPath: '/',
-    chunkFilename: '[name].js',
-    filename: (chunkData) => {
-      if (/pages_.*/.test(chunkData.chunk.name)) {
-        // Put the static html inside `pages/chunks`
-        return 'chunks/[name].js'
-      } else {
-        // Otherwise put it in root directory.
-        return '[name].js'
-      }
-    },
+    chunkFilename: `chunks/${target.outputFmt}.js`,
+    filename: `chunks/${target.outputFmt}.js`,
     pathinfo: false,
     path: target.buildPath,
   },
@@ -234,13 +243,6 @@ module.exports = {
           chunks: 'all',
           priority: 1,
         },
-        i18n: {
-          test: /[\\/]modules\/i18n[\\/]/,
-          name: 'i18n',
-          chunks: 'all',
-          reuseExistingChunk: false,
-          priority: 5,
-        },
         modules: {
           test: /[\\/]modules[\\/]/,
           name: 'modules',
@@ -272,7 +274,7 @@ module.exports = {
     warnings: false,
     excludeAssets: /^(fonts|icons|atlas|media)\/.*/,
     assets: IS_PRODUCTION,
-    assetsSort: 'name',
+    assetsSort: 'type',
   },
 
   devtool: IS_PRODUCTION ? 'source-map' : 'eval-cheap-module-source-map',
@@ -281,22 +283,20 @@ module.exports = {
     hot: true,
     hotOnly: true,
     clientLogLevel: 'error',
-    public: 'localhost:8517',
-    useLocalIp: true,
     stats: 'minimal',
     inline: true,
-    watchContentBase: true,
+    // watchContentBase: true,
     open: false,
     overlay: true,
-    writeToDisk: false,
+    writeToDisk: true,
   },
 
   node: { global: true },
   performance: { hints: false },
-  bail: true,
+  bail: IS_PRODUCTION,
 
   plugins: [
-    new WebpackBar({ name: 'webext-ilearn', profile: false, basic: false }),
+    new WebpackBar({ name: dotenv.flags.target, profile: false, basic: false }),
     new BundleAnalyzerPlugin({ analyzerMode: 'static', openAnalyzer: false, logLevel: 'error' }),
     new CopyWebpackPlugin(copySourceBundleRules, {
       copyUnmodified: true,
@@ -308,7 +308,7 @@ module.exports = {
     ...target.plugins,
     // Remove contents of build directory
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({ filename: 'css/[name].css' }),
+    new MiniCssExtractPlugin({ filename: 'css/[name].[hash].css' }),
     new webpack.HotModuleReplacementPlugin(),
   ],
 }

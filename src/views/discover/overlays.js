@@ -4,7 +4,6 @@ import { useStore } from 'effector-react'
 import { Button, ButtonGroup } from '@blueprintjs/core'
 import { Popover, Menu, Dialog } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
-import _ from 'lodash'
 
 import { i18n } from '@ilearn/modules/i18n'
 import { ResourceCollectionView } from '~components/resources'
@@ -43,6 +42,7 @@ export const MapKeyboardShortcutsDialog = (props) => {
           <li><kbd>w</kbd> <kbd>s</kbd> <kbd>d</kbd> <kbd>a</kbd></li>
           <li><kbd>shift ↑</kbd> Zoom Out</li>
           <li><kbd>shift ↓</kbd> Zoom In</li>
+          <li><kbd>d e v</kbd> Toggle Map Parameter Editor</li>
         </ul>
       </div>
     </Dialog>

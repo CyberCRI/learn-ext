@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { browser } from '~procs/stubs'
+import { browser } from '../stubs'
 import FrameContainer from './frame'
 
 const EXT_ROOT_ID = 'ilearn-ext-frame'

@@ -6,11 +6,16 @@ section.article {
   padding: 10px 30px;
   background: #fff;
   box-shadow: 0 0 20px -5px #0000000c;
-  border-radius: 5px;
+  border-radius: 6px;
   margin: 5px 0 10px;
+  line-height: 1.4;
 
   h1, h2, h3, h4, h5, h6, p, ul {
     max-width: 520px;
+  }
+
+  h1 {
+    font-weight: 600;
   }
 
   blockquote {
@@ -24,7 +29,7 @@ section.article {
       top: 0;
       bottom: 0;
       width: 5px;
-      border-radius: 5px;
+      border-radius: 6px;
       background-color: $light-gray4;
     }
   }
@@ -100,7 +105,7 @@ section.article {
     }
 
     video {
-      border-radius: 5px;
+      border-radius: 6px;
       max-width: 100%;
       box-shadow: $pt-elevation-shadow-3;
     }

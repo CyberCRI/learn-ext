@@ -1,6 +1,6 @@
 // High order communication using ports.
 // Coordinates messages to, and from the runtime <-> background processes.
-import { browser } from '~procs/stubs'
+import { browser } from './stubs'
 
 
 export class Port {

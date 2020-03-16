@@ -1,5 +1,5 @@
 // Utility toolbelt for webext APIs.
-import { browser } from '~procs/stubs'
+import { browser } from './stubs'
 
 
 export const i18n = (key, subs) => {
@@ -22,4 +22,26 @@ export const i18n = (key, subs) => {
 export const i18nContext = (prefix) => {
   // Set a key-prefix for "contexts" subset for component based locales.
   return (key, subs) => i18n(`${prefix}.${key}`, subs)
+}
+
+export const Storage = {
+  get: async (key, fallback) => {
+    const value = await browser.storage.local.get(key)
+    if (typeof value[key] === 'undefined') {
+      return fallback
+    }
+    try {
+      return JSON.parse(value[key])
+    } catch (e) {
+      return value[key]
+    }
+  },
+  set: async (key, value) => {
+    return browser.storage.local.set({
+      [key]: JSON.stringify(value),
+    })
+  },
+  remove: async (key) => {
+    return browser.storage.local.remove(key)
+  },
 }

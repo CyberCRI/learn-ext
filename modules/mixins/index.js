@@ -9,14 +9,6 @@
 //
 // [!todo] Is it necessary to encode values in JSON?
 
-const attemptParseJson = (value) => {
-  try {
-    return JSON.parse(value)
-  } catch (e) {
-    return value
-  }
-}
-
 const isStorageAvailable = () => {
   try {
     // Attempt to access localstorage. If it works, we're fine. Otherwise no
@@ -38,7 +30,11 @@ export const LocalStorage = {
     if (typeof value === undefined) {
       return fallback
     }
-    return attemptParseJson(value)
+    try {
+      return JSON.parse(value)
+    } catch (e) {
+      return value
+    }
   },
 
   set (key, value) {

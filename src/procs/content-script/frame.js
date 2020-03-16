@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useMount } from 'react-use'
 import { motion } from 'framer-motion'
-import { Port } from '~procs/portal'
+import { Port } from '../portal'
 
 
 const iframeVariants = {

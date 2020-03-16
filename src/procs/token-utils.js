@@ -1,12 +1,12 @@
 import queryStrings from 'query-string'
 import jwtDecode, { InvalidTokenError } from 'jwt-decode'
-import { browser } from '~procs/stubs'
+import { Storage } from './wrappers'
 
 const LS_TOKEN_KEY = 'auth_token'
 
 export const clearStoredToken = async () => {
   console.warn('[!TOKEN] Removing token in Local Storage.')
-  return browser.storage.local.remove(LS_TOKEN_KEY)
+  return Storage.remove(LS_TOKEN_KEY)
 }
 
 export const ensureAuthTokens = async () => {
@@ -25,7 +25,7 @@ export const ensureAuthTokens = async () => {
     try {
       jwtDecode(tQuery.token)
       // Nice! Token is valid. Save it. Return.
-      await browser.storage.local.set({ [LS_TOKEN_KEY]: tQuery.token })
+      await Storage.set(LS_TOKEN_KEY, tQuery.token)
       console.log('[!TOKEN] Saved a new token via query-string.')
       // Authorized. Also saved the new token.
       return true
@@ -45,12 +45,12 @@ export const ensureAuthTokens = async () => {
 
   // Alright, assume query string is empty if we reach here. Next, get the
   // token from local storage.
-  const tLocalStorage = await browser.storage.local.get(LS_TOKEN_KEY)
+  const tLocalStorage = await Storage.get(LS_TOKEN_KEY)
 
-  if (typeof tLocalStorage[LS_TOKEN_KEY] === 'string') {
+  if (typeof tLocalStorage === 'string') {
     // We have a token here. Confirm if it's valid and assume normal flow.
     try {
-      jwtDecode(tLocalStorage[LS_TOKEN_KEY])
+      jwtDecode(tLocalStorage)
       // Authorized.
       return true
     } catch (e) {
@@ -69,10 +69,10 @@ export const ensureAuthTokens = async () => {
 }
 
 export const getStoredToken = async () => {
-  const token = await browser.storage.local.get('auth_token')
-  const decoded = jwtDecode(token.auth_token)
+  const token = await Storage.get('auth_token')
+  const decoded = jwtDecode(token)
   return {
-    authToken: token.auth_token,
+    authToken: token,
     email: decoded.email,
     uid: decoded.uid,
     issuer: decoded.iss,

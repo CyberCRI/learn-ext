@@ -35,14 +35,12 @@ export const AuthStatus = (props) => {
     <Card>
       <p>Connected to WeLearn as <pre>{props.token.email}</pre></p>
       {props.newLogin &&
-        <p>Welcome! You can close this page now.
-        Please reload the previous tab to start using WeLearn.</p>
-      }
+        <p>Welcome! You can close this page now.</p>}
 
       <Button text='Continue' onClick={didClickClose} intent='primary' rightIcon='arrow-right'/>
 
       <div style={{ marginTop: 20 }}>
-        <Button text='Disconnect' minimal small onClick={didClickDisconnect}/>
+        <Button text='Log Out' minimal small onClick={didClickDisconnect}/>
       </div>
     </Card>
   </>

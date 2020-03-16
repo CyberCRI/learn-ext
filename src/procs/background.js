@@ -1,10 +1,9 @@
-import { browser } from '~procs/stubs'
-import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
 import { ExtensionPages } from './reactors'
 import { InstallEventReason, IconStack } from './structs'
+import { RuntimeHook, RuntimeEvents } from './runtime-hooks'
+import { Storage } from './wrappers'
+import { browser } from './stubs'
 import { initContextMenus } from './contextMenus'
-
-import store from '~mixins/persistence'
 
 const tabState = {}
 const ports = {}
@@ -45,7 +44,7 @@ const reactOnInstalled = async ({ reason, temporary }) => {
   if (reason === InstallEventReason.updated) {
     // Extension was updated. Later, we might open a changelog page. For now,
     // do nothing at all.
-    const shouldOpenChangelogs = await store.get('pref.autoShowChangelog', true)
+    const shouldOpenChangelogs = await Storage.get('pref.autoShowChangelog', true)
     console.info('Extension was updated. Should Open Changelog:', shouldOpenChangelogs)
     if (shouldOpenChangelogs) {
       ExtensionPages.changelog.open()
@@ -133,8 +132,8 @@ const maybeInjectContentScripts = async (tabId) => {
     console.debug(`Inserting CS in tab=${tabId}`)
     // Also, initialize the tabState value!
     tabState[tabId] = { isOpen: false }
-    await execCScript({ file: '/vendors.js' })
-    await execCScript({ file: '/content_script.js' })
+    await execCScript({ file: '/chunks/vendors.js' })
+    await execCScript({ file: '/chunks/content_script.js' })
   }
 }
 

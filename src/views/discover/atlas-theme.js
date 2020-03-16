@@ -26,19 +26,19 @@ const ThemeSwitch = function (dotAtlas, options) {
     { "end": 0.0003, "color": [ 0x8d, 0xc1, 0xea ], "shading": false, "contours": false },
     { "end": 0.005,  "color": [ 0xa1, 0xd2, 0xf7 ], "shading": false, "contours": false },
     { "end": 0.02,   "color": [ 0xb9, 0xe3, 0xff ], "shading": false, "contours": true  },
-    { "end": 0.05,   "color": [ 0xac, 0xd0, 0xa5 ], "shading": false,  "contours": false  },
-    { "end": 0.10,   "color": [ 0x94, 0xbf, 0x8b ], "shading": false,  "contours": false  },
-    { "end": 0.15,   "color": [ 0xa8, 0xc6, 0x8f ], "shading": false,  "contours": false  },
-    { "end": 0.20,   "color": [ 0xbd, 0xcc, 0x96 ], "shading": true,  "contours": false  },
+    { "end": 0.05,   "color": [ 0xac, 0xd0, 0xa5 ], "shading": true,  "contours": true  },
+    { "end": 0.10,   "color": [ 0x94, 0xbf, 0x8b ], "shading": true,  "contours": true  },
+    { "end": 0.15,   "color": [ 0xa8, 0xc6, 0x8f ], "shading": true,  "contours": true  },
+    { "end": 0.20,   "color": [ 0xbd, 0xcc, 0x96 ], "shading": true,  "contours": true  },
     { "end": 0.30,   "color": [ 0xd1, 0xd7, 0xab ], "shading": true,  "contours": true  },
-    { "end": 0.40,   "color": [ 0xef, 0xeb, 0xc0 ], "shading": true,  "contours": false  },
-    { "end": 0.50,   "color": [ 0xde, 0xd6, 0xa3 ], "shading": true,  "contours": false  },
-    { "end": 0.60,   "color": [ 0xd3, 0xca, 0x9d ], "shading": true,  "contours": false  },
-    { "end": 0.70,   "color": [ 0xca, 0xb9, 0x82 ], "shading": true,  "contours": false  },
-    { "end": 0.80,   "color": [ 0xc0, 0x9a, 0x53 ], "shading": true,  "contours": false  },
-    { "end": 0.85,   "color": [ 0xe0, 0xe0, 0xe0 ], "shading": true,  "contours": false  },
-    { "end": 0.90,   "color": [ 0xec, 0xec, 0xec ], "shading": true,  "contours": false  },
-    { "end": 1.00,   "color": [ 0xff, 0xff, 0xff ], "shading": true,  "contours": false  }
+    { "end": 0.40,   "color": [ 0xef, 0xeb, 0xc0 ], "shading": true,  "contours": true  },
+    { "end": 0.50,   "color": [ 0xde, 0xd6, 0xa3 ], "shading": true,  "contours": true  },
+    { "end": 0.60,   "color": [ 0xd3, 0xca, 0x9d ], "shading": true,  "contours": true  },
+    { "end": 0.70,   "color": [ 0xca, 0xb9, 0x82 ], "shading": true,  "contours": true  },
+    { "end": 0.80,   "color": [ 0xc0, 0x9a, 0x53 ], "shading": true,  "contours": true  },
+    { "end": 0.85,   "color": [ 0xe0, 0xe0, 0xe0 ], "shading": true,  "contours": true  },
+    { "end": 0.90,   "color": [ 0xec, 0xec, 0xec ], "shading": true,  "contours": true  },
+    { "end": 1.00,   "color": [ 0xff, 0xff, 0xff ], "shading": true,  "contours": true  }
   ]
 
   const darkColorBands = [

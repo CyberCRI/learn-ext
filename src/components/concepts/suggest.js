@@ -4,7 +4,7 @@ import { Tag, NonIdealState, Spinner } from '@blueprintjs/core'
 import { Select } from '@blueprintjs/select'
 import clsx from 'classnames'
 
-import Wiki from '~mixins/wikipedia'
+import Wiki from '@ilearn/modules/api/wikipedia'
 import { i18n } from '@ilearn/modules/i18n'
 
 const i18nT = i18n.context('components.suggest')

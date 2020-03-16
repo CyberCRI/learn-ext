@@ -1,32 +1,33 @@
 import { browser } from './stubs'
 import { ExtensionPages } from './reactors'
-
-
-const i18nT = (key) => {
-  // Tiny helper for resolving locale phrases from webext.i18n API.
-  return browser.i18n.getMessage(key.replace(/\./g, '_'))
-}
+import { i18n } from './wrappers'
 
 
 const attachActionMenu = () => {
   // Attach a menu button for shortcuts to the dashboard page.
   browser.contextMenus.create({
     contexts: ['browser_action'],
-    title: i18nT('menu.action.openDashboard'),
+    title: i18n('menu.action.openDashboard'),
     onclick: ExtensionPages.dashboard.open,
   })
 
   browser.contextMenus.create({
     contexts: ['browser_action'],
-    title: i18nT('menu.action.openMap'),
+    title: i18n('menu.action.openMap'),
     onclick: ExtensionPages.discover.open,
+  })
+
+  browser.contextMenus.create({
+    contexts: ['browser_action'],
+    title: 'WeLearn Extension Preferences',
+    onclick: ExtensionPages.settings.open,
   })
 }
 
 const attachPageMenu = (handler) => {
   browser.contextMenus.create({
     contexts: ['page'],
-    title: i18nT('menu.action.addResource'),
+    title: i18n('menu.action.addResource'),
     documentUrlPatterns: ['http://*/*', 'https://*/*'],
     onclick: handler.pageMenu,
   })
