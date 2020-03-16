@@ -1,17 +1,13 @@
 import qstring from 'query-string'
-import urlParse from 'url-parse'
 
 // Absolute url for opt server.
 const endpointFor = (path) => `${env.optapi_host}/${path}`
 
 // We only expect these protocols to be resolved.
-const validProtocols = /^(http|https|ftp):/
-const fallbackUrl = '#'
+const ValidProtocolPattern = /^(http|https):/
+const FallbackUrl = '#'
 
-const urlIsSane = (url) => {
-  const { protocol } = urlParse(url)
-  return validProtocols.test(protocol)
-}
+const urlIsSane = (url) => ValidProtocolPattern.test(url)
 
 const resolvedUrl = (kind, url) => {
   const endpoint = endpointFor(`og/meta/resolve/${kind}`)
@@ -26,14 +22,14 @@ class MetaResolver {
     // Obtain resolvable URL for opengraph favicon image.
     // We'll use the origin of this url to keep caches working.
     if (!urlIsSane(url)) {
-      return fallbackUrl
+      return FallbackUrl
     }
     return `${env.ngapi_host}/meta/resolve/logo?url=${url}`
   }
 
   image (url) {
     if (!urlIsSane(url)) {
-      return fallbackUrl
+      return FallbackUrl
     }
     return resolvedUrl('image', url)
   }
