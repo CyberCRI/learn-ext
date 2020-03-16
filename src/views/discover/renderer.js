@@ -1,33 +1,16 @@
+/* eslint no-multi-spaces: 0 */
 import { fetchLayer, fetchUpdateLayer } from './layers'
-import { ThemeSwitch } from './atlas-theme'
 import FileSaver from 'file-saver'
 import Mousetrap from '@ilearn/modules/utilities/mousetrap'
-import _ from 'lodash'
+import _throttle from 'lodash/throttle'
+import _debounce from 'lodash/throttle'
 
 import setupDebugger from './renderer-debugger'
 import { conceptSelection, selectedConcepts } from './store'
 import { pickLayer, resourcesDomain } from './store'
 
-// Keyboard shortcuts and their aliases for interacting with map. We would
-// pause the event handlers if map layer isn't focused, since otherwise it'd
-// break viewport scrolling and navigation.
-const kbdCtrlKeys = {
-  panning: {
-    left: ['left', 'a', 'h'],
-    right: ['right', 'd', 'l'],
-    up: ['up', 'w', 'k'],
-    down: ['down', 's', 'j'],
-  },
-  zooming: {
-    plus: ['shift+up', '+', '='],
-    minus: ['shift+down', '-'],
-  },
-  control: {
-    clearSelection: ['x', 'delete', 'backspace'],
-    resetView: ['esc'],
-    showDevTools: ['shift+t', 'd e v'],
-  },
-}
+import { LayerProps, KeyBinding } from './consts'
+
 
 
 export const setupMapView = async (conf) => {
@@ -36,57 +19,32 @@ export const setupMapView = async (conf) => {
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
     points: allPoints.toJS(),
-    elevationPow: 1,
-    maxRadiusDivider: 22,
-    contourWidth: 0,
-    lightAltitude: 3,
-    lightIntensity: .3,
-    lightAzimuth: 2,
-    lightness: -0.02,
-    saturation: 0.06,
+    ...LayerProps.elevation,
   })
 
   const selectionOutline = DotAtlas.createLayer({
     type: 'outline',
-    outlineFillColor: [0x95, 0xD0, 0xDF, 0x99],
-    outlineStrokeColor: [0x22, 0x29, 0x30, 0x44],
-    outlineStrokeWidth: .5,
     points: [],
-    outlineRadiusOffset: 10,
+    ...LayerProps.selectionOutline,
   })
 
   const hoverMarkers = DotAtlas.createLayer({
-    points: [],
     type: 'marker',
-    markerFillOpacity: 0,
-    markerStrokeWidth: .2,
-    markerStrokeOpacity: .3,
-    markerSizeMultiplier: 10,
+    points: [],
+    ...LayerProps.hoverMarkers,
   })
 
   const hoverOutline = DotAtlas.createLayer({
-    points: [],
     type: 'outline',
-    outlineFillColor: [160, 204, 255, 100],
-    outlineStrokeColor: [36, 60, 75, 200],
-    outlineStrokeWidth: 0.5,
-
-    // How much to offset the outline boundary from the markers.
-    outlineRadiusOffset: 2,
-    outlineRadiusMultiplier: 10,
+    points: [],
+    ...LayerProps.hoverOutline,
   })
 
   const markers = DotAtlas.createLayer({
     type: 'marker',
     points: allPoints.toJS(),
+    ...LayerProps.markers,
 
-    markerSizeMultiplier: 2,
-    markerStrokeWidth: 0,
-    markerOpacity: 0.7,
-
-    minAbsoluteMarkerSize: 0,
-
-    pointHoverRadiusMultiplier: 10,
     onPointHover: (e) => {
       const hoverPts = e.points.filter((pt) => pt.canPick)
 
@@ -107,17 +65,13 @@ export const setupMapView = async (conf) => {
   const labels = DotAtlas.createLayer({
     type: 'label',
     points: allPoints.toJS(),
-    labelFontFamily: 'Barlow',
-    labelFontSize: 15,
-    labelFontWeight: 400,
-    labelFontVariant: 'normal',
-    labelOpacity: 1,
+    ...LayerProps.labels,
   })
 
   const layers = {
     elevation,
     selectionOutline,
-    // hoverMarkers,
+    hoverMarkers,
     hoverOutline,
     markers,
     labels,
@@ -139,7 +93,7 @@ export const setupMapView = async (conf) => {
       // labels need to be updated and that should be throttled.
       // This is an iife, since we want to save the references to throttled
       // handlers.
-      const deferredNotifyLabelsUpdate = _.debounce(() => {
+      const deferredNotifyLabelsUpdate = _debounce(() => {
         labels.update('labelVisibilityScales')
         atlas.redraw()
       }, 200)
@@ -151,7 +105,6 @@ export const setupMapView = async (conf) => {
   }
 
   const atlas = DotAtlas
-    .with(ThemeSwitch)
     .embed({
       element: conf.element,
       layers: [
@@ -159,10 +112,10 @@ export const setupMapView = async (conf) => {
         markers,
         selectionOutline,
         hoverOutline,
-        // hoverMarkers,
+        hoverMarkers,
         labels,
       ],
-      pixelRatio: conf.pixelRatio,
+      pixelRatio: Math.ceil(Math.max(window.devicePixelRatio, 1)),
       onClick: eventTaps.didClick,
       onHover: eventTaps.didHover,
       onMouseWheel: eventTaps.didMouseWheel,
@@ -174,7 +127,7 @@ export const setupMapView = async (conf) => {
     atlas.redraw()
   })
 
-  const mapTransforms = {
+  const mapt = {
     get centerPoint () {
       const { height, width } = conf.element.getBoundingClientRect()
       const [ ptx, pty, _ ] = atlas.screenToPointSpace(width / 2, height / 2)
@@ -188,7 +141,8 @@ export const setupMapView = async (conf) => {
       return atlas.get('zoom')
     },
     set zoom (value) {
-      this.centerPoint = { ...this.centerPoint, zoom: value }
+      // If we let zoom value go below zero, weird things happen. Weird but cool.
+      this.centerPoint = { ...this.centerPoint, zoom: Math.max(value, 0.05) }
     },
 
     get x () {
@@ -206,47 +160,26 @@ export const setupMapView = async (conf) => {
     },
   }
 
-  const kbdController = new Mousetrap()
-
-  kbdController.bind('c', () => {
-    conceptSelection.reset()
-  })
-
-  kbdController.bind(kbdCtrlKeys.panning.left, () => {
-    mapTransforms.x += -1
-  })
-  kbdController.bind(kbdCtrlKeys.panning.right, () => {
-    mapTransforms.x += 1
-  })
-  kbdController.bind(kbdCtrlKeys.panning.up, () => {
-    mapTransforms.y += -1
-  })
-  kbdController.bind(kbdCtrlKeys.panning.down, () => {
-    mapTransforms.y += 1
-  })
-
-  kbdController.bind(kbdCtrlKeys.zooming.plus, () => {
-    mapTransforms.zoom += .5
-  })
-  kbdController.bind(kbdCtrlKeys.zooming.minus, () => {
-    mapTransforms.zoom -= .5
-  })
-
   const debugUi = setupDebugger(atlas, layers, conf.element)
+  const keyboardTrigger = new Mousetrap()
 
-  kbdController.bind(kbdCtrlKeys.control.showDevTools, () => {
-    debugUi.show()
-    if (debugUi.closed) {
-      debugUi.open()
-    } else {
-      debugUi.close()
-    }
-  })
-
-  kbdController.bind('shift+b', () => {
-    FileSaver.saveAs(atlas.get('imageData'), 'atlas-im.png')
-  })
-
+  keyboardTrigger
+    .bind(KeyBinding.panning.left,  _throttle(() => mapt.x += -1, 200))
+    .bind(KeyBinding.panning.right, _throttle(() => mapt.x += 1, 200))
+    .bind(KeyBinding.panning.up,    _throttle(() => mapt.y += -1, 200))
+    .bind(KeyBinding.panning.down,  _throttle(() => mapt.y += 1, 200))
+    .bind(KeyBinding.zooming.plus,  _throttle(() => mapt.zoom += 1, 200))
+    .bind(KeyBinding.zooming.minus, _throttle(() => mapt.zoom += -1, 200))
+    .bind(KeyBinding.control.clearSelection, () => conceptSelection.reset())
+    .bind(KeyBinding.control.downloadView, () => {
+      FileSaver.saveAs(atlas.get('imageData'), 'atlas-im.png')
+    })
+    .bind(KeyBinding.control.showDevTools, () => {
+      debugUi.show()
+      debugUi.closed
+        ? debugUi.open()
+        : debugUi.close()
+    })
 
   const updateLayers = async (layer) => {
     markers.set('visible', false)

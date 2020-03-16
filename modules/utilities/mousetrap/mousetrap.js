@@ -1,3 +1,4 @@
+/* eslint semi:0 */
 /**
  * Copyright 2012-2017 Craig Campbell
  *
@@ -20,162 +21,7 @@
  * @url craig.is/killing/mice
  */
 
-// Check if mousetrap is used inside browser, if not, return
-
-/**
- * mapping of special keycodes to their corresponding keys
- *
- * everything in this dictionary cannot use keypress events
- * so it has to be here to map to the correct keycodes for
- * keyup/keydown events
- *
- * @type {Object}
- */
-const _MAP = {
-  8: 'backspace',
-  9: 'tab',
-  13: 'enter',
-  16: 'shift',
-  17: 'ctrl',
-  18: 'alt',
-  20: 'capslock',
-  27: 'esc',
-  32: 'space',
-  33: 'pageup',
-  34: 'pagedown',
-  35: 'end',
-  36: 'home',
-  37: 'left',
-  38: 'up',
-  39: 'right',
-  40: 'down',
-  45: 'ins',
-  46: 'del',
-  91: 'meta',
-  93: 'meta',
-  224: 'meta',
-};
-
-/**
- * mapping for special characters so they can support
- *
- * this dictionary is only used incase you want to bind a
- * keyup or keydown event to one of these keys
- *
- * @type {Object}
- */
-const _KEYCODE_MAP = {
-  106: '*',
-  107: '+',
-  109: '-',
-  110: '.',
-  111 : '/',
-  186: ';',
-  187: '=',
-  188: ',',
-  189: '-',
-  190: '.',
-  191: '/',
-  192: '`',
-  219: '[',
-  220: '\\',
-  221: ']',
-  222: '\'',
-};
-
-/**
- * this is a mapping of keys that require shift on a US keypad
- * back to the non shift equivelents
- *
- * this is so you can use keyup events with these keys
- *
- * note that this will only work reliably on US keyboards
- *
- * @type {Object}
- */
-const _SHIFT_MAP = {
-  '~': '`',
-  '!': '1',
-  '@': '2',
-  '#': '3',
-  '$': '4',
-  '%': '5',
-  '^': '6',
-  '&': '7',
-  '*': '8',
-  '(': '9',
-  ')': '0',
-  '_': '-',
-  '+': '=',
-  ':': ';',
-  '"': '\'',
-  '<': ',',
-  '>': '.',
-  '?': '/',
-  '|': '\\',
-};
-
-/**
- * this is a list of special strings you can use to map
- * to modifier keys when you specify your keyboard shortcuts
- *
- * @type {Object}
- */
-const _SPECIAL_ALIASES = {
-  'option': 'alt',
-  'command': 'meta',
-  'return': 'enter',
-  'escape': 'esc',
-  'plus': '+',
-  'mod': /Mac|iPod|iPhone|iPad/.test(navigator.platform) ? 'meta' : 'ctrl',
-};
-
-/**
- * variable to store the flipped version of _MAP from above
- * needed to check if we should use keypress or not when no action
- * is specified
- *
- * @type {Object|undefined}
- */
-let _REVERSE_MAP;
-
-/**
- * loop through the f keys, f1 to f19 and add them to the map
- * programatically
- */
-for (let i = 1; i < 20; ++i) {
-  _MAP[111 + i] = 'f' + i;
-}
-
-/**
- * loop through to map numbers on the numeric keypad
- */
-for (let i = 0; i <= 9; ++i) {
-
-  // This needs to use a string cause otherwise since 0 is falsey
-  // mousetrap will never fire for numpad 0 pressed as part of a keydown
-  // event.
-  //
-  // @see https://github.com/ccampbell/mousetrap/pull/258
-  _MAP[i + 96] = i.toString();
-}
-
-/**
- * cross browser add event method
- *
- * @param {Element|HTMLDocument} object
- * @param {string} type
- * @param {Function} callback
- * @returns void
- */
-function _addEvent(object, type, callback) {
-  if (object.addEventListener) {
-    object.addEventListener(type, callback, false);
-    return;
-  }
-
-  object.attachEvent('on' + type, callback);
-}
+import KeyMap from './keymap'
 
 /**
  * takes the event and returns the key character
@@ -184,7 +30,6 @@ function _addEvent(object, type, callback) {
  * @return {string}
  */
 function _characterFromEvent(e) {
-
   // for keypress events we should return the character as is
   if (e.type === 'keypress') {
     var character = String.fromCharCode(e.which);
@@ -206,16 +51,15 @@ function _characterFromEvent(e) {
   }
 
   // for non keypress events the special maps are needed
-  if (_MAP[e.which]) {
-    return _MAP[e.which];
+  if (KeyMap.KEYS[e.which]) {
+    return KeyMap.KEYS[e.which];
   }
 
-  if (_KEYCODE_MAP[e.which]) {
-    return _KEYCODE_MAP[e.which];
+  if (KeyMap.SYMBOLS[e.which]) {
+    return KeyMap.SYMBOLS[e.which];
   }
 
   // if it is not in the special map
-
   // with keydown and keyup events the character seems to always
   // come in as an uppercase character whether you are pressing shift
   // or not.  we should make sure it is always lowercase for comparisons
@@ -233,142 +77,8 @@ function _modifiersMatch(modifiers1, modifiers2) {
   return modifiers1.sort().join(',') === modifiers2.sort().join(',');
 }
 
-/**
- * takes a key event and figures out what the modifiers are
- *
- * @param {Event} e
- * @returns {Array}
- */
-function _eventModifiers(e) {
-  let modifiers = [];
-
-  if (e.shiftKey) {
-    modifiers.push('shift');
-  }
-
-  if (e.altKey) {
-    modifiers.push('alt');
-  }
-
-  if (e.ctrlKey) {
-    modifiers.push('ctrl');
-  }
-
-  if (e.metaKey) {
-    modifiers.push('meta');
-  }
-
-  return modifiers;
-}
-
-/**
- * prevents default for this event
- *
- * @param {Event} e
- * @returns void
- */
-function _preventDefault(e) {
-  if (e.preventDefault) {
-    e.preventDefault();
-    return;
-  }
-
-  e.returnValue = false;
-}
-
-/**
- * stops propogation for this event
- *
- * @param {Event} e
- * @returns void
- */
-function _stopPropagation(e) {
-  const self = this;
-
-  if (self.paused) {
-    return true;
-  }
-
-  if (e.stopPropagation) {
-    e.stopPropagation();
-    return;
-  }
-
-  e.cancelBubble = true;
-}
-
-/**
- * determines if the keycode specified is a modifier key or not
- *
- * @param {string} key
- * @returns {boolean}
- */
 function _isModifier(key) {
-  return key == 'shift' || key == 'ctrl' || key == 'alt' || key == 'meta';
-}
-
-/**
- * reverses the map lookup so that we can look for specific keys
- * to see what can and can't use keypress
- *
- * @return {Object}
- */
-function _getReverseMap() {
-  if (!_REVERSE_MAP) {
-    _REVERSE_MAP = {};
-    for (let key in _MAP) {
-
-      // pull out the numeric keypad from here cause keypress should
-      // be able to detect the keys from the character
-      if (key > 95 && key < 112) {
-        continue;
-      }
-
-      if (_MAP.hasOwnProperty(key)) {
-        _REVERSE_MAP[_MAP[key]] = key;
-      }
-    }
-  }
-  return _REVERSE_MAP;
-}
-
-/**
- * picks the best action based on the key combination
- *
- * @param {string} key - character for key
- * @param {Array} modifiers
- * @param {string=} action passed in
- */
-function _pickBestAction(key, modifiers, action) {
-
-  // if no action was picked in we should try to pick the one
-  // that we think would work best for this key
-  if (!action) {
-    action = _getReverseMap()[key] ? 'keydown' : 'keypress';
-  }
-
-  // modifier keys don't work as expected with keypress,
-  // switch to keydown
-  if (action == 'keypress' && modifiers.length) {
-    action = 'keydown';
-  }
-
-  return action;
-}
-
-/**
- * Converts from a string key combination to an array
- *
- * @param  {string} combination like "command+shift+l"
- * @return {Array}
- */
-function _keysFromString(combination) {
-  if (combination === '+') {
-    return ['+'];
-  }
-
-  combination = combination.replace(/\+{2}/g, '+plus');
-  return combination.split('+');
+  return key === 'shift' || key === 'ctrl' || key === 'alt' || key === 'meta';
 }
 
 /**
@@ -384,21 +94,23 @@ function _getKeyInfo(combination, action) {
 
   // take the keys from this pattern and figure out what the actual
   // pattern is all about
-  keys = _keysFromString(combination);
+  keys = combination === '+'
+    ? ['+']
+    : combination.replace(/\+{2}/g, '+plus').split('+');
 
   for (let i = 0; i < keys.length; ++i) {
     key = keys[i];
 
     // normalize key names
-    if (_SPECIAL_ALIASES[key]) {
-      key = _SPECIAL_ALIASES[key];
+    if (KeyMap.ALIASES[key]) {
+      key = KeyMap.ALIASES[key];
     }
 
     // if this is not a keypress event then we should
     // be smart about using shift keys
     // this will only work for US keyboards however
-    if (action && action !== 'keypress' && _SHIFT_MAP[key]) {
-      key = _SHIFT_MAP[key];
+    if (action && action !== 'keypress' && KeyMap.SHIFTED[key]) {
+      key = KeyMap.SHIFTED[key];
       modifiers.push('shift');
     }
 
@@ -410,7 +122,13 @@ function _getKeyInfo(combination, action) {
 
   // depending on what the key combination is
   // we will try to pick the best event for it
-  action = _pickBestAction(key, modifiers, action);
+  if (!action) {
+    action = KeyMap.KEYS_R[key] ? 'keydown' : 'keypress';
+  } else if (action === 'keypress' && modifiers.length) {
+    // modifier keys don't work as expected with keypress,
+    // switch to keydown
+    action = 'keydown'
+  }
 
   return {
     key: key,
@@ -440,69 +158,33 @@ function Mousetrap(targetElement) {
     return new Mousetrap(targetElement);
   }
 
-  /**
-   * element to attach key events to
-   *
-   * @type {Element}
-   */
   self.target = targetElement;
-
-  /**
-   * a list of all the callbacks setup via Mousetrap.bind()
-   *
-   * @type {Object}
-   */
   self._callbacks = {};
 
   /**
    * direct map of string combinations to callbacks used for trigger()
-   *
-   * @type {Object}
    */
   self._directMap = {};
 
   /**
    * keeps track of what level each sequence is at since multiple
    * sequences can start out with the same sequence
-   *
-   * @type {Object}
    */
   let _sequenceLevels = {};
 
   /**
    * variable to store the setTimeout call
-   *
-   * @type {null|number}
    */
   let _resetTimer;
-
-  /**
-   * temporary state where we will ignore the next keyup
-   *
-   * @type {boolean|string}
-   */
+  // temporary state where we will ignore the next keyup
   let _ignoreNextKeyup = false;
-
-  /**
-   * temporary state where we will ignore the next keypress
-   *
-   * @type {boolean}
-   */
+  // temporary state where we will ignore the next keypress
   let _ignoreNextKeypress = false;
-
-  /**
-   * are we currently inside of a sequence?
-   * type of action ("keyup" or "keydown" or "keypress") or false
-   *
-   * @type {boolean|string}
-   */
+  // are we currently inside of a sequence? if so return an action
   let _nextExpectedAction = false;
 
   /**
    * resets all sequence counters except for the ones passed in
-   *
-   * @param {Object} doNotReset
-   * @returns void
    */
   function _resetSequences(doNotReset) {
     doNotReset = doNotReset || {};
@@ -598,10 +280,6 @@ function Mousetrap(targetElement) {
    *
    * if your callback function returns false this will use the jquery
    * convention - prevent default and stop propogation on the event
-   *
-   * @param {Function} callback
-   * @param {Event} e
-   * @returns void
    */
   function _fireCallback(callback, e, combo, sequence) {
 
@@ -611,18 +289,16 @@ function Mousetrap(targetElement) {
     }
 
     if (callback(e, combo) === false) {
-      _preventDefault(e);
-      _stopPropagation(e);
+      e.preventDefault();
+      if (self.paused) {
+        return true;
+      }
+      e.stopPropagation();
     }
   }
 
   /**
    * handles a character key event
-   *
-   * @param {string} character
-   * @param {Array} modifiers
-   * @param {Event} e
-   * @returns void
    */
   self._handleKey = function(character, modifiers, e) {
     const callbacks = _getMatches(character, modifiers, e);
@@ -730,7 +406,14 @@ function Mousetrap(targetElement) {
       return;
     }
 
-    self.handleKey(character, _eventModifiers(e), e);
+    const modifiers = [
+      e.shiftKey && 'shift',
+      e.altKey && 'alt',
+      e.ctrlKey && 'ctrl',
+      e.metaKey && 'meta',
+    ].filter((v) => !!v)
+
+    self.handleKey(character, modifiers, e);
   }
 
   /**
@@ -863,7 +546,7 @@ function Mousetrap(targetElement) {
       action: info.action,
       seq: sequenceName,
       level: level,
-      combo: combination
+      combo: combination,
     });
   }
 
@@ -882,9 +565,9 @@ function Mousetrap(targetElement) {
   };
 
   // start!
-  _addEvent(targetElement, 'keypress', _handleKeyEvent);
-  _addEvent(targetElement, 'keydown', _handleKeyEvent);
-  _addEvent(targetElement, 'keyup', _handleKeyEvent);
+  targetElement.addEventListener('keypress', _handleKeyEvent);
+  targetElement.addEventListener('keydown', _handleKeyEvent);
+  targetElement.addEventListener('keyup', _handleKeyEvent);
 }
 
 /**
@@ -1012,18 +695,6 @@ Mousetrap.prototype.stopCallback = function(e, element) {
 Mousetrap.prototype.handleKey = function() {
   const self = this;
   return self._handleKey.apply(self, arguments);
-};
-
-/**
- * allow custom key mappings
- */
-Mousetrap.addKeycodes = function(object) {
-  for (let key in object) {
-    if (object.hasOwnProperty(key)) {
-      _MAP[key] = object[key];
-    }
-  }
-  _REVERSE_MAP = null;
 };
 
 /**
