@@ -62,8 +62,8 @@ export const ConceptTag = (props) => {
       className='np--concept-tag concept tag'
       onRemove={onRemove}>
       <Popover
-        content={<WikiCard title={removeQuote(title)} lang={lang}/>}
-        target={<span>{removeQuote(title)}</span>}
+        content={<WikiCard title={title} lang={lang}/>}
+        target={<span>{title}</span>}
         interactionKind={PopoverInteractionKind.HOVER}
         popoverClassName='wiki-popover'
         hoverCloseDelay={500}
