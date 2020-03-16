@@ -22,7 +22,7 @@ const skeletonFiller = (count=1) => {
   )
 }
 
-export const SkeletonCard = () => (
+export const SkeletonCard = React.memo(() => (
   <Card elevation={Elevation.TWO} className='info-card skeleton'>
     <div className='content'>
       <h3 className='title'>{skeletonFiller(3)}</h3>
@@ -31,16 +31,16 @@ export const SkeletonCard = () => (
     <div className='tools'>
     </div>
   </Card>
-)
+))
 
-export const ErrorCard = () => (
+export const ErrorCard = React.memo(() => (
   <Card className='info-card error bp3-dark'>
     <NonIdealState
       icon='offline'
       description={i18nT('errorState.description')}
       className='reason'/>
   </Card>
-)
+))
 
 export const PageInfoCard = (props) => (
   <Card interactive elevation={Elevation.TWO} className='bp3-dark info-card'>
@@ -69,7 +69,7 @@ export const PageInfoCard = (props) => (
 )
 
 
-const WikiCard = (props) => {
+const WikiCard = React.memo((props) => {
   const pageInfo = useAsync(async () => {
     return await Wiki.summary(props.title, props.lang)
   }, [])
@@ -81,7 +81,7 @@ const WikiCard = (props) => {
   }
 
   return <PageInfoCard {...pageInfo.value}/>
-}
+})
 
 
 export { WikiCard }
