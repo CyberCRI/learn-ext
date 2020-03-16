@@ -63,6 +63,8 @@
       background: url('/media/textures/whitenoise-100x100.png') repeat;
       opacity: 0.1;
       background-size: 50px;
+      // Let the events through
+      pointer-events: none;
     }
 
     canvas {
