@@ -161,7 +161,6 @@ div.card {
     padding: 0;
     background: $light-gray5;
     border-radius: 8px;
-    transform: translateZ(0);
 
     .backdrop {
       display: block;
@@ -181,7 +180,6 @@ div.card {
       img {
         width: 100%;
         height: auto;
-        transform: scale(1.2) translateY(-5%);
       }
     }
 
@@ -251,6 +249,11 @@ div.card {
   }
 }
 
+div.card.resource {
+  &[data-type='cri-projects'] {
+  }
+}
+
 @keyframes skeleton-sweep {
   0% {
     background-position: 0 0;
@@ -262,4 +265,3 @@ div.card {
     background-position: 0 0;
   }
 }
-
