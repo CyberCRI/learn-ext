@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import urlParse from 'url-parse'
+import URLParse from 'url-parse'
 import clsx from 'classnames'
 import { useToggle } from 'react-use'
 
@@ -45,7 +45,7 @@ export const DateTimePill = ({ timestamp, lang='en-gb', ...props }) => {
 }
 
 export const UrlPill = ({ url, linked=false, short=false, ...props }) => {
-  const uprops = urlParse(url)
+  const uprops = new URLParse(url)
 
   const hostEl = <span className='host'>{uprops.hostname}</span>
   const pathEl = <span className='path'>{uprops.pathname}</span>
@@ -87,7 +87,8 @@ export const FaviconPill = ({ url, title='', ...props }) => {
         title={title}
         className={reveal ? 'reveal' : 'hidden'}
         role='presentation'
-        onLoad={imageDidLoad}/>
+        onLoad={imageDidLoad}
+        lazy='true'/>
     </Pill>
   )
 }
