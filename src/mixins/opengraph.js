@@ -35,7 +35,7 @@ class MetaResolver {
     if (!urlIsSane(url)) {
       return fallbackUrl
     }
-    return resolvedUrl('image', url)
+    return `${env.ngapi_host}/meta/resolve/image?url=${url}`
   }
 }
 
