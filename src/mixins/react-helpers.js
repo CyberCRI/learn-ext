@@ -9,7 +9,11 @@ export const renderReactComponent = async (selector, component, props) => {
     //     minification would "optimise" it and it won't work.
     // - actually, does it? still? [!todo]
     const ReactComponent = component
-    return ReactDOM.render(<ReactComponent {...props} />, el)
+    try {
+      return ReactDOM.render(<ReactComponent {...props} />, el)
+    } catch (e) {
+      console.warn(`Component <${component.name}> errored.`, e)
+    }
   } else {
     console.info(`Component <${component.name}> not mounted. <${selector}> missing.`)
   }
