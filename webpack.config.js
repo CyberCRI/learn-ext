@@ -47,10 +47,7 @@ const BuildTargets = {
   web: {
     buildPath: abspath('./.builds/web'),
     outputFmt: IS_PRODUCTION ? '[name].[hash]' : '[name]',
-    chunks: {
-      CovidExptView: './src/experiments/CovidBoard',
-      // ProjIngressView: './src/experiments/projects-board',
-    },
+    chunks: {},
     assets: [
       { from: './assets/media', to: './media' },
       { from: './assets/icons/browsers/apple-touch-icon.png', to: './apple-touch-icon.png' },
