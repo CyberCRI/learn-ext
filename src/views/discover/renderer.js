@@ -1,5 +1,4 @@
 /* eslint no-multi-spaces: 0 */
-import { fetchLayer, fetchUpdateLayer } from './layers'
 import FileSaver from 'file-saver'
 import Mousetrap from '@ilearn/modules/utilities/mousetrap'
 import _throttle from 'lodash/throttle'
@@ -8,6 +7,7 @@ import _debounce from 'lodash/throttle'
 import setupDebugger from './renderer-debugger'
 import { conceptSelection, selectedConcepts } from './store'
 import { pickLayer, resourcesDomain } from './store'
+import { fetchLayer, fetchUpdateLayer } from './layers'
 
 import { LayerProps, KeyBinding } from './consts'
 
@@ -239,7 +239,6 @@ export const setupMapView = async (conf) => {
   }
 
   resourcesDomain.watch(pickLayer, updateLayers)
-  updateLayers('user')
 
   window.addEventListener('resize', eventTaps.didResizeViewport)
 
