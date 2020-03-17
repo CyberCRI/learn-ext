@@ -4,8 +4,6 @@ import URLParse from 'url-parse'
 import clsx from 'classnames'
 import { useToggle } from 'react-use'
 
-import OpenGraph from '~mixins/opengraph'
-
 
 const Pill = (props) => {
   // Pillbox Composer
@@ -79,11 +77,12 @@ export const UrlPill = ({ url, linked=false, short=false, ...props }) => {
 export const FaviconPill = ({ url, title='', ...props }) => {
   const [ reveal, setVisibility ] = useToggle(false)
   const imageDidLoad = () => setVisibility(true)
+  const faviconUrl = `${env.ngapi_host}/meta/resolve/logo?url=${url}`
 
   return (
     <Pill kind='favicon' {...props}>
       <img
-        src={OpenGraph.icon(url)}
+        src={encodeURI(faviconUrl)}
         title={title}
         className={reveal ? 'reveal' : 'hidden'}
         role='presentation'

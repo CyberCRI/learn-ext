@@ -5,7 +5,6 @@ import clsx from 'classnames'
 
 import { ConceptList } from '~components/concepts'
 import { DateTimePill, ResourceLinkPill } from '~components/pills'
-import OG from '~mixins/opengraph'
 
 const TypeInferenceMap = new Map([
   ['wikipedia',     /.*\.wikipedia\.org/],
@@ -24,6 +23,8 @@ function inferredResourceType (url) {
 
 
 export const Backdrop = ({ url }) => {
+  const imageUrl = `${env.ngapi_host}/meta/resolve/image?url=${url}`
+
   const [ display, setDisplay ] = useState({ hidden: true })
   const imageDidLoad = (e) => {
     const { naturalWidth, naturalHeight, height } = e.target
@@ -48,7 +49,11 @@ export const Backdrop = ({ url }) => {
 
   return (
     <figure className={bgClasses} style={{ height: display.height }}>
-      <img src={OG.image(url)} onLoad={imageDidLoad} onError={imageDidNotLoad} lazy='true'/>
+      <img
+        src={encodeURI(imageUrl)}
+        onLoad={imageDidLoad}
+        onError={imageDidNotLoad}
+        lazy='true'/>
     </figure>
   )
 }
