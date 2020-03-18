@@ -1,5 +1,11 @@
 # Configuration for netlify previews of the pages.
 [build]
   base = "."
-  publish = ".builds/stories/"
-  command = "npm run build:storybook"
+  publish = ".builds/web/"
+  command = "npm run build:prod"
+
+[[redirects]]
+  from = "/"
+  to = "/pages/onboarding.html"
+  status = 301
+  force = false
