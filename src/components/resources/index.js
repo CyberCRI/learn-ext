@@ -1,19 +1,15 @@
 import React from 'react'
-import { SpringGrid, measureItems, makeResponsive, layout } from 'react-stonecutter'
+import { CSSGrid, measureItems, makeResponsive, layout } from 'react-stonecutter'
 
 import { reFuse } from '~mixins/itertools'
 import { ResourceCard } from '~components/cards/resources'
 import * as Placeholder from './placeholders'
 
 
-const Grid = makeResponsive(measureItems(SpringGrid, { measureImages: true }), {
+const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
   maxWidth: 1280,
-  minPadding: 40,
+  minPadding: 20,
 })
-const springGridConf = {
-  enterExitStyle: 'fromBottom',
-  springConfig: { stiffness: 200, damping: 20 },
-}
 
 const filterKeys = [
   'title',
@@ -26,11 +22,11 @@ export const ResourceCollectionView = ({ resources, ...props }) => {
   return (
     <Grid
       component='ul'
-      columnWidth={220}
-      gutterWidth={20}
+      columnWidth={270}
+      gutterWidth={10}
       gutterHeight={20}
       layout={layout.pinterest}
-      {...springGridConf}
+      duration={50}
       className='resources'>
       {resources.map((x, i) =>
         <li key={x.resource_id}>
