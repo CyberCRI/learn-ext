@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { createStore, createApi } from 'effector'
 import { useStore } from 'effector-react'
-import { Button, ButtonGroup } from '@blueprintjs/core'
+import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core'
 import { Popover, Menu, Dialog } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 
@@ -71,7 +71,7 @@ export const MapDropdownMenuContent = (props) => {
 export const MapDropdownMenu = () => {
   return (
     <Popover position='bottom'>
-      <Button minimal icon='more'/>
+      <Button icon='more'/>
       <div>
         <MapDropdownMenuContent/>
       </div>
@@ -91,6 +91,7 @@ export const LayerSelection = (props) => {
   return (
     <div className='overlay tools'>
       <div>
+        <InputGroup leftIcon='search'/>
       </div>
       <div>
         <ButtonGroup alignText='center' minimal className='layers'>
@@ -105,6 +106,7 @@ export const LayerSelection = (props) => {
         </ButtonGroup>
       </div>
       <div>
+        <Button icon='send-to-graph' text='Share'/>
         <MapDropdownMenu/>
         <MapKeyboardShortcutsDialog/>
       </div>
@@ -172,7 +174,7 @@ export const OverlayCards = (props) => {
   return (
     <div className='matches'>
       <p>Showing {matchingResources.length} resources</p>
-      <ResourceCollectionView resources={matchingResources} skipConceptList/>
+      <ResourceCollectionView resources={matchingResources}/>
     </div>
   )
 }

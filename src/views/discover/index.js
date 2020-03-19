@@ -5,6 +5,7 @@ import { renderReactComponent } from '~mixins/react-helpers'
 import { i18n } from '@ilearn/modules/i18n'
 import { setupMapView } from './renderer'
 import { OverlayCards, OverlayConcepts, OverlayTools } from './overlays'
+import { pickLayer } from './store'
 
 import './styles.scss'
 
@@ -26,5 +27,6 @@ export const renderView = () => {
 }
 
 export const setupInstance = async (config) => {
-  setupMapView(config)
+  await setupMapView(config)
+  pickLayer('everything')
 }
