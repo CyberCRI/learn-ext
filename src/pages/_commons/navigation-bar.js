@@ -1,65 +1,77 @@
 import React from 'react'
-import { createStore, createApi } from 'effector'
-import { createComponent } from 'effector-react'
+import { createStore, createApi, createEvent, combine } from 'effector'
+import { createComponent, useStore } from 'effector-react'
 import { Navbar, Alignment, AnchorButton } from '@blueprintjs/core'
 import { Dialog, Button, Callout } from '@blueprintjs/core'
 
 import { i18n } from '@ilearn/modules/i18n'
 import { DemoUserNotice } from './notifications'
 
-const dialogVisibility = createStore(false)
-const dialogControl = createApi(dialogVisibility, {
+const $dialogVisibility = createStore(false)
+const dialogControl = createApi($dialogVisibility, {
   show: () => true,
   hide: () => false,
   toggle: (state) => !state,
 })
+export const updateContext = createEvent()
+const $nodeContext = createStore({
+  authorized: false,
+  urls: { login: '/api/auth/login' },
+})
+$nodeContext.on(updateContext, (state, context) => ({...state, ...context}))
+
 
 const i18nT = i18n.context('navigationBar')
 
 
-const LoginSignupDialog = createComponent(dialogVisibility, (props, state) => (
-  <Dialog
-    isOpen={state}
-    onClose={dialogControl.hide}
-    title={i18nT('loginDialog.title')}
-    icon='log-in'
-    className='login-dialog'>
-    <Callout className='login-opts' icon='info-sign'>
-      <div className='lp-blurb'>
-        <p>WeLearn uses Learning Planet for secure authentication.</p>
-        <p>
-          <strong>
-            If you already have an account at CRI, you can use your
-            existing credentials to login or alternatively create a new account.
-          </strong>
-        </p>
-      </div>
-    </Callout>
-    <div className='actions'>
+const LoginSignupDialog = (props) => {
+  const visibility = useStore($dialogVisibility)
+  const node = useStore($nodeContext)
 
-      <AnchorButton
-        text={i18nT('loginDialog.buttonLabel')}
-        href={window.jstate.urls.login}
-        intent='primary'
-        className='login-button'
-        rightIcon='arrow-right'
-        large/>
+  return (
+    <Dialog
+      isOpen={visibility}
+      onClose={dialogControl.hide}
+      title={i18nT('loginDialog.title')}
+      icon='log-in'
+      className='login-dialog'>
+      <Callout className='login-opts' icon='info-sign'>
+        <div className='lp-blurb'>
+          <p>WeLearn uses Learning Planet for secure authentication.</p>
+          <p>
+            <strong>
+              If you already have an account at CRI, you can use your
+              existing credentials to login or alternatively create a new account.
+            </strong>
+          </p>
+        </div>
+      </Callout>
+      <div className='actions'>
 
-      <div className='smalltext'>
-        <p>If you have previously used WeLearn please ensure you use the same email
-        address when you login or register.</p>
-        <p>Having trouble? In case your account does not link automatically or if your email
-        was wrong, just drop us a mail -- we will find and connect your account.</p>
+        <AnchorButton
+          text={i18nT('loginDialog.buttonLabel')}
+          href={node.urls.login}
+          intent='primary'
+          className='login-button'
+          rightIcon='arrow-right'
+          large/>
+
+        <div className='smalltext'>
+          <p>If you have previously used WeLearn please ensure you use the same email
+          address when you login or register.</p>
+          <p>Having trouble? In case your account does not link automatically or if your email
+          was wrong, just drop us a mail -- we will find and connect your account.</p>
+        </div>
+        <div className='lp-logo'>
+          <img
+            src='/media/logos/learning-planet.png'
+            height='36px'
+            title='Learning Planet Logo'/>
+        </div>
       </div>
-      <div className='lp-logo'>
-        <img
-          src='/media/logos/learning-planet.png'
-          height='36px'
-          title='Learning Planet Logo'/>
-      </div>
-    </div>
-  </Dialog>
-))
+    </Dialog>
+  )
+}
 
 
 const LoginSignupButton = (props) => {
@@ -123,8 +135,10 @@ const SlimNavBar = () => {
   )
 }
 
-const NavigationBar = () => {
-  if (window.jstate && window.jstate.authorized) {
+export const NavigationBar = () => {
+  const node = useStore($nodeContext)
+
+  if (node.authorized) {
     return <BigNavBar/>
   }
   return <SlimNavBar/>
