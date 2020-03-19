@@ -124,7 +124,7 @@ const SlimNavBar = () => {
 }
 
 const NavigationBar = () => {
-  if (window.jstate.authorized) {
+  if (window.jstate && window.jstate.authorized) {
     return <BigNavBar/>
   }
   return <SlimNavBar/>
