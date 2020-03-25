@@ -2,19 +2,20 @@
 import FileSaver from 'file-saver'
 import Mousetrap from '@ilearn/modules/utilities/mousetrap'
 import _throttle from 'lodash/throttle'
-import _debounce from 'lodash/throttle'
+import _debounce from 'lodash/debounce'
+import _flatMap from 'lodash/flatmap'
+import { Map } from 'immutable'
 
 import setupDebugger from './renderer-debugger'
-import { conceptSelection, selectedConcepts } from './store'
-import { pickLayer, resourcesDomain } from './store'
-import { fetchLayer, fetchUpdateLayer } from './layers'
+import { nodePicker, selectedConcepts, userResources } from './store'
+import { fetchBaseLayer } from './layers'
 
 import { LayerProps, KeyBinding } from './consts'
 
 
 
 export const setupMapView = async (conf) => {
-  const allPoints = await fetchLayer('everything')
+  const allPoints = await fetchBaseLayer()
 
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
@@ -55,9 +56,9 @@ export const setupMapView = async (conf) => {
     onPointClick: (e) => {
       const filteredPts = e.points.filter((pt) => pt.canPick)
       if (!(e.ctrlKey || e.shiftKey)) {
-        conceptSelection.replace(filteredPts)
+        nodePicker.replace(filteredPts)
       } else {
-        conceptSelection.merge(filteredPts)
+        nodePicker.merge(filteredPts)
       }
     },
   })
@@ -170,7 +171,7 @@ export const setupMapView = async (conf) => {
     .bind(KeyBinding.panning.down,  _throttle(() => mapt.y += 1, 200))
     .bind(KeyBinding.zooming.plus,  _throttle(() => mapt.zoom += 1, 200))
     .bind(KeyBinding.zooming.minus, _throttle(() => mapt.zoom += -1, 200))
-    .bind(KeyBinding.control.clearSelection, () => conceptSelection.reset())
+    .bind(KeyBinding.control.clearSelection, () => nodePicker.reset())
     .bind(KeyBinding.control.downloadView, () => {
       FileSaver.saveAs(atlas.get('imageData'), 'atlas-im.png')
     })
@@ -181,17 +182,30 @@ export const setupMapView = async (conf) => {
         : debugUi.close()
     })
 
-  const updateLayers = async (layer) => {
+  const deactivateLayers = async () => {
     markers.set('visible', false)
     labels.set('visible', false)
-    atlas.redraw()
 
-    const pts = await fetchUpdateLayer(layer)
+    atlas.redraw()
+  }
+
+  const activateLayers = async () => {
+    markers.set('visible', true)
+    markers.update('markerOpacity')
+    labels.set('visible', true)
+    labels.update('labelOpacity')
+    labels.update('labelPriority')
+    labels.update('labelVisibilityScales')
+    elevation.update('elevation')
+    atlas.redraw()
+  }
+
+  const updateLayers = async (pts) => {
+    await deactivateLayers()
     let pt
 
     markers
       .get('points')
-      .filter((p) => p.userData)
       .forEach((p) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
@@ -202,12 +216,10 @@ export const setupMapView = async (conf) => {
           p.canPick = false
         }
       })
-    markers.set('visible', true)
     markers.update('markerOpacity')
 
     labels
       .get('points')
-      .filter((p) => p.userData)
       .forEach((p) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
@@ -218,27 +230,29 @@ export const setupMapView = async (conf) => {
           p.labelPriority = 0
         }
       })
-    labels.set('visible', true)
     labels.update('labelOpacity')
     labels.update('labelPriority')
     labels.update('labelVisibilityScales')
 
     elevation
       .get('points')
-      .filter((p) => p.userData)
       .forEach((p) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
-          p.elevation = pt.elevation
+          p.elevation = 0.8
         } else {
-          p.elevation = 0
+          p.elevation = 0.01
         }
       })
     elevation.update('elevation')
-    atlas.redraw()
-  }
 
-  resourcesDomain.watch(pickLayer, updateLayers)
+    await activateLayers()
+  }
+  deactivateLayers()
+  userResources.watch((resources) => {
+    const items = _flatMap(resources, 'concepts').map((c) => [ c.wikidata_id, c ])
+    updateLayers(Map(items))
+  })
 
   window.addEventListener('resize', eventTaps.didResizeViewport)
 
