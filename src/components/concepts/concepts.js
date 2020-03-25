@@ -39,13 +39,23 @@ const ListSortOrderPriority = (() => {
   return _.unzip(keyProps)
 })()
 
-const removeQuote = (x) => x.replace('\\', '')
-
 export const ConceptTag = (props) => {
-  // [!todo] U G L Y ! This will break. It's not properly defined behaviour
-  // either. Needs fixes asap.
-  const { title_en, title_fr, title_es, wikidata_id, lang } = props
-  const title = title_en || title_fr || title_es || props.title
+  const { wikidata_id } = props
+  const { title, lang } = (() => {
+    const keys = {
+      [props.lang]: `title_${props.lang}`,
+      en: 'title_en',
+      es: 'title_es',
+      fr: 'title_fr',
+    }
+
+    for (let [lang, attr] of Object.entries(keys)) {
+      if (typeof props[attr] === 'string') {
+        return { title: props[attr], lang }
+      }
+    }
+    return {}
+  })()
 
   const didClickRemove = () => {
     console.debug(`[ConceptTag] Removing <${title}>`)
@@ -62,8 +72,8 @@ export const ConceptTag = (props) => {
       className='np--concept-tag concept tag'
       onRemove={onRemove}>
       <Popover
-        content={<WikiCard title={removeQuote(title)} lang={lang}/>}
-        target={<span>{removeQuote(title)}</span>}
+        content={<WikiCard title={title} lang={lang}/>}
+        target={<span>{title}</span>}
         interactionKind={PopoverInteractionKind.HOVER}
         popoverClassName='wiki-popover'
         hoverCloseDelay={500}
