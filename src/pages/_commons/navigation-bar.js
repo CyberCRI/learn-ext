@@ -1,11 +1,11 @@
 import React from 'react'
-import { createStore, createApi, createEvent, combine } from 'effector'
-import { createComponent, useStore } from 'effector-react'
+import { createStore, createApi } from 'effector'
+import { useStore } from 'effector-react'
 import { Navbar, Alignment, AnchorButton } from '@blueprintjs/core'
 import { Dialog, Button, Callout } from '@blueprintjs/core'
 
 import { i18n } from '@ilearn/modules/i18n'
-import { DemoUserNotice } from './notifications'
+import { $globalContext } from './store'
 
 const $dialogVisibility = createStore(false)
 const dialogControl = createApi($dialogVisibility, {
@@ -13,20 +13,13 @@ const dialogControl = createApi($dialogVisibility, {
   hide: () => false,
   toggle: (state) => !state,
 })
-export const updateContext = createEvent()
-const $nodeContext = createStore({
-  authorized: false,
-  urls: { login: '/api/auth/login' },
-})
-$nodeContext.on(updateContext, (state, context) => ({...state, ...context}))
-
 
 const i18nT = i18n.context('navigationBar')
 
 
 const LoginSignupDialog = (props) => {
   const visibility = useStore($dialogVisibility)
-  const node = useStore($nodeContext)
+  const node = useStore($globalContext)
 
   return (
     <Dialog
@@ -85,7 +78,10 @@ const LoginSignupButton = (props) => {
   </>
 }
 
-const BigNavBar = () => {
+
+export const NavigationBar = () => {
+  const node = useStore($globalContext)
+
   return (
     <Navbar className='np-navbar bp3-dark'>
       <Navbar.Group align={Alignment.LEFT}>
@@ -94,13 +90,12 @@ const BigNavBar = () => {
           minimal
           href='/pages/onboarding.html'/>
         <Navbar.Divider/>
-
-        <AnchorButton
-          text={i18nT('links.dashboard.label')}
-          minimal
-          href='/pages/dashboard.html'
-          icon='book'/>
-
+        {node.authorized &&
+          <AnchorButton
+            text={i18nT('links.dashboard.label')}
+            minimal
+            href='/pages/dashboard.html'
+            icon='book'/>}
         <AnchorButton
           text={i18nT('links.discover.label')}
           minimal
@@ -108,40 +103,16 @@ const BigNavBar = () => {
           icon='mountain'/>
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
-        <DemoUserNotice/>
-        <AnchorButton
-          text={i18nT('links.settings.label')}
-          minimal
-          href='/pages/settings.html'
-          icon='settings'/>
+        {node.authorized
+          ? <AnchorButton
+            text={i18nT('links.settings.label')}
+            minimal
+            href='/pages/settings.html'
+            icon='settings'/>
+          : <LoginSignupButton/>}
       </Navbar.Group>
     </Navbar>
   )
-}
-
-const SlimNavBar = () => {
-  return (
-    <Navbar className='np-navbar bp3-dark'>
-      <Navbar.Group align={Alignment.LEFT}>
-        <AnchorButton
-          text={i18nT('heading')}
-          minimal
-          href='/pages/onboarding.html'/>
-      </Navbar.Group>
-      <Navbar.Group align={Alignment.RIGHT}>
-        <LoginSignupButton/>
-      </Navbar.Group>
-    </Navbar>
-  )
-}
-
-export const NavigationBar = () => {
-  const node = useStore($nodeContext)
-
-  if (node.authorized) {
-    return <BigNavBar/>
-  }
-  return <SlimNavBar/>
 }
 
 
