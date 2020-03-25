@@ -1,3 +1,4 @@
+@import 'styles/mixins';
 @import 'styles/colors';
 @import '~bulma/sass/utilities/_all.sass';
 @import '~bulma/sass/grid/_all.sass';
@@ -9,11 +10,6 @@
 
 @function bgimg($name) {
   @return url("https://welearn.cri-paris.org/static/media/#{$name}");
-}
-
-@mixin bg-vibrant-tint($color, $amount: .5) {
-  background: transparentize($color, $amount);
-  backdrop-filter: blur(5px);
 }
 
 @mixin bg-cover($image, $position: center) {
@@ -38,7 +34,7 @@ body {
       margin-top: 5px;
 
       .bp3-navbar {
-        @include bg-vibrant-tint($ink1, .2);
+        @include bg-vibrant-tint($ink1, .2, 8px);
         border-radius: 5px;
         padding: 0 5px;
         height: auto;

@@ -1,3 +1,8 @@
-main {
-  position: relative;
+@import 'styles/mixins';
+
+body {
+  & > main {
+    position: relative;
+    padding: 0;
+  }
 }
