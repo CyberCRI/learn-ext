@@ -1,14 +1,20 @@
 import { setup } from '../_commons'
-import { setupInstance, renderView } from '~views/discover'
+
+import { renderReactComponent } from '~mixins/react-helpers'
+
+import { setupMapView } from '~views/discover'
+import { OverlayCards, OverlayConcepts, OverlayTools } from '~views/discover/overlays'
 
 import './style.scss'
 
+
 window.addEventListener('load', async () => {
   await setup()
-  setupInstance({
-    element: document.getElementById('atlas'),
-  })
 
-  renderView()
+  setupMapView({ element: document.getElementById('atlas') })
+
+
+  renderReactComponent('overlay-tools', OverlayTools)
+  renderReactComponent('overlay-concepts', OverlayConcepts)
+  renderReactComponent('discover-view', OverlayCards)
 })
-
