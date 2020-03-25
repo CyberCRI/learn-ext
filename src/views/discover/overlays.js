@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { createStore, createApi } from 'effector'
 import { useStore } from 'effector-react'
-import { Button, ButtonGroup, InputGroup } from '@blueprintjs/core'
+import { Button, ButtonGroup, InputGroup, Divider } from '@blueprintjs/core'
 import { Popover, Menu, Dialog } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 
@@ -9,7 +9,8 @@ import { i18n } from '@ilearn/modules/i18n'
 import { ResourceCollectionView } from '~components/resources'
 import { ConceptList } from '~components/concepts'
 import { selectedConcepts, matchingResourceSet } from './store'
-import { pickLayer, resourcesDomain } from './store'
+import { didPickLayer, $layerSource } from './store'
+import { $globalContext } from '~page-commons/store'
 
 const overlayControlVariants = {
   open: {
@@ -81,32 +82,84 @@ export const MapDropdownMenu = () => {
 
 export const LayerSelection = (props) => {
   const i18nT = i18n.context('pages.discover.sections.atlas.layers')
-  const layerDomain = useStore(resourcesDomain)
-  const layerChoices = [
-    { key: 'user', icon: 'layout-circle' },
-    { key: 'group', icon: 'layout-group-by' },
-    { key: 'everything', icon: 'layout-sorted-clusters' },
+  const node = useStore($globalContext)
+  const currentLayer = useStore($layerSource)
+  // [!todo] this should not be in here.
+  const layerFeeds = [
+    {
+      id: 'covid19@noop.pw',
+      label: 'Covid-19 Pandemic',
+      src: '/api/resources/bot/covid19@noop.pw',
+      icon: 'graph',
+    },
+    {
+      id: 'projects@import.bot',
+      label: 'CRI Projects',
+      src: '/api/resources/bot/projects@import.bot',
+      icon: 'graph',
+    },
+    {
+      id: 'theconversationfr@import.bot',
+      label: 'The Conversation',
+      src: '/api/resources/feed/theconversation.fr',
+      icon: 'feed',
+    },
+    {
+      id: 'everything',
+      label: i18nT('everything'),
+      src: '/api/resources/',
+      icon: 'layout-sorted-clusters',
+    },
   ]
+
+  const userLayers = []
+
+  if (node.authorized) {
+    userLayers.push({
+      id: 'user',
+      label: i18nT`user`,
+      src: `/api/resources/user/${node.user.uid}`,
+      icon: 'layout-circle',
+    })
+
+    if (node.user.groups.length > 0) {
+      // [!todo] support more than 1 group.
+      const group = node.user.groups[0]
+
+      userLayers.push({
+        id: 'group',
+        label: i18nT`group`,
+        src: `/api/resources/group/${group.guid}`,
+        icon: 'layout-group-by',
+      })
+    }
+  }
 
   return (
     <div className='overlay tools'>
       <div>
-        <InputGroup leftIcon='search'/>
-      </div>
-      <div>
-        <ButtonGroup alignText='center' minimal className='layers'>
-          {layerChoices.map(({ key, icon }) => (
+        <h5>Topics</h5>
+        <ButtonGroup vertical minimal className='layers'>
+          {layerFeeds.map((layer) => (
             <Button
-              key={key}
-              icon={icon}
-              text={i18nT(key)}
-              active={key === layerDomain}
-              onClick={() => pickLayer(key)}/>
+              key={layer.id}
+              icon={layer.icon}
+              text={layer.label}
+              active={layer.id === currentLayer.id}
+              onClick={() => didPickLayer(layer)}/>
+          ))}
+          <Divider/>
+          {userLayers.map((layer) => (
+            <Button
+              key={layer.id}
+              icon={layer.icon}
+              text={layer.label}
+              active={layer.id === currentLayer.id}
+              onClick={() => didPickLayer(layer)}/>
           ))}
         </ButtonGroup>
       </div>
       <div>
-        <Button icon='send-to-graph' text='Share'/>
         <MapDropdownMenu/>
         <MapKeyboardShortcutsDialog/>
       </div>
