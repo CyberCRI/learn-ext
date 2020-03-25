@@ -2,45 +2,72 @@ import { createEvent, createEffect, createStore } from 'effector'
 import { Set } from 'immutable'
 import { ResourceAPI } from '@ilearn/modules/api'
 import _ from 'lodash'
-import { conceptIndexSet, resourceIndex, matchQuerySet } from './query-index'
+import queryStrings from 'query-string'
+import { resourceIndex, matchQuerySet } from './query-index'
+import { $globalContext } from '~page-commons/store'
 
-export const conceptSelection = {
+/**
+ *
+ * Bojour! We have some freshly baked _layers_, fried _filters_, and cool _items_.
+ * Please choose a _render flavour_, and appropriate _transfer function_.
+ * Oh, and don't forget our all-you-can-consume _data sauces_!
+ *
+ * Would you pay with performance or memory? We also support network payments.
+ */
+
+const fetchItems = async (layer, query) => {
+  const reqUrl = queryStrings.stringifyUrl({ url: layer.src, query })
+
+  const r = await fetch(reqUrl, {
+    method: 'get',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  return await r.json()
+}
+
+export const nodePicker = {
   merge: createEvent(),
   reset: createEvent(),
   replace: createEvent(),
   remove: createEvent(),
 }
 
-export const pickLayer = createEvent()
+export const didPickLayer = createEvent()
 
-export const resourcesDomain = createStore('user')
-  .on(pickLayer, (_, layerId) => layerId)
+// [!hack] fix this. pls.
+export const $layerSource = createStore(
+  {
+    id: 'everything',
+    label: 'everything',
+    src: '/api/resources/',
+    icon: 'layout-sorted-clusters',
+  })
+  .on(didPickLayer, (_, layerId) => layerId)
 
 export const fetchResources = createEffect()
-  .use(async ({ limit=100, skip=0 }) => {
-    const domain = resourcesDomain.getState()
-    const response = await ResourceAPI[domain]({ limit, skip })
-
+  .use(async ({ layer, limit=400, skip=0 }) => {
+    const response = await fetchItems(layer, { limit, skip })
     if (response.pagination.next) {
-      fetchResources({ limit, skip: response.pagination.next })
+      fetchResources({ layer, limit, skip: response.pagination.next })
     }
     return response.results
   })
 
 export const selectedConcepts = createStore(Set())
-  .on(conceptSelection.merge, (state, vals) => state.union(Set(vals)))
-  .on(conceptSelection.replace, (_, vals) => Set(vals))
-  .on(conceptSelection.reset, () => Set())
-  .on(conceptSelection.remove, (state, vals) => state.subtract(Set(vals)))
-  .reset(pickLayer)
+  .on(nodePicker.merge, (state, vals) => state.union(Set(vals)))
+  .on(nodePicker.replace, (_, vals) => Set(vals))
+  .on(nodePicker.reset, () => Set())
+  .on(nodePicker.remove, (state, vals) => state.subtract(Set(vals)))
+  .reset(didPickLayer)
 
 export const conceptsQuerySet = selectedConcepts
-  .map((state, args) => conceptIndexSet(state.toJS()))
+  .map((state, args) => state.map((c) => c.wikidata_id))
 
 
 export const userResources = createStore([])
   .on(fetchResources.done, (state, r) => [...state, ...r.result])
-  .reset(pickLayer)
+  .reset(didPickLayer)
 
 export const userResourcesIndex = userResources
   .map((state) => resourceIndex(state))
@@ -55,7 +82,7 @@ export const matchingResourceSet = matchingConceptSet
       .uniqBy('resource_id')
       .value()
   })
-  .reset(pickLayer)
+  .reset(didPickLayer)
 
-resourcesDomain
-  .watch(() => fetchResources({}))
+$layerSource
+  .watch((layer) => fetchResources({ layer }))
