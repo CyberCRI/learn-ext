@@ -25,7 +25,6 @@
 
 .discover-map {
   position: relative;
-  border-radius: 10px 10px 0 0;
   box-shadow: $pt-elevation-shadow-2;
   overflow: hidden;
   z-index: 5;
@@ -66,14 +65,14 @@
   .overlay.tools {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     width: 100%;
-    padding: 5px;
+    padding: 10px 20px;
 
     z-index: 4;
 
@@ -86,13 +85,14 @@
     }
 
     .layers {
-      background: transparentize($light-gray5, .5);
-      backdrop-filter: blur(8px);
+      @include bg-vibrant-tint($light-gray5, .5, 8px);
       border-radius: 5px;
       padding: 2px;
 
       button {
         font-weight: 500;
+        text-align: left;
+        justify-content: left;
       }
     }
   }
