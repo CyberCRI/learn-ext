@@ -148,7 +148,7 @@ export const LayerSelection = (props) => {
               active={layer.id === currentLayer.id}
               onClick={() => didPickLayer(layer)}/>
           ))}
-          <Divider/>
+          {userLayers.length > 0 && <Divider/>}
           {userLayers.map((layer) => (
             <Button
               key={layer.id}
@@ -160,6 +160,7 @@ export const LayerSelection = (props) => {
         </ButtonGroup>
       </div>
       <div>
+        <Button icon='share'>Share</Button>
         <MapDropdownMenu/>
         <MapKeyboardShortcutsDialog/>
       </div>
