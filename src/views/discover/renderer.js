@@ -3,7 +3,7 @@ import FileSaver from 'file-saver'
 import Mousetrap from '@ilearn/modules/utilities/mousetrap'
 import _throttle from 'lodash/throttle'
 import _debounce from 'lodash/debounce'
-import _flatMap from 'lodash/flatmap'
+import _flatMap from 'lodash/flatMap'
 import { Map } from 'immutable'
 
 import setupDebugger from './renderer-debugger'
