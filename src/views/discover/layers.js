@@ -22,26 +22,27 @@ const trimLabel = (label) => {
 
 const removeQuote = (x) => x.replace('\\', '')
 
+const takeValues = (concept, lang) => {
+  if (!concept[`title_${lang}`]) {
+    return null
+  }
+
+  return {
+    label: removeQuote(trimLabel(concept[`title_${lang}`])),
+    lang,
+    title: concept[`title_${lang}`],
+  }
+}
+
 const normaliseConcept = (concept) => {
   // Build a normalised Concept Object.
   // We'd prefer english concept title.
-  let label, title, lang
-  if (concept.title_en) {
-    label = removeQuote(trimLabel(concept.title_en))
-    title = removeQuote(concept.title_en)
-    lang = 'en'
-  } else {
-    label = removeQuote(trimLabel(concept.title_fr))
-    title = removeQuote(concept.title_fr)
-    lang = 'fr'
-  }
+
   return {
-    x: +concept.x_map_en,
-    y: +concept.y_map_en,
+    x: concept.x_map_en,
+    y: concept.y_map_en,
     userData: true,
-    label,
-    title,
-    lang,
+    ...(takeValues(concept, 'en') || takeValues(concept, 'fr')),
 
     wikidata_id: concept.wikidata_id,
     elevation: Math.max(concept.elevation, .5),
@@ -49,8 +50,8 @@ const normaliseConcept = (concept) => {
   }
 }
 
-export const fetchLayer = async (id) => {
-  return await MapLayerAPI[id]()
+export const fetchBaseLayer = async (id) => {
+  return await MapLayerAPI.everything()
     .then((concepts) => {
       return _(concepts)
         .map(normaliseConcept)
