@@ -81,6 +81,16 @@ export const MapDropdownMenu = () => {
   )
 }
 
+export const ClipboardTextBox = ({ text }) => {
+  const didClipText = () => window.navigator.clipboard.writeText(text)
+  return (
+    <InputGroup
+      readOnly
+      value={text}
+      rightElement={<Button icon='text-highlight' onClick={didClipText}/>}/>
+  )
+}
+
 export const ShareButton = (props) => {
   const selection = useStore(selectedConcepts)
   const currentLayer = useStore($layerSource)
@@ -93,11 +103,11 @@ export const ShareButton = (props) => {
   }, { arrayFormat: 'comma' })
 
   return (
-    <Popover position='bottom'>
+    <Popover position='bottom' isOpen={true}>
       <Button icon='share'>Share</Button>
       <div>
         <h4>Share your map and selections</h4>
-        <InputGroup rightIcon='copy' value={shareUrlFragment} readonly/>
+        <ClipboardTextBox text={shareUrlFragment}/>
       </div>
     </Popover>
   )
