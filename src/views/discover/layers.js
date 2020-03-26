@@ -1,5 +1,3 @@
-import { OrderedSet } from 'immutable'
-
 import { MapLayerAPI } from '@ilearn/modules/api'
 
 const trimLabel = (label) => {
@@ -26,21 +24,19 @@ const takeValues = (concept, lang) => {
 
 export const fetchBaseLayer = async () => {
   return await MapLayerAPI.everything()
-    .then((nodes) => {
-      return OrderedSet(
-        nodes.map(p => {
-          return {
-            ...p,
-            x: p.x_map_en,
-            y: p.y_map_en,
-            userData: true,
-            ...(takeValues(p, 'en') || takeValues(p, 'fr')),
-            elevation: .8,
-            markerShape: 'circle',
-            markerSize: 4,
-            labelOpacity: 1,
-            labelPriority: (p.n_items || 1),
-          }
-        }).filter(p => p.x && p.y))
-    })
+    .then((nodes) =>
+      nodes.map(p => {
+        return {
+          ...p,
+          x: p.x_map_en,
+          y: p.y_map_en,
+          userData: true,
+          ...(takeValues(p, 'en') || takeValues(p, 'fr')),
+          elevation: .8,
+          markerShape: 'circle',
+          markerSize: 4,
+          labelOpacity: 1,
+          labelPriority: (p.n_items || 1),
+        }
+      }).filter(p => p.x && p.y))
 }
