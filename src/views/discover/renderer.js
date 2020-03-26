@@ -8,18 +8,15 @@ import { Map } from 'immutable'
 
 import setupDebugger from './renderer-debugger'
 import { nodePicker, selectedConcepts, userResources } from './store'
-import { fetchBaseLayer } from './layers'
 
 import { LayerProps, KeyBinding } from './consts'
 
 
 
-export const setupMapView = async (conf) => {
-  const allPoints = await fetchBaseLayer()
-
+export const setupMapView = async (conf, baseLayer) => {
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
-    points: allPoints.toJS(),
+    points: baseLayer,
     ...LayerProps.elevation,
   })
 
@@ -43,7 +40,7 @@ export const setupMapView = async (conf) => {
 
   const markers = DotAtlas.createLayer({
     type: 'marker',
-    points: allPoints.toJS(),
+    points: baseLayer,
     ...LayerProps.markers,
 
     onPointHover: (e) => {
@@ -65,7 +62,7 @@ export const setupMapView = async (conf) => {
 
   const labels = DotAtlas.createLayer({
     type: 'label',
-    points: allPoints.toJS(),
+    points: baseLayer,
     ...LayerProps.labels,
   })
 
