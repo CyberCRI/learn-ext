@@ -4,6 +4,7 @@ import { useStore } from 'effector-react'
 import { Button, ButtonGroup, InputGroup, Divider } from '@blueprintjs/core'
 import { Popover, Menu, Dialog } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
+import queryStrings from 'query-string'
 
 import { i18n } from '@ilearn/modules/i18n'
 import { ResourceCollectionView } from '~components/resources'
@@ -75,6 +76,28 @@ export const MapDropdownMenu = () => {
       <Button icon='more'/>
       <div>
         <MapDropdownMenuContent/>
+      </div>
+    </Popover>
+  )
+}
+
+export const ShareButton = (props) => {
+  const selection = useStore(selectedConcepts)
+  const currentLayer = useStore($layerSource)
+
+  const shareUrlFragment = queryStrings.stringify({
+    share: true,
+    cset: selection.map((s) => s.wikidata_id).toJS(),
+    lid: currentLayer.id,
+    src: currentLayer.src,
+  }, { arrayFormat: 'comma' })
+
+  return (
+    <Popover position='bottom'>
+      <Button icon='share'>Share</Button>
+      <div>
+        <h4>Share your map and selections</h4>
+        <InputGroup rightIcon='copy' value={shareUrlFragment} readonly/>
       </div>
     </Popover>
   )
@@ -160,7 +183,7 @@ export const LayerSelection = (props) => {
         </ButtonGroup>
       </div>
       <div>
-        <Button icon='share'>Share</Button>
+        <ShareButton/>
         <MapDropdownMenu/>
         <MapKeyboardShortcutsDialog/>
       </div>
