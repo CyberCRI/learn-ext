@@ -9,9 +9,11 @@ import queryStrings from 'query-string'
 import { i18n } from '@ilearn/modules/i18n'
 import { ResourceCollectionView } from '~components/resources'
 import { ConceptList } from '~components/concepts'
+import { $globalContext } from '~page-commons/store'
+
+import { MapLayerSources } from './consts'
 import { selectedConcepts, matchingResourceSet } from './store'
 import { didPickLayer, $layerSource } from './store'
-import { $globalContext } from '~page-commons/store'
 
 const overlayControlVariants = {
   open: {
@@ -95,11 +97,13 @@ export const ShareButton = (props) => {
   const selection = useStore(selectedConcepts)
   const currentLayer = useStore($layerSource)
 
-  const shareUrlFragment = queryStrings.stringify({
-    share: true,
-    cset: selection.map((s) => s.wikidata_id).toJS(),
-    lid: currentLayer.id,
-    src: currentLayer.src,
+  const shareUrlFragment = queryStrings.stringifyUrl({
+    url: document.location.href,
+    query: {
+      lid: currentLayer.id,
+      src: currentLayer.src,
+      cset: selection.map((s) => s.wikidata_id).toJS(),
+    },
   }, { arrayFormat: 'comma' })
 
   return (
@@ -117,33 +121,6 @@ export const LayerSelection = (props) => {
   const i18nT = i18n.context('pages.discover.sections.atlas.layers')
   const node = useStore($globalContext)
   const currentLayer = useStore($layerSource)
-  // [!todo] this should not be in here.
-  const layerFeeds = [
-    {
-      id: 'covid19@noop.pw',
-      label: 'Covid-19 Pandemic',
-      src: '/api/resources/bot/covid19@noop.pw',
-      icon: 'graph',
-    },
-    {
-      id: 'projects@import.bot',
-      label: 'CRI Projects',
-      src: '/api/resources/bot/projects@import.bot',
-      icon: 'graph',
-    },
-    {
-      id: 'theconversationfr@import.bot',
-      label: 'The Conversation',
-      src: '/api/resources/feed/theconversation.fr',
-      icon: 'feed',
-    },
-    {
-      id: 'everything',
-      label: i18nT('everything'),
-      src: '/api/resources/',
-      icon: 'layout-sorted-clusters',
-    },
-  ]
 
   const userLayers = []
 
@@ -173,7 +150,7 @@ export const LayerSelection = (props) => {
       <div>
         <h5>Topics</h5>
         <ButtonGroup vertical minimal className='layers'>
-          {layerFeeds.map((layer) => (
+          {MapLayerSources.map((layer) => (
             <Button
               key={layer.id}
               icon={layer.icon}
