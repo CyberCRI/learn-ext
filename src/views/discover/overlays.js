@@ -5,6 +5,7 @@ import { Button, ButtonGroup, InputGroup, Divider } from '@blueprintjs/core'
 import { Popover, Menu, Dialog } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import queryStrings from 'query-string'
+import _ from 'lodash'
 
 import { i18n } from '@ilearn/modules/i18n'
 import { ResourceCollectionView } from '~components/resources'
@@ -12,7 +13,7 @@ import { ConceptList } from '~components/concepts'
 import { $globalContext } from '~page-commons/store'
 
 import { MapLayerSources } from './consts'
-import { selectedConcepts, matchingResourceSet } from './store'
+import { selectedConcepts, userResources } from './store'
 import { didPickLayer, $layerSource } from './store'
 
 const overlayControlVariants = {
@@ -107,7 +108,7 @@ export const ShareButton = (props) => {
   }, { arrayFormat: 'comma' })
 
   return (
-    <Popover position='bottom' isOpen={true}>
+    <Popover position='bottom'>
       <Button icon='share'>Share</Button>
       <div>
         <h4>Share your map and selections</h4>
@@ -221,24 +222,40 @@ export const OverlayConcepts = (props) => {
   )
 }
 
-export const OverlayCards = (props) => {
-  const matchingResources = useStore(matchingResourceSet)
+const PlaceHolder = (props) => {
+  return (
+    <div className='empty'>
+      <h2>Browse resources on map</h2>
+      <p>Pick a region (or several) by clicking on the map. You can refine your
+      selection by zooming in, and select several regions by holding <kbd>shift</kbd>
+      while clicking.</p>
+    </div>
+  )
+}
 
-  if (!matchingResources.length) {
-    return (
-      <div className='empty'>
-        <h2>Browse resources on map</h2>
-        <p>Pick a region (or several) by clicking on the map. You can refine your
-        selection by zooming in, and select several regions by holding <kbd>shift</kbd>
-        while clicking.</p>
-      </div>
-    )
-  }
+export const OverlayCards = (props) => {
+  const resources = useStore(userResources)
+  const selection = useStore(selectedConcepts)
+  const selIx = new Set(selection.toJS().map((c) => c.wikidata_id))
+
+  const matchingResources = resources.filter((r) => {
+    for (let c of r.concepts) {
+      if (selIx.has(c.wikidata_id)) {
+        return true
+      }
+    }
+  })
+
+  const itemList = !matchingResources
+    ? <PlaceHolder/>
+    : <ResourceCollectionView resources={matchingResources}/>
 
   return (
     <div className='matches'>
-      <p>Showing {matchingResources.length} resources</p>
-      <ResourceCollectionView resources={matchingResources}/>
+      <p>there are {resources.length} resouces loaded</p>
+      <p>...and {selection.size} nodes selected on map</p>
+      <p>hence, showing {matchingResources.length} resources</p>
+      {itemList}
     </div>
   )
 }
