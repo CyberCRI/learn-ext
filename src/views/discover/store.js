@@ -1,10 +1,8 @@
 import { createEvent, createEffect, createStore } from 'effector'
 import { Set } from 'immutable'
-import { ResourceAPI } from '@ilearn/modules/api'
 import _ from 'lodash'
 import queryStrings from 'query-string'
 import { resourceIndex, matchQuerySet } from './query-index'
-import { $globalContext } from '~page-commons/store'
 
 /**
  *
@@ -35,14 +33,7 @@ export const nodePicker = {
 
 export const didPickLayer = createEvent()
 
-// [!hack] fix this. pls.
-export const $layerSource = createStore(
-  {
-    id: 'everything',
-    label: 'everything',
-    src: '/api/resources/',
-    icon: 'layout-sorted-clusters',
-  })
+export const $layerSource = createStore({})
   .on(didPickLayer, (_, layerId) => layerId)
 
 export const fetchResources = createEffect()
