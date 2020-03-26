@@ -209,7 +209,7 @@ export const setupMapView = async (conf) => {
       .forEach((p) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
-          p.markerOpacity = .8
+          p.markerOpacity = Math.max(0.5, 1 - (1 / (p.n_items || 1)))
           p.canPick = true
         } else {
           p.markerOpacity = 0
@@ -224,7 +224,7 @@ export const setupMapView = async (conf) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
           p.labelOpacity = 1
-          p.labelPriority = 0.8
+          p.labelPriority = Math.max(0.1, 1 - (1 / (p.n_items || 1)))
         } else {
           p.labelOpacity = 0
           p.labelPriority = 0
@@ -239,7 +239,7 @@ export const setupMapView = async (conf) => {
       .forEach((p) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
-          p.elevation = 0.8
+          p.elevation = .8
         } else {
           p.elevation = 0.01
         }

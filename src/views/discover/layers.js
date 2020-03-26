@@ -39,7 +39,7 @@ export const fetchBaseLayer = async () => {
             markerShape: 'circle',
             markerSize: 4,
             labelOpacity: 1,
-            labelPriority: p.n_items,
+            labelPriority: (p.n_items || 1),
           }
         }).filter(p => p.x && p.y))
     })
