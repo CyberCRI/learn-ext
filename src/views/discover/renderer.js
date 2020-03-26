@@ -123,10 +123,6 @@ export const setupMapView = async (conf) => {
       onDoubleClick: eventTaps.didDoubleClick,
     })
 
-  selectedConcepts.watch((selection) => {
-    selectionOutline.set('points', selection.toJS())
-    atlas.redraw()
-  })
 
   const mapt = {
     get centerPoint () {
@@ -249,6 +245,11 @@ export const setupMapView = async (conf) => {
     await activateLayers()
   }
   deactivateLayers()
+
+  selectedConcepts.watch((selection) => {
+    selectionOutline.set('points', selection.toJS())
+    atlas.redraw()
+  })
   userResources.watch((resources) => {
     const items = _flatMap(resources, 'concepts').map((c) => [ c.wikidata_id, c ])
     updateLayers(Map(items))
