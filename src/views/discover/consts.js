@@ -132,3 +132,32 @@ export const LayerPropConstraints = {
     visible: [true],
   },
 }
+
+// Default `topics`
+export const MapLayerSources = [
+  {
+    id: 'covid19@noop.pw',
+    label: 'Covid-19 Pandemic',
+    src: '/api/resources/bot/covid19@noop.pw',
+    icon: 'graph',
+  },
+  {
+    id: 'projects@import.bot',
+    label: 'CRI Projects',
+    src: '/api/resources/bot/projects@import.bot',
+    icon: 'graph',
+  },
+  {
+    id: 'theconversationfr@import.bot',
+    label: 'The Conversation',
+    src: '/api/resources/feed/theconversation.fr',
+    icon: 'feed',
+  },
+  {
+    id: 'everything',
+    label: 'Everything',
+    src: '/api/resources/',
+    icon: 'layout-grid',
+    default: true,
+  },
+]
