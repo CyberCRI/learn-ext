@@ -86,7 +86,8 @@
 
     .layers {
       @include bg-vibrant-tint($light-gray5, .5, 8px);
-      border-radius: 5px;
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
       padding: 2px;
 
       button {
@@ -99,17 +100,17 @@
 
   .overlay.concepts {
     max-width: 30vw;
-    max-height: 80%;
-    width: 25%;
+    max-height: 60%;
+    width: 35%;
     min-width: 220px;
-    z-index: 4;
+    z-index: 5;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.2);
 
     position: absolute;
     left: 20px;
     bottom: 0;
     overflow: hidden;
     border-radius: 6px 6px 0 0;
-    border: 1px solid transparentize($dark-gray2, .8);
     border-bottom: 0;
 
     display: flex;
