@@ -54,7 +54,7 @@ export const ConceptTag = (props) => {
         return { title: props[attr], lang }
       }
     }
-    return {}
+    return { title: props.title, lang: props.lang }
   })()
 
   const didClickRemove = () => {
