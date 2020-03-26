@@ -248,7 +248,7 @@ module.exports = {
     namedModules: true,
     moduleIds: 'named',
     splitChunks: {
-      minChunks: 4,
+      minChunks: 3,
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
@@ -289,7 +289,7 @@ module.exports = {
     assetsSort: 'type',
   },
 
-  // devtool: IS_PRODUCTION ? 'source-map' : 'inline-source-map',
+  devtool: IS_PRODUCTION ? 'cheap-source-map' : 'eval',
   devServer: {
     port: 8517,
     hot: true,
