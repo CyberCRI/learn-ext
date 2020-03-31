@@ -12,6 +12,7 @@
     "@hookstate/persistence": "^1.5.2",
     "@terwanerik/scrolltrigger": "^1.0.4",
     "bulma": "^0.8.1",
+    "d3": "^5.15.0",
     "dat.gui": "^0.7.6",
     "effector": "^20.13.4",
     "effector-react": "^20.6.3",
