@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { createStore, createApi } from 'effector'
 import { useStore } from 'effector-react'
-import { Button, ButtonGroup, InputGroup, Divider } from '@blueprintjs/core'
+import { Button, ButtonGroup, InputGroup, Divider, ControlGroup } from '@blueprintjs/core'
 import { Popover, Menu, Dialog } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
+import { useToggle } from 'react-use'
 import queryStrings from 'query-string'
 import _ from 'lodash'
 
@@ -87,16 +88,31 @@ export const MapDropdownMenu = () => {
 export const ClipboardTextBox = ({ text }) => {
   const didClipText = () => window.navigator.clipboard.writeText(text)
   return (
-    <InputGroup
-      readOnly
-      value={text}
-      rightElement={<Button icon='text-highlight' onClick={didClipText}/>}/>
+    <ControlGroup fill={true}>
+      <InputGroup
+        readOnly
+        value={text}
+        onClick={didClipText}
+        rightElement/>
+      <Button
+        icon='text-highlight'
+        intent='primary'
+        onClick={didClipText}
+        text='Copy Link'
+        style={{flexGrow: 0}}/>
+    </ControlGroup>
   )
 }
 
 export const ShareButton = (props) => {
+  const [ visible, setVisibility ] = useToggle(false)
   const selection = useStore(selectedConcepts)
   const currentLayer = useStore($layerSource)
+  let canvasImg
+
+  if (typeof window._magic_atlas === 'object') {
+    canvasImg = window._magic_atlas.get('imageData')
+  }
 
   const shareUrlFragment = queryStrings.stringifyUrl({
     url: document.location.href,
@@ -108,11 +124,17 @@ export const ShareButton = (props) => {
   }, { arrayFormat: 'comma' })
 
   return (
-    <Popover position='bottom'>
-      <Button icon='share'>Share</Button>
-      <div>
+    <Popover position='bottom' isOpen={visible} onClose={() => setVisibility(false)}>
+      <Button icon='share' onClick={setVisibility}>Share</Button>
+      <div className='widget sharing'>
         <h4>Share your map and selections</h4>
-        <ClipboardTextBox text={shareUrlFragment}/>
+        <div className='state'>
+          {canvasImg && <img src={canvasImg}/>}
+        </div>
+        <div>
+          <p>Use the link below to share your map.</p>
+          <ClipboardTextBox text={shareUrlFragment}/>
+        </div>
       </div>
     </Popover>
   )

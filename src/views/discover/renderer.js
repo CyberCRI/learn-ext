@@ -81,6 +81,7 @@ export const setupMapView = async (conf, baseLayer) => {
     didDoubleClick: (e, ...args) => {
     },
     didHover: (e, ...args) => {
+      console.log(elevation.get('elevationAt', e.elementX, e.elementY))
     },
     didMouseWheel: (e, ...args) => {
     },
@@ -121,7 +122,7 @@ export const setupMapView = async (conf, baseLayer) => {
     })
 
 
-  const mapt = {
+  atlas.mapt = {
     get centerPoint () {
       const { height, width } = conf.element.getBoundingClientRect()
       const [ ptx, pty, _ ] = atlas.screenToPointSpace(width / 2, height / 2)
@@ -158,12 +159,12 @@ export const setupMapView = async (conf, baseLayer) => {
   const keyboardTrigger = new Mousetrap()
 
   keyboardTrigger
-    .bind(KeyBinding.panning.left,  _throttle(() => mapt.x += -1, 200))
-    .bind(KeyBinding.panning.right, _throttle(() => mapt.x += 1, 200))
-    .bind(KeyBinding.panning.up,    _throttle(() => mapt.y += -1, 200))
-    .bind(KeyBinding.panning.down,  _throttle(() => mapt.y += 1, 200))
-    .bind(KeyBinding.zooming.plus,  _throttle(() => mapt.zoom += 1, 200))
-    .bind(KeyBinding.zooming.minus, _throttle(() => mapt.zoom += -1, 200))
+    .bind(KeyBinding.panning.left,  _throttle(() => atlas.mapt.x += -1, 200))
+    .bind(KeyBinding.panning.right, _throttle(() => atlas.mapt.x += 1, 200))
+    .bind(KeyBinding.panning.up,    _throttle(() => atlas.mapt.y += -1, 200))
+    .bind(KeyBinding.panning.down,  _throttle(() => atlas.mapt.y += 1, 200))
+    .bind(KeyBinding.zooming.plus,  _throttle(() => atlas.mapt.zoom += 1, 200))
+    .bind(KeyBinding.zooming.minus, _throttle(() => atlas.mapt.zoom += -1, 200))
     .bind(KeyBinding.control.clearSelection, () => nodePicker.reset())
     .bind(KeyBinding.control.downloadView, () => {
       FileSaver.saveAs(atlas.get('imageData'), 'atlas-im.png')
@@ -253,6 +254,7 @@ export const setupMapView = async (conf, baseLayer) => {
   })
 
   window.addEventListener('resize', eventTaps.didResizeViewport)
+  window._magic_atlas = atlas
 
   return atlas
 }

@@ -35,7 +35,7 @@ export const $layerSource = createStore({})
   .on(didPickLayer, (_, layerId) => layerId)
 
 export const fetchResources = createEffect()
-  .use(async ({ layer, limit=400, skip=0 }) => {
+  .use(async ({ layer, limit=1000, skip=0 }) => {
     const response = await fetchItems(layer, { limit, skip })
     if (response.pagination.next) {
       fetchResources({ layer, limit, skip: response.pagination.next })

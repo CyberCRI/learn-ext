@@ -160,3 +160,15 @@ body {
     }
   }
 }
+
+.widget {
+  padding: 5px 10px;
+  position: relative;
+
+  &.sharing {
+    .state img {
+      height: 160px;
+      border-radius: 5px;
+    }
+  }
+}

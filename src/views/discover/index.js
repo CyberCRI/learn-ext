@@ -22,14 +22,15 @@ const initMap = async () => {
 
   if (query.src) {
     // pick this layer.
-    didPickLayer({
+    await didPickLayer({
       id: query.lid,
       label: 'Shared',
       src: query.src,
     })
 
     if (query.cset) {
-      nodePicker.replace(baseLayerPoints.filter((pt) => query.cset.indexOf(pt.wikidata_id) >= 0))
+      const csetix = new Set(query.cset)
+      nodePicker.replace(baseLayerPoints.filter((pt) => csetix.has(pt.wikidata_id)))
     }
   } else {
     didPickLayer(defaultLayer)
