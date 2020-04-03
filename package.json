@@ -39,6 +39,8 @@
     "react-stonecutter": "^0.3.10",
     "react-use": "^13.27.1",
     "react-virtualized": "^9.21.2",
+    "react-window": "^1.8.5",
+    "react-window-infinite-loader": "^1.0.5",
     "rebound": "^0.1.0",
     "url-parse": "^1.4.6",
     "uuid": "^7.0.2",

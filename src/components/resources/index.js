@@ -1,15 +1,11 @@
 import React from 'react'
-import { CSSGrid, measureItems, makeResponsive, layout } from 'react-stonecutter'
+import { FixedSizeList as List } from 'react-window'
+import { useWindowSize } from 'react-use'
 
 import { reFuse } from '~mixins/itertools'
 import { ResourceCard } from '~components/cards/resources'
 import * as Placeholder from './placeholders'
 
-
-const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
-  maxWidth: 1280,
-  minPadding: 20,
-})
 
 const filterKeys = [
   'title',
@@ -18,22 +14,43 @@ const filterKeys = [
   'concepts.title_fr',
 ]
 
-export const ResourceCollectionView = ({ resources, ...props }) => {
+const ItemRenderer = ({ index, style, ...props }) => {
   return (
-    <Grid
-      component='ul'
-      columnWidth={270}
-      gutterWidth={10}
-      gutterHeight={20}
-      layout={layout.pinterest}
-      duration={50}
-      className='resources'>
-      {resources.map((x, i) =>
-        <li key={x.resource_id}>
-          <ResourceCard {...x} {...props}/>
-        </li>
+    <div style={style}>
+      {index}
+    </div>
+  )
+}
+
+const ItemsRow = ({ items, style, ...props }) => {
+  return (
+    <div className='item-row'
+      style={{
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'space-evenly',
+        padding: '10px 0',
+        ...style,
+      }}>
+      {items.map((item, ix) => <ResourceCard key={ix} {...item}/>)}
+    </div>
+  )
+}
+
+export const ResourceCollectionView = ({ resources, ...props }) => {
+  // take the width of the viewport and try to fit as many elements
+  // in a row as possible.
+  const viewport = useWindowSize()
+  const itemsPerRow = Math.max(Math.floor(viewport.width / 240), 1)
+  console.log(itemsPerRow)
+
+
+  return (
+    <List height={800} itemCount={Math.floor(resources.length / itemsPerRow)} itemSize={400}>
+      {({ index, style }) => (
+        <ItemsRow items={resources.slice(index * itemsPerRow, (index + 1) * itemsPerRow)} style={style}/>
       )}
-    </Grid>
+    </List>
   )
 }
 
