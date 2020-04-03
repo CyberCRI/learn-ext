@@ -32,6 +32,10 @@ const initMap = async () => {
       const csetix = new Set(query.cset)
       nodePicker.replace(baseLayerPoints.filter((pt) => csetix.has(pt.wikidata_id)))
     }
+
+    if (query.tfs && query.tfx && query.tfy) {
+      atlas.mapt.centerPoint = { x: query.tfx, y: query.tfy, zoom: query.tfs }
+    }
   } else {
     didPickLayer(defaultLayer)
   }

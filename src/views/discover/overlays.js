@@ -109,9 +109,11 @@ export const ShareButton = (props) => {
   const selection = useStore(selectedConcepts)
   const currentLayer = useStore($layerSource)
   let canvasImg
+  let transform = {}
 
   if (typeof window._magic_atlas === 'object') {
     canvasImg = window._magic_atlas.get('imageData')
+    transform = window._magic_atlas.mapt.centerPoint
   }
 
   const shareUrlFragment = queryStrings.stringifyUrl({
@@ -120,6 +122,9 @@ export const ShareButton = (props) => {
       lid: currentLayer.id,
       src: currentLayer.src,
       cset: selection.map((s) => s.wikidata_id).toJS(),
+      tfx: transform.x,
+      tfy: transform.y,
+      tfs: transform.zoom,
     },
   }, { arrayFormat: 'comma' })
 
