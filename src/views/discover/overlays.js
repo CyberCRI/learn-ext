@@ -280,7 +280,7 @@ export const OverlayCards = (props) => {
     <div className='matches'>
       <p>there are {resources.length} resouces loaded</p>
       <p>...and {selection.size} nodes selected on map</p>
-      <p>hence, showing {matchingResources.length} resources</p>
+      <p>hence, showing {matchingResources.length} resources (20 per page)</p>
       {itemList}
     </div>
   )

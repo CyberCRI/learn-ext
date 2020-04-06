@@ -1,11 +1,13 @@
 import React from 'react'
 import { FixedSizeList as List } from 'react-window'
+import { CSSGrid, measureItems, makeResponsive, layout } from 'react-stonecutter'
 import { useWindowSize } from 'react-use'
 import _chunk from 'lodash/chunk'
 
 import { reFuse } from '~mixins/itertools'
 import { ResourceCard } from '~components/cards/resources'
 import * as Placeholder from './placeholders'
+import Pagination from './pagination'
 
 
 const filterKeys = [
@@ -14,6 +16,11 @@ const filterKeys = [
   'concepts.title_en',
   'concepts.title_fr',
 ]
+
+const Grid = makeResponsive(measureItems(CSSGrid, { measureImages: true }), {
+  maxWidth: 1280,
+  minPadding: 20,
+})
 
 const ItemRenderer = ({ index, style, ...props }) => {
   return (
@@ -41,17 +48,30 @@ const ItemsRow = ({ items, style, ...props }) => {
 export const ResourceCollectionView = ({ resources, ...props }) => {
   // take the width of the viewport and try to fit as many elements
   // in a row as possible.
-  const viewport = useWindowSize()
-  const itemsPerRow = Math.max(Math.floor(viewport.width / 240), 1)
-  const rows = _chunk(resources, itemsPerRow)
+  const [pageNumber, setPage] = React.useState(1)
+
+  const rows = _chunk(resources, 20)
+  const row = rows[pageNumber - 1] || []
   // const pages = _chunk(rows, 5)
 
   return (
     <div>
-      <h3>top matches</h3>
-      {rows[0] && <ItemsRow items={rows[0]} style={{}}/>}
+      <Pagination totalCount={rows.length} onPaginate={setPage} current={pageNumber}/>
+      <Grid
+        component='ul'
+        columnWidth={270}
+        gutterWidth={10}
+        gutterHeight={20}
+        layout={layout.pinterest}
+        duration={50}
+        className='resources'>
+        {row.map((x, i) =>
+          <li key={x.resource_id}>
+            <ResourceCard {...x} {...props}/>
+          </li>
+        )}
+      </Grid>
     </div>
-
   )
 }
 
