@@ -57,7 +57,7 @@ function pagingCells (n, pos, maxCells=CELL_COUNT) {
   return cells
 }
 
-const Pagination = ({count, cursor, onPaginate, maxCells=CELL_COUNT}) => {
+export const Pagination = ({count, cursor, onPaginate, maxCells=CELL_COUNT}) => {
   // Renders a Pagination Button Group, inserting ellipsis based on cursor.
   // ┌───┬───┬───┬───┬───┐
   // │ < │ 1 │ 2 │ 3 │ > │
@@ -82,7 +82,7 @@ const Pagination = ({count, cursor, onPaginate, maxCells=CELL_COUNT}) => {
     text='Next'/>
 
   return (
-    <ButtonGroup>
+    <ButtonGroup className='pagination'>
       {PrevPage}
       {pagingCells(count, cursor, maxCells).map(({ nr, ellipsis }) =>
         <Button
@@ -98,5 +98,3 @@ const Pagination = ({count, cursor, onPaginate, maxCells=CELL_COUNT}) => {
     </ButtonGroup>
   )
 }
-
-export default Pagination

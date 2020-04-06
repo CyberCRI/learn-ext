@@ -300,7 +300,7 @@ module.exports = {
     writeToDisk: false,
 
     hot: true,
-    injectHot: (compilerConfig) => compilerConfig.name === 'only-include',
+    // injectHot: (compilerConfig) => compilerConfig.name === 'only-include',
 
     index: 'pages/discover.html',
     compress: true,
