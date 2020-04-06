@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { createStore, createApi } from 'effector'
-import { useStore } from 'effector-react'
+import { useStore, useStoreMap } from 'effector-react'
 import { Button, ButtonGroup, InputGroup, Divider, ControlGroup } from '@blueprintjs/core'
 import { Popover, Menu, Dialog } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
@@ -9,7 +9,7 @@ import queryStrings from 'query-string'
 import _ from 'lodash'
 
 import { i18n } from '@ilearn/modules/i18n'
-import { ResourceCollectionView } from '~components/resources'
+import { ResourceGrid, Pagination } from '~components/resources'
 import { ConceptList } from '~components/concepts'
 import { $globalContext } from '~page-commons/store'
 
@@ -262,6 +262,8 @@ const PlaceHolder = (props) => {
 export const OverlayCards = (props) => {
   const resources = useStore(userResources)
   const selection = useStore(selectedConcepts)
+  const [page, setPage] = useState(1)
+
   const selIx = new Set(selection.toJS().map((c) => c.wikidata_id))
 
   const matchingResources = resources.filter((r) => {
@@ -271,17 +273,16 @@ export const OverlayCards = (props) => {
       }
     }
   })
-
-  const itemList = !matchingResources
-    ? <PlaceHolder/>
-    : <ResourceCollectionView resources={matchingResources}/>
+  const pages = _.chunk(matchingResources, 20)
 
   return (
     <div className='matches'>
-      <p>there are {resources.length} resouces loaded</p>
-      <p>...and {selection.size} nodes selected on map</p>
-      <p>hence, showing {matchingResources.length} resources (20 per page)</p>
-      {itemList}
+      <p>n(res) = {resources.length}, n(sel) = {selection.size}, n(match) = {matchingResources.length}</p>
+
+      {!selection.size && <PlaceHolder/>}
+
+      <ResourceGrid resources={pages[page - 1] || []}/>
+      <Pagination count={pages.length} onPaginate={setPage} cursor={page}/>
     </div>
   )
 }

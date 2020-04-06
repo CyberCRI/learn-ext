@@ -81,7 +81,7 @@ export const setupMapView = async (conf, baseLayer) => {
     didDoubleClick: (e, ...args) => {
     },
     didHover: (e, ...args) => {
-      console.log(elevation.get('elevationAt', e.elementX, e.elementY))
+      elevation.get('elevationAt', e.elementX, e.elementY)
     },
     didMouseWheel: (e, ...args) => {
     },

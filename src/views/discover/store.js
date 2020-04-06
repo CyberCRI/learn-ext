@@ -64,7 +64,9 @@ export const selectedConcepts = createStore(Set())
   .reset(didPickLayer)
 
 export const userResources = createStore([])
-  .on(fetchResources.done, (state, r) => [...state, ...r.result])
+  .on(fetchResources.done, (state, params) => {
+    return params.result
+  })
   .reset(didPickLayer)
 
 $layerSource

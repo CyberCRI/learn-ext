@@ -42,8 +42,8 @@ const initMap = async () => {
 }
 
 export const renderView = async () => {
-  renderReactComponent('overlay-tools', OverlayTools)
-  renderReactComponent('overlay-concepts', OverlayConcepts)
-  renderReactComponent('discover-view', OverlayCards)
   initMap()
+  renderReactComponent('overlay-tools', OverlayTools)
+  // renderReactComponent('overlay-concepts', OverlayConcepts)
+  renderReactComponent('discover-view', OverlayCards)
 }
