@@ -50,7 +50,7 @@ export const LayerProps = {
     markerSizeMultiplier: 5,
     markerStrokeOpacity:  .3,
     markerStrokeWidth:    .2,
-    visible: false,
+    visible: true,
   },
   hoverOutline: {
     outlineFillColor:         rgba`#a0ccff64`,
@@ -58,7 +58,7 @@ export const LayerProps = {
     outlineRadiusOffset:      2,
     outlineStrokeColor:       rgba`#243c4bc8`,
     outlineStrokeWidth:       0.5,
-    visible: false,
+    visible: true,
   },
   markers: {
     markerFillOpacity:    0.2,

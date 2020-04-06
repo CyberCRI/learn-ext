@@ -217,7 +217,7 @@ export const setupMapView = async (conf, baseLayer) => {
       .get('points')
       .forEach((p) => {
         pt = pts.get(p.wikidata_id)
-        if (pt) {
+        if (pt && p.n_items > 1) {
           p.labelOpacity = 1
           p.labelPriority = Math.max(0.1, 1 - (1 / (p.n_items || 1)))
         } else {

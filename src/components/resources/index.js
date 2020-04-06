@@ -44,13 +44,14 @@ export const ResourceCollectionView = ({ resources, ...props }) => {
   const viewport = useWindowSize()
   const itemsPerRow = Math.max(Math.floor(viewport.width / 240), 1)
   const rows = _chunk(resources, itemsPerRow)
+  // const pages = _chunk(rows, 5)
 
   return (
-    <List height={800} itemCount={rows.length} itemSize={400}>
-      {({ index, style }) => (
-        <ItemsRow items={rows[index]} style={style}/>
-      )}
-    </List>
+    <div>
+      <h3>top matches</h3>
+      {rows[0] && <ItemsRow items={rows[0]} style={{}}/>}
+    </div>
+
   )
 }
 
