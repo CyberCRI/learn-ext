@@ -176,7 +176,7 @@ export const LayerSelection = (props) => {
   return (
     <div className='overlay tools'>
       <div>
-        <h5>Topics</h5>
+        <h5>Featured Maps</h5>
         <ButtonGroup vertical minimal className='layers'>
           {MapLayerSources.map((layer) => (
             <Button
@@ -199,7 +199,6 @@ export const LayerSelection = (props) => {
       </div>
       <div>
         <ShareButton/>
-        <MapDropdownMenu/>
         <MapKeyboardShortcutsDialog/>
       </div>
     </div>

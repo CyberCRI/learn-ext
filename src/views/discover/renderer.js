@@ -187,6 +187,7 @@ export const setupMapView = async (conf, baseLayer) => {
     markers.set('visible', true)
     markers.update('markerOpacity')
     labels.set('visible', true)
+    labels.update('points')
     labels.update('labelOpacity')
     labels.update('labelPriority')
     labels.update('labelVisibilityScales')

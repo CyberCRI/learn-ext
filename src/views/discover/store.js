@@ -11,6 +11,8 @@ import queryStrings from 'query-string'
  * Would you pay with performance or memory? We also support network payments.
  */
 
+const BATCH_LIMIT = 1000
+
 const fetchItems = async (layer, query) => {
   const reqUrl = queryStrings.stringifyUrl({ url: layer.src, query })
 
@@ -35,12 +37,23 @@ export const $layerSource = createStore({})
   .on(didPickLayer, (_, layerId) => layerId)
 
 export const fetchResources = createEffect()
-  .use(async ({ layer, limit=1000, skip=0 }) => {
-    const response = await fetchItems(layer, { limit, skip })
-    if (response.pagination.next) {
-      fetchResources({ layer, limit, skip: response.pagination.next })
+  .use(async ({ layer }) => {
+    let page = { limit: 1000, skip: 0, next: true }
+
+    let items = []
+
+    while (page.next) {
+      console.log('[!fetch layer]', page, layer)
+      const r = await fetchItems(layer, { skip: page.skip, limit: page.limit })
+      const { pagination, results } = r
+      items = items.concat(results)
+      page.skip = pagination.next
+      page.next = pagination.next
+      if (!pagination.next) {
+        break
+      }
     }
-    return response.results
+    return items
   })
 
 export const selectedConcepts = createStore(Set())

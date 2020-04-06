@@ -1,6 +1,7 @@
 import React from 'react'
 import { FixedSizeList as List } from 'react-window'
 import { useWindowSize } from 'react-use'
+import _chunk from 'lodash/chunk'
 
 import { reFuse } from '~mixins/itertools'
 import { ResourceCard } from '~components/cards/resources'
@@ -42,13 +43,12 @@ export const ResourceCollectionView = ({ resources, ...props }) => {
   // in a row as possible.
   const viewport = useWindowSize()
   const itemsPerRow = Math.max(Math.floor(viewport.width / 240), 1)
-  console.log(itemsPerRow)
-
+  const rows = _chunk(resources, itemsPerRow)
 
   return (
-    <List height={800} itemCount={Math.floor(resources.length / itemsPerRow)} itemSize={400}>
+    <List height={800} itemCount={rows.length} itemSize={400}>
       {({ index, style }) => (
-        <ItemsRow items={resources.slice(index * itemsPerRow, (index + 1) * itemsPerRow)} style={style}/>
+        <ItemsRow items={rows[index]} style={style}/>
       )}
     </List>
   )
