@@ -292,13 +292,25 @@ module.exports = {
   devtool: IS_PRODUCTION ? 'cheap-source-map' : 'eval',
   devServer: {
     port: 8517,
-    hot: true,
     clientLogLevel: 'error',
     stats: 'minimal',
     inline: true,
     open: false,
     overlay: true,
-    writeToDisk: true,
+    writeToDisk: false,
+
+    hot: true,
+    injectHot: (compilerConfig) => compilerConfig.name === 'only-include',
+
+    index: 'pages/discover.html',
+    compress: true,
+    contentBase: target.buildPath,
+    proxy: [{
+      context: ['/api', '/meta', '/textract', '/.docs'],
+      target: dotenv.sys.ILRN_NGAPI_HOST || 'https://welearn.cri-paris.org',
+      // secure: false,
+      changeOrigin: true,
+    }],
   },
 
   node: { global: true },
