@@ -11,6 +11,35 @@
 
 Here is what's new in this version of WeLearn extension:
 
+## v0.2.0
+Released on `2020-04-07`
+
+Our **Discover Map** has evolved!
+
+- You can now get a link to share a view of the map.
+- Thanks to the active curation by our users, we have **Featured Maps** with
+  curated resources on Covid-19 Pandemic. You can also browse the RSS feed
+  of TheConversion.com, and CRI Projects.
+- Map Performance improvements. As our map evolves, we are actively optimizing
+  it to make sure it works well. Please share your feedback with us on
+  GitHub or send us an email, please mention the type of device you're using
+  if possible.
+
+> While our Covid-19 map looks nice, it does not constitute a medical advice.
+> For facts and figures, please consult **official resources for Covid-19 Pandemic**:
+> 
+> - [WHO Advisory](https://www.who.int/emergencies/diseases/novel-coronavirus-2019) 
+> - [Informations Officielles | gouvernement.fr](https://www.gouvernement.fr/info-coronavirus)
+> 
+> Take care of yourself, we're all in this together. Until then #RestezChezVous!
+
+We have more features coming soon:
+
+- Filtering, sorting, and searching the map.
+- Group resources based on concepts.
+- Fine tune your shared map and add labels, and share it in our *featured maps*.
+- A timelapse of how your map evolved.
+
 ## v0.1.5
 Released on `2020-02-27`
 
