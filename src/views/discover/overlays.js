@@ -16,6 +16,7 @@ import { $globalContext } from '~page-commons/store'
 import { MapLayerSources } from './consts'
 import { selectedConcepts, userResources } from './store'
 import { didPickLayer, $layerSource } from './store'
+import { setCursor, $cursor } from './store'
 
 const overlayControlVariants = {
   open: {
@@ -199,7 +200,6 @@ export const LayerSelection = (props) => {
       </div>
       <div>
         <ShareButton/>
-        <MapKeyboardShortcutsDialog/>
       </div>
     </div>
   )
@@ -262,7 +262,7 @@ const PlaceHolder = (props) => {
 export const OverlayCards = (props) => {
   const resources = useStore(userResources)
   const selection = useStore(selectedConcepts)
-  const [page, setPage] = useState(1)
+  const cursor = useStore($cursor)
 
   const selIx = new Set(selection.toJS().map((c) => c.wikidata_id))
 
@@ -275,17 +275,25 @@ export const OverlayCards = (props) => {
   })
   const pages = _.chunk(matchingResources, 20)
 
+  React.useEffect(() => {
+    return selectedConcepts.watch(() => setCursor({ count: pages.length, current: 1 }))
+  }, [selection])
+
+  const setPage = (page) => {
+    setCursor({ current: page })
+  }
+
   if (selection.size > 0) {
     return (
       <div className='matches'>
         <div style={{ display: 'flex', 'justify-content': 'space-between', padding: '10px 20px' }}>
-          <Pagination count={pages.length} onPaginate={setPage} cursor={page}/>
+          <Pagination count={cursor.count} onPaginate={setPage} cursor={cursor.current}/>
           <div>
             <span><Tag minimal round>{selection.size}</Tag> Concepts</span>
             <span><Tag minimal round>{matchingResources.length}</Tag> Matches</span>
           </div>
         </div>
-        <ResourceGrid resources={pages[page - 1] || []}/>
+        <ResourceGrid resources={pages[cursor.current - 1] || []}/>
       </div>
     )
   }

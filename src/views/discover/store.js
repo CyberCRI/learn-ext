@@ -71,3 +71,11 @@ export const userResources = createStore([])
 
 $layerSource
   .watch((layer) => fetchResources({ layer }))
+
+export const setCursor = createEvent()
+
+export const $cursor = createStore({ current: 0, count: 0})
+  .on(setCursor, (state, page) => ({ ...state, ...page }))
+  .reset(nodePicker.reset)
+  .reset(nodePicker.replace)
+  .reset(didPickLayer)
