@@ -139,19 +139,19 @@ export const MapLayerSources = [
     id: 'covid19@noop.pw',
     label: 'Covid-19 Pandemic',
     src: '/api/resources/bot/covid19@noop.pw',
-    icon: 'graph',
+    icon: 'layout-circle',
   },
   {
     id: 'projects@import.bot',
     label: 'CRI Projects',
     src: '/api/resources/bot/projects@import.bot',
-    icon: 'graph',
+    icon: 'layout-circle',
   },
   {
     id: 'theconversationfr@import.bot',
     label: 'The Conversation',
     src: '/api/resources/feed/theconversation.fr',
-    icon: 'feed',
+    icon: 'layout-circle',
   },
   {
     id: 'everything',

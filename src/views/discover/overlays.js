@@ -279,15 +279,14 @@ export const OverlayCards = (props) => {
     return selectedConcepts.watch(() => setCursor({ count: pages.length, current: 1 }))
   }, [selection])
 
-  const setPage = (page) => {
-    setCursor({ current: page })
-  }
-
   if (selection.size > 0) {
     return (
       <div className='matches'>
         <div style={{ display: 'flex', 'justify-content': 'space-between', padding: '10px 20px' }}>
-          <Pagination count={cursor.count} onPaginate={setPage} cursor={cursor.current}/>
+          <Pagination
+            count={cursor.count}
+            cursor={cursor.current}
+            onPaginate={(page) => setCursor({ current: page })}/>
           <div>
             <span><Tag minimal round>{selection.size}</Tag> Concepts</span>
             <span><Tag minimal round>{matchingResources.length}</Tag> Matches</span>
