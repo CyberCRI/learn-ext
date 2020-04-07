@@ -1,9 +1,9 @@
 import React from 'react'
-import { CSSGrid, makeResponsive, layout } from 'react-stonecutter'
+import { SpringGrid, makeResponsive, layout } from 'react-stonecutter'
 import { ResourceCard } from '~components/cards/resources'
 import measureCards from './hoc-measure-cards'
 
-const Grid = makeResponsive(measureCards(CSSGrid, { measureImages: true }), {
+const Grid = makeResponsive(measureCards(SpringGrid, { measureImages: true }), {
   maxWidth: 1280,
   minPadding: 20,
 })
@@ -17,7 +17,8 @@ export const ResourceGrid = ({ resources, ...props }) => {
         gutterWidth={10}
         gutterHeight={20}
         layout={layout.pinterest}
-        duration={50}
+        enterExitStyle='fromBottom'
+        springConfig={{ stiffness: 200, damping: 20 }}
         className='resources'>
         {resources.map((x, i) =>
           <li key={x.resource_id}>

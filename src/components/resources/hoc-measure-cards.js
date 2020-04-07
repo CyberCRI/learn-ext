@@ -24,7 +24,7 @@ export default (Grid, { measureImages, background } = {}) =>
     }
 
     componentDidMount() {
-      this.updateRectsDebounced = debounce(this.updateRects, 20)
+      this.updateRectsDebounced = debounce(this.updateRects, 10)
       this.measureElements()
     }
 
@@ -50,7 +50,7 @@ export default (Grid, { measureImages, background } = {}) =>
                 this.loading[el.dataset.stonecutterkey] = true
 
                 imagesLoaded(el, { background }, () => {
-                  this.measureElementWithImages(el, 5)
+                  this.measureElementWithImages(el, 10)
                 })
               })
           } else {
@@ -76,7 +76,7 @@ export default (Grid, { measureImages, background } = {}) =>
         clearTimeout(this.retryTimeouts[el.dataset.stonecutterkey])
         this.retryTimeouts[el.dataset.stonecutterkey] = setTimeout(
           this.measureElement,
-          20,
+          10,
           el,
           --retries
         )
@@ -132,12 +132,12 @@ export default (Grid, { measureImages, background } = {}) =>
               'div',
               {
                 style: {
-                  // width: 0,
-                  // height: 0,
+                  width: 0,
+                  height: 0,
                   padding: 0,
                   margin: 0,
                   overflow: 'hidden',
-                  // visibility: 'hidden',
+                  visibility: 'hidden',
                 },
                 ref: el => {
                   this.elementsToMeasureContainer = el

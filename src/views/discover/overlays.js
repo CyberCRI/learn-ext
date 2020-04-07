@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { createStore, createApi } from 'effector'
-import { useStore, useStoreMap } from 'effector-react'
-import { Button, ButtonGroup, InputGroup, Divider, ControlGroup } from '@blueprintjs/core'
+import { useStore, usePreviousDistinct } from 'effector-react'
+import { Button, ButtonGroup, InputGroup, Divider, ControlGroup, Tag } from '@blueprintjs/core'
 import { Popover, Menu, Dialog } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import { useToggle } from 'react-use'
@@ -275,14 +275,23 @@ export const OverlayCards = (props) => {
   })
   const pages = _.chunk(matchingResources, 20)
 
+  if (selection.size > 0) {
+    return (
+      <div className='matches'>
+        <div style={{ display: 'flex', 'justify-content': 'space-between', padding: '10px 20px' }}>
+          <Pagination count={pages.length} onPaginate={setPage} cursor={page}/>
+          <div>
+            <span><Tag minimal round>{selection.size}</Tag> Concepts</span>
+            <span><Tag minimal round>{matchingResources.length}</Tag> Matches</span>
+          </div>
+        </div>
+        <ResourceGrid resources={pages[page - 1] || []}/>
+      </div>
+    )
+  }
   return (
     <div className='matches'>
-      <p>n(res) = {resources.length}, n(sel) = {selection.size}, n(match) = {matchingResources.length}</p>
-
-      {!selection.size && <PlaceHolder/>}
-
-      <ResourceGrid resources={pages[page - 1] || []}/>
-      <Pagination count={pages.length} onPaginate={setPage} cursor={page}/>
+      <PlaceHolder/>
     </div>
   )
 }
