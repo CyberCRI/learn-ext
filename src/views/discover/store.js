@@ -33,11 +33,17 @@ export const nodePicker = {
 
 export const didPickLayer = createEvent()
 
+export const setProgress = createEvent()
+export const $progress = createStore({ loading: true, value: 0.1 })
+  .on(setProgress, (state, value) => ({ loading: value !== 1, value }))
+  .reset(didPickLayer)
+
 export const $layerSource = createStore({})
   .on(didPickLayer, (_, layerId) => layerId)
 
 export const fetchResources = createEffect()
   .use(async ({ layer }) => {
+    setProgress(0.4)
     let page = { limit: 1000, skip: 0, next: true }
 
     let items = []
@@ -53,6 +59,7 @@ export const fetchResources = createEffect()
         break
       }
     }
+    setProgress(1)
     return items
   })
 
@@ -79,3 +86,4 @@ export const $cursor = createStore({ current: 0, count: 0})
   .reset(nodePicker.reset)
   .reset(nodePicker.replace)
   .reset(didPickLayer)
+

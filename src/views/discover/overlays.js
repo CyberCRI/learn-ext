@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { createStore, createApi } from 'effector'
-import { useStore, usePreviousDistinct } from 'effector-react'
+import { useStore } from 'effector-react'
 import { Button, ButtonGroup, InputGroup, Divider, ControlGroup, Tag } from '@blueprintjs/core'
-import { Popover, Menu, Dialog } from '@blueprintjs/core'
+import { Popover, Menu, Dialog, ProgressBar } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import { useToggle } from 'react-use'
 import queryStrings from 'query-string'
@@ -16,7 +16,7 @@ import { $globalContext } from '~page-commons/store'
 import { MapLayerSources } from './consts'
 import { selectedConcepts, userResources } from './store'
 import { didPickLayer, $layerSource } from './store'
-import { setCursor, $cursor } from './store'
+import { setCursor, $cursor, $progress } from './store'
 
 const overlayControlVariants = {
   open: {
@@ -299,6 +299,15 @@ export const OverlayCards = (props) => {
   return (
     <div className='matches'>
       <PlaceHolder/>
+    </div>
+  )
+}
+
+export const ProgressIndicator = (props) => {
+  const progress = useStore($progress)
+  return (
+    <div style={{ width: '50%', margin: 'auto' }}>
+      {progress.loading && <ProgressBar value={progress.value}/>}
     </div>
   )
 }

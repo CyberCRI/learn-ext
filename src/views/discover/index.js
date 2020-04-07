@@ -2,7 +2,7 @@ import queryStrings from 'query-string'
 import { renderReactComponent } from '~mixins/react-helpers'
 
 import { setupMapView } from './renderer'
-import { OverlayCards, OverlayConcepts, OverlayTools } from './overlays'
+import { OverlayCards, OverlayConcepts, OverlayTools, ProgressIndicator } from './overlays'
 import { $globalContext } from '~page-commons/store'
 
 import { fetchBaseLayer } from './layers'
@@ -46,4 +46,5 @@ export const renderView = async () => {
   renderReactComponent('overlay-tools', OverlayTools)
   renderReactComponent('overlay-concepts', OverlayConcepts)
   renderReactComponent('discover-view', OverlayCards)
+  renderReactComponent('progress-bar', ProgressIndicator)
 }
