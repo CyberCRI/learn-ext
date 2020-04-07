@@ -1,30 +1,50 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-
+import queryStrings from 'query-string'
 import { renderReactComponent } from '~mixins/react-helpers'
-import { i18n } from '@ilearn/modules/i18n'
+
 import { setupMapView } from './renderer'
-import { OverlayCards, OverlayConcepts, OverlayTools } from './overlays'
+import { OverlayCards, OverlayConcepts, OverlayTools, ProgressIndicator } from './overlays'
+import { $globalContext } from '~page-commons/store'
+
+import { fetchBaseLayer } from './layers'
+import { MapLayerSources } from './consts'
+import { didPickLayer, nodePicker } from './store'
 
 import './styles.scss'
 
-const DiscoverView = () => {
-  return (
-    <>
-      <Helmet>
-        <title>{i18n.t('pages.discover.meta.pageTitle')}</title>
-      </Helmet>
-      <OverlayCards/>
-    </>
-  )
+const initMap = async () => {
+  const baseLayerPoints = await fetchBaseLayer()
+  const atlas = await setupMapView(
+    { element: document.getElementById('atlas') },
+    baseLayerPoints)
+
+  const defaultLayer = MapLayerSources.find((s) => s.default)
+  const { query } = queryStrings.parseUrl(window.location.href, { arrayFormat: 'comma' })
+
+  if (query.src) {
+    // pick this layer.
+    await didPickLayer({
+      id: query.lid,
+      label: 'Shared',
+      src: query.src,
+    })
+
+    if (query.cset) {
+      const csetix = new Set(query.cset)
+      nodePicker.replace(baseLayerPoints.filter((pt) => csetix.has(pt.wikidata_id)))
+    }
+
+    if (query.tfs && query.tfx && query.tfy) {
+      atlas.mapt.centerPoint = { x: query.tfx, y: query.tfy, zoom: query.tfs }
+    }
+  } else {
+    didPickLayer(defaultLayer)
+  }
 }
 
-export const renderView = () => {
+export const renderView = async () => {
+  initMap()
   renderReactComponent('overlay-tools', OverlayTools)
   renderReactComponent('overlay-concepts', OverlayConcepts)
-  renderReactComponent('discover-view', DiscoverView)
-}
-
-export const setupInstance = async (config) => {
-  setupMapView(config)
+  renderReactComponent('discover-view', OverlayCards)
+  renderReactComponent('progress-bar', ProgressIndicator)
 }

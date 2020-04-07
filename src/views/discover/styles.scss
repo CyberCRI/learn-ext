@@ -1,15 +1,6 @@
 @import 'styles/variables';
 @import 'styles/colors';
-
-@mixin vibrant-bg($radius, $color) {
-  background: transparentize($color, .8);
-  @supports (backdrop-filter: blur($radius)) {
-    & {
-      backdrop-filter: blur($radius);
-      background: transparentize($color, .4);
-    }
-  }
-}
+@import 'styles/mixins';
 
 
 #discover-view {
@@ -34,8 +25,6 @@
 
 .discover-map {
   position: relative;
-  border-radius: 10px 10px 0 0;
-  // border: 1px solid transparentize($dark-gray2, .5);
   box-shadow: $pt-elevation-shadow-2;
   overflow: hidden;
   z-index: 5;
@@ -59,7 +48,7 @@
       left: 0;
       height: 100%;
       width: 100%;
-      z-index: 100;
+      z-index: 3;
       background: url('/media/textures/whitenoise-100x100.png') repeat;
       opacity: 0.1;
       background-size: 50px;
@@ -76,14 +65,14 @@
   .overlay.tools {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
 
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     width: 100%;
-    padding: 5px;
+    padding: 10px 20px;
 
     z-index: 4;
 
@@ -96,36 +85,38 @@
     }
 
     .layers {
-      background: transparentize($light-gray5, .5);
-      backdrop-filter: blur(8px);
-      border-radius: 5px;
+      @include bg-vibrant-tint($light-gray5, .5, 8px);
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
       padding: 2px;
 
       button {
         font-weight: 500;
+        text-align: left;
+        justify-content: left;
       }
     }
   }
 
   .overlay.concepts {
     max-width: 30vw;
-    max-height: 80%;
-    width: 25%;
+    max-height: 60%;
+    width: 35%;
     min-width: 220px;
-    z-index: 3;
+    z-index: 5;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.2);
 
     position: absolute;
     left: 20px;
     bottom: 0;
     overflow: hidden;
     border-radius: 6px 6px 0 0;
-    border: 1px solid transparentize($dark-gray2, .8);
     border-bottom: 0;
 
     display: flex;
     flex-direction: column;
 
-    @include vibrant-bg(8px, $light-gray4);
+    @include bg-vibrant-tint($light-gray4, .5, 8px);
 
     .controls {
       background: transparentize($light-gray5, .6);
@@ -133,8 +124,6 @@
       justify-content: space-between;
       align-items: center;
       flex-shrink: 0;
-
-      border-bottom: 1px solid transparentize($dark-gray2, .8);
 
       button.collapse {
         margin: 0;
@@ -168,6 +157,18 @@ body {
 
     .main {
       font-family: inherit;
+    }
+  }
+}
+
+.widget {
+  padding: 5px 10px;
+  position: relative;
+
+  &.sharing {
+    .state img {
+      height: 160px;
+      border-radius: 5px;
     }
   }
 }

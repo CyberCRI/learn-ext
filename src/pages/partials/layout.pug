@@ -17,7 +17,10 @@ block append body
     footer
       block footer
       div.footer-content
-        img(src='/icons/browsers/icon-round-v1.png' title='WeLearn' width=32 height=32)
+        div
+          a(href='/' title='Homepage')
+            img(src='/icons/browsers/icon-round-v1.png' title='WeLearn' width=32 height=32)
+
         ul.inline
           li #[a(href='mailto:welearn-support@cri-paris.org?subject=[Bug]') Report a bug]
           li #[a(href='/pages/support.html') Help]

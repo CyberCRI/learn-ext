@@ -5,7 +5,6 @@ import clsx from 'classnames'
 
 import { ConceptList } from '~components/concepts'
 import { DateTimePill, ResourceLinkPill } from '~components/pills'
-import OG from '~mixins/opengraph'
 
 const TypeInferenceMap = new Map([
   ['wikipedia',     /.*\.wikipedia\.org/],
@@ -24,31 +23,30 @@ function inferredResourceType (url) {
 
 
 export const Backdrop = ({ url }) => {
+  const imageUrl = `${env.ngapi_host}/meta/resolve/image?url=${url}`
+
   const [ display, setDisplay ] = useState({ hidden: true })
   const imageDidLoad = (e) => {
     const { naturalWidth, naturalHeight, height } = e.target
     // If the ratio of the image dimension exceeds width that's much greater
     // than the height, or its dimensions are too small, we hide it.
     const ratio = naturalWidth / naturalHeight
-
-    if (ratio > 5 || naturalHeight < 80 || naturalWidth < 160) {
-      setDisplay({ height: 0, hidden: true })
-    } else {
-      // Use the rendered image height for the figure height. We'll rely on CSS
-      // so it won't exceed max-height value.
-      setDisplay({ height, hidden: false })
-    }
+    setDisplay({ hidden: (ratio > 5 || naturalHeight < 80 || naturalWidth < 160) })
   }
 
   const imageDidNotLoad = (e) => {
-    setDisplay({ height: 0, hidden: true })
+    setDisplay({ hidden: true })
   }
 
   const bgClasses = clsx('backdrop', { hidden: display.hidden })
 
   return (
-    <figure className={bgClasses} style={{ height: display.height }}>
-      <img src={OG.image(url)} onLoad={imageDidLoad} onError={imageDidNotLoad} lazy='true'/>
+    <figure className={bgClasses}>
+      <img
+        src={encodeURI(imageUrl)}
+        onLoad={imageDidLoad}
+        onError={imageDidNotLoad}
+        lazy='true'/>
     </figure>
   )
 }

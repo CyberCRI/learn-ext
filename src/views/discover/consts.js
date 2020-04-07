@@ -30,12 +30,12 @@ export const LayerProps = {
     contourWidth:     0,
     elevationOffset:  0,
     elevationPow:     1,
-    lightAltitude:    3.2,
+    lightAltitude:    0,
     lightAzimuth:     4.5,
-    lightIntensity:   .3,
-    lightness:        -0.02,
-    maxRadiusDivider: 22,
-    saturation:       0.06,
+    lightIntensity:   .2,
+    lightness:        -0.01,
+    maxRadiusDivider: 14,
+    saturation:       0.09,
     visible:          true,
   },
   selectionOutline: {
@@ -47,7 +47,7 @@ export const LayerProps = {
   },
   hoverMarkers: {
     markerFillOpacity:    0,
-    markerSizeMultiplier: 10,
+    markerSizeMultiplier: 5,
     markerStrokeOpacity:  .3,
     markerStrokeWidth:    .2,
     visible: true,
@@ -61,14 +61,14 @@ export const LayerProps = {
     visible: true,
   },
   markers: {
-    markerFillOpacity:    0.15,
+    markerFillOpacity:    0.2,
     markerOpacity:        0.7,
     markerSizeMultiplier: 2,
     markerStrokeOpacity:  0,
     markerStrokeWidth:    0,
-    minAbsoluteMarkerSize: 0,
+    minAbsoluteMarkerSize: 1,
     pointHoverRadiusMultiplier: 10,
-    visible: true,
+    visible: false,
   },
   labels: {
     labelColor:         rgba`#000000ff`,
@@ -79,7 +79,7 @@ export const LayerProps = {
     labelOpacity:       1,
     labelShadowColor:   rgba`#ffffff99`,
     labelShadowSize:    10,
-    visible: true,
+    visible: false,
   },
 }
 
@@ -132,3 +132,32 @@ export const LayerPropConstraints = {
     visible: [true],
   },
 }
+
+// Default `topics`
+export const MapLayerSources = [
+  {
+    id: 'covid19@noop.pw',
+    label: 'Covid-19 Pandemic',
+    src: '/api/resources/bot/covid19@noop.pw',
+    icon: 'layout-circle',
+  },
+  {
+    id: 'projects@import.bot',
+    label: 'CRI Projects',
+    src: '/api/resources/bot/projects@import.bot',
+    icon: 'layout-circle',
+  },
+  {
+    id: 'theconversationfr@import.bot',
+    label: 'The Conversation',
+    src: '/api/resources/feed/theconversation.fr',
+    icon: 'layout-circle',
+  },
+  {
+    id: 'everything',
+    label: 'Everything',
+    src: '/api/resources/',
+    icon: 'layout-grid',
+    default: true,
+  },
+]

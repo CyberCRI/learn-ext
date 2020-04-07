@@ -1,14 +1,4 @@
-import _ from 'lodash'
-import { Map, OrderedSet } from 'immutable'
-
 import { MapLayerAPI } from '@ilearn/modules/api'
-
-const defaultConceptValues = {
-  markerShape: 'circle',
-  labelOpacity: 1,
-  markerSize: 2,
-  labelPriority: .8,
-}
 
 const trimLabel = (label) => {
   // If the label has >= 6 words, we'd add '...'.
@@ -20,51 +10,33 @@ const trimLabel = (label) => {
   return label
 }
 
-const removeQuote = (x) => x.replace('\\', '')
-
-const normaliseConcept = (concept) => {
-  // Build a normalised Concept Object.
-  // We'd prefer english concept title.
-  let label, title, lang
-  if (concept.title_en) {
-    label = removeQuote(trimLabel(concept.title_en))
-    title = removeQuote(concept.title_en)
-    lang = 'en'
-  } else {
-    label = removeQuote(trimLabel(concept.title_fr))
-    title = removeQuote(concept.title_fr)
-    lang = 'fr'
+const takeValues = (concept, lang) => {
+  if (!concept[`title_${lang}`]) {
+    return null
   }
+
   return {
-    x: +concept.x_map_en,
-    y: +concept.y_map_en,
-    userData: true,
-    label,
-    title,
+    label: trimLabel(concept[`title_${lang}`]),
     lang,
-
-    wikidata_id: concept.wikidata_id,
-    elevation: Math.max(concept.elevation, .5),
-    ...defaultConceptValues,
+    title: concept[`title_${lang}`],
   }
 }
 
-export const fetchLayer = async (id) => {
-  return await MapLayerAPI[id]()
-    .then((concepts) => {
-      return _(concepts)
-        .map(normaliseConcept)
-        .filter((p) => p.x && p.y)
-        .orderBy('title')
-        .thru(OrderedSet)
-        .value()
-    })
-}
-
-export const fetchUpdateLayer = async (id) => {
-  const points = await MapLayerAPI[id]()
-  return _(points)
-    .map((p) => ([ p.wikidata_id, p ]))
-    .thru(Map)
-    .value()
+export const fetchBaseLayer = async () => {
+  return await MapLayerAPI.everything()
+    .then((nodes) =>
+      nodes.map(p => {
+        return {
+          ...p,
+          x: p.x_map_en,
+          y: p.y_map_en,
+          userData: true,
+          ...(takeValues(p, 'en') || takeValues(p, 'fr')),
+          elevation: .8,
+          markerShape: 'circle',
+          markerSize: 4,
+          labelOpacity: 1,
+          labelPriority: (p.n_items || 1),
+        }
+      }).filter(p => p.x && p.y))
 }

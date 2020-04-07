@@ -1,24 +1,22 @@
 /* eslint no-multi-spaces: 0 */
-import { fetchLayer, fetchUpdateLayer } from './layers'
 import FileSaver from 'file-saver'
 import Mousetrap from '@ilearn/modules/utilities/mousetrap'
 import _throttle from 'lodash/throttle'
-import _debounce from 'lodash/throttle'
+import _debounce from 'lodash/debounce'
+import _flatMap from 'lodash/flatMap'
+import { Map } from 'immutable'
 
 import setupDebugger from './renderer-debugger'
-import { conceptSelection, selectedConcepts } from './store'
-import { pickLayer, resourcesDomain } from './store'
+import { nodePicker, selectedConcepts, userResources } from './store'
 
 import { LayerProps, KeyBinding } from './consts'
 
 
 
-export const setupMapView = async (conf) => {
-  const allPoints = await fetchLayer('everything')
-
+export const setupMapView = async (conf, baseLayer) => {
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
-    points: allPoints.toJS(),
+    points: baseLayer,
     ...LayerProps.elevation,
   })
 
@@ -42,7 +40,7 @@ export const setupMapView = async (conf) => {
 
   const markers = DotAtlas.createLayer({
     type: 'marker',
-    points: allPoints.toJS(),
+    points: baseLayer,
     ...LayerProps.markers,
 
     onPointHover: (e) => {
@@ -55,16 +53,16 @@ export const setupMapView = async (conf) => {
     onPointClick: (e) => {
       const filteredPts = e.points.filter((pt) => pt.canPick)
       if (!(e.ctrlKey || e.shiftKey)) {
-        conceptSelection.replace(filteredPts)
+        nodePicker.replace(filteredPts)
       } else {
-        conceptSelection.merge(filteredPts)
+        nodePicker.merge(filteredPts)
       }
     },
   })
 
   const labels = DotAtlas.createLayer({
     type: 'label',
-    points: allPoints.toJS(),
+    points: baseLayer,
     ...LayerProps.labels,
   })
 
@@ -83,6 +81,7 @@ export const setupMapView = async (conf) => {
     didDoubleClick: (e, ...args) => {
     },
     didHover: (e, ...args) => {
+      elevation.get('elevationAt', e.elementX, e.elementY)
     },
     didMouseWheel: (e, ...args) => {
     },
@@ -122,12 +121,8 @@ export const setupMapView = async (conf) => {
       onDoubleClick: eventTaps.didDoubleClick,
     })
 
-  selectedConcepts.watch((selection) => {
-    selectionOutline.set('points', selection.toJS())
-    atlas.redraw()
-  })
 
-  const mapt = {
+  atlas.mapt = {
     get centerPoint () {
       const { height, width } = conf.element.getBoundingClientRect()
       const [ ptx, pty, _ ] = atlas.screenToPointSpace(width / 2, height / 2)
@@ -164,13 +159,13 @@ export const setupMapView = async (conf) => {
   const keyboardTrigger = new Mousetrap()
 
   keyboardTrigger
-    .bind(KeyBinding.panning.left,  _throttle(() => mapt.x += -1, 200))
-    .bind(KeyBinding.panning.right, _throttle(() => mapt.x += 1, 200))
-    .bind(KeyBinding.panning.up,    _throttle(() => mapt.y += -1, 200))
-    .bind(KeyBinding.panning.down,  _throttle(() => mapt.y += 1, 200))
-    .bind(KeyBinding.zooming.plus,  _throttle(() => mapt.zoom += 1, 200))
-    .bind(KeyBinding.zooming.minus, _throttle(() => mapt.zoom += -1, 200))
-    .bind(KeyBinding.control.clearSelection, () => conceptSelection.reset())
+    .bind(KeyBinding.panning.left,  _throttle(() => atlas.mapt.x += -1, 200))
+    .bind(KeyBinding.panning.right, _throttle(() => atlas.mapt.x += 1, 200))
+    .bind(KeyBinding.panning.up,    _throttle(() => atlas.mapt.y += -1, 200))
+    .bind(KeyBinding.panning.down,  _throttle(() => atlas.mapt.y += 1, 200))
+    .bind(KeyBinding.zooming.plus,  _throttle(() => atlas.mapt.zoom += 1, 200))
+    .bind(KeyBinding.zooming.minus, _throttle(() => atlas.mapt.zoom += -1, 200))
+    .bind(KeyBinding.control.clearSelection, () => nodePicker.reset())
     .bind(KeyBinding.control.downloadView, () => {
       FileSaver.saveAs(atlas.get('imageData'), 'atlas-im.png')
     })
@@ -181,67 +176,86 @@ export const setupMapView = async (conf) => {
         : debugUi.close()
     })
 
-  const updateLayers = async (layer) => {
+  const deactivateLayers = async () => {
     markers.set('visible', false)
     labels.set('visible', false)
-    atlas.redraw()
 
-    const pts = await fetchUpdateLayer(layer)
+    atlas.redraw()
+  }
+
+  const activateLayers = async () => {
+    markers.set('visible', true)
+    markers.update('markerOpacity')
+    labels.set('visible', true)
+    labels.update('points')
+    labels.update('labelOpacity')
+    labels.update('labelPriority')
+    labels.update('labelVisibilityScales')
+    elevation.update('elevation')
+    atlas.redraw()
+  }
+
+  const updateLayers = async (pts) => {
+    await deactivateLayers()
     let pt
 
     markers
       .get('points')
-      .filter((p) => p.userData)
       .forEach((p) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
-          p.markerOpacity = .8
+          p.markerOpacity = Math.max(0.5, 1 - (1 / (p.n_items || 1)))
           p.canPick = true
         } else {
           p.markerOpacity = 0
           p.canPick = false
         }
       })
-    markers.set('visible', true)
     markers.update('markerOpacity')
 
     labels
       .get('points')
-      .filter((p) => p.userData)
       .forEach((p) => {
         pt = pts.get(p.wikidata_id)
-        if (pt) {
+        if (pt && p.n_items > 1) {
           p.labelOpacity = 1
-          p.labelPriority = 0.8
+          p.labelPriority = Math.max(0.1, 1 - (1 / (p.n_items || 1)))
         } else {
           p.labelOpacity = 0
           p.labelPriority = 0
         }
       })
-    labels.set('visible', true)
     labels.update('labelOpacity')
     labels.update('labelPriority')
     labels.update('labelVisibilityScales')
 
     elevation
       .get('points')
-      .filter((p) => p.userData)
       .forEach((p) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
-          p.elevation = pt.elevation
+          p.elevation = .8
         } else {
-          p.elevation = 0
+          p.elevation = 0.01
         }
       })
     elevation.update('elevation')
-    atlas.redraw()
-  }
 
-  resourcesDomain.watch(pickLayer, updateLayers)
-  updateLayers('user')
+    await activateLayers()
+  }
+  deactivateLayers()
+
+  selectedConcepts.watch((selection) => {
+    selectionOutline.set('points', selection.toJS())
+    atlas.redraw()
+  })
+  userResources.watch((resources) => {
+    const items = _flatMap(resources, 'concepts').map((c) => [ c.wikidata_id, c ])
+    updateLayers(Map(items))
+  })
 
   window.addEventListener('resize', eventTaps.didResizeViewport)
+  window._magic_atlas = atlas
 
   return atlas
 }

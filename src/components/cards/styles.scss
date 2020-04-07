@@ -214,8 +214,7 @@ div.card {
         right: 5px;
 
         button {
-          background: transparentize($light-gray5, .5);
-          backdrop-filter: blur(10px);
+          background: $light-gray2;
           transition: .2s all;
           border-radius: 50%;
           transform: scale(1);

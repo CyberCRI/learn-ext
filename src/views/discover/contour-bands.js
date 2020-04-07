@@ -11,11 +11,11 @@ import { rgba } from './utils'
 
 // palettes ->>
 export const Dark = [
-  { end: 0.0003, color: rgba`#182025`, shading: true, contours: false },
-  { end: 0.005,  color: rgba`#11293b`, shading: true, contours: false },
-  { end: 0.02,   color: rgba`#0d324a`, shading: true, contours: true  },
-  { end: 0.05,   color: rgba`#2b5124`, shading: true, contours: true  },
-  { end: 0.1,    color: rgba`#305528`, shading: true, contours: true  },
+  { end: 0.0003, color: rgba`#182025`, shading: false, contours: false },
+  { end: 0.005,  color: rgba`#11293b`, shading: false, contours: false },
+  { end: 0.02,   color: rgba`#0d324a`, shading: false, contours: true  },
+  { end: 0.05,   color: rgba`#2b5124`, shading: false, contours: true  },
+  { end: 0.1,    color: rgba`#305528`, shading: false, contours: true  },
   { end: 0.15,   color: rgba`#425f29`, shading: true, contours: true  },
   { end: 0.16,   color: rgba`#586a2b`, shading: true, contours: true  },
   { end: 0.18,   color: rgba`#778134`, shading: true, contours: true  },

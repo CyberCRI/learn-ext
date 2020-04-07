@@ -17,6 +17,18 @@ mixin sponsorItem(title, url, urlText, imageUrl)
           h3 #{title}
           p #{urlText}
 
+mixin softwareItem(title, url, urlText, imageUrl)
+  li.bp3-card.bp3-elevation-1.bp3-interactive
+    a.sponsor(
+      href=url
+      title=title
+      target='_blank'
+      external)
+      figure
+        img(src=imageUrl, alt=title, height=30)
+        figcaption
+          h3 #{title}
+
 block append main
   section.article.about
     h1 Sponsors
@@ -49,6 +61,18 @@ block append main
         'https://www.learning-planet.org/en',
         'learning-planet.org',
         '/media/logos/learning-planet-mark.png')
+
+    h1 Software and Services
+    p Our huge thanks to these software projects which helped us bootstrap quickly.
+
+    a(href='https://carrotsearch.com', title='CarrotSearch DotAtlas', target='_blank')
+      img(src='/media/logos/dotatlas.svg', alt='CarrotSearch DotAtlas', height=30)
+
+    p Thanks to Netlify for powering our preview and dev webpages.
+    a(href='https://www.netlify.com', title='Netlify', target='_blank')
+      img(
+        src='https://www.netlify.com/img/global/badges/netlify-dark.svg'
+        alt='Deploys by Netlify')
 
   section.small-text
     include:md-transpile ./footnotes.md

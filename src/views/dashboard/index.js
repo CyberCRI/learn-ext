@@ -4,14 +4,21 @@ import { Button, Spinner } from '@blueprintjs/core'
 import { Helmet } from 'react-helmet'
 import moment from 'moment'
 import _ from 'lodash'
+import { reFuse } from '~mixins/itertools'
 
 import { API } from '@ilearn/modules/api'
 import { i18n } from '@ilearn/modules/i18n'
-import { ResourceGrid, ResourceCollectionView } from '~components/resources'
-import * as Placeholder from '~components/resources/placeholders'
+import { ResourceGrid, Placeholder } from '~components/resources'
 import { OmniBar, FilterTools } from './tools'
 
 import './styles.scss'
+
+const filterKeys = [
+  'title',
+  'concepts.title',
+  'concepts.title_en',
+  'concepts.title_fr',
+]
 
 const ResourcesInfo = ({ count, len }) => {
   return (
@@ -21,6 +28,28 @@ const ResourcesInfo = ({ count, len }) => {
   )
 }
 
+const FilteredItems = ({ resources, filters, ...props }) => {
+  const visibleResources = () => {
+    if (filters.query.length >= 1) {
+      // Filter with the query
+      return reFuse(resources, filterKeys).search(filters.query)
+    }
+    return resources
+  }
+
+  const shownRes = visibleResources()
+
+  if (shownRes.length === 0 && filters.query.length >= 1) {
+    // No matches.
+    return <Placeholder.NoMatches/>
+  }
+
+  if (resources.length === 0) {
+    return <Placeholder.NoContent/>
+  }
+
+  return <ResourceGrid resources={shownRes} {...props}/>
+}
 
 const DashboardView = () => {
   const [ resources, setResources ] = useState([])
@@ -114,7 +143,7 @@ const DashboardView = () => {
       </Helmet>
       <OmniBar onChange={(q) => setFilters(q)}/>
       <ResourcesInfo len={resources.length} count={count}/>
-      <ResourceGrid
+      <FilteredItems
         resources={resources}
         filters={filters}
         onDelete={deleteResource}
@@ -129,4 +158,4 @@ const DashboardView = () => {
   )
 }
 
-export { ResourceGrid, OmniBar, FilterTools, DashboardView, ResourceCollectionView }
+export { ResourceGrid, OmniBar, FilterTools, DashboardView }
