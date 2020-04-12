@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { createStore, createApi } from 'effector'
 import { useStore } from 'effector-react'
 import { Button, ButtonGroup, InputGroup, Divider, ControlGroup, Tag } from '@blueprintjs/core'
-import { Popover, Menu, Dialog, ProgressBar } from '@blueprintjs/core'
+import { Popover, Menu, Dialog, Spinner } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import { useToggle } from 'react-use'
 import queryStrings from 'query-string'
@@ -305,9 +305,10 @@ export const OverlayCards = (props) => {
 
 export const ProgressIndicator = (props) => {
   const progress = useStore($progress)
+
   return (
-    <div style={{ width: '50%', margin: 'auto' }}>
-      {progress.loading && <ProgressBar value={progress.value}/>}
+    <div className='progress-indicator'>
+      {progress.loading && <Spinner/>}
     </div>
   )
 }
