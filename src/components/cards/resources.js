@@ -6,7 +6,7 @@ import clsx from 'classnames'
 import { ConceptList } from '~components/concepts'
 import { DateTimePill, ResourceLinkPill } from '~components/pills'
 
-const TypeInferenceMap = new Map([
+const ResourceTypes = new Map([
   ['wikipedia',     /.*\.wikipedia\.org/],
   ['cri-projects',  /.*projects\.cri-paris\.org/],
   ['github',        /.*(github.com|\.github.io)/],
@@ -14,16 +14,32 @@ const TypeInferenceMap = new Map([
 ])
 
 function inferredResourceType (url) {
-  for (let [rtype, regex] of TypeInferenceMap) {
+  for (let [rtype, regex] of ResourceTypes) {
     if (regex.test(url)) {
       return rtype
     }
   }
 }
 
+const CardBranding = ({ url }) => {
+  const kind = inferredResourceType(url)
+  if (kind === 'cri-projects') {
+    return (
+      <div style={{ marginTop: '10px', display: 'flex' }}>
+        <img
+          lazy='true'
+          src='/media/logos/cri-projects.png'
+          style={{ width: '16px', height: '16px', marginRight: '10px' }}/>
+        <span style={{ fontWeight: 500 }}>CRI Project</span>
+      </div>
+    )
+  }
+  return <ResourceLinkPill url={url} short linked/>
+
+}
 
 export const Backdrop = ({ url }) => {
-  const imageUrl = `${env.ngapi_host}/meta/resolve/image?url=${url}`
+  const imageUrl = `/meta/resolve/image?url=${url}`
 
   const [ display, setDisplay ] = useState({ hidden: true })
   const imageDidLoad = (e) => {
@@ -41,16 +57,13 @@ export const Backdrop = ({ url }) => {
   const bgClasses = clsx('backdrop', { hidden: display.hidden })
 
   return (
-    <>
-      <figure className={bgClasses}>
-        <img
-          src={encodeURI(imageUrl)}
-          onLoad={imageDidLoad}
-          onError={imageDidNotLoad}
-          lazy='true'/>
-      </figure>
-      <div className='card-type' data-type={inferredResourceType(url)}/>
-    </>
+    <figure className={bgClasses}>
+      <img
+        src={encodeURI(imageUrl)}
+        onLoad={imageDidLoad}
+        onError={imageDidNotLoad}
+        lazy='true'/>
+    </figure>
   )
 }
 
@@ -150,7 +163,7 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
             noAnimation/>}
 
         {isRemovable && <DeleteResourceButton onConfirm={didClickDelete}/>}
-        <ResourceLinkPill url={url} short linked/>
+        <CardBranding url={url}/>
         {!props.skipLink &&
           <a
             ariahidden='true'
