@@ -248,8 +248,18 @@ div.card {
   }
 }
 
-div.card.resource {
+div.card-type {
   &[data-type='cri-projects'] {
+    $box-size: 24px;
+    background: {
+      image: url('/media/logos/cri-projects.png');
+      size: $box-size;
+    }
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: $box-size;
+    height: $box-size;
   }
 }
 

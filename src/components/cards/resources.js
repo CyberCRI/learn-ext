@@ -41,13 +41,16 @@ export const Backdrop = ({ url }) => {
   const bgClasses = clsx('backdrop', { hidden: display.hidden })
 
   return (
-    <figure className={bgClasses}>
-      <img
-        src={encodeURI(imageUrl)}
-        onLoad={imageDidLoad}
-        onError={imageDidNotLoad}
-        lazy='true'/>
-    </figure>
+    <>
+      <figure className={bgClasses}>
+        <img
+          src={encodeURI(imageUrl)}
+          onLoad={imageDidLoad}
+          onError={imageDidNotLoad}
+          lazy='true'/>
+      </figure>
+      <div className='card-type' data-type={inferredResourceType(url)}/>
+    </>
   )
 }
 
@@ -129,8 +132,8 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
   }
 
   return (
-    <Card elevation={Elevation.TWO} interactive className='card resource' data-type={inferredResourceType(url)}>
-      { !props.skipMedia && <Backdrop url={url}/> }
+    <Card elevation={Elevation.TWO} interactive className='card resource'>
+      {!props.skipMedia && <Backdrop url={url}/>}
       <div className='content'>
         <h4 className='title'>{props.title}</h4>
         {!!props.created && <DateTimePill timestamp={props.created}/>}
