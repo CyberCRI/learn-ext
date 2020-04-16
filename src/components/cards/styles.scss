@@ -248,11 +248,6 @@ div.card {
   }
 }
 
-div.card.resource {
-  &[data-type='cri-projects'] {
-  }
-}
-
 @keyframes skeleton-sweep {
   0% {
     background-position: 0 0;

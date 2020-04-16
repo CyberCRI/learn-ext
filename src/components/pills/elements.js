@@ -5,7 +5,7 @@ import clsx from 'classnames'
 import { useToggle } from 'react-use'
 
 
-const Pill = (props) => {
+export const Pill = (props) => {
   // Pillbox Composer
   const modifiers = clsx('pill', props.className, props.kind, {
     minimal: props.minimal,
@@ -77,7 +77,7 @@ export const UrlPill = ({ url, linked=false, short=false, ...props }) => {
 export const FaviconPill = ({ url, title='', ...props }) => {
   const [ reveal, setVisibility ] = useToggle(false)
   const imageDidLoad = () => setVisibility(true)
-  const faviconUrl = `${env.ngapi_host}/meta/resolve/logo?url=${url}`
+  const faviconUrl = `/meta/resolve/logo?url=${url}`
 
   return (
     <Pill kind='favicon' {...props}>

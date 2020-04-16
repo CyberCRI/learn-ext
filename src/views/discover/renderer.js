@@ -250,8 +250,11 @@ export const setupMapView = async (conf, baseLayer) => {
     atlas.redraw()
   })
   userResources.watch((resources) => {
-    const items = _flatMap(resources, 'concepts').map((c) => [ c.wikidata_id, c ])
-    updateLayers(Map(items))
+    if (resources && resources.length) {
+      console.log(':mark user-resources')
+      const items = _flatMap(resources, 'concepts').map((c) => [ c.wikidata_id, c ])
+      updateLayers(Map(items))
+    }
   })
 
   window.addEventListener('resize', eventTaps.didResizeViewport)

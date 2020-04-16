@@ -43,7 +43,7 @@ export const $layerSource = createStore({})
 
 export const fetchResources = createEffect()
   .use(async ({ layer }) => {
-    setProgress(0.4)
+    setProgress(0)
     let page = { limit: 1000, skip: 0, next: true }
 
     let items = []

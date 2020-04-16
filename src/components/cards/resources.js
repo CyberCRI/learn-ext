@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Card, Elevation, Button, Tooltip } from '@blueprintjs/core'
 import { useUpdateEffect } from 'react-use'
+import styled from 'styled-components'
 import clsx from 'classnames'
 
 import { ConceptList } from '~components/concepts'
 import { DateTimePill, ResourceLinkPill } from '~components/pills'
 
-const TypeInferenceMap = new Map([
+const ResourceTypes = new Map([
   ['wikipedia',     /.*\.wikipedia\.org/],
   ['cri-projects',  /.*projects\.cri-paris\.org/],
   ['github',        /.*(github.com|\.github.io)/],
@@ -14,16 +15,43 @@ const TypeInferenceMap = new Map([
 ])
 
 function inferredResourceType (url) {
-  for (let [rtype, regex] of TypeInferenceMap) {
+  for (let [rtype, regex] of ResourceTypes) {
     if (regex.test(url)) {
       return rtype
     }
   }
 }
 
+const CardBranding = ({ url }) => {
+  const kind = inferredResourceType(url)
+  const BrandDiv = styled.div`
+    margin-top: 10px;
+    display: flex;
+  `
+  const LogoImg = styled.img`
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+  `
+  const LogoSpan = styled.span`
+    font-weight: 500;
+    letter-spacing: .1px;
+  `
+
+  if (kind === 'cri-projects') {
+    return (
+      <BrandDiv>
+        <LogoImg lazy='true' src='/media/logos/cri-projects.png'/>
+        <LogoSpan>Project</LogoSpan>
+      </BrandDiv>
+    )
+  }
+  return <ResourceLinkPill url={url} short linked/>
+
+}
 
 export const Backdrop = ({ url }) => {
-  const imageUrl = `${env.ngapi_host}/meta/resolve/image?url=${url}`
+  const imageUrl = `/meta/resolve/image?url=${url}`
 
   const [ display, setDisplay ] = useState({ hidden: true })
   const imageDidLoad = (e) => {
@@ -129,8 +157,8 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
   }
 
   return (
-    <Card elevation={Elevation.TWO} interactive className='card resource' data-type={inferredResourceType(url)}>
-      { !props.skipMedia && <Backdrop url={url}/> }
+    <Card elevation={Elevation.TWO} interactive className='card resource'>
+      {!props.skipMedia && <Backdrop url={url}/>}
       <div className='content'>
         <h4 className='title'>{props.title}</h4>
         {!!props.created && <DateTimePill timestamp={props.created}/>}
@@ -147,7 +175,7 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
             noAnimation/>}
 
         {isRemovable && <DeleteResourceButton onConfirm={didClickDelete}/>}
-        <ResourceLinkPill url={url} short linked/>
+        <CardBranding url={url}/>
         {!props.skipLink &&
           <a
             ariahidden='true'

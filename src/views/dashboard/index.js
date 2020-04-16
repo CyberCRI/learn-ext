@@ -18,6 +18,7 @@ const filterKeys = [
   'concepts.title',
   'concepts.title_en',
   'concepts.title_fr',
+  'concepts.title_es',
 ]
 
 const ResourcesInfo = ({ count, len }) => {
