@@ -172,3 +172,16 @@ body {
     }
   }
 }
+
+.progress-indicator {
+  position: fixed;
+  z-index: 100;
+  padding: 10px;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+}
