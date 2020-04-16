@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Card, Elevation, Button, Tooltip } from '@blueprintjs/core'
 import { useUpdateEffect } from 'react-use'
+import styled from 'styled-components'
 import clsx from 'classnames'
 
 import { ConceptList } from '~components/concepts'
@@ -23,15 +24,22 @@ function inferredResourceType (url) {
 
 const CardBranding = ({ url }) => {
   const kind = inferredResourceType(url)
+  const BrandDiv = styled.div`
+    margin-top: 10px;
+    display: flex;
+  `
+  const LogoImg = styled.img`
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+  `
+
   if (kind === 'cri-projects') {
     return (
-      <div style={{ marginTop: '10px', display: 'flex' }}>
-        <img
-          lazy='true'
-          src='/media/logos/cri-projects.png'
-          style={{ width: '16px', height: '16px', marginRight: '10px' }}/>
+      <BrandDiv>
+        <LogoImg lazy='true' src='/media/logos/cri-projects.png'/>
         <span style={{ fontWeight: 500 }}>CRI Project</span>
-      </div>
+      </BrandDiv>
     )
   }
   return <ResourceLinkPill url={url} short linked/>
