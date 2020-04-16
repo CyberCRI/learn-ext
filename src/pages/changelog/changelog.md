@@ -11,6 +11,14 @@
 
 Here is what's new in this version of WeLearn extension:
 
+## v0.2.2
+Released on `2020-04-16`
+
+- Added a progress indicator on map while it loads.
+- The map loading process should be a little bit faster now.
+- Search in dashboard is more accurate, and the resources that are Projects
+  are now higlighted as such.
+
 ## v0.2.0
 Released on `2020-04-07`
 
