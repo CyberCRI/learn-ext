@@ -33,12 +33,16 @@ const CardBranding = ({ url }) => {
     height: 16px;
     margin-right: 10px;
   `
+  const LogoSpan = styled.span`
+    font-weight: 500;
+    letter-spacing: .1px;
+  `
 
   if (kind === 'cri-projects') {
     return (
       <BrandDiv>
         <LogoImg lazy='true' src='/media/logos/cri-projects.png'/>
-        <span style={{ fontWeight: 500 }}>CRI Project</span>
+        <LogoSpan>Project</LogoSpan>
       </BrandDiv>
     )
   }
