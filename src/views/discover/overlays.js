@@ -6,6 +6,7 @@ import { Popover, Menu, Dialog, Spinner } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import { useToggle } from 'react-use'
 import queryStrings from 'query-string'
+import styled from 'styled-components'
 import _ from 'lodash'
 
 import { i18n } from '@ilearn/modules/i18n'
@@ -305,10 +306,17 @@ export const OverlayCards = (props) => {
 
 export const ProgressIndicator = (props) => {
   const progress = useStore($progress)
-
-  return (
-    <div className='progress-indicator'>
-      {progress.loading && <Spinner/>}
-    </div>
-  )
+  const ProgressDiv = styled.div`
+    position: fixed;
+    z-index: 100;
+    padding: 10px;
+    margin: auto;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: calc(50vh - 60px);
+    width: 0;
+    height: 0;
+  `
+  return <ProgressDiv>{progress.loading && <Spinner/>}</ProgressDiv>
 }
