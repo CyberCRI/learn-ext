@@ -22,21 +22,22 @@ function inferredResourceType (url) {
   }
 }
 
+const BrandDiv = styled.div`
+  margin-top: 10px;
+  display: flex;
+`
+const LogoImg = styled.img`
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+`
+const LogoSpan = styled.span`
+  font-weight: 500;
+  letter-spacing: .1px;
+`
+
 const CardBranding = ({ url }) => {
   const kind = inferredResourceType(url)
-  const BrandDiv = styled.div`
-    margin-top: 10px;
-    display: flex;
-  `
-  const LogoImg = styled.img`
-    width: 16px;
-    height: 16px;
-    margin-right: 10px;
-  `
-  const LogoSpan = styled.span`
-    font-weight: 500;
-    letter-spacing: .1px;
-  `
 
   if (kind === 'cri-projects') {
     return (
