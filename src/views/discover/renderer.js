@@ -59,11 +59,11 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
     },
   })
 
-  const labels = DotAtlas.createLayer({
-    type: 'label',
-    points: baseLayer,
-    ...LayerProps.labels,
-  })
+  // const labels = DotAtlas.createLayer({
+  //   type: 'label',
+  //   points: baseLayer,
+  //   ...LayerProps.labels,
+  // })
 
   const portals = DotAtlas.createLayer({
     type: 'label',
@@ -78,7 +78,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
     hoverMarkers,
     hoverOutline,
     markers,
-    labels,
+    // labels,
     portals,
   }
 
@@ -100,7 +100,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
       // This is an iife, since we want to save the references to throttled
       // handlers.
       const deferredNotifyLabelsUpdate = _debounce(() => {
-        labels.update('labelVisibilityScales')
+        portals.update('labelVisibilityScales')
         atlas.redraw()
       }, 200)
       return () => {
@@ -186,7 +186,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
 
   const deactivateLayers = async () => {
     markers.set('visible', false)
-    labels.set('visible', false)
+    // labels.set('visible', false)
 
     atlas.redraw()
   }
@@ -194,11 +194,11 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
   const activateLayers = async () => {
     markers.set('visible', true)
     markers.update('markerOpacity')
-    labels.set('visible', true)
-    labels.update('points')
-    labels.update('labelOpacity')
-    labels.update('labelPriority')
-    labels.update('labelVisibilityScales')
+    // labels.set('visible', true)
+    // labels.update('points')
+    // labels.update('labelOpacity')
+    // labels.update('labelPriority')
+    // labels.update('labelVisibilityScales')
     elevation.update('elevation')
     atlas.redraw()
   }
@@ -221,21 +221,21 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
       })
     markers.update('markerOpacity')
 
-    labels
-      .get('points')
-      .forEach((p) => {
-        pt = pts.get(p.wikidata_id)
-        if (pt && p.n_items > 1) {
-          p.labelOpacity = 1
-          p.labelPriority = Math.max(0.1, 1 - (1 / (p.n_items || 1)))
-        } else {
-          p.labelOpacity = 0
-          p.labelPriority = 0
-        }
-      })
-    labels.update('labelOpacity')
-    labels.update('labelPriority')
-    labels.update('labelVisibilityScales')
+    // labels
+    //   .get('points')
+    //   .forEach((p) => {
+    //     pt = pts.get(p.wikidata_id)
+    //     if (pt && p.n_items > 1) {
+    //       p.labelOpacity = 1
+    //       p.labelPriority = Math.max(0.1, 1 - (1 / (p.n_items || 1)))
+    //     } else {
+    //       p.labelOpacity = 0
+    //       p.labelPriority = 0
+    //     }
+    //   })
+    // labels.update('labelOpacity')
+    // labels.update('labelPriority')
+    // labels.update('labelVisibilityScales')
 
     elevation
       .get('points')

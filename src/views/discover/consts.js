@@ -62,7 +62,7 @@ export const LayerProps = {
   },
   markers: {
     markerFillOpacity:    0.2,
-    markerOpacity:        0.7,
+    markerOpacity:        0.4,
     markerSizeMultiplier: 2,
     markerStrokeOpacity:  0,
     markerStrokeWidth:    0,
