@@ -91,7 +91,6 @@ export const Pagination = ({count, cursor, onPaginate, maxCells=CELL_COUNT}) => 
           disabled={ellipsis}
           key={nr}
           active={nr === cursor}
-          outline
           onClick={() => onPaginate(nr)}/>
       )}
       {NextPage}

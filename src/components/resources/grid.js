@@ -18,7 +18,7 @@ export const ResourceGrid = ({ resources, ...props }) => {
         gutterHeight={20}
         layout={layout.pinterest}
         enterExitStyle='fromBottom'
-        springConfig={{ stiffness: 200, damping: 20 }}
+        springConfig={{ stiffness: 170, damping: 20 }}
         className='resources'>
         {resources.map((x, i) =>
           <li key={x.resource_id}>
