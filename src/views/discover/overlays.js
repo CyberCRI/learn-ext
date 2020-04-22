@@ -260,6 +260,12 @@ const PlaceHolder = (props) => {
   )
 }
 
+const MatchStatsContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+`
+
 export const OverlayCards = (props) => {
   const resources = useStore(userResources)
   const selection = useStore(selectedConcepts)
@@ -283,7 +289,7 @@ export const OverlayCards = (props) => {
   if (selection.size > 0) {
     return (
       <div className='matches'>
-        <div style={{ display: 'flex', 'justify-content': 'space-between', padding: '10px 20px' }}>
+        <MatchStatsContainer>
           <Pagination
             count={cursor.count}
             cursor={cursor.current}
@@ -292,7 +298,7 @@ export const OverlayCards = (props) => {
             <span><Tag minimal round>{selection.size}</Tag> Concepts</span>
             <span><Tag minimal round>{matchingResources.length}</Tag> Matches</span>
           </div>
-        </div>
+        </MatchStatsContainer>
         <ResourceGrid resources={pages[cursor.current - 1] || []}/>
       </div>
     )
