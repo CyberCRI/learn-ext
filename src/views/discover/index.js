@@ -5,7 +5,7 @@ import { setupMapView } from './renderer'
 import { OverlayCards, OverlayConcepts, OverlayTools, ProgressIndicator } from './overlays'
 import { $globalContext } from '~page-commons/store'
 
-import { fetchBaseLayer } from './layers'
+import { fetchBaseLayer, fetchPortals } from './layers'
 import { MapLayerSources } from './consts'
 import { didPickLayer, nodePicker } from './store'
 
@@ -13,9 +13,10 @@ import './styles.scss'
 
 const initMap = async () => {
   const baseLayerPoints = await fetchBaseLayer()
+  const portals = await fetchPortals()
   const atlas = await setupMapView(
     { element: document.getElementById('atlas') },
-    baseLayerPoints)
+    { baseLayer: baseLayerPoints, portalNodes: portals })
 
   const defaultLayer = MapLayerSources.find((s) => s.default)
   const { query } = queryStrings.parseUrl(window.location.href, { arrayFormat: 'comma' })

@@ -40,3 +40,20 @@ export const fetchBaseLayer = async () => {
         }
       }).filter(p => p.x && p.y))
 }
+
+export const fetchPortals = async () => {
+  const r = await fetch('https://noop-pub.s3.amazonaws.com/opt/portals_en.json', {
+    method: 'get',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  const nodes = await r.json()
+  return nodes.map(p => {
+    return {
+      ...p,
+      label: trimLabel(p.label),
+      labelPriority: 1 / p.level,
+      labelOpacity: 1 / p.level,
+    }
+  })
+}

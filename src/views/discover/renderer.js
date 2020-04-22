@@ -12,8 +12,7 @@ import { nodePicker, selectedConcepts, userResources } from './store'
 import { LayerProps, KeyBinding } from './consts'
 
 
-
-export const setupMapView = async (conf, baseLayer) => {
+export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
     points: baseLayer,
@@ -66,6 +65,13 @@ export const setupMapView = async (conf, baseLayer) => {
     ...LayerProps.labels,
   })
 
+  const portals = DotAtlas.createLayer({
+    type: 'label',
+    points: portalNodes,
+    ...LayerProps.labels,
+    visible: true,
+  })
+
   const layers = {
     elevation,
     selectionOutline,
@@ -73,6 +79,7 @@ export const setupMapView = async (conf, baseLayer) => {
     hoverOutline,
     markers,
     labels,
+    portals,
   }
 
   const eventTaps = {
@@ -112,7 +119,8 @@ export const setupMapView = async (conf, baseLayer) => {
         selectionOutline,
         hoverOutline,
         hoverMarkers,
-        labels,
+        // labels,
+        portals,
       ],
       pixelRatio: Math.ceil(Math.max(window.devicePixelRatio, 1)),
       onClick: eventTaps.didClick,
