@@ -304,19 +304,21 @@ export const OverlayCards = (props) => {
   )
 }
 
+const ProgressDiv = styled.div`
+  position: fixed;
+  z-index: 100;
+  padding: 10px;
+  margin: auto;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: calc(50vh - 60px);
+  width: 0;
+  height: 0;
+`
+
 export const ProgressIndicator = (props) => {
   const progress = useStore($progress)
-  const ProgressDiv = styled.div`
-    position: fixed;
-    z-index: 100;
-    padding: 10px;
-    margin: auto;
-    top: 60px;
-    left: 0;
-    right: 0;
-    bottom: calc(50vh - 60px);
-    width: 0;
-    height: 0;
-  `
+
   return <ProgressDiv>{progress.loading && <Spinner/>}</ProgressDiv>
 }
