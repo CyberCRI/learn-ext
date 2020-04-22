@@ -42,18 +42,34 @@ export const fetchBaseLayer = async () => {
 }
 
 export const fetchPortals = async () => {
-  const r = await fetch('https://noop-pub.s3.amazonaws.com/opt/portals_en.json', {
+  const r = await fetch('https://noop-pub.s3.amazonaws.com/opt/portals_level3_en.json', {
     method: 'get',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
   })
+  const levelMap = {
+    1: {
+      labelPriority: 100,
+      labelOpacity: 1,
+      labelFontSize: 20,
+    },
+    2: {
+      labelPriority: 5,
+      labelOpacity: .8,
+      labelFontSize: 15,
+    },
+    3: {
+      labelPriority: 1,
+      labelOpacity: .7,
+      labelFontSize: 15,
+    },
+  }
   const nodes = await r.json()
   return nodes.map(p => {
     return {
       ...p,
       label: trimLabel(p.label),
-      labelPriority: 1 / p.level,
-      labelOpacity: 1 / p.level,
+      ...levelMap[p.level],
     }
   })
 }
