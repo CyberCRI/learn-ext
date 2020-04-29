@@ -286,26 +286,23 @@ export const OverlayCards = (props) => {
     return selectedConcepts.watch(() => setCursor({ count: pages.length, current: 1 }))
   }, [selection])
 
-  if (selection.size > 0) {
-    return (
-      <div className='matches'>
-        <MatchStatsContainer>
-          <Pagination
-            count={cursor.count}
-            cursor={cursor.current}
-            onPaginate={(page) => setCursor({ current: page })}/>
-          <div>
-            <span><Tag minimal round>{selection.size}</Tag> Concepts</span>
-            <span><Tag minimal round>{matchingResources.length}</Tag> Matches</span>
-          </div>
-        </MatchStatsContainer>
-        <ResourceGrid resources={pages[cursor.current - 1] || []}/>
-      </div>
-    )
-  }
+
   return (
     <div className='matches'>
-      <PlaceHolder/>
+      <MatchStatsContainer>
+        <Pagination
+          count={cursor.count}
+          cursor={cursor.current}
+          onPaginate={(page) => setCursor({ current: page })}/>
+        <div>
+          <span><Tag minimal round>{selection.size}</Tag> Concepts</span>
+          <span><Tag minimal round>{matchingResources.length}</Tag> Matches</span>
+        </div>
+      </MatchStatsContainer>
+      {selection.size
+        ? <ResourceGrid resources={pages[cursor.current - 1] || []}/>
+        : <PlaceHolder/>
+      }
     </div>
   )
 }

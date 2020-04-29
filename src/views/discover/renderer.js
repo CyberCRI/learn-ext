@@ -59,16 +59,10 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
     },
   })
 
-  // const labels = DotAtlas.createLayer({
-  //   type: 'label',
-  //   points: baseLayer,
-  //   ...LayerProps.labels,
-  // })
-
   const portals = DotAtlas.createLayer({
     type: 'label',
     points: portalNodes,
-    ...LayerProps.labels,
+    ...LayerProps.portals,
     visible: true,
   })
 
@@ -78,7 +72,6 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
     hoverMarkers,
     hoverOutline,
     markers,
-    // labels,
     portals,
   }
 
@@ -119,7 +112,6 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
         selectionOutline,
         hoverOutline,
         hoverMarkers,
-        // labels,
         portals,
       ],
       pixelRatio: Math.ceil(Math.max(window.devicePixelRatio, 1)),
@@ -186,7 +178,6 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
 
   const deactivateLayers = async () => {
     markers.set('visible', false)
-    // labels.set('visible', false)
 
     atlas.redraw()
   }
@@ -194,11 +185,6 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
   const activateLayers = async () => {
     markers.set('visible', true)
     markers.update('markerOpacity')
-    // labels.set('visible', true)
-    // labels.update('points')
-    // labels.update('labelOpacity')
-    // labels.update('labelPriority')
-    // labels.update('labelVisibilityScales')
     elevation.update('elevation')
     atlas.redraw()
   }
@@ -220,22 +206,6 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
         }
       })
     markers.update('markerOpacity')
-
-    // labels
-    //   .get('points')
-    //   .forEach((p) => {
-    //     pt = pts.get(p.wikidata_id)
-    //     if (pt && p.n_items > 1) {
-    //       p.labelOpacity = 1
-    //       p.labelPriority = Math.max(0.1, 1 - (1 / (p.n_items || 1)))
-    //     } else {
-    //       p.labelOpacity = 0
-    //       p.labelPriority = 0
-    //     }
-    //   })
-    // labels.update('labelOpacity')
-    // labels.update('labelPriority')
-    // labels.update('labelVisibilityScales')
 
     elevation
       .get('points')

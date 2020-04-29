@@ -9,7 +9,7 @@ html {
 body {
   font: {
     family: $typeface-display;
-    weight: 400;
+    weight: 500;
   }
   display: flex;
   flex-direction: column;
@@ -32,10 +32,8 @@ body {
 body {
   > header {
     @extend .root-container;
-    background: $ink1;
-    height: 80px;
-    margin-bottom: -20px;
-    color: #f9f9fa;
+    // background: $ink1;
+    color: $ink1;
 
     nav {
       padding: 6px 0;

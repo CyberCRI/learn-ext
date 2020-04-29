@@ -70,12 +70,12 @@ export const LayerProps = {
     pointHoverRadiusMultiplier: 10,
     visible: false,
   },
-  labels: {
+  portals: {
     labelColor:         rgba`#000000ff`,
     labelFontFamily:    'Barlow',
     labelFontSize:      15,
     labelFontVariant:   'normal',
-    labelFontWeight:    400,
+    labelFontWeight:    500,
     labelOpacity:       1,
     labelShadowColor:   rgba`#ffffff99`,
     labelShadowSize:    10,
@@ -125,7 +125,7 @@ export const LayerPropConstraints = {
     pointHoverRadiusMultiplier: [-20, 20, .1],
     visible: [true],
   },
-  labels: {
+  portals: {
     labelFontSize:            [-20, 20, .1],
     labelOpacity:             [-1,  1,  .001],
     labelShadowSize:          [-20, 20, .1],
