@@ -95,7 +95,7 @@ const PageConcepts = (props) => {
         IngressAPI
           .doc2vec({ link: props.url, lang: data.lang })
           .then((data) => {
-            setConcepts(data)
+            setConcepts(data.map(node => ({ doc2vec: true, ...node })))
             setStatus(200)
           })
       })
@@ -104,7 +104,7 @@ const PageConcepts = (props) => {
   const didAddConcept = (item) => {
     const ixTitle = _(concepts).map('wikidata_id').value()
     if (!_.includes(ixTitle, item.wikidata_id)) {
-      setConcepts([ ...concepts, { ...item, similarity_score: 1 } ])
+      setConcepts([ ...concepts, { ...item, similarity_score: 1, doc2vec: false } ])
     }
   }
   const didRemoveConcept = (item) => {
@@ -118,7 +118,7 @@ const PageConcepts = (props) => {
 
         {status == 100 && <ConceptListLoadingState/>}
 
-        <ConceptList concepts={concepts} lang={language} removable onRemove={didRemoveConcept}/>
+        <ConceptList concepts={concepts} removable onRemove={didRemoveConcept}/>
         <ConceptSuggest lang={language} onSelect={didAddConcept}/>
         <RatingPicker rating={kprog} onChange={(value) => setKProg(value)}/>
       </div>
