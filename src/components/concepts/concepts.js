@@ -19,6 +19,7 @@ const conceptListVariants = {
   },
 }
 
+const PREF_LANG = 'en'
 
 // > How should we sort the ConceptList entries?
 // Each [key, order] pair defines the sort rule for a key and direction,
@@ -29,9 +30,6 @@ const conceptListVariants = {
 const ListSortOrderPriority = (() => {
   const keyProps = [
     [ 'title', 'asc' ],
-    [ 'title_en', 'asc' ],
-    [ 'title_fr', 'asc' ],
-    [ 'title_es', 'asc' ],
     [ 'similarity_score', 'desc' ],
     [ 'elo', 'desc' ],
     [ 'trueskill.sigma', 'asc' ],
@@ -39,23 +37,30 @@ const ListSortOrderPriority = (() => {
   return _.unzip(keyProps)
 })()
 
+function getTagRepresentation (props) {
+  // If we can find a representation in preferred language, great!
+  // else we'd fall back to first available representation.
+  // Note that if no representations are available it'd be an error.
+  // I don't care about it right now.
+  // Edit: I care now.
+  const reprs = props.representations
+  if (!reprs) {
+    // Alternatively, we could have the values "baked in".
+    return {
+      title: props[`title_${PREF_LANG}`],
+      lang: PREF_LANG,
+    }
+  }
+  const r = reprs.find(node => node.lang === PREF_LANG)
+  if (typeof r !== 'object') {
+    return reprs[0]
+  }
+  return r
+}
+
 export const ConceptTag = (props) => {
   const { wikidata_id } = props
-  const { title, lang } = (() => {
-    const keys = {
-      [props.lang]: `title_${props.lang}`,
-      en: 'title_en',
-      es: 'title_es',
-      fr: 'title_fr',
-    }
-
-    for (let [lang, attr] of Object.entries(keys)) {
-      if (typeof props[attr] === 'string') {
-        return { title: props[attr], lang }
-      }
-    }
-    return { title: props.title, lang: props.lang }
-  })()
+  const { title, lang } = getTagRepresentation(props)
 
   const didClickRemove = () => {
     console.debug(`[ConceptTag] Removing <${title}>`)
@@ -86,11 +91,12 @@ export const ConceptTag = (props) => {
 }
 
 export const ConceptList = (props) => {
-  const { lang, removable=false } = props
-  const concepts = _(props.concepts)
-    .orderBy(...ListSortOrderPriority)
-    .filter((o) => o.title || o.title_en || o.title_fr || o.title_es)
-    .value()
+  const { removable=false } = props
+  const concepts = props.concepts
+  // const concepts = _(props.concepts)
+  //   .orderBy(...ListSortOrderPriority)
+  //   .filter((o) => o.title || o.title_en || o.title_fr || o.title_es)
+  //   .value()
 
   return (
     <AnimatePresence initial={props.noAnimation ? false : 'hidden'}>
@@ -105,7 +111,6 @@ export const ConceptList = (props) => {
             <ConceptTag
               removable={removable}
               onRemove={props.onRemove}
-              lang={lang}
               {...item}/>
           </motion.li>
         )}
