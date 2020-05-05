@@ -1,5 +1,7 @@
 import { MapLayerAPI } from '@ilearn/modules/api'
 
+const PREF_LANG = 'en'
+
 const trimLabel = (label) => {
   // If the label has >= 6 words, we'd add '...'.
   // Split the label text on space characters (\s)
@@ -23,26 +25,33 @@ const takeValues = (concept, lang) => {
 }
 
 export const fetchBaseLayer = async () => {
-  return await MapLayerAPI.everything()
-    .then((nodes) =>
-      nodes.map(p => {
-        return {
-          ...p,
-          x: p.x_map_en,
-          y: p.y_map_en,
-          userData: true,
-          ...(takeValues(p, 'en') || takeValues(p, 'fr')),
-          elevation: .8,
-          markerShape: 'circle',
-          markerSize: 4,
-          labelOpacity: 1,
-          labelPriority: (p.n_items || 1),
-        }
-      }).filter(p => p.x && p.y))
+  const allNodes = await MapLayerAPI.everything()
+  const nodeLUT = []
+
+  // filter nodes having a representation in a certain language.
+
+  for (let node of allNodes) {
+    const repr = node.representations.find((repr) => repr.lang === PREF_LANG)
+
+    if (typeof repr !== 'object') {
+      continue
+    }
+    nodeLUT.push({
+      ...node,
+      ...repr,
+      label: trimLabel(repr.title),
+      elevation: .8,
+      markerShape: 4,
+      labelOpacity: 1,
+      labelPriority: Math.max(node.n_items, 1),
+    })
+  }
+
+  return nodeLUT
 }
 
 export const fetchPortals = async () => {
-  const r = await fetch('https://noop-pub.s3.amazonaws.com/opt/portals_level3_en.json', {
+  const r = await fetch('https://noop-zip.s3.amazonaws.com/opt/portals_level3_en.json', {
     method: 'get',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
