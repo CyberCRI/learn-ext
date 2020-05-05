@@ -102,7 +102,7 @@ export const ConceptSuggest = ({ onSelect, lang }) => {
     }
     setLoadingState(true)
     Wiki
-      .srquery(query, lang)
+      .prefixsearch(query, lang)
       .then((data) => {
         setItems(data)
         setLoadingState(false)
