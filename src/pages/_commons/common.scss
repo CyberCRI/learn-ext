@@ -32,7 +32,7 @@ body {
 body {
   > header {
     @extend .root-container;
-    // background: $ink1;
+    background: $ink1;
     color: $ink1;
 
     nav {
@@ -51,6 +51,11 @@ body {
       a, .bp3-button {
         text-transform: uppercase;
         letter-spacing: 1px;
+        color: $light-gray1;
+
+        > span.bp3-icon {
+          color: $light-gray1;
+        }
       }
     }
   }
