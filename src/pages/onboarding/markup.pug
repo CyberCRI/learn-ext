@@ -11,13 +11,6 @@ mixin dotbg
       circle.dotUnit(cx=5 cy=5 r=1)
     rect#bg(x=0 y=0 width='100%' height='100%' fill='url(#dots)')
 
-mixin img-ref(name, classes='')
-  img(
-    src="https://welearn.cri-paris.org/static/media/" + name
-    class=classes
-    role='presentation')
-
-
 append main
   div.presentation
     section.slide.tile.blurb
@@ -59,7 +52,7 @@ append main
 
       div.tile.is-6.is-parent
         div.align-middle
-          +img-ref('shot-toolbar.png', 'fit-cover')
+          img.fit-cover(src='/media/illustrations/shot-toolbar.png' role='presentation')
 
     section.slide.resources-demo
       div#demo-cards
@@ -75,11 +68,11 @@ append main
             li Create your own learning path.
 
       div.tile.is-6
-        +img-ref('shot-discover-page.jpg', 'screenshot')
+        img.screenshot(src='/media/illustrations/shot-discover-page.jpg' role='presentation')
 
     section.slide.tile.wikipedia
       div.tile.is-8.is-parent
-        +img-ref('shot-wikipedia-concepts.jpg', 'screenshot')
+        img.screenshot(src='/media/illustrations/shot-wikipedia-concepts.jpg' role='presentation')
       div.tile.is-4.is-parent
         div.align-middle
           h1 Standing on the Shoulder of the Giants
@@ -100,26 +93,26 @@ append main
             a.bp3-button.bp3-minimal(href='https://www.netlify.com' style='padding: 0')
               img(
                 alt='Deploys by Netlify'
-                src='https://www.netlify.com/img/global/badges/netlify-dark.svg')
+                src='/media/logos/netlify-dark.svg')
 
       div.tile.is-8.is-parent
         div.align-middle.fit-box
           ul.misc-features
             li.privacy
-              +img-ref('heart.png')
+              img(src='/media/illustrations/ico-heart.svg')
               h2 Privacy by design.
               p
 
             li.i18n
-              +img-ref('i18n.png')
+              img(src='/media/illustrations/ico-i18n.svg')
               h2 We speak many languages!
 
             li.a11y
-              +img-ref('a11y.png')
+              img(src='/media/illustrations/ico-a11y.svg')
               h2 Accessible
 
             li.open
-              +img-ref('star.png')
+              img(src='/media/illustrations/ico-star.svg')
               h2 Open source
 
     //- Disabled these to rush a release!
