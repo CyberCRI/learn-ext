@@ -12,18 +12,6 @@ const trimLabel = (label) => {
   return label
 }
 
-const takeValues = (concept, lang) => {
-  if (!concept[`title_${lang}`]) {
-    return null
-  }
-
-  return {
-    label: trimLabel(concept[`title_${lang}`]),
-    lang,
-    title: concept[`title_${lang}`],
-  }
-}
-
 export const fetchBaseLayer = async () => {
   const allNodes = await MapLayerAPI.everything()
   const nodeLUT = []
@@ -51,7 +39,7 @@ export const fetchBaseLayer = async () => {
 }
 
 export const fetchPortals = async () => {
-  const r = await fetch('https://noop-zip.s3.amazonaws.com/opt/portals_level3_en.json', {
+  const r = await fetch('https://noop-zip.s3.amazonaws.com/opt/portals_en_v2.json', {
     method: 'get',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
@@ -74,11 +62,13 @@ export const fetchPortals = async () => {
     },
   }
   const nodes = await r.json()
-  return nodes.map(p => {
-    return {
-      ...p,
-      label: trimLabel(p.label),
-      ...levelMap[p.level],
-    }
-  })
+  return nodes
+    .filter(p => p.level <= 2)
+    .map(p => {
+      return {
+        ...p,
+        label: trimLabel(p.label),
+        ...levelMap[p.level],
+      }
+    })
 }
