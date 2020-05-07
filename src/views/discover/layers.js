@@ -31,14 +31,16 @@ export const fetchBaseLayer = async () => {
     }
 
     if (!node.representations) {
-      nodeLUT.push({
-        ...dot,
-        lang: 'en',
-        label: trimLabel(node.title_en),
-        x: node.x_map_en,
-        y: node.y_map_en,
-        title: node.title_en,
-      })
+      if (node.title_en) {
+        nodeLUT.push({
+          ...dot,
+          lang: 'en',
+          label: trimLabel(node.title_en),
+          x: node.x_map_en,
+          y: node.y_map_en,
+          title: node.title_en,
+        })
+      }
       continue
     }
 
