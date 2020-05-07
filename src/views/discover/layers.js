@@ -17,21 +17,36 @@ export const fetchBaseLayer = async () => {
   const nodeLUT = []
 
   // filter nodes having a representation in a certain language.
+  // [!hack] for backwards compatibility during transition, we'll also check
+  // if `node.representations` exists at all. If not, we'll use the `title_en`
+  // and `lang: en` bodge.
 
   for (let node of allNodes) {
-    const repr = node.representations.find((repr) => repr.lang === PREF_LANG)
-
-    if (typeof repr !== 'object') {
-      continue
-    }
-    nodeLUT.push({
+    const dot = {
       ...node,
-      ...repr,
-      label: trimLabel(repr.title),
       elevation: .8,
       markerShape: 4,
       labelOpacity: 1,
       labelPriority: Math.max(node.n_items, 1),
+    }
+
+    if (!node.representations) {
+      nodeLUT.push({
+        ...dot,
+        lang: 'en',
+        label: trimLabel(node.title_en),
+        x: node.x_map_en,
+        y: node.y_map_en,
+        title: node.title_en,
+      })
+      continue
+    }
+
+    const repr = node.representations.find((repr) => repr.lang === PREF_LANG)
+    nodeLUT.push({
+      ...dot,
+      ...repr,
+      label: trimLabel(repr.title),
     })
   }
 
