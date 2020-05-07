@@ -78,7 +78,7 @@ const DashboardView = () => {
         setLoading(false)
 
         setResources(_(allResources)
-          .orderBy((res) => moment.utc(res.created), 'desc')
+          .orderBy((res) => moment.utc(res.created_on), 'desc')
           .uniqBy('resource_id')
           .value())
       }, () => {
