@@ -9,11 +9,12 @@ const DPadBox = styled.div`
   display: grid;
 
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 2fr 2fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 5px 1fr 1fr 1fr;
   gap: 0 0;
   grid-template-areas:
     ".  zp  ."
     ".  zm  ."
+    ".  .   ."
     ".  up  ."
     "lt .   rt"
     ".  dn  .";
