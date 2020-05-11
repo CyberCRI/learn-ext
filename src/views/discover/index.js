@@ -3,6 +3,7 @@ import { renderReactComponent } from '~mixins/react-helpers'
 
 import { setupMapView } from './renderer'
 import { OverlayCards, OverlayConcepts, OverlayTools, ProgressIndicator } from './overlays'
+import DPadButtons from './dpad-zoom'
 import { $globalContext } from '~page-commons/store'
 
 import { fetchBaseLayer, fetchPortals } from './layers'
@@ -48,4 +49,5 @@ export const renderView = async () => {
   renderReactComponent('overlay-concepts', OverlayConcepts)
   renderReactComponent('discover-view', OverlayCards)
   renderReactComponent('progress-bar', ProgressIndicator)
+  renderReactComponent('overlay-dpad', DPadButtons)
 }
