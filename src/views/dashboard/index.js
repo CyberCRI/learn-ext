@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { useEffectOnce, useSetState, useRafLoop } from 'react-use'
 import { Button, Spinner } from '@blueprintjs/core'
-import { Helmet } from 'react-helmet'
 import moment from 'moment'
 import _ from 'lodash'
-import { reFuse } from '~mixins/itertools'
+import Fuse from 'fuse.js'
 
 import { API } from '@ilearn/modules/api'
-import { i18n } from '@ilearn/modules/i18n'
 import { ResourceGrid, Placeholder } from '~components/resources'
 import { OmniBar, FilterTools } from './tools'
 
@@ -15,10 +13,10 @@ import './styles.scss'
 
 const filterKeys = [
   'title',
-  'concepts.title',
   'concepts.title_en',
-  'concepts.title_fr',
   'concepts.title_es',
+  'concepts.title_fr',
+  'url',
 ]
 
 const ResourcesInfo = ({ count, len }) => {
@@ -29,11 +27,11 @@ const ResourcesInfo = ({ count, len }) => {
   )
 }
 
-const FilteredItems = ({ resources, filters, ...props }) => {
+const FilteredItems = ({ resources, filters, index, ...props }) => {
   const visibleResources = () => {
     if (filters.query.length >= 1) {
       // Filter with the query
-      return reFuse(resources, filterKeys).search(filters.query)
+      return index.search(filters.query).map(r => r.item)
     }
     return resources
   }
@@ -58,6 +56,10 @@ const DashboardView = () => {
   const [ statusError, setStatusError ] = useState(false)
   const [ filters, setFilters ] = useSetState({ query: '' })
 
+  const index = new Fuse(resources, {
+    keys: filterKeys,
+  })
+
   const [ count, setCount ] = useState(0)
   const [ offset, setOffset ] = useState(0)
 
@@ -76,7 +78,7 @@ const DashboardView = () => {
         setLoading(false)
 
         setResources(_(allResources)
-          .orderBy((res) => moment.utc(res.created), 'desc')
+          .orderBy((res) => moment.utc(res.created_on), 'desc')
           .uniqBy('resource_id')
           .value())
       }, () => {
@@ -139,14 +141,12 @@ const DashboardView = () => {
 
   return (
     <div className='dashboard'>
-      <Helmet>
-        <title>{i18n.t('pages.dashboard.meta.pageTitle')}</title>
-      </Helmet>
       <OmniBar onChange={(q) => setFilters(q)}/>
       <ResourcesInfo len={resources.length} count={count}/>
       <FilteredItems
         resources={resources}
         filters={filters}
+        index={index}
         onDelete={deleteResource}
         onRemoveConcept={removeConcept}/>
       <div className='pager'>

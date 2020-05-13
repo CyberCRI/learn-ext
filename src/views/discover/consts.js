@@ -34,7 +34,7 @@ export const LayerProps = {
     lightAzimuth:     4.5,
     lightIntensity:   .2,
     lightness:        -0.01,
-    maxRadiusDivider: 14,
+    maxRadiusDivider: 22,
     saturation:       0.09,
     visible:          true,
   },
@@ -62,7 +62,7 @@ export const LayerProps = {
   },
   markers: {
     markerFillOpacity:    0.2,
-    markerOpacity:        0.7,
+    markerOpacity:        0.4,
     markerSizeMultiplier: 2,
     markerStrokeOpacity:  0,
     markerStrokeWidth:    0,
@@ -70,15 +70,15 @@ export const LayerProps = {
     pointHoverRadiusMultiplier: 10,
     visible: false,
   },
-  labels: {
+  portals: {
     labelColor:         rgba`#000000ff`,
     labelFontFamily:    'Barlow',
-    labelFontSize:      15,
+    labelFontSize:      14,
     labelFontVariant:   'normal',
-    labelFontWeight:    400,
+    labelFontWeight:    500,
     labelOpacity:       1,
     labelShadowColor:   rgba`#ffffff99`,
-    labelShadowSize:    10,
+    labelShadowSize:    2,
     visible: false,
   },
 }
@@ -125,7 +125,7 @@ export const LayerPropConstraints = {
     pointHoverRadiusMultiplier: [-20, 20, .1],
     visible: [true],
   },
-  labels: {
+  portals: {
     labelFontSize:            [-20, 20, .1],
     labelOpacity:             [-1,  1,  .001],
     labelShadowSize:          [-20, 20, .1],

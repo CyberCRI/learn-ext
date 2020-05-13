@@ -67,14 +67,14 @@ div.info-card {
   .title {
     font: {
       size: 1.4em;
-      weight: 400;
+      // weight: 400;
     }
     margin: 0 0 .5em 0;
 
     cite {
       font: {
         size: 12px;
-        style: normal;
+        // style: normal;
       }
       display: block;
     }
@@ -82,7 +82,7 @@ div.info-card {
   .summary {
     font: {
       size: $running-text-size;
-      weight: 300;
+      // weight: 300;
     }
     line-height: $line-height;
     min-height: $line-height * 2;

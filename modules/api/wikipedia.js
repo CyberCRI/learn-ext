@@ -76,6 +76,9 @@ class WikiAPI {
 
         wikidata_id: _get(item, 'pageprops.wikibase_item'),
         thumbnail: _get(item, 'thumbnail'),
+        representations: [
+          { lang, title: _get(item, 'title') },
+        ],
       }))
     }
     return wikiRequest({ lang, params }).then(transform)
@@ -112,6 +115,54 @@ class WikiAPI {
     }
 
     return fetchPageProps().then(transform)
+  }
+
+  async prefixsearch (query, lang='en') {
+    // returns list of items through prefix search. Doesnt contain everything
+    // we need but it's okay for now. We'll make a separate request to fetch
+    // properties we need.
+    const results = await wikiRequest({ lang, params: {
+      action: 'query',
+      format: 'json',
+      list: 'prefixsearch',
+      pssearch: query,
+      origin: '*',
+    }})
+    const matches = results.query.prefixsearch
+
+    // fetch pageprops for the pageids above^
+    const pprops = await wikiRequest({ lang, params: {
+      action: 'query',
+      format: 'json',
+      prop: 'extracts|pageprops|info|pageimages',
+      pageids: matches.map(page => page.pageid).join('|'),
+      exsentences: 4,
+      exlimit: 5,
+      exintro: 1,
+      explaintext: 1,
+      inprop: 'url|displaytitle',
+      origin: '*',
+    }})
+    const pageprops = pprops.query.pages
+
+    return matches
+      .filter(page => !!pageprops[page.pageid].pageprops)
+      .map(page => {
+        const item = pageprops[page.pageid]
+        return {
+          lang,
+          title: _get(item, 'title'),
+          subtitle: _get(item, 'pageprops.wikibase-shortdesc'),
+          description: _get(item, 'terms.description.0'),
+          extract: _get(item, 'extract'),
+
+          wikidata_id: _get(item, 'pageprops.wikibase_item'),
+          thumbnail: _get(item, 'thumbnail'),
+          representations: [
+            { lang, title: _get(item, 'title') },
+          ],
+        }
+      })
   }
 }
 

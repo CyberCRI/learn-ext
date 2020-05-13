@@ -8,7 +8,8 @@ section.article {
   box-shadow: 0 0 20px -5px #0000000c;
   border-radius: 6px;
   margin: 5px 0 10px;
-  line-height: 1.4;
+  line-height: 1.5;
+  font-weight: 400;
 
   h1, h2, h3, h4, h5, h6, p, ul {
     max-width: 520px;
@@ -36,7 +37,7 @@ section.article {
 
   article {
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 500;
     color: $dark-gray3;
 
     h1 {

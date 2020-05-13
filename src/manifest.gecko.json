@@ -1,6 +1,6 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "manifest_version": 2,
 
   "browser_specific_settings": {
@@ -69,6 +69,9 @@
   },
 
   "web_accessible_resources": [
-    "pages/*"
+    "pages/*",
+    "icons/*",
+    "fonts/*",
+    "chunks/*"
   ]
 }

@@ -77,12 +77,14 @@ export const UrlPill = ({ url, linked=false, short=false, ...props }) => {
 export const FaviconPill = ({ url, title='', ...props }) => {
   const [ reveal, setVisibility ] = useToggle(false)
   const imageDidLoad = () => setVisibility(true)
-  const faviconUrl = `/meta/resolve/logo?url=${url}`
+  // make the url absolute if we're in extension context.
+  const origin = document.location.protocol === 'https:' ? '' : env.ngapi_host
+  const iconUrl = `${origin}/meta/resolve/logo?url=${url}`
 
   return (
     <Pill kind='favicon' {...props}>
       <img
-        src={encodeURI(faviconUrl)}
+        src={encodeURI(iconUrl)}
         title={title}
         className={reveal ? 'reveal' : 'hidden'}
         role='presentation'

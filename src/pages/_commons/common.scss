@@ -9,7 +9,7 @@ html {
 body {
   font: {
     family: $typeface-display;
-    weight: 400;
+    weight: 500;
   }
   display: flex;
   flex-direction: column;
@@ -33,9 +33,7 @@ body {
   > header {
     @extend .root-container;
     background: $ink1;
-    height: 80px;
-    margin-bottom: -20px;
-    color: #f9f9fa;
+    color: $ink1;
 
     nav {
       padding: 6px 0;
@@ -53,6 +51,11 @@ body {
       a, .bp3-button {
         text-transform: uppercase;
         letter-spacing: 1px;
+        color: $light-gray1;
+
+        > span.bp3-icon {
+          color: $light-gray1;
+        }
       }
     }
   }

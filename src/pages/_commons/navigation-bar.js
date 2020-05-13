@@ -83,7 +83,7 @@ export const NavigationBar = () => {
   const node = useStore($globalContext)
 
   return (
-    <Navbar className='np-navbar bp3-dark'>
+    <Navbar className='np-navbar'>
       <Navbar.Group align={Alignment.LEFT}>
         <AnchorButton
           text={i18nT('heading')}

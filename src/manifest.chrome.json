@@ -1,7 +1,7 @@
 {
   "name": "__MSG_extension_name__",
-  "version": "0.1.6",
-  "version_name": "0.1.6-alpha",
+  "version": "0.2.0",
+  "version_name": "0.2.0-alpha",
   "manifest_version": 2,
 
   "description": "__MSG_extension_description__",
@@ -59,6 +59,9 @@
   },
 
   "web_accessible_resources": [
-    "pages/*"
+    "pages/*",
+    "icons/*",
+    "fonts/*",
+    "chunks/*"
   ]
 }

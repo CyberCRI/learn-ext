@@ -22,21 +22,22 @@ function inferredResourceType (url) {
   }
 }
 
+const BrandDiv = styled.div`
+  margin-top: 10px;
+  display: flex;
+`
+const LogoImg = styled.img`
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+`
+const LogoSpan = styled.span`
+  font-weight: 500;
+  letter-spacing: .1px;
+`
+
 const CardBranding = ({ url }) => {
   const kind = inferredResourceType(url)
-  const BrandDiv = styled.div`
-    margin-top: 10px;
-    display: flex;
-  `
-  const LogoImg = styled.img`
-    width: 16px;
-    height: 16px;
-    margin-right: 10px;
-  `
-  const LogoSpan = styled.span`
-    font-weight: 500;
-    letter-spacing: .1px;
-  `
 
   if (kind === 'cri-projects') {
     return (
@@ -51,7 +52,8 @@ const CardBranding = ({ url }) => {
 }
 
 export const Backdrop = ({ url }) => {
-  const imageUrl = `/meta/resolve/image?url=${url}`
+  const origin = document.location.protocol === 'https:' ? '' : env.ngapi_host
+  const imageUrl = `${origin}/meta/resolve/image?url=${url}`
 
   const [ display, setDisplay ] = useState({ hidden: true })
   const imageDidLoad = (e) => {
@@ -161,14 +163,11 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
       {!props.skipMedia && <Backdrop url={url}/>}
       <div className='content'>
         <h4 className='title'>{props.title}</h4>
-        {!!props.created && <DateTimePill timestamp={props.created}/>}
+        {!!props.created_on && <DateTimePill timestamp={props.created_on}/>}
 
         {!props.skipConceptList &&
           <ConceptList
-            concepts={concepts.map((c) => ({
-              title: c[`title_${props.lang}`] || c.title_en,
-              ...c,
-            }))}
+            concepts={concepts}
             lang={props.lang}
             removable={isRemovable}
             onRemove={didRemoveConcept}
