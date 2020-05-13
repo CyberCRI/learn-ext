@@ -12,6 +12,11 @@ import { nodePicker, selectedConcepts, userResources } from './store'
 import { LayerProps, KeyBinding } from './consts'
 
 
+const useConceptMap = () => {
+
+}
+
+
 export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
@@ -115,10 +120,10 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
         portals,
       ],
       pixelRatio: Math.ceil(Math.max(window.devicePixelRatio, 1)),
-      onClick: eventTaps.didClick,
-      onHover: eventTaps.didHover,
-      onMouseWheel: eventTaps.didMouseWheel,
-      onDoubleClick: eventTaps.didDoubleClick,
+      // onClick: eventTaps.didClick,
+      // onHover: eventTaps.didHover,
+      // onMouseWheel: eventTaps.didMouseWheel,
+      // onDoubleClick: eventTaps.didDoubleClick,
     })
 
 

@@ -73,12 +73,12 @@ export const LayerProps = {
   portals: {
     labelColor:         rgba`#000000ff`,
     labelFontFamily:    'Barlow',
-    labelFontSize:      15,
+    labelFontSize:      14,
     labelFontVariant:   'normal',
     labelFontWeight:    500,
     labelOpacity:       1,
     labelShadowColor:   rgba`#ffffff99`,
-    labelShadowSize:    10,
+    labelShadowSize:    2,
     visible: false,
   },
 }
