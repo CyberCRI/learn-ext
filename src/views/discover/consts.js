@@ -34,7 +34,7 @@ export const LayerProps = {
     lightAzimuth:     4.5,
     lightIntensity:   .2,
     lightness:        -0.01,
-    maxRadiusDivider: 14,
+    maxRadiusDivider: 22,
     saturation:       0.09,
     visible:          true,
   },

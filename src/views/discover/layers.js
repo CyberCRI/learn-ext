@@ -80,7 +80,7 @@ export const fetchPortals = async () => {
     3: {
       labelPriority: 1,
       labelOpacity: 1,
-      labelColor: rgba`737373ff`,
+      labelColor: rgba`636363ff`,
       symbol: '⌘',
     },
   }
