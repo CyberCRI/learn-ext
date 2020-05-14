@@ -29,6 +29,10 @@ function getTagRepresentation (props) {
   // Edit: I care now.
   const reprs = props.representations
   if (!reprs) {
+    if (props.title && props.lang) {
+      return { title: props.title, lang: props.lang }
+    }
+
     // Alternatively, we could have the values "baked in".
     // We only care about the property having `title_$lang` pattern.
     for (let lang of ['en', 'fr', 'es']) {
