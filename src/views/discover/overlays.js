@@ -4,7 +4,7 @@ import { useStore } from 'effector-react'
 import { Button, ButtonGroup, InputGroup, Divider, ControlGroup, Tag } from '@blueprintjs/core'
 import { Popover, Menu, Dialog, Spinner } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
-import { useToggle } from 'react-use'
+import { useToggle, useLogger } from 'react-use'
 import queryStrings from 'query-string'
 import styled from 'styled-components'
 import _ from 'lodash'
@@ -272,6 +272,7 @@ export const OverlayCards = (props) => {
   const cursor = useStore($cursor)
 
   const selIx = new Set(selection.toJS().map((c) => c.wikidata_id))
+  useLogger('OverlayCards')
 
   const matchingResources = resources.filter((r) => {
     for (let c of r.concepts) {
@@ -281,10 +282,11 @@ export const OverlayCards = (props) => {
     }
   })
   const pages = _.chunk(matchingResources, 20)
+  const currentPage = pages[cursor.current - 1]
 
   React.useEffect(() => {
     return selectedConcepts.watch(() => setCursor({ count: pages.length, current: 1 }))
-  }, [selection])
+  }, [selection, resources])
 
 
   return (
@@ -299,8 +301,8 @@ export const OverlayCards = (props) => {
           <span><Tag minimal round>{matchingResources.length}</Tag> Matches</span>
         </div>
       </MatchStatsContainer>
-      {selection.size
-        ? <ResourceGrid resources={pages[cursor.current - 1] || []}/>
+      {currentPage
+        ? <ResourceGrid resources={currentPage}/>
         : <PlaceHolder/>
       }
     </div>

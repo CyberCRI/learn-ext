@@ -68,7 +68,6 @@ export const selectedConcepts = createStore(Set())
   .on(nodePicker.replace, (_, vals) => Set(vals))
   .on(nodePicker.reset, () => Set())
   .on(nodePicker.remove, (state, vals) => state.subtract(Set(vals)))
-  .reset(didPickLayer)
 
 export const userResources = createStore([])
   .on(fetchResources.done, (state, params) => {
