@@ -1,5 +1,4 @@
 import React from 'react'
-import _ from 'lodash'
 import { Tag, Popover, PopoverInteractionKind, Position } from '@blueprintjs/core'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -21,21 +20,6 @@ const conceptListVariants = {
 
 const PREF_LANG = 'en'
 
-// > How should we sort the ConceptList entries?
-// Each [key, order] pair defines the sort rule for a key and direction,
-// the order of the sort rules are important -- they determine the priority
-// while sorting.
-// Note that there's no change if a key is missing, it should still result a
-// stable sort order!
-const ListSortOrderPriority = (() => {
-  const keyProps = [
-    [ 'title', 'asc' ],
-    [ 'similarity_score', 'desc' ],
-    [ 'elo', 'desc' ],
-    [ 'trueskill.sigma', 'asc' ],
-  ]
-  return _.unzip(keyProps)
-})()
 
 function getTagRepresentation (props) {
   // If we can find a representation in preferred language, great!
@@ -46,10 +30,14 @@ function getTagRepresentation (props) {
   const reprs = props.representations
   if (!reprs) {
     // Alternatively, we could have the values "baked in".
-    return {
-      title: props[`title_${PREF_LANG}`],
-      lang: PREF_LANG,
+    // We only care about the property having `title_$lang` pattern.
+    for (let lang of ['en', 'fr', 'es']) {
+      let title = props[`title_${lang}`]
+      if (title) {
+        return { title, lang }
+      }
     }
+    return {} // we can't do anything but ignore.
   }
   const r = reprs.find(node => node.lang === PREF_LANG)
   if (typeof r !== 'object') {
@@ -61,6 +49,10 @@ function getTagRepresentation (props) {
 export const ConceptTag = (props) => {
   const { wikidata_id } = props
   const { title, lang } = getTagRepresentation(props)
+  if (!title || !lang) {
+    console.log(`Empty tag. Not rendering <ConceptTag ${wikidata_id}>`)
+    return null
+  }
 
   const didClickRemove = () => {
     console.debug(`[ConceptTag] Removing <${title}>`)
@@ -93,10 +85,6 @@ export const ConceptTag = (props) => {
 export const ConceptList = (props) => {
   const { removable=false } = props
   const concepts = props.concepts
-  // const concepts = _(props.concepts)
-  //   .orderBy(...ListSortOrderPriority)
-  //   .filter((o) => o.title || o.title_en || o.title_fr || o.title_es)
-  //   .value()
 
   return (
     <AnimatePresence initial={props.noAnimation ? false : 'hidden'}>
