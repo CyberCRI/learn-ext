@@ -26,7 +26,7 @@ const reScaleMarker = d3.scaleLog()
   .clamp(true)
 
 export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
-  const itemScale = d3.scaleLog()
+  const itemScale = d3.scaleSymlog()
     .domain([_.minBy(baseLayer, 'n_items').n_items, _.maxBy(baseLayer, 'n_items').n_items])
     .range([0, 1])
     .clamp(true)
@@ -102,6 +102,16 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
       elevation.get('elevationAt', e.elementX, e.elementY)
     },
     didMouseWheel: (e, ...args) => {
+      if (atlas.mapt.zoom > 7) {
+        console.log(':trigger now')
+        markers.set('markerFillOpacity', 1)
+        markers.set('minAbsoluteMarkerSize', 8)
+        atlas.redraw()
+      } else {
+        markers.set('markerFillOpacity', .2)
+        markers.set('minAbsoluteMarkerSize', 2)
+        atlas.redraw()
+      }
     },
     didResizeViewport: (() => {
       // Based on AutoResizing plugin for dotaltas. Reimplemented here with
@@ -135,7 +145,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
       pixelRatio: Math.ceil(Math.max(window.devicePixelRatio, 1)),
       // onClick: eventTaps.didClick,
       // onHover: eventTaps.didHover,
-      // onMouseWheel: eventTaps.didMouseWheel,
+      onMouseWheel: eventTaps.didMouseWheel,
       // onDoubleClick: eventTaps.didDoubleClick,
     })
 
@@ -155,6 +165,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
     },
     set zoom (value) {
       // If we let zoom value go below zero, weird things happen. Weird but cool.
+      // publish this state too.
       this.centerPoint = { ...this.centerPoint, zoom: Math.max(value, 0.05) }
     },
 
@@ -217,7 +228,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
           scale = itemScale(p.n_items)
-          c = d3.rgb(d3.interpolateRdBu(scale))
+          c = d3.rgb(d3.interpolateCool(scale))
           p.markerOpacity = scale
           p.markerSize = scale
           p.markerColor = [c.r, c.g, c.b, 255]
@@ -257,6 +268,12 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
       updateLayers(Map(items))
     }
   })
+
+  const zoomTrigger = () => {
+    console.log(atlas.mapt.zoom)
+  }
+
+  // window.requestAnimationFrame()
 
   window.addEventListener('resize', eventTaps.didResizeViewport)
   window._magic_atlas = atlas
