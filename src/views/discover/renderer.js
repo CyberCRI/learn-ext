@@ -15,16 +15,6 @@ import { LayerProps, KeyBinding } from './consts'
 import { rgba } from './utils'
 
 
-const useConceptMap = () => {
-
-}
-
-
-const reScaleMarker = d3.scaleLog()
-  .domain([0, 100])
-  .range([0, 1])
-  .clamp(true)
-
 export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
   const itemScale = d3.scaleSymlog()
     .domain([_.minBy(baseLayer, 'n_items').n_items, _.maxBy(baseLayer, 'n_items').n_items])
@@ -60,13 +50,13 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
     points: baseLayer,
     ...LayerProps.markers,
 
-    onPointHover: (e) => {
+    onPointHover: _.throttle((e) => {
       const hoverPts = e.points.filter((pt) => pt.canPick)
 
       hoverMarkers.set('points', hoverPts)
       hoverOutline.set('points', hoverPts)
       atlas.redraw()
-    },
+    }, 20),
     onPointClick: (e) => {
       const filteredPts = e.points.filter((pt) => pt.canPick)
       if (!(e.ctrlKey || e.shiftKey)) {
@@ -145,7 +135,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
       pixelRatio: Math.ceil(Math.max(window.devicePixelRatio, 1)),
       // onClick: eventTaps.didClick,
       // onHover: eventTaps.didHover,
-      onMouseWheel: eventTaps.didMouseWheel,
+      // onMouseWheel: eventTaps.didMouseWheel,
       // onDoubleClick: eventTaps.didDoubleClick,
     })
 
@@ -220,7 +210,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
 
   const updateLayers = async (pts) => {
     await deactivateLayers()
-    let pt, scale, c
+    let pt, scale
 
     markers
       .get('points')
@@ -228,10 +218,8 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
           scale = itemScale(p.n_items)
-          c = d3.rgb(d3.interpolateCool(scale))
           p.markerOpacity = scale
           p.markerSize = scale
-          p.markerColor = [c.r, c.g, c.b, 255]
           p.canPick = true
         } else {
           p.markerOpacity = 0
@@ -269,11 +257,20 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
     }
   })
 
-  const zoomTrigger = () => {
-    console.log(atlas.mapt.zoom)
+  const didChangeZoom = () => {
+    const zoom = atlas.mapt.zoom
+    if (zoom <= 5) {
+      markers.set('markerFillOpacity', 0)
+      atlas.redraw()
+    } else {
+      markers.set('markerFillOpacity', 1)
+      atlas.redraw()
+    }
   }
 
-  // window.requestAnimationFrame()
+  window.setInterval(() => {
+    didChangeZoom()
+  }, 100)
 
   window.addEventListener('resize', eventTaps.didResizeViewport)
   window._magic_atlas = atlas

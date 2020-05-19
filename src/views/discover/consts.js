@@ -61,7 +61,8 @@ export const LayerProps = {
     visible: true,
   },
   markers: {
-    markerFillOpacity:    1,
+    markerColor:          rgba`#151515ff`,
+    markerFillOpacity:    .8,
     markerOpacity:        1,
     markerSizeMultiplier: 5,
     markerStrokeOpacity:  0,
