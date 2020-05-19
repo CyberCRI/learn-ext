@@ -4,12 +4,15 @@ import Mousetrap from '@ilearn/modules/utilities/mousetrap'
 import _throttle from 'lodash/throttle'
 import _debounce from 'lodash/debounce'
 import _flatMap from 'lodash/flatMap'
+import _ from 'lodash'
 import { Map } from 'immutable'
+import * as d3 from 'd3'
 
 import setupDebugger from './renderer-debugger'
 import { nodePicker, selectedConcepts, userResources } from './store'
 
 import { LayerProps, KeyBinding } from './consts'
+import { rgba } from './utils'
 
 
 const useConceptMap = () => {
@@ -17,7 +20,17 @@ const useConceptMap = () => {
 }
 
 
+const reScaleMarker = d3.scaleLog()
+  .domain([0, 100])
+  .range([0, 1])
+  .clamp(true)
+
 export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
+  const itemScale = d3.scaleLog()
+    .domain([_.minBy(baseLayer, 'n_items').n_items, _.maxBy(baseLayer, 'n_items').n_items])
+    .range([0, 1])
+    .clamp(true)
+
   const elevation = DotAtlas.createLayer({
     type: 'elevation',
     points: baseLayer,
@@ -196,14 +209,18 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
 
   const updateLayers = async (pts) => {
     await deactivateLayers()
-    let pt
+    let pt, scale, c
 
     markers
       .get('points')
       .forEach((p) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
-          p.markerOpacity = Math.max(0.5, 1 - (1 / (p.n_items || 1)))
+          scale = itemScale(p.n_items)
+          c = d3.rgb(d3.interpolateRdBu(scale))
+          p.markerOpacity = scale
+          p.markerSize = scale
+          p.markerColor = [c.r, c.g, c.b, 255]
           p.canPick = true
         } else {
           p.markerOpacity = 0
@@ -211,7 +228,8 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
         }
       })
     markers.update('markerOpacity')
-
+    markers.update('markerColor')
+    markers.update('markerSize')
     elevation
       .get('points')
       .forEach((p) => {
@@ -242,6 +260,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
 
   window.addEventListener('resize', eventTaps.didResizeViewport)
   window._magic_atlas = atlas
+  window.d3 = d3
 
   return atlas
 }

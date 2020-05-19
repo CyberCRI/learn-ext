@@ -61,14 +61,14 @@ export const LayerProps = {
     visible: true,
   },
   markers: {
-    markerFillOpacity:    0.2,
-    markerOpacity:        0.4,
-    markerSizeMultiplier: 2,
+    markerFillOpacity:    1,
+    markerOpacity:        1,
+    markerSizeMultiplier: 5,
     markerStrokeOpacity:  0,
     markerStrokeWidth:    0,
-    minAbsoluteMarkerSize: 1,
+    minAbsoluteMarkerSize: 4,
     pointHoverRadiusMultiplier: 10,
-    visible: false,
+    visible: true,
   },
   portals: {
     labelColor:         rgba`#000000ff`,
@@ -79,7 +79,7 @@ export const LayerProps = {
     labelOpacity:       1,
     labelShadowColor:   rgba`#ffffff99`,
     labelShadowSize:    2,
-    visible: false,
+    visible: true,
   },
 }
 
