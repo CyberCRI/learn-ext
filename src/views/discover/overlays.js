@@ -216,7 +216,7 @@ export const OverlayTools = (props) => {
 
 export const OverlayConcepts = (props) => {
   const conceptList = useStore(selectedConcepts)
-  const [ isOpen, setPanelVisibility ] = useState(false)
+  const [ isOpen, setPanelVisibility ] = useState(true)
 
   const label = conceptList.size ? `Concepts (${conceptList.size})` : 'Concepts'
 
