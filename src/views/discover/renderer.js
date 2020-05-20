@@ -259,7 +259,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
 
   const didChangeZoom = () => {
     const zoom = atlas.mapt.zoom
-    if (zoom <= 5) {
+    if (zoom <= 4) {
       markers.set('markerFillOpacity', 0)
       atlas.redraw()
     } else {
