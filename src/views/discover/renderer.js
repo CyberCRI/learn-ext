@@ -218,7 +218,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
           scale = itemScale(p.n_items)
-          p.markerOpacity = scale
+          p.markerOpacity = .8
           p.markerSize = scale
           p.canPick = true
         } else {
