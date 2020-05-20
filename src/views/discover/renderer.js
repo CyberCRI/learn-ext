@@ -18,7 +18,7 @@ import { rgba } from './utils'
 export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
   const itemScale = d3.scaleSymlog()
     .domain([_.minBy(baseLayer, 'n_items').n_items, _.maxBy(baseLayer, 'n_items').n_items])
-    .range([0, 1])
+    .range([0.2, 1])
     .clamp(true)
 
   const elevation = DotAtlas.createLayer({
@@ -218,7 +218,7 @@ export const setupMapView = async (conf, { baseLayer, portalNodes }) => {
         pt = pts.get(p.wikidata_id)
         if (pt) {
           scale = itemScale(p.n_items)
-          p.markerOpacity = .8
+          p.markerOpacity = scale
           p.markerSize = scale
           p.canPick = true
         } else {
