@@ -59,7 +59,7 @@ export const fetchBaseLayer = async () => {
 }
 
 export const fetchPortals = async () => {
-  const r = await fetch('https://noop-zip.s3.amazonaws.com/opt/academic_disciplines_en.json', {
+  const r = await fetch('https://noop-zip.s3.amazonaws.com/opt/portals_en_v2.json', {
     method: 'get',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
