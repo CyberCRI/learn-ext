@@ -83,11 +83,35 @@ export const fetchPortals = async () => {
       labelColor: rgba`636363ff`,
       symbol: '⌘',
     },
+    4: {
+      labelPriority: 1,
+      labelOpacity: 1,
+      labelColor: rgba`636363ff`,
+      symbol: '⌘',
+    },
+    5: {
+      labelPriority: 1,
+      labelOpacity: 1,
+      labelColor: rgba`636363ff`,
+      symbol: '⌘',
+    },
+    6: {
+      labelPriority: 1,
+      labelOpacity: 1,
+      labelColor: rgba`636363ff`,
+      symbol: '⌘',
+    },
+    7: {
+      labelPriority: 1,
+      labelOpacity: 1,
+      labelColor: rgba`636363ff`,
+      symbol: '⌘',
+    },
   }
 
   const nodes = await r.json()
   const labs = nodes
-    .filter(p => p.level <= 3)
+    .filter(p => p.level <= 7)
     .map(p => {
       const pt = levelMap[p.level]
       return {
