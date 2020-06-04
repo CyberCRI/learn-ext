@@ -88,7 +88,7 @@ const DevPlugins = IS_PRODUCTION ? [] : [
 ]
 
 // Files that should be copied into the extension directory.
-const copySourceBundleRules = [
+const AssetPatterns = [
   { from: './assets/icons', to: './icons' },
   {
     from: './assets/locales/*.yml',
@@ -318,10 +318,7 @@ module.exports = {
 
   plugins: [
     new WebpackBar({ name: dotenv.flags.target, profile: false, basic: false }),
-    new CopyWebpackPlugin(copySourceBundleRules, {
-      copyUnmodified: true,
-      ignore: ['.DS_Store'],
-    }),
+    new CopyWebpackPlugin({ patterns: AssetPatterns }),
     new AssetsPlugin({ useCompilerPath: true }),
 
     dotenv.PackageEnv.webpackPlugin,
