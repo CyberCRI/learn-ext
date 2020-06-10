@@ -307,7 +307,7 @@ module.exports = {
     contentBase: target.buildPath,
     proxy: [{
       context: ['/api', '/meta', '/textract', '/.docs'],
-      target: dotenv.sys.ILRN_NGAPI_HOST || 'https://welearn.cri-paris.org',
+      target: dotenv.sys.ILRN_NGAPI_HOST || 'https://staging.welearn.cri-paris.org',
       // secure: false,
       changeOrigin: true,
     }],
