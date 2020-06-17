@@ -305,12 +305,20 @@ module.exports = {
     index: 'pages/discover.html',
     compress: true,
     contentBase: target.buildPath,
-    proxy: [{
-      context: ['/api', '/meta', '/textract', '/.docs'],
-      target: dotenv.sys.ILRN_NGAPI_HOST || 'https://staging.welearn.cri-paris.org',
-      // secure: false,
-      changeOrigin: true,
-    }],
+    proxy: [
+      {
+        context: ['/api', '/carte', '/.meta'],
+        target: dotenv.sys.ILRN_NGAPI_HOST || 'https://staging.welearn.cri-paris.org',
+        changeOrigin: true,
+      },
+      {
+        // Prefer to use prod servers for these requests. They kill our staging
+        // servers a lot!
+        context: ['/meta', '/textract'],
+        target: 'https://welearn.cri-paris.org',
+        changeOrigin: true,
+      },
+    ],
   },
 
   node: { global: true },
