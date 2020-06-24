@@ -9,3 +9,8 @@ export const rgba = (color) => {
     .map((v) => parseInt(v, 16))
     .filter((x) => x >= 0)
 }
+
+export const fetchJSON = async (url, options) => {
+  const r = await fetch(url, options)
+  return await r.json()
+}
