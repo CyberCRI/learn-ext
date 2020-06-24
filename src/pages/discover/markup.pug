@@ -2,7 +2,6 @@ extends ../partials/layout.pug
 
 append head
   title Discover | WeLearn
-  script(src='/atlas/dotatlas.js')
 
 block prepend root
   div.discover-map
@@ -11,6 +10,7 @@ block prepend root
     div#overlay-tools
     div#progress-bar
     div#overlay-dpad
+    div#d3-root
 
 block append main
   div#discover-view
