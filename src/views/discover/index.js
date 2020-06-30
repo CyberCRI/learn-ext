@@ -33,11 +33,10 @@ const initLayers = async () => {
 
 export const renderView = async () => {
   initLayers()
-  renderReactComponent('d3-root', ConceptMap)
+  const cmap = new ConceptMap()
 
   renderReactComponent('overlay-tools', OverlayTools)
-  renderReactComponent('overlay-concepts', OverlayConcepts)
   renderReactComponent('discover-view', ResultItems)
-  // renderReactComponent('progress-bar', ProgressIndicator)
+  renderReactComponent('progress-bar', ProgressIndicator)
   renderReactComponent('overlay-dpad', DPadButtons)
 }

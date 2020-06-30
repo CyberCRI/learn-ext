@@ -6,7 +6,7 @@ import { useLogger } from 'react-use'
 import _ from 'lodash'
 
 import { setCursor, $cursor, $progress } from './store'
-import { selectedConcepts, userResources } from './store'
+import { userResources } from './store'
 import { Tag, Spinner } from '@blueprintjs/core'
 import { ResourceGrid, Pagination } from '~components/resources'
 
@@ -30,7 +30,6 @@ const MatchStatsContainer = styled.div`
 
 export const ResultItems = (props) => {
   const resources = useStore(userResources)
-  const selection = useStore(selectedConcepts)
   const cursor = useStore($cursor)
 
   useLogger('ResultItems')
@@ -39,15 +38,18 @@ export const ResultItems = (props) => {
   const currentPage = pages[cursor.current - 1]
 
   React.useEffect(() => {
-    return selectedConcepts.watch(() => setCursor({ count: pages.length, current: 1 }))
-  }, [selection, resources])
+    return userResources.watch(() => setCursor({ count: pages.length, current: 1 }))
+  }, [resources])
 
 
   return (
     <div className='matches'>
       <MatchStatsContainer>
+        <Pagination
+          count={cursor.count}
+          cursor={cursor.current}
+          onPaginate={(page) => setCursor({ current: page })}/>
         <div>
-          <span><Tag minimal round>{selection.size}</Tag> Concepts</span>
           <span><Tag minimal round>{resources.length}</Tag> Matches</span>
         </div>
       </MatchStatsContainer>
@@ -55,10 +57,6 @@ export const ResultItems = (props) => {
         ? <ResourceGrid resources={currentPage}/>
         : <PlaceHolder/>
       }
-      <Pagination
-        count={cursor.count}
-        cursor={cursor.current}
-        onPaginate={(page) => setCursor({ current: page })}/>
     </div>
   )
 }
