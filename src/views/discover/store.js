@@ -11,10 +11,9 @@ import queryStrings from 'query-string'
  * Would you pay with performance or memory? We also support network payments.
  */
 
-const BATCH_LIMIT = 1000
 
 const fetchItems = async (query) => {
-  const url = queryStrings.stringifyUrl({ url: 'https://staging.welearn.cri-paris.org:8403/carte/feed', query })
+  const url = queryStrings.stringifyUrl({ url: '/carte/feed', query })
 
   const r = await fetch(url, {
     method: 'get',
@@ -47,7 +46,6 @@ export const fetchResources = createEffect()
     setProgress(0)
     const items = await fetchItems({ x, y, r: .4})
     setProgress(1)
-    console.log('items=', items)
     return items.results
   })
 
