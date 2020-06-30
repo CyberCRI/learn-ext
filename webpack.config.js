@@ -52,10 +52,6 @@ const BuildTargets = {
       { from: './assets/media', to: './media' },
       { from: './assets/icons/browsers/apple-touch-icon.png', to: './apple-touch-icon.png' },
       { from: './assets/media/favicons/browserconfig.xml', to: './browserconfig.xml' },
-      {
-        from: dotenv.flags.dotatlas_prod || './modules/atlas/dotatlas/dotatlas.js',
-        to: './atlas/dotatlas.js',
-      },
     ],
     rules: [
       {
@@ -284,7 +280,7 @@ module.exports = {
     modules: false,
     version: false,
     warnings: false,
-    excludeAssets: /^(fonts|icons|atlas|media)\/.*/,
+    excludeAssets: /^(fonts|icons|media)\/.*/,
     assets: IS_PRODUCTION,
     assetsSort: 'type',
   },
