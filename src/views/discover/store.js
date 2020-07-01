@@ -11,6 +11,13 @@ import queryStrings from 'query-string'
  * Would you pay with performance or memory? We also support network payments.
  */
 
+export const viewportEvent = {
+  zoom: createEvent(),
+  export: createEvent(),
+  nudge: createEvent(),
+}
+
+export const didGetResources = createEvent()
 
 const fetchItems = async (query) => {
   const url = queryStrings.stringifyUrl({ url: '/carte/feed', query })
@@ -56,11 +63,8 @@ export const selectedConcepts = createStore(Set())
   .on(nodePicker.remove, (state, vals) => state.subtract(Set(vals)))
 
 export const userResources = createStore([])
-  .on(nodePicker.click, (state, query) => {
-    fetchResources(query)
-    return state
-  })
-  .on(fetchResources.done, (state, params) => params.result)
+  .on(didGetResources, (state, vals) => vals)
+
 
 // $layerSource
 //   .watch((layer) => fetchResources({ layer }))
@@ -69,18 +73,5 @@ export const setCursor = createEvent()
 
 export const $cursor = createStore({ current: 0, count: 0})
   .on(setCursor, (state, page) => ({ ...state, ...page }))
-  .reset(nodePicker.reset)
-  .reset(nodePicker.replace)
+  .reset(didGetResources)
   .reset(didPickLayer)
-
-
-// We're going to use this properly.
-// Let's start with: define dotatlas events and stores.
-
-export const viewportEvent = {
-  zoom: createEvent(),
-  export: createEvent(),
-  nudge: createEvent(),
-}
-
-window._vpev = viewportEvent

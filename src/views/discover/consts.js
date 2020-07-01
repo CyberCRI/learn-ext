@@ -140,20 +140,16 @@ export const MapLayerSources = [
   {
     id: 'covid19@noop.pw',
     label: 'Covid-19 Pandemic',
-    src: '/api/resources/bot/covid19@noop.pw',
+    src: 'covid19@noop.pw',
     icon: 'layout-circle',
+    user: true,
   },
   {
     id: 'projects@import.bot',
     label: 'CRI Projects',
-    src: '/api/resources/bot/projects@import.bot',
+    src: 'projects@import.bot',
     icon: 'layout-circle',
-  },
-  {
-    id: 'theconversationfr@import.bot',
-    label: 'The Conversation',
-    src: '/api/resources/feed/theconversation.fr',
-    icon: 'layout-circle',
+    user: true,
   },
   {
     id: 'everything',
@@ -161,5 +157,6 @@ export const MapLayerSources = [
     src: '/api/resources/',
     icon: 'layout-grid',
     default: true,
+    user: false,
   },
 ]
