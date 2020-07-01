@@ -156,21 +156,22 @@ export const LayerSelection = (props) => {
     userLayers.push({
       id: 'user',
       label: i18nT`user`,
-      src: `/api/resources/user/${node.user.uid}`,
+      src: node.user.email,
       icon: 'layout-circle',
+      user: true,
     })
 
-    if (node.user.groups.length > 0) {
-      // [!todo] support more than 1 group.
-      const group = node.user.groups[0]
+    // if (node.user.groups.length > 0) {
+    //   // [!todo] support more than 1 group.
+    //   const group = node.user.groups[0]
 
-      userLayers.push({
-        id: 'group',
-        label: i18nT`group`,
-        src: `/api/resources/group/${group.guid}`,
-        icon: 'layout-group-by',
-      })
-    }
+    //   userLayers.push({
+    //     id: 'group',
+    //     label: i18nT`group`,
+    //     src: `/api/resources/group/${group.guid}`,
+    //     icon: 'layout-group-by',
+    //   })
+    // }
   }
 
   return (

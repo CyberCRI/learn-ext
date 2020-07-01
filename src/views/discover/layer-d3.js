@@ -2,8 +2,8 @@ import * as d3 from 'd3'
 import _ from 'lodash'
 import { saveAs } from 'file-saver'
 
-import { nodePicker } from './store'
-import { viewportEvent } from './store'
+import { didPickLayer } from './store'
+import { viewportEvent, didGetResources } from './store'
 
 import { CarteSocket } from './carte-ws'
 
@@ -91,15 +91,18 @@ class ConceptMap {
       .append('svg')
         .attr('width', '100%')
         .attr('height', '100%')
+        .attr('viewbox', '0,0,100,100')
 
     this.sock = new CarteSocket()
+
+    this.filters = {}
 
     this.sock
       .on('contours.density', this.renderContours)
       .on('markers.init', this.renderMarkers)
       .on('markers.sample', this.renderMarkers)
       .on('markers.portals', this.renderPortals)
-      .on('query.nearby', data => console.log(data))
+      .on('query.nearby', data => didGetResources(data))
 
     this.componentDidMount()
   }
@@ -110,24 +113,39 @@ class ConceptMap {
       .on('zoom', this.didZoom)
 
     this.svg = d3.select(this.viz.node())
-      .call(this.zoom)
-      .append('g')
+    this.svg.call(this.zoom)
 
     this.contours = this.svg.append('g').attr('class', 'contours')
     this.markers = this.svg.append('g').attr('class', 'markers')
     this.portals = this.svg.append('g').attr('class', 'portals')
 
     viewportEvent.zoom.watch((value) => {
-      this.zoom.scaleBy(this.viz, value === 'in' ? 2 : .5)
+      const scaleFactor = value === 'in' ? 2 : .5
+      this.viz
+        .transition()
+        .duration(300)
+        .call(this.zoom.scaleBy, scaleFactor)
     })
+
     viewportEvent.export.watch(this.serializeCanvas)
 
-    this.sock
-      .emit('contours.density')
-      .emit('markers.init')
-      .emit('markers.portals')
+    didPickLayer.watch((value) => {
+      if (value.user) {
+        this.filters = { user: value.src }
+      } else {
+        this.filters = {}
+      }
 
-    window.sock = this.sock
+      this.sock
+        .emit('contours.density', this.filters)
+        .emit('markers.init', this.filters)
+        .emit('markers.portals', this.filters)
+    })
+
+    this.sock
+      .emit('contours.density', this.filters)
+      .emit('markers.init', this.filters)
+      .emit('markers.portals', this.filters)
   }
 
   get scale () {
@@ -141,14 +159,22 @@ class ConceptMap {
     return d3.zoomTransform(this.svg.node())
   }
 
+  translateToCenter = (x, y) => {
+    const { width, height } = this.viz.node().getBoundingClientRect()
+    this.viz
+      .transition()
+      .duration(400)
+      .call(this.zoom.translateTo, x, y, [width / 2, height / 2])
+  }
+
   renderContours = (data) => {
-    //- geojson contours
-    const { items, extents } = data
+    //- geojson contours are rendered with the initial axis scale.
+    const { items } = data
 
     const contours = (d3.contourDensity()
-      .size([this.scale.x(10), this.scale.y(10)])
-      .x(i => this.scale.x(i.x))
-      .y(i => this.scale.y(i.y))
+      .size([AxesScale.x(10), AxesScale.y(10)])
+      .x(i => AxesScale.x(i.x))
+      .y(i => AxesScale.y(i.y))
       .weight(i => i.w))(items)
 
     //- geojson extents -> for color map
@@ -162,6 +188,8 @@ class ConceptMap {
       .join('path')
         .attr('d', d3.geoPath())
         .attr('fill', d => contourScale(d.value))
+
+    this.translateToCenter(350, 500)
   }
 
   renderMarkers = (data) => {
@@ -179,7 +207,12 @@ class ConceptMap {
         .attr('data-priority', i => quantiles(i.n_items))
         .text(i => i.title)
         .on('click', (d, i, e) => {
-          nodePicker.click({ x: d.x, y: d.y })
+          const payload = {
+            ...this.filters,
+            x: d.x,
+            y: d.y,
+          }
+          this.sock.emit('query.nearby', payload)
         })
 
     occlusion(this.svg)
@@ -224,5 +257,6 @@ class ConceptMap {
   }
 }
 
+window.d3 = d3
 
 export { ConceptMap }

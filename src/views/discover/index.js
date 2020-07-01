@@ -1,7 +1,7 @@
 import queryStrings from 'query-string'
 import { renderReactComponent } from '~mixins/react-helpers'
 
-import { OverlayConcepts, OverlayTools } from './overlays'
+import { OverlayTools } from './overlays'
 import { ResultItems, ProgressIndicator } from './search-tools'
 import { MapLayerSources } from './consts'
 import { didPickLayer } from './store'
@@ -16,24 +16,23 @@ const initLayers = async () => {
 
   if (query.src) {
     // pick this layer.
-    await didPickLayer({
+    didPickLayer({
       id: query.lid,
       label: 'Shared',
       src: query.src,
+      user: true,
     })
-
-    if (query.cset) {
-      const csetix = new Set(query.cset)
-      console.log(csetix, query)
-    }
   } else {
     didPickLayer(defaultLayer)
   }
 }
 
 export const renderView = async () => {
-  initLayers()
   const cmap = new ConceptMap()
+
+  // [!todo] the both things below are hacks.
+  window.cmap = cmap
+  window.setTimeout(() => initLayers(), 500)
 
   renderReactComponent('overlay-tools', OverlayTools)
   renderReactComponent('discover-view', ResultItems)
