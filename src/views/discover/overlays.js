@@ -1,23 +1,21 @@
 import React, { useState } from 'react'
 import { createStore, createApi } from 'effector'
 import { useStore } from 'effector-react'
-import { Button, ButtonGroup, InputGroup, Divider, ControlGroup, Tag } from '@blueprintjs/core'
-import { Popover, Menu, Dialog, Spinner } from '@blueprintjs/core'
+import { Button, ButtonGroup, InputGroup, Divider, ControlGroup } from '@blueprintjs/core'
+import { Popover, Menu, Dialog } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
-import { useToggle, useLogger } from 'react-use'
+import { useToggle } from 'react-use'
 import queryStrings from 'query-string'
 import styled from 'styled-components'
 import _ from 'lodash'
 
 import { i18n } from '@ilearn/modules/i18n'
-import { ResourceGrid, Pagination } from '~components/resources'
 import { ConceptList } from '~components/concepts'
 import { $globalContext } from '~page-commons/store'
 
 import { MapLayerSources } from './consts'
-import { selectedConcepts, userResources } from './store'
+import { selectedConcepts } from './store'
 import { didPickLayer, $layerSource } from './store'
-import { setCursor, $cursor, $progress } from './store'
 
 const overlayControlVariants = {
   open: {
@@ -158,21 +156,22 @@ export const LayerSelection = (props) => {
     userLayers.push({
       id: 'user',
       label: i18nT`user`,
-      src: `/api/resources/user/${node.user.uid}`,
+      src: node.user.email,
       icon: 'layout-circle',
+      user: true,
     })
 
-    if (node.user.groups.length > 0) {
-      // [!todo] support more than 1 group.
-      const group = node.user.groups[0]
+    // if (node.user.groups.length > 0) {
+    //   // [!todo] support more than 1 group.
+    //   const group = node.user.groups[0]
 
-      userLayers.push({
-        id: 'group',
-        label: i18nT`group`,
-        src: `/api/resources/group/${group.guid}`,
-        icon: 'layout-group-by',
-      })
-    }
+    //   userLayers.push({
+    //     id: 'group',
+    //     label: i18nT`group`,
+    //     src: `/api/resources/group/${group.guid}`,
+    //     icon: 'layout-group-by',
+    //   })
+    // }
   }
 
   return (
@@ -242,88 +241,9 @@ export const OverlayConcepts = (props) => {
           {!conceptList.size && <p>Pick a region on the map to show concepts</p>}
           {!!conceptList.size && <p>Showing resources matching {conceptList.size} concepts</p>}
 
-          <ConceptList concepts={conceptList.toJS()}/>
+          {isOpen && <ConceptList concepts={conceptList.toJS()} noAnimation/>}
         </div>
       </motion.div>
     </motion.div>
   )
-}
-
-const PlaceHolder = (props) => {
-  return (
-    <div className='empty'>
-      <h2>Browse resources on map</h2>
-      <p>Pick a region (or several) by clicking on the map. You can refine your
-      selection by zooming in, and select several regions by holding <kbd>shift</kbd>
-      while clicking.</p>
-    </div>
-  )
-}
-
-const MatchStatsContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 20px;
-`
-
-export const OverlayCards = (props) => {
-  const resources = useStore(userResources)
-  const selection = useStore(selectedConcepts)
-  const cursor = useStore($cursor)
-
-  const selIx = new Set(selection.toJS().map((c) => c.wikidata_id))
-  useLogger('OverlayCards')
-
-  const matchingResources = resources.filter((r) => {
-    for (let c of r.concepts) {
-      if (selIx.has(c.wikidata_id)) {
-        return true
-      }
-    }
-  })
-  const pages = _.chunk(matchingResources, 20)
-  const currentPage = pages[cursor.current - 1]
-
-  React.useEffect(() => {
-    return selectedConcepts.watch(() => setCursor({ count: pages.length, current: 1 }))
-  }, [selection, resources])
-
-
-  return (
-    <div className='matches'>
-      <MatchStatsContainer>
-        <Pagination
-          count={cursor.count}
-          cursor={cursor.current}
-          onPaginate={(page) => setCursor({ current: page })}/>
-        <div>
-          <span><Tag minimal round>{selection.size}</Tag> Concepts</span>
-          <span><Tag minimal round>{matchingResources.length}</Tag> Matches</span>
-        </div>
-      </MatchStatsContainer>
-      {currentPage
-        ? <ResourceGrid resources={currentPage}/>
-        : <PlaceHolder/>
-      }
-    </div>
-  )
-}
-
-const ProgressDiv = styled.div`
-  position: fixed;
-  z-index: 100;
-  padding: 10px;
-  margin: auto;
-  top: 60px;
-  left: 0;
-  right: 0;
-  bottom: calc(50vh - 60px);
-  width: 0;
-  height: 0;
-`
-
-export const ProgressIndicator = (props) => {
-  const progress = useStore($progress)
-
-  return <ProgressDiv>{progress.loading && <Spinner/>}</ProgressDiv>
 }

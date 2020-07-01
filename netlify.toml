@@ -9,12 +9,28 @@
   to = "/pages/onboarding.html"
   status = 301
 
+# Routes at `/api`, `/carte`, and `/.meta` are served with staging server.
 [[redirects]]
   from = "/api/*"
-  to = "https://welearn.cri-paris.org/api/:splat"
+  to = "https://staging.welearn.cri-paris.org/api/:splat"
+  status = 200
+[[redirects]]
+  from = "/carte/*"
+  to = "https://staging.welearn.cri-paris.org/carte/:splat"
+  status = 200
+[[redirects]]
+  from = "/.meta/*"
+  to = "https://staging.welearn.cri-paris.org/.meta/:splat"
   status = 200
 
+# Use the main server for anything at `textract` or `meta` routes.
+# We don't want to kill the staging server with the proc. budget it takes.
 [[redirects]]
   from = "/meta/*"
   to = "https://welearn.cri-paris.org/meta/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/textract/*"
+  to = "https://welearn.cri-paris.org/textract/:splat"
   status = 200

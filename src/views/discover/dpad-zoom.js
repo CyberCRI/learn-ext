@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Button, ButtonGroup } from '@blueprintjs/core'
 
+import { viewportEvent } from './store'
+
 const DPad = styled.div`
   position: absolute;
   bottom: 0;
@@ -10,17 +12,16 @@ const DPad = styled.div`
 `
 
 export const useMapTransforms = () => {
-  const mapt = () => window._magic_atlas.mapt
   return {
     zoom: {
-      in:  () => mapt().zoom += 1,
-      out: () => mapt().zoom -= 1,
+      in:  () => viewportEvent.zoom('in'),
+      out: () => viewportEvent.zoom('out'),
     },
     nudge: {
-      left:   () => mapt().x += 1,
-      right:  () => mapt().x -= 1,
-      down:   () => mapt().y += 1,
-      up:     () => mapt().y -= 1,
+      left:   () => viewportEvent.nudge('lt'),
+      right:  () => viewportEvent.nudge('rt'),
+      down:   () => viewportEvent.nudge('dn'),
+      up:     () => viewportEvent.nudge('up'),
     },
   }
 }

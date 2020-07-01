@@ -11,12 +11,18 @@ import queryStrings from 'query-string'
  * Would you pay with performance or memory? We also support network payments.
  */
 
-const BATCH_LIMIT = 1000
+export const viewportEvent = {
+  zoom: createEvent(),
+  export: createEvent(),
+  nudge: createEvent(),
+}
 
-const fetchItems = async (layer, query) => {
-  const reqUrl = queryStrings.stringifyUrl({ url: layer.src, query })
+export const didGetResources = createEvent()
 
-  const r = await fetch(reqUrl, {
+const fetchItems = async (query) => {
+  const url = queryStrings.stringifyUrl({ url: '/carte/feed', query })
+
+  const r = await fetch(url, {
     method: 'get',
     mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
@@ -29,12 +35,13 @@ export const nodePicker = {
   reset: createEvent(),
   replace: createEvent(),
   remove: createEvent(),
+  click: createEvent(),
 }
 
 export const didPickLayer = createEvent()
 
 export const setProgress = createEvent()
-export const $progress = createStore({ loading: true, value: 0.1 })
+export const $progress = createStore({ loading: false, value: 0 })
   .on(setProgress, (state, value) => ({ loading: value !== 1, value }))
   .reset(didPickLayer)
 
@@ -42,25 +49,11 @@ export const $layerSource = createStore({})
   .on(didPickLayer, (_, layerId) => layerId)
 
 export const fetchResources = createEffect()
-  .use(async ({ layer }) => {
+  .use(async ({ x, y }) => {
     setProgress(0)
-    let page = { limit: 1000, skip: 0, next: true }
-
-    let items = []
-
-    while (page.next) {
-      console.log('[!fetch layer]', page, layer)
-      const r = await fetchItems(layer, { skip: page.skip, limit: page.limit })
-      const { pagination, results } = r
-      items = items.concat(results)
-      page.skip = pagination.next
-      page.next = pagination.next
-      if (!pagination.next) {
-        break
-      }
-    }
+    const items = await fetchItems({ x, y, r: .4})
     setProgress(1)
-    return items
+    return items.results
   })
 
 export const selectedConcepts = createStore(Set())
@@ -70,19 +63,15 @@ export const selectedConcepts = createStore(Set())
   .on(nodePicker.remove, (state, vals) => state.subtract(Set(vals)))
 
 export const userResources = createStore([])
-  .on(fetchResources.done, (state, params) => {
-    return params.result
-  })
-  .reset(didPickLayer)
+  .on(didGetResources, (state, vals) => vals)
 
-$layerSource
-  .watch((layer) => fetchResources({ layer }))
+
+// $layerSource
+//   .watch((layer) => fetchResources({ layer }))
 
 export const setCursor = createEvent()
 
 export const $cursor = createStore({ current: 0, count: 0})
   .on(setCursor, (state, page) => ({ ...state, ...page }))
-  .reset(nodePicker.reset)
-  .reset(nodePicker.replace)
+  .reset(didGetResources)
   .reset(didPickLayer)
-

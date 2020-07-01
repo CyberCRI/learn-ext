@@ -20,15 +20,15 @@
       font-weight: 600;
     }
 
-    &:after {
-      content: '';
-      background: linear-gradient(90deg, #fff0 10px, $light-gray5);
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 20px;
-    }
+    // &:after {
+    //   content: '';
+    //   background: linear-gradient(90deg, #fff0 10px, $light-gray5);
+    //   position: absolute;
+    //   right: 0;
+    //   top: 0;
+    //   bottom: 0;
+    //   width: 20px;
+    // }
   }
 
   &.language {

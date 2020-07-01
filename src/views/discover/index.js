@@ -1,53 +1,41 @@
 import queryStrings from 'query-string'
 import { renderReactComponent } from '~mixins/react-helpers'
 
-import { setupMapView } from './renderer'
-import { OverlayCards, OverlayConcepts, OverlayTools, ProgressIndicator } from './overlays'
-import DPadButtons from './dpad-zoom'
-import { $globalContext } from '~page-commons/store'
-
-import { fetchBaseLayer, fetchPortals } from './layers'
+import { OverlayTools } from './overlays'
+import { ResultItems, ProgressIndicator } from './search-tools'
 import { MapLayerSources } from './consts'
-import { didPickLayer, nodePicker } from './store'
+import { didPickLayer } from './store'
+import { ConceptMap } from './layer-d3'
+import DPadButtons from './dpad-zoom'
 
 import './styles.scss'
 
-const initMap = async () => {
-  const baseLayerPoints = await fetchBaseLayer()
-  const portals = await fetchPortals()
-  const atlas = await setupMapView(
-    { element: document.getElementById('atlas') },
-    { baseLayer: baseLayerPoints, portalNodes: portals })
-
+const initLayers = async () => {
   const defaultLayer = MapLayerSources.find((s) => s.default)
   const { query } = queryStrings.parseUrl(window.location.href, { arrayFormat: 'comma' })
 
   if (query.src) {
     // pick this layer.
-    await didPickLayer({
+    didPickLayer({
       id: query.lid,
       label: 'Shared',
       src: query.src,
+      user: true,
     })
-
-    if (query.cset) {
-      const csetix = new Set(query.cset)
-      nodePicker.replace(baseLayerPoints.filter((pt) => csetix.has(pt.wikidata_id)))
-    }
-
-    if (query.tfs && query.tfx && query.tfy) {
-      atlas.mapt.centerPoint = { x: query.tfx, y: query.tfy, zoom: query.tfs }
-    }
   } else {
     didPickLayer(defaultLayer)
   }
 }
 
 export const renderView = async () => {
-  initMap()
+  const cmap = new ConceptMap()
+
+  // [!todo] the both things below are hacks.
+  window.cmap = cmap
+  window.setTimeout(() => initLayers(), 500)
+
   renderReactComponent('overlay-tools', OverlayTools)
-  renderReactComponent('overlay-concepts', OverlayConcepts)
-  renderReactComponent('discover-view', OverlayCards)
+  renderReactComponent('discover-view', ResultItems)
   renderReactComponent('progress-bar', ProgressIndicator)
   renderReactComponent('overlay-dpad', DPadButtons)
 }

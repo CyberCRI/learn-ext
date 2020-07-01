@@ -29,13 +29,14 @@ export const LayerProps = {
     colorBands:       ContourPalette,
     contourWidth:     0,
     elevationOffset:  0,
-    elevationPow:     1,
+    elevationPow:     0,
     lightAltitude:    0,
     lightAzimuth:     4.5,
     lightIntensity:   .2,
     lightness:        -0.01,
-    maxRadiusDivider: 22,
+    maxRadiusDivider: 25,
     saturation:       0.09,
+    pointHoverRadiusMultiplier: 10,
     visible:          true,
   },
   selectionOutline: {
@@ -139,20 +140,16 @@ export const MapLayerSources = [
   {
     id: 'covid19@noop.pw',
     label: 'Covid-19 Pandemic',
-    src: '/api/resources/bot/covid19@noop.pw',
+    src: 'covid19@noop.pw',
     icon: 'layout-circle',
+    user: true,
   },
   {
     id: 'projects@import.bot',
     label: 'CRI Projects',
-    src: '/api/resources/bot/projects@import.bot',
+    src: 'projects@import.bot',
     icon: 'layout-circle',
-  },
-  {
-    id: 'theconversationfr@import.bot',
-    label: 'The Conversation',
-    src: '/api/resources/feed/theconversation.fr',
-    icon: 'layout-circle',
+    user: true,
   },
   {
     id: 'everything',
@@ -160,5 +157,6 @@ export const MapLayerSources = [
     src: '/api/resources/',
     icon: 'layout-grid',
     default: true,
+    user: false,
   },
 ]

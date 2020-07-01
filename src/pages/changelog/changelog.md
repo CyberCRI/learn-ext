@@ -11,6 +11,23 @@
 
 Here is what's new in this version of WeLearn extension:
 
+## v0.3.2
+Released on `2020-07-01`
+
+Noticed something new in the **Discover Map**? Thank you! We've reworked the
+whole page and visualisation. Here's what changed:
+
+- Browser support. Almost all the recent web browsers are fully supported.
+  Including iOS Safari, Chrome on Android, and even Chromium on Raspberry Pi!
+- As you zoom in, relevant Concept labels will appear. Click on them to see
+  all the resources tagged under that concept!
+- You can switch the map layer to see just your own resources, everything, or
+  the curated collections.
+- Lots of bugs fixed, and we've improved page performance.
+
+As always, thanks for using WeLearn. We have some interesting new features
+planned. Stay tuned!
+
 ## v0.2.2
 Released on `2020-04-16`
 

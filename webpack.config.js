@@ -52,10 +52,6 @@ const BuildTargets = {
       { from: './assets/media', to: './media' },
       { from: './assets/icons/browsers/apple-touch-icon.png', to: './apple-touch-icon.png' },
       { from: './assets/media/favicons/browserconfig.xml', to: './browserconfig.xml' },
-      {
-        from: dotenv.flags.dotatlas_prod || './modules/atlas/dotatlas/dotatlas.js',
-        to: './atlas/dotatlas.js',
-      },
     ],
     rules: [
       {
@@ -88,7 +84,7 @@ const DevPlugins = IS_PRODUCTION ? [] : [
 ]
 
 // Files that should be copied into the extension directory.
-const copySourceBundleRules = [
+const AssetPatterns = [
   { from: './assets/icons', to: './icons' },
   {
     from: './assets/locales/*.yml',
@@ -284,7 +280,7 @@ module.exports = {
     modules: false,
     version: false,
     warnings: false,
-    excludeAssets: /^(fonts|icons|atlas|media)\/.*/,
+    excludeAssets: /^(fonts|icons|media)\/.*/,
     assets: IS_PRODUCTION,
     assetsSort: 'type',
   },
@@ -305,12 +301,20 @@ module.exports = {
     index: 'pages/discover.html',
     compress: true,
     contentBase: target.buildPath,
-    proxy: [{
-      context: ['/api', '/meta', '/textract', '/.docs'],
-      target: dotenv.sys.ILRN_NGAPI_HOST || 'https://welearn.cri-paris.org',
-      // secure: false,
-      changeOrigin: true,
-    }],
+    proxy: [
+      {
+        context: ['/api', '/carte', '/.meta'],
+        target: dotenv.sys.ILRN_NGAPI_HOST || 'https://staging.welearn.cri-paris.org',
+        changeOrigin: true,
+      },
+      {
+        // Prefer to use prod servers for these requests. They kill our staging
+        // servers a lot!
+        context: ['/meta', '/textract'],
+        target: 'https://welearn.cri-paris.org',
+        changeOrigin: true,
+      },
+    ],
   },
 
   node: { global: true },
@@ -318,10 +322,7 @@ module.exports = {
 
   plugins: [
     new WebpackBar({ name: dotenv.flags.target, profile: false, basic: false }),
-    new CopyWebpackPlugin(copySourceBundleRules, {
-      copyUnmodified: true,
-      ignore: ['.DS_Store'],
-    }),
+    new CopyWebpackPlugin({ patterns: AssetPatterns }),
     new AssetsPlugin({ useCompilerPath: true }),
 
     dotenv.PackageEnv.webpackPlugin,
