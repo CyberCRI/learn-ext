@@ -1,6 +1,4 @@
-import { createEvent, createEffect, createStore } from 'effector'
-import { Set } from 'immutable'
-import queryStrings from 'query-string'
+import { createEvent, createStore } from 'effector'
 
 /**
  *
@@ -18,26 +16,6 @@ export const viewportEvent = {
 }
 
 export const didGetResources = createEvent()
-
-const fetchItems = async (query) => {
-  const url = queryStrings.stringifyUrl({ url: '/carte/feed', query })
-
-  const r = await fetch(url, {
-    method: 'get',
-    mode: 'cors',
-    headers: { 'Content-Type': 'application/json' },
-  })
-  return await r.json()
-}
-
-export const nodePicker = {
-  merge: createEvent(),
-  reset: createEvent(),
-  replace: createEvent(),
-  remove: createEvent(),
-  click: createEvent(),
-}
-
 export const didPickLayer = createEvent()
 
 export const setProgress = createEvent()
@@ -48,26 +26,9 @@ export const $progress = createStore({ loading: false, value: 0 })
 export const $layerSource = createStore({})
   .on(didPickLayer, (_, layerId) => layerId)
 
-export const fetchResources = createEffect()
-  .use(async ({ x, y }) => {
-    setProgress(0)
-    const items = await fetchItems({ x, y, r: .4})
-    setProgress(1)
-    return items.results
-  })
-
-export const selectedConcepts = createStore(Set())
-  .on(nodePicker.merge, (state, vals) => state.union(Set(vals)))
-  .on(nodePicker.replace, (_, vals) => Set(vals))
-  .on(nodePicker.reset, () => Set())
-  .on(nodePicker.remove, (state, vals) => state.subtract(Set(vals)))
-
+export const selectedConcepts = createStore([])
 export const userResources = createStore([])
   .on(didGetResources, (state, vals) => vals)
-
-
-// $layerSource
-//   .watch((layer) => fetchResources({ layer }))
 
 export const setCursor = createEvent()
 
