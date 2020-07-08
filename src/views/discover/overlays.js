@@ -121,7 +121,7 @@ export const ShareButton = (props) => {
     query: {
       lid: currentLayer.id,
       src: currentLayer.src,
-      cset: selection.map((s) => s.wikidata_id).toJS(),
+      cset: selection.map((s) => s.wikidata_id),
       tfx: transform.x,
       tfy: transform.y,
       tfs: transform.zoom,
@@ -217,7 +217,7 @@ export const OverlayConcepts = (props) => {
   const conceptList = useStore(selectedConcepts)
   const [ isOpen, setPanelVisibility ] = useState(true)
 
-  const label = conceptList.size ? `Concepts (${conceptList.size})` : 'Concepts'
+  const label = conceptList.length ? `Concepts (${conceptList.length})` : 'Concepts'
 
   return (
     <motion.div
@@ -238,10 +238,10 @@ export const OverlayConcepts = (props) => {
 
       <motion.div className='region' variants={overlayControlVariants}>
         <div>
-          {!conceptList.size && <p>Pick a region on the map to show concepts</p>}
-          {!!conceptList.size && <p>Showing resources matching {conceptList.size} concepts</p>}
+          {!conceptList.length && <p>Pick a region on the map to show concepts</p>}
+          {!!conceptList.length && <p>Showing resources matching {conceptList.length} concepts</p>}
 
-          {isOpen && <ConceptList concepts={conceptList.toJS()} noAnimation/>}
+          {isOpen && <ConceptList concepts={conceptList} noAnimation/>}
         </div>
       </motion.div>
     </motion.div>

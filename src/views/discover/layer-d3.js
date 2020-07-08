@@ -30,9 +30,9 @@ const ContourColors = [
   '#ded6a3',
   '#d3ca9d',
   '#cab982',
-  '#c09a53',
+  // '#c09a53',
   '#e0e0e0',
-  '#ececec',
+  // '#ececec',
 ]
 
 
@@ -204,7 +204,7 @@ class ConceptMap {
       .join('text')
         .attr('class', 'marker')
         .attr('transform', i => `translate(${scale.x(i.x)}, ${scale.y(i.y)})`)
-        .attr('data-priority', i => quantiles(i.n_items))
+        .attr('data-priority', i => i.n_items)
         .text(i => i.title)
         .on('click', (d, i, e) => {
           const payload = {
@@ -230,6 +230,8 @@ class ConceptMap {
   }
 
   updateTransformation = (transform, scale) => {
+    // in-view nodes will have the transform/scale less than zero; greater than 1.
+
     this.svg.select('g.contours')
       .attr('transform', transform)
 

@@ -35,7 +35,7 @@ export const ResultItems = (props) => {
   useLogger('ResultItems')
 
   const pages = _.chunk(resources, 20)
-  const currentPage = pages[cursor.current - 1]
+  const currentPage = pages[cursor.current - 1] || []
 
   React.useEffect(() => {
     return userResources.watch(() => setCursor({ count: pages.length, current: 1 }))
@@ -53,10 +53,8 @@ export const ResultItems = (props) => {
           <span><Tag minimal round>{resources.length}</Tag> Matches</span>
         </div>
       </MatchStatsContainer>
-      {currentPage
-        ? <ResourceGrid resources={currentPage}/>
-        : <PlaceHolder/>
-      }
+      {!currentPage && <PlaceHolder/>}
+      <ResourceGrid resources={currentPage}/>
     </div>
   )
 }

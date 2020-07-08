@@ -19,6 +19,8 @@
     text-shadow: 0 0 4px transparentize($white, .2);
     text-anchor: middle;
 
+    fill: $dark-gray1;
+
     &.occluded {
       opacity: 0;
       pointer-events: none;
