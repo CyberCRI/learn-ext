@@ -7,6 +7,7 @@ import { MapLayerSources } from './consts'
 import { didPickLayer } from './store'
 import { ConceptMap } from './layer-d3'
 import DPadButtons from './dpad-zoom'
+import { SearchView } from './search-ui'
 
 import './styles.scss'
 
@@ -38,4 +39,5 @@ export const renderView = async () => {
   renderReactComponent('discover-view', ResultItems)
   renderReactComponent('progress-bar', ProgressIndicator)
   renderReactComponent('overlay-dpad', DPadButtons)
+  renderReactComponent('search-ui', SearchView)
 }
