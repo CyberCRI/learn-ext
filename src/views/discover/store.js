@@ -13,6 +13,7 @@ export const viewportEvent = {
   zoom: createEvent(),
   export: createEvent(),
   nudge: createEvent(),
+  click: createEvent(),
 }
 
 export const didGetResources = createEvent()
