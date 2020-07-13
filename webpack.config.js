@@ -211,7 +211,9 @@ module.exports = {
       },
       {
         test: /\.s?(c|a)ss$/,
-        exclude: /node_modules/,
+        // Since adding @elastic/search-ui, we'll bundle the stylesheets in
+        // the app. I removed the exclusion below until we fork the styles.
+        // exclude: /node_modules/,
         use: scssLoader,
       },
       {
