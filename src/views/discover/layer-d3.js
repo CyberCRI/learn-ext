@@ -208,11 +208,13 @@ class ConceptMap {
         .text(i => i.title)
         .on('click', (d, i, e) => {
           const payload = {
-            ...this.filters,
-            x: d.x,
-            y: d.y,
+            source: 'marker',
+            data: d,
           }
-          this.sock.emit('query.nearby', payload)
+          // [!todo] this is useful! and we shall use it for facets.
+          // window.searchUI.setSearchTerm(d.title)
+          viewportEvent.click(payload)
+          // this.sock.emit('query.nearby', payload)
         })
 
     occlusion(this.svg)
