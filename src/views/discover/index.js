@@ -36,7 +36,7 @@ export const renderView = async () => {
   window.setTimeout(() => initLayers(), 500)
 
   renderReactComponent('overlay-tools', OverlayTools)
-  renderReactComponent('discover-view', ResultItems)
+  // renderReactComponent('discover-view', ResultItems)
   renderReactComponent('progress-bar', ProgressIndicator)
   renderReactComponent('overlay-dpad', DPadButtons)
   renderReactComponent('search-ui', SearchView)

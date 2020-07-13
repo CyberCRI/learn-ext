@@ -71,9 +71,6 @@
   overflow: hidden;
   z-index: 5;
 
-  #atlas {
-  }
-
   .overlay.tools {
     display: flex;
     justify-content: space-between;
@@ -220,4 +217,19 @@ body {
   bottom: 0;
   width: 0;
   height: 0;
+}
+
+
+// [!todo] WILL NEED TO CLEAN THIS CSS. ITS A MESS. ANYWAY, here is search-ui override:
+
+.search-root {
+  padding: 10px;
+  ul.rc-pagination {
+    list-style: none;
+    display: flex;
+
+    .rc-pagination-item-link {
+      padding: 5px;
+    }
+  }
 }
