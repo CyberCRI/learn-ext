@@ -13,7 +13,7 @@ export const ResourceGrid = ({ resources, ...props }) => {
   return (
     <div className='grid resources'>
       <Grid
-        component='ul'
+        component='div'
         columnWidth={270}
         gutterWidth={10}
         gutterHeight={20}
@@ -22,9 +22,9 @@ export const ResourceGrid = ({ resources, ...props }) => {
         springConfig={{ stiffness: 170, damping: 20 }}
         className='resources'>
         {resources.map((x, i) =>
-          <li key={x.resource_id}>
+          <div key={x.resource_id}>
             <ResourceCard {...x} {...props}/>
-          </li>
+          </div>
         )}
       </Grid>
     </div>
