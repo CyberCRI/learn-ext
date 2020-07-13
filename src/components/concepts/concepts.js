@@ -21,7 +21,7 @@ const conceptListVariants = {
 const PREF_LANG = 'en'
 
 
-function getTagRepresentation (props) {
+export function getTagRepresentation (props) {
   // If we can find a representation in preferred language, great!
   // else we'd fall back to first available representation.
   // Note that if no representations are available it'd be an error.
