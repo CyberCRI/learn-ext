@@ -125,3 +125,18 @@ export const IngressAPI = {
     return request({ url: `${env.ngapi_host}/textract/infer/link`, query: payload })
   },
 }
+
+export const CarteSearchAPI = {
+  // Search concepts/resources from the carte apis. There are two apis currently
+  // available: typeahead, which does prefix-search on concept lists; and
+  // fulltext search which searches for any matches in entire resource object.
+  // Limit, skip, are same format as standard pagination properties.
+  typeahead: ({ q, limit, skip }) => {
+    const payload = { q }
+    return request({ url: `${env.ngapi_host}/carte/typeahead`, query: payload })
+  },
+  search: ({ q, limit, skip }) => {
+    const payload = { q, limit, skip }
+    return request({ url: `${env.ngapi_host}/carte/search`, query: payload })
+  }
+}
