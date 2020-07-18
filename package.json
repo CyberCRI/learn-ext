@@ -26,7 +26,7 @@
     "js-sha256": "^0.9.0",
     "jwt-decode": "^2.2.0",
     "keyboardjs": "^2.6.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "node-polyglot": "^2.4.0",
     "query-string": "^6.13.1",
