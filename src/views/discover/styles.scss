@@ -5,27 +5,45 @@
 
 #d3-root {
   .contours {
+    pointer-events: none;
+
     path {
+      border: 1px solid red;
+    }
+  }
+
+  .markers, .portals {
+    text {
+      font-family: 'Inter';
+      text-rendering: optimizeSpeed;
+      visibility: hidden;
+      transition: .1s all;
+      opacity: 0;
+      pointer-events: none;
+
+      text-shadow: 1px 1px 2px $white, -1px -1px 0px transparentize($color: $white, $amount: .2);
+
+      &.visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+      }
+
+      &.occluded {
+        // [!HACK] this needs to be fixed by parameterizing the transitions.
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none;
+      }
     }
   }
 
   text.marker {
-    visibility: visible;
-    transition: .2s opacity;
-    opacity: 1;
-
     font-size: 1em;
-    font-weight: 500;
-    text-shadow: 0 0 4px transparentize($white, .2);
+    font-weight: 400;
     text-anchor: middle;
 
-    fill: $dark-gray1;
-
-    &.occluded {
-      opacity: 0;
-      pointer-events: none;
-      visibility: hidden;
-    }
+    fill: $dark-gray2;
 
     &:hover {
       cursor: pointer;
@@ -34,13 +52,26 @@
   }
 
   text.portal {
-    font-size: 1.4em;
+    font-size: 1em;
     font-weight: 500;
     text-anchor: middle;
-    text-transform: uppercase;
-    fill: $light-gray5;
-    pointer-events: none;
-    text-shadow: 0 0 4px $gray1;
+    fill: $dark-gray3;
+
+    &[level='1'] {
+      fill: $dark-gray1;
+      font-size: 1.4em;
+      font-weight: 600;
+    }
+    &[level='2'] {
+      fill: $dark-gray2;
+      font-size: 1.2em;
+      font-weight: 500;
+    }
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
   }
 }
 
@@ -224,6 +255,7 @@ body {
 
 .search-root {
   padding: 10px;
+
   ul.rc-pagination {
     list-style: none;
     display: flex;
