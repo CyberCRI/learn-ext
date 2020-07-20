@@ -3,6 +3,7 @@ import {
   SearchProvider, SearchBox,
   PagingInfo, Paging, WithSearch, ErrorBoundary,
 } from '@elastic/react-search-ui'
+import styled from 'styled-components'
 
 import { ControlGroup, InputGroup, Button } from '@blueprintjs/core'
 import { ResourceGrid, Pagination } from '~components/resources'
@@ -51,7 +52,6 @@ const searchConfig = {
 }
 
 const SearchInput = ({ getAutocomplete, getInputProps, getButtonProps, ...args }) => {
-  console.log(args.isOpen)
   return <>
     <ControlGroup>
       <InputGroup {...getInputProps()} leftIcon='search'/>
@@ -61,17 +61,61 @@ const SearchInput = ({ getAutocomplete, getInputProps, getButtonProps, ...args }
   </>
 }
 
+
+const TagDiv = styled.div`
+  cursor: pointer;
+  padding: 5px 10px;
+
+  p {
+    margin: 0;
+  }
+`
+
+const ConceptTagItem = ({ representations, wikidata_id, ...props }) => {
+  const repr = representations.find(node => node.lang === 'en')
+
+  return <TagDiv><p>{repr.title}</p></TagDiv>
+}
+
+
+const AutocompleteContainer = styled.div`
+  position: absolute;
+  padding: 5px 10px;
+  max-height: 300px;
+  overflow: auto;
+
+  width: 200px;
+
+  & > div {
+  }
+
+  z-index: 400;
+
+  background: #fff;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, .3);
+`
+
+const AutocompleteItem = styled.div`
+  margin: 0 0 2px 0;
+  border-radius: 4px;
+
+  &[aria-selected="true"] {
+    background: #a1d2f7;
+  }
+`
+
 const AutocompleteResults = ({ autocompletedResults, getItemProps, ...props }) => {
   return (
-    <div className="sui-search-box__autocomplete-container">
-      {autocompletedResults.map((result, i) => (
-        <div key={result.wikidata_id} onClick={(e) => {
-          props.setSearchTerm(result.wikidata_id)
-        }}>
-          <ConceptTag {...result}/>
-        </div>
-      ))}
-    </div>
+    <AutocompleteContainer>
+      <div>
+        {autocompletedResults.map((result) => (
+          <AutocompleteItem {...getItemProps({ item: result, key: result.wikidata_id })}>
+            <ConceptTagItem {...result} />
+          </AutocompleteItem>
+        ))}
+      </div>
+    </AutocompleteContainer>
   )
 }
 
@@ -93,9 +137,10 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
         <SearchBox
           autocompleteResults={true}
           autocompleteView={AutocompleteResults}
+          onSelectAutocomplete={(item) => props.setSearchTerm(item.representations.find(node => node.lang === 'en').title)}
           inputView={SearchInput}/>
         <>
-          {isLoading && <p>I am loading now. okay?</p>}
+          {isLoading && <p>Searching...</p>}
           {wasSearched && !isLoading && <PagingInfo />}
         </>
         <ResultView results={props.results}/>

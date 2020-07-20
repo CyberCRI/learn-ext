@@ -118,11 +118,18 @@ class CarteSocket {
   }
 
   on = (action, callback) => {
+    /**
+     * Register a `callback` for an `action`.
+     * There can only be one callback per action.
+     */
     this._callbacks[action] = callback
     return this
   }
 
   emit = (act, args) => {
+    /**
+     * Emits an `action` with `args`.
+     */
     if (!this._is_connected) {
       this._retry_count += 1
       const backoff = expectedBackoff(this._retry_count)
