@@ -99,7 +99,7 @@ export const ConceptList = (props) => {
         variants={conceptListVariants}
         className='np--concepts-list concept list'>
         {concepts.map((item) =>
-          <motion.li key={item.wikidata_id} positionTransition variants={conceptVariants}>
+          <motion.li key={item.wikidata_id} layout={true} variants={conceptVariants}>
             <ConceptTag
               removable={removable}
               onRemove={props.onRemove}
@@ -125,7 +125,7 @@ export const ConceptListLoadingState = ({ nconcepts=5, ...props }) => {
         variants={conceptListVariants}
         className='np--concepts-list concept list'>
         {concepts.map((item) =>
-          <motion.li key={item.key} positionTransition variants={conceptVariants}>
+          <motion.li key={item.key} layout={true} variants={conceptVariants}>
             <Tag minimal large className='np--concept-tag concept tag bp3-skeleton'>
               <span>{item.label}</span>
             </Tag>
