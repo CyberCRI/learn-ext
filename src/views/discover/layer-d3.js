@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import _ from 'lodash'
+import { throttle } from 'lodash'
 import { saveAs } from 'file-saver'
 
 import { didPickLayer } from './store'
@@ -30,9 +30,7 @@ const ContourColors = [
   '#ded6a3',
   '#d3ca9d',
   '#cab982',
-  // '#c09a53',
   '#e0e0e0',
-  // '#ececec',
 ]
 
 
@@ -45,14 +43,14 @@ function intersect(a, b) {
   )
 }
 
-function occlusion(svg) {
+function occlusion(svg, selector) {
   // Occlusion method derived from @bmschmidt's example on observablehq.com.
   // https://observablehq.com/@bmschmidt/finding-text-occlusion-with-quadtrees
   //
   // There is not much changed in here, except it is adapted to be used as
   // a side-effect in a RAF loop.
   const nodes = []
-  svg.selectAll('.marker').each((d, i, e) => {
+  svg.selectAll(selector).each((d, i, e) => {
     const bbox = e[i].getBoundingClientRect()
     nodes.push({
       priority: +e[i].getAttribute('data-priority'),
@@ -74,6 +72,7 @@ function occlusion(svg) {
     const isOccluded = filled.some(e => intersect(d, e))
     d3.select(d.node)
       .classed('occluded', isOccluded)
+      .classed('visible', !isOccluded)
     if (!isOccluded) {
       filled.push(d)
     }
@@ -82,8 +81,6 @@ function occlusion(svg) {
   return filled
 }
 
-
-const throttledOcclusion = _.throttle(occlusion, 500)
 
 class ConceptMap {
   constructor (props) {
@@ -103,6 +100,7 @@ class ConceptMap {
       .on('markers.sample', this.renderMarkers)
       .on('markers.portals', this.renderPortals)
       .on('query.nearby', data => didGetResources(data))
+      .on('markers.portal_children', this.renderMarkers)
 
     this.componentDidMount()
   }
@@ -217,7 +215,7 @@ class ConceptMap {
           // this.sock.emit('query.nearby', payload)
         })
 
-    occlusion(this.svg)
+    occlusion(this.svg, '.marker')
   }
 
   renderPortals = (data) => {
@@ -227,8 +225,14 @@ class ConceptMap {
       .data(data)
       .join('text')
         .attr('class', 'portal')
+        .attr('level', i => i.level)
+        .attr('data-priority', i => 10 / i.level)
         .attr('transform', i => `translate(${scale.x(i.x)}, ${scale.y(i.y)})`)
         .text(i => i.title)
+        .on('click', d => {
+          this.sock.emit('markers.portal_children', { wikidata_id: d.wikidata_id, ...this.filters })
+        })
+    occlusion(this.svg, '.portal')
   }
 
   updateTransformation = (transform, scale) => {
@@ -243,11 +247,50 @@ class ConceptMap {
     this.svg.selectAll('.portal')
       .attr('transform', i => `translate(${scale.x(i.x)}, ${scale.y(i.y)})`)
 
-    throttledOcclusion(this.svg)
+    this.updateLabelVisibility()
   }
 
-  didZoom = () => {
-    this.updateTransformation(this.transform, this.scale)
+  updateLabelVisibility = throttle(() => {
+    // We're fixing the visibility of labels. However we need to ensure the rules
+    // are respected for each layer.
+    occlusion(this.svg, '.marker')
+    occlusion(this.svg, '.portal')
+  }, 200, { trailing: true, leading: false })
+
+  didZoom = (i) => {
+    const t = this.transform
+
+    this.updateTransformation(t, this.scale)
+    this.didCrossZoomTrigger(t)
+  }
+
+  didCrossZoomTrigger = (t) => {
+    const TRANSITION_DURATION = 100 // milli-seconds
+    const portalNodes = this.svg.selectAll('.portal')
+    const markerContainer = this.svg.select('.markers')
+
+    const labelTransition = d3.transition()
+      .duration(TRANSITION_DURATION)
+
+    markerContainer
+      .transition(labelTransition)
+      .style('opacity', _ => t.k < 1.6 ? 0 : 1)
+      .style('pointer-events', _ => t.k < 1.6 ? 'none' : 'all')
+
+    portalNodes
+      .transition(labelTransition)
+      .style('opacity', i => {
+        if (t.k < 1.6) {
+          return 1
+        } else if (t.k < 2) {
+          if (i.level <= 2) {
+            return 1
+          }
+          return 0
+        } else {
+          return 0
+        }
+      })
   }
 
   serializeCanvas = () => {
