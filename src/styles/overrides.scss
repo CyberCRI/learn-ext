@@ -2,6 +2,9 @@
   // Specify the font-family since the body font property doesn't cascade to
   // button, and input elements (thanks browser stylesheet!).
   font-family: inherit;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin: 0;
 }
 
 .bp3-card {
