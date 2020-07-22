@@ -66,37 +66,38 @@ function expectedBackoff (c) {
 
 class CarteSocket {
   constructor () {
-    this._is_connected = false
     this._retry_count = 0
     this._callbacks = {}
     this._makeSocket()
   }
 
+  get isConnected () {
+    return this._sock && this._sock.readyState === WebSocket.OPEN
+  }
+
   _makeSocket = () => {
-    if (this._is_connected) {
-      return this._sock
+    if (this.isConnected) {
+      return
     }
 
     const sock = new WebSocket(env.carte_websock_url)
     sock.addEventListener('open', (e) => {
       console.log('[sock] Connected!')
-      this._is_connected = true
       this._retry_count = 0
-      this._sock = sock
     })
     sock.addEventListener('message', (m) => this._didGetMessage(m))
     sock.addEventListener('error', (e) => {
       console.warn('[sock] Connection closed with error', e)
       console.log('[sock] Reconnecting...')
-      this._is_connected = false
+      delete this._sock
       this._makeSocket()
     })
     sock.addEventListener('close', (e) => {
       console.warn('[sock] closed. Reconnecting.', e)
-      this._is_connected = false
+      delete this._sock
       this._makeSocket()
     })
-    return sock
+    this._sock = sock
   }
 
   get sock () {
@@ -130,7 +131,7 @@ class CarteSocket {
     /**
      * Emits an `action` with `args`.
      */
-    if (!this._is_connected) {
+    if (!this.isConnected) {
       this._retry_count += 1
       const backoff = expectedBackoff(this._retry_count)
       console.log(`[sock] NOT connected. Retrying in ${backoff}ms.`)
