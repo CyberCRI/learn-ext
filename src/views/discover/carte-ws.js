@@ -76,7 +76,7 @@ class CarteSocket {
   }
 
   _makeSocket = () => {
-    if (this.isConnected) {
+    if (this._sock) {
       return
     }
 
