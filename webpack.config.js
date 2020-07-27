@@ -147,7 +147,7 @@ const scssLoader = (() => {
     },
     {
       loader: require.resolve('css-loader'),
-      options: { importLoaders: 1 },
+      options: { importLoaders: 1, url: false },
     },
     {
       loader: require.resolve('postcss-loader'),
