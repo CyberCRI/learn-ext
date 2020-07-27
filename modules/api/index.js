@@ -135,8 +135,8 @@ export const CarteSearchAPI = {
     const payload = { q }
     return request({ url: `${env.ngapi_host}/carte/typeahead`, query: payload })
   },
-  search: ({ q, limit, skip }) => {
-    const payload = { q, limit, skip }
+  search: ({ q, limit, skip, ...args }) => {
+    const payload = { q, limit, skip, ...args }
     return request({ url: `${env.ngapi_host}/carte/search`, query: payload })
   }
 }
