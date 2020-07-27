@@ -4,95 +4,130 @@
 
 
 #d3-root {
-  .contours {
-    pointer-events: none;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-    path {
-      border: 1px solid red;
-    }
+  z-index: 2;
+  width: 100%;
+  min-height: 400px;
+  height: 55vh;
+  background: #a8cff4;
+  background-size: 50px;
+
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
   }
 
-  .markers, .portals {
-    text {
-      font-family: 'Inter';
-      text-rendering: optimizeSpeed;
-      visibility: hidden;
-      transition: .1s all;
-      opacity: 0;
-      pointer-events: none;
+  .divroot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
 
-      text-shadow: 1px 1px 2px $white, -1px -1px 0px transparentize($color: $white, $amount: .2);
+    div.layer {
+      // fill the root container with the layers in here.
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow: hidden;
+      position: absolute;
+      pointer-events: none;
+    }
+
+    p.marker, p.portal {
+      position: absolute;
+      display: inline;
+      padding: 5px;
+      margin: 0;
+
+      line-height: 1;
+      text-align: center;
+      text-rendering: optimizeSpeed;
+      border-radius: 4px;
+
+      transition: .1s opacity, .1s font-size;
+
+      // default state to make sure we do not crowd the map on first
+      // render.
+      visibility: hidden;
+      opacity: 0;
 
       &.visible {
         opacity: 1;
         visibility: visible;
-        pointer-events: all;
+        pointer-events: visible;
       }
-
       &.occluded {
-        // [!HACK] this needs to be fixed by parameterizing the transitions.
-        opacity: 0 !important;
-        visibility: hidden !important;
+        opacity: 0;
+        visibility: hidden;
         pointer-events: none;
       }
+      &.interactive {
+        cursor: pointer;
+        &:hover {
+          background: transparentize($white, .7);
+        }
+        &:focus {
+          background: transparentize($white, .9);
+        }
+      }
+      &.highlighted {
+        background: transparentize($white, .5);
+      }
     }
-  }
-
-  text.marker {
-    font-size: 1em;
-    font-weight: 400;
-    text-anchor: middle;
-
-    fill: $dark-gray2;
-
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
-  }
-
-  text.portal {
-    font-size: 1em;
-    font-weight: 500;
-    text-anchor: middle;
-    fill: $dark-gray3;
-
-    &[level='1'] {
-      fill: $dark-gray1;
-      font-size: 1.4em;
-      font-weight: 600;
-    }
-    &[level='2'] {
-      fill: $dark-gray2;
-      font-size: 1.2em;
+    .marker {
+      font-size: 1em;
       font-weight: 500;
+
+      fill: $dark-gray2;
+      max-width: 140px;
+      text-shadow: 0 0 5px $white;
     }
 
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
+    .portal {
+      font-size: 1em;
+      font-weight: 500;
+      fill: $dark-gray3;
+      max-width: 200px;
+      text-shadow: 0 0 5px $white, 1px 1px 2px $white;
+      letter-spacing: .2px;
+
+      &[level='1'] {
+        fill: $dark-gray1;
+        font-size: 1.4em;
+        font-weight: 600;
+      }
+      &[level='2'] {
+        fill: $dark-gray2;
+        font-size: 1.2em;
+        font-weight: 500;
+      }
+      &[level='3'] {
+        fill: $dark-gray4;
+        font-size: 1em;
+        font-weight: 400;
+      }
     }
   }
-}
 
+  .contours {
+    pointer-events: none;
 
-#discover-view {
-  ul.resources {
-    list-style: none;
-    margin: auto;
-  }
-
-  .matches {
-    list-style: none;
-    & > p {
-      text-align: center;
-      margin: 5px 0;
+    path {
+      stroke: transparentize($color: $white, $amount: .8);
+      stroke-width: 0;
     }
-  }
-  .empty {
-    max-width: 300px;
-    padding: 20px;
-    margin: 20px auto;
   }
 }
 
@@ -186,30 +221,6 @@
       }
     }
   }
-
-  #d3-root {
-    // position: absolute;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    z-index: 2;
-    width: 100%;
-    min-height: 300px;
-    height: 50vh;
-    background: #a1d2f7;
-    background-size: 50px;
-
-    cursor: grab;
-
-    &:active {
-      cursor: grabbing;
-    }
-  }
 }
 
 body {
@@ -254,14 +265,11 @@ body {
 // [!todo] WILL NEED TO CLEAN THIS CSS. ITS A MESS. ANYWAY, here is search-ui override:
 
 .search-root {
-  padding: 10px;
+  .top, .bottom, .results {
+    padding: 10px 20px;
+  }
 
-  ul.rc-pagination {
-    list-style: none;
-    display: flex;
-
-    .rc-pagination-item-link {
-      padding: 5px;
-    }
+  .grid.resources > .resources {
+    margin: auto
   }
 }
