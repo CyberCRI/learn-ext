@@ -3,6 +3,7 @@ import moment from 'moment'
 import URLParse from 'url-parse'
 import clsx from 'classnames'
 import { useToggle } from 'react-use'
+import styled from 'styled-components'
 
 
 export const Pill = (props) => {
@@ -28,6 +29,10 @@ export const LanguagePill = ({ lang, ...props }) => {
   )
 }
 
+const TimeNode = styled.time`
+  font-variant-numeric: tabular-nums;
+`
+
 export const DateTimePill = ({ timestamp, lang='en-gb', ...props }) => {
   const displayTime = moment
     .utc(timestamp)
@@ -37,7 +42,7 @@ export const DateTimePill = ({ timestamp, lang='en-gb', ...props }) => {
 
   return (
     <Pill kind='datetime' {...props}>
-      <time dateTime={timestamp}>{displayTime}</time>
+      <TimeNode dateTime={timestamp}>{displayTime}</TimeNode>
     </Pill>
   )
 }
