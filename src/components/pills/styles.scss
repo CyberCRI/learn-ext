@@ -5,6 +5,7 @@
 :root {
   --faviconUrl: '@';
   --faviconSize: 16px;
+  --faviconFallbackUrl: url('/icons/core/url-alt.png');
 }
 
 .pill {
@@ -44,7 +45,7 @@
         family: $typeface-mono;
         weight: 100;
       }
-      color: #fff;
+      color: $white;
       padding: 4px 4px 0 4px;
       border-radius: 4px;
       margin-right: 4px;
@@ -62,7 +63,7 @@
       opacity: 0;
       transition: .5s opacity;
     }
-    background: url('/icons/core/url-alt.png') no-repeat center;
+    background: var(--faviconFallbackUrl) no-repeat center;
     background-size: cover;
 
     width: var(--faviconSize);
@@ -72,6 +73,7 @@
     img.reveal {
       visibility: visible;
       opacity: 1;
+      background: $white;
     }
   }
 }
