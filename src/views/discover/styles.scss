@@ -17,9 +17,22 @@
   min-height: 400px;
   height: 55vh;
   background: #a8cff4;
-  background-size: 50px;
 
   cursor: grab;
+
+  &:after {
+    @include fill-container();
+    position: absolute;
+    content: '';
+    opacity: .09;
+    pointer-events: none;
+
+    background: {
+      image: url('/media/textures/whitenoise-100x100.png');
+      size: 80px;
+      color: transparent;
+    }
+  }
 
   &:active {
     cursor: grabbing;
@@ -133,7 +146,7 @@
 
 .discover-map {
   position: relative;
-  box-shadow: $pt-elevation-shadow-2;
+  box-shadow: $pt-elevation-shadow-1;
   overflow: hidden;
   z-index: 5;
 
