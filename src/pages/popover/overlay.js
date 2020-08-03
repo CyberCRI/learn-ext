@@ -3,6 +3,7 @@ import { useToggle, useMount, useAsyncRetry, useAsyncFn, useInterval } from 'rea
 import { AnchorButton, Button, Callout } from '@blueprintjs/core'
 import { motion } from 'framer-motion'
 import queryStrings from 'query-string'
+import { reject, includes } from 'lodash'
 
 import { Port } from '~procs/portal'
 import { ConceptList, ConceptListLoadingState } from '~components/concepts'
@@ -103,12 +104,12 @@ const PageConcepts = (props) => {
 
   const didAddConcept = (item) => {
     const ixTitle = _(concepts).map('wikidata_id').value()
-    if (!_.includes(ixTitle, item.wikidata_id)) {
+    if (!includes(ixTitle, item.wikidata_id)) {
       setConcepts([ ...concepts, { ...item, similarity_score: 1, doc2vec: false } ])
     }
   }
   const didRemoveConcept = (item) => {
-    setConcepts(_.reject(concepts, [ 'wikidata_id', item.wikidata_id ]))
+    setConcepts(reject(concepts, [ 'wikidata_id', item.wikidata_id ]))
   }
 
   return (
