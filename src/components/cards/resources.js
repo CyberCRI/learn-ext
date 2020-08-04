@@ -161,6 +161,16 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
   return (
     <Card elevation={Elevation.TWO} interactive className='card resource'>
       {!props.skipMedia && <Backdrop url={url}/>}
+      {!props.skipLink &&
+        <a
+          ariahidden='true'
+          role='presentation'
+          href={url}
+          title={props.title}
+          target='_blank'
+          rel='noopener,nofollow'
+          tabIndex={1}
+          className='overlay-link'>Open {props.title} in new tab</a>}
       <div className='content'>
         <h4 className='title'>{props.title}</h4>
         {!!props.created_on && <DateTimePill timestamp={props.created_on}/>}
@@ -175,16 +185,6 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
 
         {isRemovable && <DeleteResourceButton onConfirm={didClickDelete}/>}
         <CardBranding url={url}/>
-        {!props.skipLink &&
-          <a
-            ariahidden='true'
-            role='presentation'
-            href={url}
-            title={props.title}
-            target='_blank'
-            rel='noopener,nofollow'
-            tabIndex={1}
-            className='overlay-link'>Open {props.title} in new tab</a>}
       </div>
     </Card>
   )
