@@ -100,15 +100,7 @@ function occlusion(svg, selector) {
 
 class ConceptMap {
   constructor (props) {
-    this.viz = d3.select('#d3-root')
-    this.viz_div = this.viz
-      .append('div')
-        .attr('class', 'divroot')
-    this.viz_svg = this.viz
-      .append('svg')
-        .attr('width', '100%')
-        .attr('height', '100%')
-        .attr('viewbox', '0,0,100,100')
+    this.viz = this.setupVisualisation({ mountAt: '#d3-root' })
 
     this.sock = new CarteSocket()
 
@@ -128,18 +120,38 @@ class ConceptMap {
     this.componentDidMount()
   }
 
+  setupVisualisation = ({ mountAt }) => {
+    return d3.select(mountAt)
+      .call(s => s
+        .append('div')
+        .attr('class', 'divroot')
+        .call(div => div
+          .append('div')
+          .attr('class', 'layer portals'))
+        .call(div => div
+          .append('div')
+          .attr('class', 'layer markers')))
+      .call(s => s
+        .append('svg')
+        .attr('class', 'maproot')
+        .attr('width', '100%')
+        .attr('height', '100%')
+        .call(s => s
+          .append('g')
+          .attr('class', 'contours')))
+  }
+
   componentDidMount = () => {
     this.zoom = d3.zoom()
       .scaleExtent([.2, 25])
       .on('zoom', this.didZoom)
 
-    this.svg = d3.select(this.viz_svg.node())
-    // this.viz.call(this.zoom)
-    // this.viz_div.call(this.zoom)
+    this.svg = d3.select('svg.maproot')
+    this.contours = this.svg.select('.contours')
 
-    this.contours = this.svg.append('g').attr('class', 'contours')
-    this.portal_dom = this.viz_div.append('div').attr('class', 'layer portals')
-    this.markers = this.viz_div.append('div').attr('class', 'layer markers')
+    this.viz_div = d3.select('div.divroot')
+    this.portals = d3.select('.layer.portals')
+    this.markers = d3.select('.layer.markers')
 
     this.viz.call(this.zoom)
 
@@ -249,7 +261,7 @@ class ConceptMap {
 
   renderPortals = (data) => {
     const scale = this.scale
-    this.portal_dom
+    this.portals
       .selectAll('.portal')
       .data(data)
       .join('p')
@@ -270,12 +282,13 @@ class ConceptMap {
     this.svg.select('g.contours')
       .attr('transform', transform)
 
-    this.markers.selectAll('.marker')
-      .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
+    this.markers
+      .selectAll('.marker')
+        .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
 
-    this.portal_dom.selectAll('.portal')
-      .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
-
+    this.portals
+      .selectAll('.portal')
+        .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
   }
 
   updateLabelVisibility = throttle(() => {
@@ -340,7 +353,7 @@ class ConceptMap {
   prominentPortals = () => {
     const vizBox = this.viz.node().getBoundingClientRect()
     const visiblePortals = []
-    this.portal_dom.selectAll('.portal').each((d, i, e) => {
+    this.portals.selectAll('.portal').each((d, i, e) => {
       const nodeBox = e[i].getBoundingClientRect()
       if (isBoxVisible(nodeBox, vizBox)) {
         visiblePortals.push(d)
