@@ -1,15 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Button, ButtonGroup } from '@blueprintjs/core'
 
 import { viewportEvent } from './store'
 
-const DPad = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 10px 20px;
-`
 
 export const useMapTransforms = () => {
   return {
@@ -37,7 +30,7 @@ export const ZoomButtons = (props) => {
 }
 
 export default function DPadButtons (props) {
-  return <DPad>
+  return <div className='widget dpad'>
     <ZoomButtons/>
-  </DPad>
+  </div>
 }
