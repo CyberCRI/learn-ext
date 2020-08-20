@@ -6,32 +6,13 @@ import { didPickLayer } from './store'
 import { viewportEvent, didGetResources } from './store'
 
 import { CarteSocket } from './carte-ws'
+import { ContourColors, EXTENTS_EN } from './consts'
 
-
-const EXTENTS_EN = {
-  // [min, max]
-  x: [-8.023, 12.664],
-  y: [-7.113, 8.436],
-}
 
 const AxesScale = {
   x: d3.scaleLinear().domain(EXTENTS_EN.x).range([0, 1000]),
   y: d3.scaleLinear().domain(EXTENTS_EN.y).range([0, 1000]),
 }
-
-const ContourColors = [
-  '#b9e3ff',
-  '#acd0a5',
-  '#94bf8b',
-  '#a8c68f',
-  '#bdcc96',
-  '#d1d7ab',
-  '#efebc0',
-  '#ded6a3',
-  '#d3ca9d',
-  '#cab982',
-  '#e0e0e0',
-]
 
 const actions = {
   loadPortalConcepts () {
