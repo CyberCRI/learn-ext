@@ -80,7 +80,7 @@ const searchConfig = {
   },
 
   onAutocompleteResultClick: async (args) => console.log(args),
-  debug: true,
+  debug: env.is_dev,
 }
 
 /// Note that this mount point is a simple div element in base html heirarchy.
