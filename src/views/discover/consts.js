@@ -152,6 +152,13 @@ export const MapLayerSources = [
     user: true,
   },
   {
+    id: 'theconversation.fr',
+    label: 'The Conversation',
+    src: 'theconversation.fr',
+    icon: 'layout-circle',
+    user: true,
+  },
+  {
     id: 'everything',
     label: 'Everything',
     src: '/api/resources/',
@@ -160,3 +167,23 @@ export const MapLayerSources = [
     user: false,
   },
 ]
+
+export const ContourColors = [
+  '#b9e3ff',
+  '#acd0a5',
+  '#94bf8b',
+  '#a8c68f',
+  '#bdcc96',
+  '#d1d7ab',
+  '#efebc0',
+  '#ded6a3',
+  '#d3ca9d',
+  '#cab982',
+  '#e0e0e0',
+]
+
+export const EXTENTS_EN = {
+  // [min, max]
+  x: [-8.023, 12.664],
+  y: [-7.113, 8.436],
+}
