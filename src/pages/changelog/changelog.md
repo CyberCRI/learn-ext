@@ -5,11 +5,23 @@
 
 > Found a bug? You can help us! Let us know any feature requests, bugs,
 > or problems. Write to us at [welearn@cri-paris.org][email].
-> 
+>
 > WeLearn is available as a prototype quality software, which essentially means
-> that there are bugs, missing features, and incomplete user experience. 
+> that there are bugs, missing features, and incomplete user experience.
 
-Here is what's new in this version of WeLearn extension:
+Here is what's new in this version of WeLearn App:
+
+## v0.4.0
+Release Candidate
+
+This release brings more capabilitites to the **Discover Map**.
+
+- Wikipedia Portals and Concepts on the map. Browse with Portals for more
+  general topics, or drill down to specific resources through concepts.
+- You can share the url of the map which will keep your search, and position
+  for everyone.
+
+(and more!)
 
 ## v0.3.2
 Released on `2020-07-01`
@@ -52,10 +64,10 @@ Our **Discover Map** has evolved!
 
 > While our Covid-19 map looks nice, it does not constitute a medical advice.
 > For facts and figures, please consult **official resources for Covid-19 Pandemic**:
-> 
-> - [WHO Advisory](https://www.who.int/emergencies/diseases/novel-coronavirus-2019) 
+>
+> - [WHO Advisory](https://www.who.int/emergencies/diseases/novel-coronavirus-2019)
 > - [Informations Officielles | gouvernement.fr](https://www.gouvernement.fr/info-coronavirus)
-> 
+>
 > Take care of yourself, we're all in this together. Until then #RestezChezVous!
 
 We have more features coming soon:
