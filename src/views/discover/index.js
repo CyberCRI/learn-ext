@@ -6,7 +6,6 @@ import { ResultItems, ProgressIndicator } from './search-tools'
 import { MapLayerSources } from './consts'
 import { didPickLayer } from './store'
 import { ConceptMap } from './layer-d3'
-import DPadButtons from './dpad-zoom'
 import { SearchView } from './search-ui'
 
 import './styles.scss'
@@ -33,11 +32,9 @@ export const renderView = async () => {
 
   // [!todo] the both things below are hacks.
   window.cmap = cmap
-  window.setTimeout(() => initLayers(), 500)
+  // window.setTimeout(() => initLayers(), 500)
 
   renderReactComponent('overlay-tools', OverlayTools)
-  // renderReactComponent('discover-view', ResultItems)
   renderReactComponent('progress-bar', ProgressIndicator)
-  renderReactComponent('overlay-dpad', DPadButtons)
   renderReactComponent('search-ui', SearchView)
 }
