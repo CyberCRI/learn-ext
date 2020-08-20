@@ -12,6 +12,7 @@ import _ from 'lodash'
 import { i18n } from '@ilearn/modules/i18n'
 import { ConceptList } from '~components/concepts'
 import { $globalContext } from '~page-commons/store'
+import DPadButtons from './dpad-zoom'
 
 import { MapLayerSources } from './consts'
 import { selectedConcepts } from './store'
@@ -104,10 +105,12 @@ export const ClipboardTextBox = ({ text }) => {
   )
 }
 
+const SharingPopoverContainer = styled.div`
+  padding: 5px 10px;
+`
+
 export const ShareButton = (props) => {
   const [ visible, setVisibility ] = useToggle(false)
-  const selection = useStore(selectedConcepts)
-  const currentLayer = useStore($layerSource)
   let canvasImg
   let transform = {}
 
@@ -116,32 +119,24 @@ export const ShareButton = (props) => {
     transform = window._magic_atlas.mapt.centerPoint
   }
 
-  const shareUrlFragment = queryStrings.stringifyUrl({
-    url: document.location.href,
-    query: {
-      lid: currentLayer.id,
-      src: currentLayer.src,
-      cset: selection.map((s) => s.wikidata_id),
-      tfx: transform.x,
-      tfy: transform.y,
-      tfs: transform.zoom,
-    },
-  }, { arrayFormat: 'comma' })
+  const shareUrlFragment = document.location.toString()
 
   return (
-    <Popover position='bottom' isOpen={visible} onClose={() => setVisibility(false)}>
-      <Button icon='share' onClick={setVisibility}>Share</Button>
-      <div className='widget sharing'>
-        <h4>Share your map and selections</h4>
-        <div className='state'>
-          {canvasImg && <img src={canvasImg}/>}
-        </div>
-        <div>
-          <p>Use the link below to share your map.</p>
-          <ClipboardTextBox text={shareUrlFragment}/>
-        </div>
-      </div>
-    </Popover>
+    <div className='widget sharing'>
+      <Popover position='bottom' isOpen={visible} onClose={() => setVisibility(false)}>
+        <Button icon='share' onClick={setVisibility} active={visible}>Share</Button>
+        <SharingPopoverContainer>
+          <h4>Share your map and selections</h4>
+          <div className='state'>
+            {canvasImg && <img src={canvasImg}/>}
+          </div>
+          <div>
+            <p>Use the link below to share your map.</p>
+            <ClipboardTextBox text={shareUrlFragment}/>
+          </div>
+        </SharingPopoverContainer>
+      </Popover>
+    </div>
   )
 }
 
@@ -175,41 +170,39 @@ export const LayerSelection = (props) => {
   }
 
   return (
-    <div className='overlay tools'>
-      <div>
-        <h5>Featured Maps</h5>
-        <ButtonGroup vertical minimal className='layers'>
-          {MapLayerSources.map((layer) => (
-            <Button
-              key={layer.id}
-              icon={layer.icon}
-              text={layer.label}
-              active={layer.id === currentLayer.id}
-              onClick={() => didPickLayer(layer)}/>
-          ))}
-          {userLayers.length > 0 && <Divider/>}
-          {userLayers.map((layer) => (
-            <Button
-              key={layer.id}
-              icon={layer.icon}
-              text={layer.label}
-              active={layer.id === currentLayer.id}
-              onClick={() => didPickLayer(layer)}/>
-          ))}
-        </ButtonGroup>
-      </div>
-      <div>
-        <ShareButton/>
-      </div>
+    <div className='widget layers'>
+      <h5>Featured Maps</h5>
+      <Divider/>
+      <ButtonGroup vertical minimal className='layers'>
+        {MapLayerSources.map((layer) => (
+          <Button
+            key={layer.id}
+            icon={layer.icon}
+            text={layer.label}
+            active={layer.id === currentLayer.id}
+            onClick={() => didPickLayer(layer)}/>
+        ))}
+        {userLayers.length > 0 && <Divider/>}
+        {userLayers.map((layer) => (
+          <Button
+            key={layer.id}
+            icon={layer.icon}
+            text={layer.label}
+            active={layer.id === currentLayer.id}
+            onClick={() => didPickLayer(layer)}/>
+        ))}
+      </ButtonGroup>
     </div>
   )
 }
 
 export const OverlayTools = (props) => {
   return (
-    <div>
+    <>
       <LayerSelection/>
-    </div>
+      <ShareButton/>
+      <DPadButtons/>
+    </>
   )
 }
 
