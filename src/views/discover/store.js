@@ -14,6 +14,7 @@ export const viewportEvent = {
   export: createEvent(),
   nudge: createEvent(),
   click: createEvent(),
+  focusNode: createEvent(),
 }
 
 export const didGetResources = createEvent()
