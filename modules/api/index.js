@@ -138,5 +138,12 @@ export const CarteSearchAPI = {
   search: ({ q, limit, skip, ...args }) => {
     const payload = { q, limit, skip, ...args }
     return request({ url: `${env.ngapi_host}/carte/search`, query: payload })
-  }
+  },
+  wikiq: (payload) => {
+    return request({
+      url: `${env.ngapi_host}/carte/wikiq`,
+      method: 'POST',
+      data: payload,
+    })
+  },
 }
