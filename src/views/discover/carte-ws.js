@@ -52,6 +52,7 @@
  *        .attr('fill', 'red')
  *    })
  */
+// import io from 'socket.io-client'
 
 const BACKOFF_MAX_LIMIT = 500
 
@@ -66,6 +67,9 @@ function expectedBackoff (c) {
 
 class CarteSocket {
   constructor () {
+    // [!todo]: gotta make this work. Checked out fastapi-socketio discussion and its possible
+    // with added benefit of long-polling fallback (we need that.)
+    // this.iosock = io('/carte/sio', { path: '/carte/sio', transports: ['websocket'] })
     this._retry_count = 0
     this._callbacks = {}
     this._makeSocket()
