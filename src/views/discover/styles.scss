@@ -296,9 +296,35 @@
   .results {
     // make this container take at least some space.
     min-height: 100px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
   }
 
   .grid.resources > .resources {
     margin: auto
+  }
+
+  .sui-search-box {
+    // Overrides default styles from searchui components
+    justify-content: initial;
+    align-items: unset;
+
+    .bp3-control-group {
+      padding: 0;
+      margin: unset;
+    }
+
+    &__submit {
+      padding: 0;
+      margin: none;
+    }
+    &__text-input {
+      border: initial;
+      padding: 0;
+      border: initial;
+      border-radius: initial;
+    }
   }
 }
