@@ -1,8 +1,7 @@
 import * as d3 from 'd3'
 import _ from 'lodash'
-import { saveAs } from 'file-saver'
 
-import { viewportEvent, didGetResources, didPickLayer } from './store'
+import { viewportEvent, didPickLayer, NodeEvents } from './store'
 
 import { CarteSocket } from './carte-ws'
 import { ContourColors, EXTENTS_EN } from './consts'
@@ -88,25 +87,7 @@ function occlusion(svg, selector) {
 class ConceptMap {
   constructor (props) {
     this.viz = this.setupVisualisation({ mountAt: '#d3-root' })
-
-    this.sock = new CarteSocket()
-
     this.filters = {}
-    this.states = {
-      lastZoom: 0,
-    }
-
-    this.sock
-      .on('contours.density', this.renderContours)
-      .on('markers.init', this.renderMarkers)
-      .on('markers.sample', this.renderMarkers)
-      .on('markers.portals', this.renderPortals)
-      .on('query.nearby', data => didGetResources(data))
-      .on('markers.portal_children', this.renderMarkers)
-      .on('query.labels_fov', this.renderMarkers)
-
-    this.init()
-    this.registerListeners()
   }
 
   setupVisualisation = ({ mountAt }) => {
@@ -159,7 +140,18 @@ class ConceptMap {
     })
   }
 
-  init = () => {
+  connectSocket = () => {
+    this.sock = new CarteSocket()
+    this.sock
+      .on('contours.density', this.renderContours)
+      .on('markers.init', this.renderMarkers)
+      .on('markers.sample', this.renderMarkers)
+      .on('markers.portals', this.renderPortals)
+      .on('markers.portal_children', this.renderMarkers)
+      .on('query.labels_fov', this.renderMarkers)
+  }
+
+  setupDOMEventHandlers = () => {
     this.zoom = d3.zoom()
       .scaleExtent([.2, 35])
       .touchable(true)
@@ -173,11 +165,19 @@ class ConceptMap {
     this.markers = d3.select('.layer.markers')
 
     this.viz.call(this.zoom)
+  }
 
-    this.sock
-      .emit('contours.density', this.filters)
-      .emit('markers.init', this.filters)
-      .emit('markers.portals', this.filters)
+  init = () => {
+    this.setupDOMEventHandlers()
+    this.connectSocket()
+    this.registerListeners()
+
+    _.defer(() => {
+      this.sock
+        .emit('contours.density', this.filters)
+        .emit('markers.init', this.filters)
+        .emit('markers.portals', this.filters)
+    })
   }
 
   get scale () {
@@ -284,15 +284,7 @@ class ConceptMap {
         .attr('id', i => `nc-${i.wikidata_id}`)
         .text(i => i.title)
         .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
-        .on('click', (d, i, e) => {
-          const payload = {
-            source: 'marker',
-            data: d,
-          }
-          viewportEvent.click(payload)
-          // this.sock.emit('query.nearby', payload)
-        })
-
+        .on('click', data => viewportEvent.click({ source: 'marker', data }))
     occlusion(this.viz_div, '.marker')
   }
 
@@ -313,14 +305,7 @@ class ConceptMap {
         .attr('data-priority', i => (10 / i.level) * i.n_child)
         .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
         .text(i => i.title)
-        .on('click', d => {
-          this.sock.emit('markers.portal_children', { wikidata_id: d.wikidata_id, ...this.filters })
-          const payload = {
-            source: 'portal',
-            data: d,
-          }
-          viewportEvent.click(payload)
-        })
+        .on('click', data => viewportEvent.click({ source: 'portal', data }))
     occlusion(this.viz_div, '.portal')
   }
 
@@ -413,6 +398,7 @@ class ConceptMap {
   }
 
   serializeCanvas = () => {
+    const saveAs = require('file-saver')
     let svg = this.svg.node().cloneNode(true)
     svg.setAttribute('xlink', 'http://www.w3.org/1999/xlink')
 

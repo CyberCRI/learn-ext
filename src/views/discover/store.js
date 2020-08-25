@@ -17,6 +17,17 @@ export const viewportEvent = {
   focusNode: createEvent(),
 }
 
+export const NodeEvents = {
+  highlight: createEvent(),
+  focus: createEvent(),
+  clear: createEvent(),
+  undo: createEvent(),
+}
+
+export const StateEvents = {
+  ready: createEvent(),
+}
+
 export const didGetResources = createEvent()
 export const didPickLayer = createEvent()
 
@@ -34,7 +45,3 @@ export const userResources = createStore([])
 
 export const setCursor = createEvent()
 
-export const $cursor = createStore({ current: 0, count: 0})
-  .on(setCursor, (state, page) => ({ ...state, ...page }))
-  .reset(didGetResources)
-  .reset(didPickLayer)

@@ -1,6 +1,7 @@
 @import 'styles/variables';
 @import 'styles/colors';
 @import 'styles/mixins';
+@import './search-ui/sui-sass/base';
 
 .visualisation-container {
   position: relative;
@@ -304,27 +305,5 @@
 
   .grid.resources > .resources {
     margin: auto
-  }
-
-  .sui-search-box {
-    // Overrides default styles from searchui components
-    justify-content: initial;
-    align-items: unset;
-
-    .bp3-control-group {
-      padding: 0;
-      margin: unset;
-    }
-
-    &__submit {
-      padding: 0;
-      margin: none;
-    }
-    &__text-input {
-      border: initial;
-      padding: 0;
-      border: initial;
-      border-radius: initial;
-    }
   }
 }

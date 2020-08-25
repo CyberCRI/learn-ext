@@ -1,40 +1,22 @@
-import queryStrings from 'query-string'
+import _ from 'lodash'
+
 import { renderReactComponent } from '~mixins/react-helpers'
 
 import { OverlayTools } from './overlays'
-import { ResultItems, ProgressIndicator } from './search-tools'
-import { MapLayerSources } from './consts'
-import { didPickLayer } from './store'
 import { ConceptMap } from './layer-d3'
 import { SearchView } from './search-ui'
 
 import './styles.scss'
 
-const initLayers = async () => {
-  const defaultLayer = MapLayerSources.find((s) => s.default)
-  const { query } = queryStrings.parseUrl(window.location.href, { arrayFormat: 'comma' })
-
-  if (query.src) {
-    // pick this layer.
-    didPickLayer({
-      id: query.lid,
-      label: 'Shared',
-      src: query.src,
-      user: true,
-    })
-  } else {
-    didPickLayer(defaultLayer)
-  }
-}
 
 export const renderView = async () => {
   const cmap = new ConceptMap()
-
-  // [!todo] the both things below are hacks.
   window.cmap = cmap
-  // window.setTimeout(() => initLayers(), 500)
+
+  _.defer(() => {
+    cmap.init()
+  })
 
   renderReactComponent('overlay-tools', OverlayTools)
-  renderReactComponent('progress-bar', ProgressIndicator)
   renderReactComponent('search-ui', SearchView)
 }
