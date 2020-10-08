@@ -53,6 +53,7 @@
  *    })
  */
 // import io from 'socket.io-client'
+import { WebSocketURI } from './consts'
 
 const BACKOFF_MAX_LIMIT = 500
 
@@ -84,7 +85,7 @@ class CarteSocket {
       return
     }
 
-    const sock = new WebSocket(env.carte_websock_url)
+    const sock = new WebSocket(WebSocketURI)
     sock.addEventListener('open', (e) => {
       console.log('[sock] Connected!')
       this._retry_count = 0
@@ -118,7 +119,7 @@ class CarteSocket {
     }
     if (resp.q && resp.q.act) {
       const { act, ..._ } = resp.q
-      this._callbacks[act](resp.r)
+      this._callbacks[act](resp.r, resp.q)
     }
   }
 
