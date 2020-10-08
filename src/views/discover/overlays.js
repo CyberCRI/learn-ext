@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, ControlGroup, Popover } from '@blueprintjs/core'
+import { Button, ControlGroup, Popover, InputGroup } from '@blueprintjs/core'
 import { useToggle } from 'react-use'
 import styled from 'styled-components'
 
