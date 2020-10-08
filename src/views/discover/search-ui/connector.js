@@ -2,6 +2,10 @@ import _ from 'lodash'
 
 import { CarteSearchAPI } from '@ilearn/modules/api'
 
+// Wikidata Ids always start with "Q" and one or more digits that follow it.
+// Interesting Ids: [Q1].
+const WikidataIdPattern = /^Q[\d]+$/
+
 const AvailableFacets = {
   marker:   { type: 'any' },
   user:     { type: 'any' },
@@ -60,12 +64,18 @@ async function didSearch({ searchTerm, ...args }) {
   if (!searchTerm.length) {
     return {}
   }
+
   const limit = args.resultsPerPage
   const skip = args.resultsPerPage * (args.current - 1)
 
   const filters = _(args.filters).keyBy('field')
-  const r = await CarteSearchAPI.wikiq({
+  const SearchEndpoint = WikidataIdPattern.test(searchTerm)
+    ? CarteSearchAPI.wikiq
+    : CarteSearchAPI.search
+
+  const r = await SearchEndpoint({
     q: searchTerm,
+    skip, limit,  // [!todo]
     page: { skip, limit },
     source: filters.get('source.values.0'),
     user: filters.get('user.values.0', ''),

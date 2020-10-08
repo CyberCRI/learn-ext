@@ -123,9 +123,9 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
             onSelectAutocomplete={onTouchAutocompleteItem}/>
           <div className='tools'>
             <div className='available'>
-              <Facet field='user' label='Map' view={SingleLinksFacet} />
             </div>
             <div className='unavailable'>
+              <Facet field='user' label='Map' view={SingleLinksFacet} />
               <Facet field='portal' label='Portals' view={MultiCheckboxFacet} />
               <Facet field='n_users' label='in nUsers Library' view={SingleLinksFacet} />
               <Facet field='n_tags' label='Has n-tags' view={SingleLinksFacet} />
