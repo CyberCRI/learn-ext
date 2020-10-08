@@ -52,9 +52,17 @@ const DefaultFacetValues = {
       field: 'user',
       type: 'value',
       data: [
-        { value: 'My Resources', count: 152 },
-        { value: 'prashant@noop.pw', count: 9405 },
-        { value: 'CRI Projects', count: 1234 },
+        { label: 'My Resources', value: 'prashant.sinha@cri-paris.org', count: 2 },
+        { label: 'noop', value: 'prashant@noop.pw', count: 42 },
+        { label: 'CRI Projects',
+          value: 'projects@import.bot',
+          count: 421,
+        },
+        {
+          label: 'The Conversation',
+          value: 'theconversation@import.bot',
+          count: 1234,
+        },
       ],
     }
   ],
@@ -195,7 +203,7 @@ const PlaceHolder = (props) => {
 
 const ResultView = ({ results, wasSearched }) => {
   if (results && results.length) {
-    return <ResourceGrid resources={results} onDelete={console.log}/>
+    return <ResourceGrid resources={results}/>
   }
 
   if (!wasSearched) {
@@ -210,19 +218,18 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   const onTouchAutocompleteItem = item => didTouchAutocompleteItem(item, props)
   React.useEffect(() => {
     return viewportEvent.click.watch(event => {
-      onTouchAutocompleteItem(event.data)
+      const { source, data } = event
+      onTouchAutocompleteItem({ source, ...data })
     })
   })
   return (
     <div className='search-root'>
       <ErrorBoundary>
-        <div className='top'>
+        <div className='tools overlay'>
           <SearchBox
             autocompleteResults={true}
             autocompleteView={AutocompleteResults}
             onSelectAutocomplete={onTouchAutocompleteItem}/>
-        </div>
-        <div className='results'>
           <div className='tools'>
             <div>
               <Facet field='portal' label='Portals' view={MultiCheckboxFacet} />
@@ -233,27 +240,13 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
               <ResultsPerPage options={[10, 20, 30]} />
             </div>
           </div>
+        </div>
+        <div className='results'>
           <div className='items'>
             <div className='search-info'>
               <div className='state'>
                 {isLoading && <span>Searching... </span>}
                 {wasSearched && <PagingInfo />}
-              </div>
-              <div>
-                <Sorting
-                  label={"Sort by"}
-                  sortOptions={[
-                    {
-                      name: "Recent",
-                      value: "new",
-                      direction: "desc",
-                    },
-                    {
-                      name: "Relevance",
-                      value: "relevance",
-                      direction: "desc",
-                    },
-                  ]}/>
               </div>
             </div>
             <ResultView results={props.results} wasSearched={wasSearched} loading={isLoading}/>

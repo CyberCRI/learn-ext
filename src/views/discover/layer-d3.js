@@ -232,7 +232,6 @@ class ConceptMap {
 
   didClickFieldOfView = (cx, cy) => {
     const scale = this.scale
-    const t = this.transform
     const x = scale.x.invert(cx)
     const y = scale.y.invert(cy)
     const r = this.transform.k / 10
@@ -292,7 +291,7 @@ class ConceptMap {
         .attr('d', d3.geoPath())
         .attr('fill', d => contourScale(d.value))
 
-    // this.translateToCenter(350, 500, 1)
+    this.translateToCenter(350, 500, 1)
   }
 
   renderMarkers = (data) => {

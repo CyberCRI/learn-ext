@@ -10,7 +10,11 @@ import './styles.scss'
 
 
 export const renderView = async () => {
-  const cmap = new ConceptMap()
+  const cmap = new ConceptMap({
+    filters: {},
+    mountPoint: '#d3-root',
+    onSearchMap: console.log
+  })
   window.cmap = cmap
 
   _.defer(() => {

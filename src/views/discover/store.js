@@ -28,7 +28,6 @@ export const StateEvents = {
   ready: createEvent(),
 }
 
-export const didGetResources = createEvent()
 export const didPickLayer = createEvent()
 
 export const setProgress = createEvent()
@@ -41,7 +40,5 @@ export const $layerSource = createStore({})
 
 export const selectedConcepts = createStore([])
 export const userResources = createStore([])
-  .on(didGetResources, (state, vals) => vals)
 
 export const setCursor = createEvent()
-

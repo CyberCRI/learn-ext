@@ -245,7 +245,7 @@ module.exports = {
     namedModules: true,
     moduleIds: 'named',
     splitChunks: {
-      minChunks: 2,
+      minChunks: 1,
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
@@ -303,7 +303,7 @@ module.exports = {
     proxy: [
       {
         context: ['/api/auth/me.js', '/.meta'],
-        target: dotenv.sys.ILRN_NGAPI_HOST || 'https://staging.welearn.cri-paris.org',
+        target: dotenv.sys.ILRN_NGAPI_HOST || 'https://welearn.cri-paris.org',
         changeOrigin: true,
       },
       {

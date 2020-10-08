@@ -187,3 +187,5 @@ export const EXTENTS_EN = {
   x: [-8.023, 12.664],
   y: [-7.113, 8.436],
 }
+
+export const WebSocketURI = env.carte_websock_url
