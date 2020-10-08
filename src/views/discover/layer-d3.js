@@ -86,12 +86,23 @@ function occlusion(svg, selector) {
 
 class ConceptMap {
   constructor (props) {
-    this.viz = this.setupVisualisation({ mountAt: '#d3-root' })
-    this.filters = {}
+    this.viz = this.setupVisualisation({ mountAt: props.mountPoint })
+    this.filters = { ...props.filters }
+    this.onClickHandler = (e) => {
+      props.onSearchMap(e)
+    }
   }
 
   setupVisualisation = ({ mountAt }) => {
     return d3.select(mountAt)
+      .call(s => s
+        .append('svg')
+        .attr('class', 'maproot')
+        .attr('width', '100%')
+        .attr('height', '100%')
+        .call(s => s
+          .append('g')
+          .attr('class', 'contours')))
       .call(s => s
         .append('div')
         .attr('class', 'divroot')
@@ -101,14 +112,6 @@ class ConceptMap {
         .call(div => div
           .append('div')
           .attr('class', 'layer markers')))
-      .call(s => s
-        .append('svg')
-        .attr('class', 'maproot')
-        .attr('width', '100%')
-        .attr('height', '100%')
-        .call(s => s
-          .append('g')
-          .attr('class', 'contours')))
   }
 
   registerListeners = () => {
@@ -127,6 +130,7 @@ class ConceptMap {
     viewportEvent.export.watch(this.serializeCanvas)
 
     didPickLayer.watch((value) => {
+      // [!todo] used in welearn, this needs to get out of here.
       if (value.user) {
         this.filters = { user: value.src }
       } else {
@@ -134,9 +138,9 @@ class ConceptMap {
       }
 
       this.sock
-        .emit('contours.density', this.filters)
         .emit('markers.init', this.filters)
         .emit('markers.portals', this.filters)
+        .emit('contours.density', this.filters)
     })
   }
 
@@ -144,11 +148,20 @@ class ConceptMap {
     this.sock = new CarteSocket()
     this.sock
       .on('contours.density', this.renderContours)
-      .on('markers.init', this.renderMarkers)
-      .on('markers.sample', this.renderMarkers)
-      .on('markers.portals', this.renderPortals)
+      .on('markers.init',     this.renderMarkers)
+      .on('markers.sample',   this.renderMarkers)
+      .on('markers.portals',  this.renderPortals)
       .on('markers.portal_children', this.renderMarkers)
-      .on('query.labels_fov', this.renderMarkers)
+      .on('query.labels_fov', (i, q) => {
+        const nearbyConcepts = i.map(d => d.wikidata_id)
+        if (q.initiator === 'click') {
+          this.onClickHandler({ nearbyConcepts })
+        }
+        this.renderMarkers(i)
+      })
+      .on('query.nearby', (i) => {
+        console.log('[Resources Nearby]', i)
+      })
   }
 
   setupDOMEventHandlers = () => {
@@ -164,7 +177,14 @@ class ConceptMap {
     this.portals = d3.select('.layer.portals')
     this.markers = d3.select('.layer.markers')
 
-    this.viz.call(this.zoom)
+    this.viz
+      .on('click', (d) => {
+        const { x, y } = d3.event
+        const fov = this.didClickFieldOfView(x, y)
+        console.log(fov)
+        this.sock.emit('query.labels_fov', { ...this.filters, ...fov, initiator: 'click' })
+      })
+      .call(this.zoom)
   }
 
   init = () => {
@@ -210,6 +230,15 @@ class ConceptMap {
     }
   }
 
+  didClickFieldOfView = (cx, cy) => {
+    const scale = this.scale
+    const t = this.transform
+    const x = scale.x.invert(cx)
+    const y = scale.y.invert(cy)
+    const r = this.transform.k / 10
+    return { x, y, r }
+  }
+
   get vizBBox () {
     return this.viz.node().getBoundingClientRect()
   }
@@ -234,6 +263,7 @@ class ConceptMap {
 
   renderContours = (data) => {
     //- geojson contours are rendered with the initial axis scale.
+
     const { items } = data
     const _ti = performance.now()
 
@@ -262,7 +292,7 @@ class ConceptMap {
         .attr('d', d3.geoPath())
         .attr('fill', d => contourScale(d.value))
 
-    this.translateToCenter(350, 500, 1)
+    // this.translateToCenter(350, 500, 1)
   }
 
   renderMarkers = (data) => {
