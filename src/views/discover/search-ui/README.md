@@ -7,6 +7,11 @@ entry.
 A specific dependency used by sui is `@react-component/pagination`, from which I
 got the source that lives now at `./sui-sass/components/_rc-pagination.scss`.
 
+Top level module export is intended to be a single component, however due to design
+decisions, we have a weak coupling between the internal states.
+
+Check out `../store`, `connector.js`, and other compositions here.
+
 
 **Commit Hashes** at the fork.
 - `search-ui: 30ff212`

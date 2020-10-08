@@ -9,7 +9,7 @@
     flex-shrink: 0;
     font-family: inherit;
     font-size: 14px;
-    padding: 16px;
+    padding: 5px 10px;
     margin-left: 10px;
     text-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px;
     color: rgb(255, 255, 255);
@@ -40,14 +40,14 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    border-radius: 3px;
+    border-radius: 5px;
     position: relative;
   }
 
   @include element("text-input") {
     border-radius: $borderRadius;
     border: 1px solid #ccc;
-    padding: 16px;
+    padding: 5px 10px;
     outline: none;
     position: relative;
     font-family: inherit;

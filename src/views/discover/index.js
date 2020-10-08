@@ -13,7 +13,7 @@ export const renderView = async () => {
   const cmap = new ConceptMap({
     filters: {},
     mountPoint: '#d3-root',
-    onSearchMap: console.log
+    onSearchMap: console.log,
   })
   window.cmap = cmap
 

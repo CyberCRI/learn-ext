@@ -1,7 +1,6 @@
 @import 'styles/variables';
 @import 'styles/colors';
 @import 'styles/mixins';
-@import './search-ui/sui-sass/base';
 
 .visualisation-container {
   position: relative;
@@ -287,34 +286,4 @@
 }
 
 
-// [!todo] WILL NEED TO CLEAN THIS CSS. ITS A MESS. ANYWAY, here is search-ui override:
-
-.search-root {
-  .top, .bottom, .results {
-    padding: 10px 20px;
-  }
-
-  .tools.overlay {
-    position: absolute;
-    z-index: 42;
-    @include bg-vibrant-tint($light-gray5, .2, 8px);
-
-    top: -55vh; // This hack makes sure we're on top of the map!
-    left: 20px; // or something. This is a [!hack].
-    padding: 10px 20px;
-    border-radius: 5px;
-  }
-
-  .results {
-    // make this container take at least some space.
-    min-height: 100px;
-
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-evenly;
-  }
-
-  .grid.resources > .resources {
-    margin: auto
-  }
-}
+// [!todo] WILL NEED TO CLEAN THIS CSS. ITS A MESS
