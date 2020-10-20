@@ -57,7 +57,7 @@ function pagingCells (n, pos, maxCells=CELL_COUNT) {
   return cells
 }
 
-export const Pagination = ({count, cursor, onPaginate, maxCells=CELL_COUNT}) => {
+export const Pagination = ({current, totalPages, onChange, maxCells=CELL_COUNT}) => {
   // Renders a Pagination Button Group, inserting ellipsis based on cursor.
   // ┌───┬───┬───┬───┬───┐
   // │ < │ 1 │ 2 │ 3 │ > │
@@ -68,30 +68,29 @@ export const Pagination = ({count, cursor, onPaginate, maxCells=CELL_COUNT}) => 
   // ┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
   // │ < │ 1 │...│ 4 │ 5 │ 6 │...│10 │ > │
   // └───┴───┴───┴───┴───┴───┴───┴───┴───┘
-
   const PrevPage = <Button
     icon='arrow-left'
-    disabled={cursor <= 1}
-    onClick={() => onPaginate(cursor - 1)}
+    disabled={current <= 1}
+    onClick={() => onChange(current - 1)}
     text='Previous'/>
 
   const NextPage = <Button
     rightIcon='arrow-right'
-    disabled={cursor >= count}
-    onClick={() => onPaginate(cursor + 1)}
+    disabled={current >= totalPages}
+    onClick={() => onChange(current + 1)}
     text='Next'/>
 
   return (
     <ButtonGroup className='pagination'>
       {PrevPage}
-      {pagingCells(count, cursor, maxCells).map(({ nr, ellipsis }) =>
+      {pagingCells(totalPages, current, maxCells).map(({ nr, ellipsis }) =>
         <Button
           text={!ellipsis && nr}
           icon={ellipsis && 'more'}
           disabled={ellipsis}
           key={nr}
-          active={nr === cursor}
-          onClick={() => onPaginate(nr)}/>
+          active={nr === current}
+          onClick={() => onChange(nr)}/>
       )}
       {NextPage}
     </ButtonGroup>
