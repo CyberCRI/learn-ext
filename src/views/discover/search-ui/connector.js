@@ -68,14 +68,10 @@ async function didSearch({ searchTerm, ...args }) {
   const skip = args.resultsPerPage * (args.current - 1)
 
   const filters = _(args.filters).keyBy('field')
-  const SearchEndpoint = WikidataIdPattern.test(searchTerm)
-    ? CarteSearchAPI.wikiq
-    : CarteSearchAPI.search
 
-  const r = await SearchEndpoint({
+  const r = await CarteSearchAPI.search({
     q: searchTerm,
-    skip, limit,  // [!todo]
-    page: { skip, limit },
+    skip, limit,
     source: filters.get('source.values.0'),
     user: filters.get('user.values.0', ''),
   })
