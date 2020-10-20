@@ -358,7 +358,7 @@ class ConceptMap {
     // are respected for each layer.
     occlusion(this.viz_div, '.marker')
     occlusion(this.viz_div, '.portal')
-  }, 400, { trailing: true, leading: true })
+  }, 500, { trailing: true, leading: false })
 
   didZoom = (d, i, e) => {
     const t = this.transform
