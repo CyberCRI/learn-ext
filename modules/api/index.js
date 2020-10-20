@@ -5,6 +5,15 @@ const pathFor = (route, subs) => {
 }
 
 const getUser = async () => {
+  // [!hack] the server already knows if the user is actually
+  // logged in or not.
+  //
+  // We'll need to make another request to get all the group
+  // membership.
+  // Note that being a GET request, it may be cached by browser.
+  // Moving this on server is a good idea.
+  // More specifically the structs.ts file describes the outdated
+  // APIs. Use <hostname>/.meta/docs.
   const u = window.jstate.user
   try {
     u.groupId = u.groups[0].guid
@@ -14,7 +23,13 @@ const getUser = async () => {
 }
 
 const request = async ({ url, method = 'get', query, data, ...options }) => {
+  // We're allowing CORS here because the server has list of
+  // preview sites, and the prototype data is anonymised.
   const body = method === 'get' ? undefined : JSON.stringify(data)
+
+  // this method basically removes the requirements on `reqwest` library
+  // which is good, but since we target only the recent browsers it's
+  // a shipped feature.
   const reqUrl = queryStrings.stringifyUrl({ url, query })
 
   const r = await fetch(reqUrl, {
