@@ -44,8 +44,6 @@ const DefaultFacetValues = {
       field: 'user',
       type: 'value',
       data: [
-        { label: 'My Resources', value: 'prashant.sinha@cri-paris.org', count: 2 },
-        { label: 'Demo', value: 'prashant@noop.pw', count: 42 },
         { label: 'CRI Projects',
           value: 'projects@import.bot',
           count: 421,
@@ -62,7 +60,8 @@ const DefaultFacetValues = {
 
 async function didSearch({ searchTerm, ...args }) {
   if (!searchTerm.length) {
-    return {}
+    // Assume that this is on page-load or something.
+    searchTerm = ''
   }
 
   const limit = args.resultsPerPage

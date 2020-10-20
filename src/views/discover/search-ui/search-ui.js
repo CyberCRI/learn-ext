@@ -10,9 +10,12 @@ import {
   MultiCheckboxFacet, SingleSelectFacet, SingleLinksFacet, BooleanFacet,
 } from '@elastic/react-search-ui-views'
 
-import { ResourceGrid } from '~components/resources'
+import { NonIdealState, Button, InputGroup } from '@blueprintjs/core'
 import { viewportEvent } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
+import { ResourceGrid, Pagination } from '~components/resources'
+import { ConceptListLoadingState, ConceptList } from '~components/concepts'
+
 
 
 const AutocompleteContainer = styled.div`
@@ -83,25 +86,26 @@ const AutocompleteResults = ({ autocompletedResults, getItemProps, ...props }) =
 
 const PlaceHolder = (props) => {
   return (
-    <div className='empty'>
-      <h2>Browse resources on map</h2>
-      <p>Pick a region (or several) by clicking on the map. You can refine your
-      selection by zooming in, and select several regions by holding <kbd>shift</kbd>
-      while clicking.</p>
-    </div>
+    <NonIdealState
+      title='Browse or Search for Resources'
+      icon='path-search'>
+      <div>Try these Portals</div>
+      <ConceptList concepts={[]}/>
+    </NonIdealState>
   )
 }
 
-const ResultView = ({ results, wasSearched }) => {
-  if (results && results.length) {
-    return <ResourceGrid resources={results}/>
+const ResultView = ({ results, wasSearched, isLoading }) => {
+  // this shows a grid full of search results.
+  if (isLoading) {
+    return <ConceptListLoadingState/>
   }
-
-  if (!wasSearched) {
-    return <PlaceHolder/>
-  }
-
-  return <p>No Matches</p>
+  return <div>
+    {wasSearched && results
+      ? <ResourceGrid resources={results}/>
+      : <PlaceHolder/>
+    }
+  </div>
 }
 
 
@@ -115,35 +119,37 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   })
   return (
     <div className='search-root'>
-      <ErrorBoundary>
-        <div className='tools overlay'>
-          <SearchBox
-            autocompleteResults={true}
-            autocompleteView={AutocompleteResults}
-            onSelectAutocomplete={onTouchAutocompleteItem}/>
-          <div className='tools'>
-            <div className='available'>
-            </div>
+      <div className='tools overlay'>
+        <SearchBox
+          autocompleteResults={true}
+          autocompleteView={AutocompleteResults}
+          onSelectAutocomplete={onTouchAutocompleteItem}/>
+        <div className='tools'>
+          <div className='available'>
+            <Facet field='user' label='Map' view={SingleLinksFacet} />
+          </div>
+          { false &&
             <div className='unavailable'>
-              <Facet field='user' label='Map' view={SingleLinksFacet} />
               <Facet field='portal' label='Portals' view={MultiCheckboxFacet} />
               <Facet field='n_users' label='in nUsers Library' view={SingleLinksFacet} />
               <Facet field='n_tags' label='Has n-tags' view={SingleLinksFacet} />
               <Facet field='academic_discipline' label='academic_discipline' view={MultiCheckboxFacet} />
               <ResultsPerPage options={[10, 20, 30]} />
             </div>
-          </div>
+          }
         </div>
+      </div>
+      <ErrorBoundary>
         <div className='results'>
           <div className='items'>
             <div className='search-info'>
               <div className='state'>
-                {isLoading && <span>Searching... </span>}
+                {isLoading && <ConceptListLoadingState/>}
                 {wasSearched && <PagingInfo />}
               </div>
             </div>
             <ResultView results={props.results} wasSearched={wasSearched} loading={isLoading}/>
-            {wasSearched && <Paging />}
+            {wasSearched && <Paging view={Pagination}/>}
           </div>
         </div>
       </ErrorBoundary>
