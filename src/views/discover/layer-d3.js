@@ -269,20 +269,26 @@ class ConceptMap {
     const fx = i => AxesScale.x(i.x)
     const fy = i => AxesScale.y(i.y)
 
+
+    const weights = (d3.scaleSqrt()
+      .domain([0, 1, 2, 5, 10, 30, 70])
+      .range( [0, 1, 3, 6, 11, 13, 15]))
+
     const contours = (d3.contourDensity()
       .size([AxesScale.x(20), AxesScale.y(20)])
       .x(fx)
       .y(fy)
-      .weight(i => Math.max(i.w, i.w2))
-      .cellSize(Math.pow(2, 2))
-      .thresholds(80))(items)
+      .weight(i => weights(i.w))
+      .cellSize(1)
+      .thresholds(30))(items)
 
     console.log(`Contours calculated in ${performance.now() - _ti}ms`)
 
     //- geojson extents -> for color map
-    const contourScale = d3.scaleQuantile()
+    const contourScale = d3.scaleQuantize()
       .domain(d3.extent(contours.map(i => i.value)))
       .range(ContourColors)
+      .nice()
 
     this.contours
       .selectAll('path')

@@ -14,8 +14,8 @@ import { NonIdealState, Button, InputGroup } from '@blueprintjs/core'
 import { viewportEvent } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination } from '~components/resources'
-import { ConceptListLoadingState, ConceptList } from '~components/concepts'
-
+import { ConceptListLoadingState, ConceptList, ConceptTag } from '~components/concepts'
+import { WikiCard } from '~components/cards'
 
 
 const AutocompleteContainer = styled.div`
@@ -28,7 +28,7 @@ const AutocompleteContainer = styled.div`
   right: 0;
   top: 100%;
 
-  z-index: 400;
+  z-index: 10;
 
   background: #fff;
   border-radius: 0 0 5px 5px;
@@ -63,9 +63,7 @@ const ConceptTagItem = ({ itemProps, nodeData }) => {
   })
 
   return <AutocompleteItemDiv {...itemProps}>
-    <TagDiv>
-      <p>{repr.title}</p>
-    </TagDiv>
+    <ConceptTag {...nodeData}/>
   </AutocompleteItemDiv>
 }
 
@@ -89,8 +87,11 @@ const PlaceHolder = (props) => {
     <NonIdealState
       title='Browse or Search for Resources'
       icon='path-search'>
-      <div>Try these Portals</div>
-      <ConceptList concepts={[]}/>
+      <div>
+        <WikiCard title='Science' lang='en'/>
+        <WikiCard title='Society' lang='en'/>
+        <WikiCard title='History' lang='en'/>
+      </div>
     </NonIdealState>
   )
 }
