@@ -34,7 +34,7 @@ const request = async ({ url, method = 'get', query, data, ...options }) => {
 
   const r = await fetch(reqUrl, {
     method, body,
-    mode: 'cors',
+    mode: options.secure ? 'cors' : undefined,
     headers: { 'Content-Type': 'application/json' },
   })
   return await r.json()
@@ -89,15 +89,18 @@ export const API = {
   },
 
   deleteResource: ({ resource_id }) => {
+    // This does not require the hack from above but still allows CORS.
     return request({
       url: pathFor(`users/resource/${resource_id}`),
       method: 'DELETE',
+      secure: true,
     })
   },
   deleteConceptFromResource: ({ resource_id, wikidata_id }) => {
     return request({
       url: pathFor(`users/resource/${resource_id}/concept/${wikidata_id}`),
       method: 'DELETE',
+      secure: true,
     })
   },
 }
