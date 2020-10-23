@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
+import { useStore } from 'effector-react'
 
 import {
   WithSearch, SearchProvider, ErrorBoundary,
@@ -11,7 +12,7 @@ import {
 } from '@elastic/react-search-ui-views'
 
 import { NonIdealState, Button, InputGroup } from '@blueprintjs/core'
-import { viewportEvent } from '../store'
+import { viewportEvent, $layerSource } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination } from '~components/resources'
 import { ConceptListLoadingState, ConceptList, ConceptTag } from '~components/concepts'
@@ -112,6 +113,8 @@ const ResultView = ({ results, wasSearched, isLoading }) => {
 
 const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   const onTouchAutocompleteItem = item => didTouchAutocompleteItem(item, props)
+  const layer = useStore($layerSource)
+
   React.useEffect(() => {
     return viewportEvent.click.watch(event => {
       const { source, data } = event

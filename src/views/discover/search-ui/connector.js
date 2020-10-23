@@ -114,5 +114,5 @@ export const searchConfig = {
     resultsPerPage: 10,
   },
   hasA11yNotifications: false,
-  debug: env.is_dev,
+  debug: true,
 }
