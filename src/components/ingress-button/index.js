@@ -46,7 +46,7 @@ const commitResource = async (page) => {
     readability_score: page.readability,
     concepts: page.concepts,
   }
-  return await fetch(`${env.ngapi_host}/api/users/resource`, {
+  return await fetch('/api/users/resource', {
     method: 'POST',
     body: JSON.stringify(payload),
     headers: {
@@ -73,7 +73,6 @@ const IngressDialog = (props) => {
   const didClickSave = async () => {
     try {
       await commitResource({ ...page, concepts, title: pageTitle, url })
-      alert('ok')
     } catch {}
   }
 

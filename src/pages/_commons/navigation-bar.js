@@ -104,7 +104,7 @@ export const NavigationBar = () => {
           minimal
           href='/pages/discover.html'
           icon='mountain'/>
-        <AddToWelearnButton/>
+        {node.authorized && <AddToWelearnButton/>}
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
         {node.authorized
