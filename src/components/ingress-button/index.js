@@ -38,10 +38,27 @@ const fetchConceptsFromUrl = async (url) => {
   return { ...preprocData, concepts: d2v }
 }
 
+const commitResource = async (page) => {
+  const payload = {
+    title: page.title,
+    url: page.url,
+    lang: page.lang,
+    readability_score: page.readability,
+    concepts: page.concepts,
+  }
+  return await fetch(`${env.ngapi_host}/api/users/resource`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json',
+    }})
+}
+
 
 const IngressDialog = (props) => {
   const visibility = useStore($dialogVisibility)
   const [ url, setUrl ] = useState('')
+  const [ pageTitle, setPageTitle ] = useState('')
   const [ concepts, setConcepts ] = useState([])
   const [ page, setPage ] = useState()
 
@@ -50,6 +67,13 @@ const IngressDialog = (props) => {
       const page = await fetchConceptsFromUrl(url)
       setPage(page)
       setConcepts(page.concepts)
+    } catch {}
+  }
+
+  const didClickSave = async () => {
+    try {
+      await commitResource({ ...page, concepts, title: pageTitle, url })
+      alert('ok')
     } catch {}
   }
 
@@ -66,14 +90,19 @@ const IngressDialog = (props) => {
             value={url}
             onChange={e => setUrl(e.target.value)}/>
         </FormGroup>
+        <FormGroup label='Resource Title'>
+          <InputGroup placeholder='A title for this Resource'
+            value={pageTitle}
+            onChange={e => setPageTitle(e.target.value)}/>
+        </FormGroup>
         <Button text='Next' onClick={didEnterUrl}/>
         <ConceptInput concepts={concepts} onChange={setConcepts}/>
 
-        { page && <ResourceCard {...page}/> }
+        { page && <ResourceCard {...page} concepts={concepts} title={pageTitle}/> }
 
       </div>
       <div className='bp3-dialog-footer'>
-        <Button text='Save'/>
+        <Button text='Save' onClick={didClickSave}/>
       </div>
     </Dialog>
   )
