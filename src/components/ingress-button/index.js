@@ -3,7 +3,7 @@ import { createStore, createApi } from 'effector'
 import { useStore } from 'effector-react'
 
 import { Dialog, Button, Callout } from '@blueprintjs/core'
-import { InputGroup, Label } from '@blueprintjs/core'
+import { InputGroup, Label, FormGroup } from '@blueprintjs/core'
 
 import { ConceptSuggest, ConceptList, ConceptListLoadingState } from '~components/concepts'
 
@@ -23,18 +23,19 @@ const IngressDialog = (props) => {
     <Dialog
       isOpen={visibility}
       onClose={dialogControl.hide}
-      title={'Add a url'}
-      icon='log-in'
+      title={'Add a Resource'}
+      icon='insert'
       className='login-dialog'>
-      <div>
-        <Label>
-          Paste a link here
-          <InputGroup/>
-        </Label>
+      <div className='bp3-dialog-body'>
+        <FormGroup label='Paste a link here'>
+          <InputGroup placeholder='https://example.com/article'/>
+        </FormGroup>
+        <Button text='Next'/>
 
         <ConceptList concepts={concepts}/>
-
-        <ConceptSuggest onSelect={() => {}}/>
+        <ConceptSuggest onSelect={(c) => {}}/>
+      </div>
+      <div className='bp3-dialog-footer'>
         <Button text='Save'/>
       </div>
     </Dialog>
@@ -46,10 +47,9 @@ const AddToWelearnButton = (props) => {
     <IngressDialog/>
     <Button
       onClick={dialogControl.toggle}
-      icon='log-in'
+      icon='insert'
       minimal
-      intent='primary'
-      text='AddTo'/>
+      text='Add Resource'/>
   </>
 }
 
