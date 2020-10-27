@@ -12,7 +12,7 @@ import {
 } from '@elastic/react-search-ui-views'
 
 import { NonIdealState, Button, InputGroup } from '@blueprintjs/core'
-import { viewportEvent, $layerSource } from '../store'
+import { viewportEvent, $layerSource, didPickLayer } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination } from '~components/resources'
 import { ConceptListLoadingState, ConceptList, ConceptTag } from '~components/concepts'
@@ -115,14 +115,15 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   const onTouchAutocompleteItem = item => didTouchAutocompleteItem(item, props)
   const layer = useStore($layerSource)
 
-  console.log(layer)
-
+  React.useEffect(() => {
+    props.setFilter('user', layer.src)
+  }, [layer])
   React.useEffect(() => {
     return viewportEvent.click.watch(event => {
       const { source, data } = event
       props.setFilter('source', source)
+      props.setFilter('wikidata_id', data.wikidata_id)
       props.setSearchTerm(data.title, { shouldClearFilters: false })
-      // onTouchAutocompleteItem({ source, ...data })
     })
   })
   return (

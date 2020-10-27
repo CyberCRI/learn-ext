@@ -161,7 +161,7 @@ export const MapLayerSources = [
   {
     id: 'everything',
     label: 'Everything',
-    src: '/api/resources/',
+    src: '',
     icon: 'layout-grid',
     default: true,
     user: false,

@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, { filter } from 'lodash'
 
 import { CarteSearchAPI } from '@ilearn/modules/api'
 import { getTagRepresentation } from '~components/concepts'
@@ -66,19 +66,27 @@ async function didSearch({ searchTerm, ...args }) {
   }
   const cleanSearchTerm = _(searchTerm).words().join(' ')
 
-  console.log(searchTerm, args)
-
   const limit = args.resultsPerPage
   const skip = args.resultsPerPage * (args.current - 1)
 
   const filters = _(args.filters).keyBy('field')
+  const source = filters.get('source.values.0')
+  const user = filters.get('user.values.0')
+  const qids = filters.get('wikidata_id.values.0')
 
-  const r = await CarteSearchAPI.search({
-    q: cleanSearchTerm,
-    skip, limit,
-    source: filters.get('source.values.0'),
-    user: filters.get('user.values.0', ''),
-  })
+  let r
+  if (source === 'portal') {
+    r = await CarteSearchAPI.wikiq({
+      q: qids,
+      source, user,
+      page: { skip, limit },
+    })
+  } else {
+    r = await CarteSearchAPI.search({
+      q: cleanSearchTerm,
+      skip, limit, source, user,
+    })
+  }
   const results = r.results.map((n) => {
     return { ...n, id: { raw: n.resource_id } }
   })
@@ -101,7 +109,7 @@ async function didAutoComplete({ searchTerm }) {
 
 export function didTouchAutocompleteItem(item, context) {
   const repr = getTagRepresentation(item)
-  console.info(item, context)
+
   context.setFilter('source', item.source)
   context.setSearchTerm(repr.title, { shouldClearFilters: false })
 }
