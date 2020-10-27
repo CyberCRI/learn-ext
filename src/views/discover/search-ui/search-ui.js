@@ -104,7 +104,7 @@ const ResultView = ({ results, wasSearched, isLoading }) => {
   if (isLoading) {
     return <ConceptListLoadingState/>
   }
-  return <div>
+  return <div className='result-grid'>
     {wasSearched && results
       ? <ResourceGrid resources={results}/>
       : <PlaceHolder/>
@@ -152,16 +152,14 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
       </div>
       <ErrorBoundary>
         <div className='results'>
-          <div className='items'>
-            <div className='search-info'>
-              <div className='state'>
-                {isLoading && <ConceptListLoadingState/>}
-                {wasSearched && <PagingInfo />}
-              </div>
+          <div className='search-info'>
+            <div className='state'>
+              {wasSearched && <PagingInfo/>}
+              {isLoading && <ConceptListLoadingState/>}
             </div>
-            <ResultView results={props.results} wasSearched={wasSearched} loading={isLoading}/>
-            {wasSearched && <Paging view={Pagination}/>}
           </div>
+          <ResultView results={props.results} wasSearched={wasSearched} loading={isLoading}/>
+          {wasSearched && <Paging view={Pagination}/>}
         </div>
       </ErrorBoundary>
     </div>
