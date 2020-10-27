@@ -9,9 +9,9 @@
   .tools.overlay {
     position: absolute;
     z-index: 42;
-    @include bg-vibrant-tint($light-gray5, .2, 8px);
+    // @include bg-vibrant-tint($light-gray5, .2, 8px);
 
-    top: -55vh; // This hack makes sure we're on top of the map!
+    top: -50vh; // This hack makes sure we're on top of the map!
     left: 20px; // or something. This is a [!hack].
     // padding: 10px 20px;
     border-radius: 5px;

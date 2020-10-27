@@ -64,7 +64,9 @@ const ConceptTagItem = ({ itemProps, nodeData }) => {
   })
 
   return <AutocompleteItemDiv {...itemProps}>
-    <ConceptTag {...nodeData}/>
+    <TagDiv>
+      <p>{repr.title}</p>
+    </TagDiv>
   </AutocompleteItemDiv>
 }
 

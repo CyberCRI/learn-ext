@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 import _ from 'lodash'
 
-import { viewportEvent, didPickLayer, NodeEvents } from './store'
+import { viewportEvent, didPickLayer, NodeEvents, $markers, $markerStore } from './store'
 
 import { CarteSocket } from './carte-ws'
 import { ContourColors, EXTENTS_EN } from './consts'
@@ -88,6 +88,15 @@ class ConceptMap {
   constructor (props) {
     this.viz = this.setupVisualisation({ mountAt: props.mountPoint })
     this.filters = { ...props.filters }
+
+    this.effects = {
+      viewportEvent,
+      didPickLayer,
+    }
+    this.stores = {
+      $markers,
+    }
+
     this.onClickHandler = (e) => {
       props.onSearchMap(e)
     }
@@ -106,9 +115,6 @@ class ConceptMap {
       .call(s => s
         .append('div')
         .attr('class', 'divroot')
-        .call(div => div
-          .append('div')
-          .attr('class', 'layer portals'))
         .call(div => div
           .append('div')
           .attr('class', 'layer markers')))
@@ -148,16 +154,14 @@ class ConceptMap {
     this.sock = new CarteSocket()
     this.sock
       .on('contours.density', this.renderContours)
-      .on('markers.init',     this.renderMarkers)
-      .on('markers.sample',   this.renderMarkers)
-      .on('markers.portals',  this.renderPortals)
-      .on('markers.portal_children', this.renderMarkers)
+      .on('markers.init',     $markers.appendConcepts)
+      .on('markers.portals',  $markers.appendPortals)
       .on('query.labels_fov', (i, q) => {
         const nearbyConcepts = i.map(d => d.wikidata_id)
         if (q.initiator === 'click') {
           this.onClickHandler({ nearbyConcepts })
         }
-        this.renderMarkers(i)
+        $markers.appendConcepts(i)
       })
       .on('query.nearby', (i) => {
         console.log('[Resources Nearby]', i)
@@ -174,14 +178,16 @@ class ConceptMap {
     this.contours = this.svg.select('.contours')
 
     this.viz_div = d3.select('div.divroot')
-    this.portals = d3.select('.layer.portals')
+
     this.markers = d3.select('.layer.markers')
+    $markerStore.watch((items) => {
+      console.log('rendering n_items', items.length)
+      this.renderMarkers(items)
+    })
 
     this.viz
       .on('click', (d) => {
-        const { x, y } = d
-        const fov = this.didClickFieldOfView(x, y)
-        console.log(fov)
+        const fov = this.didClickFieldOfView(d.x, d.y)
         this.sock.emit('query.labels_fov', { ...this.filters, ...fov, initiator: 'click' })
       })
       .call(this.zoom)
@@ -195,8 +201,8 @@ class ConceptMap {
     _.defer(() => {
       this.sock
         .emit('contours.density', this.filters)
-        .emit('markers.init', this.filters)
         .emit('markers.portals', this.filters)
+        .emit('markers.init', this.filters)
     })
   }
 
@@ -230,16 +236,16 @@ class ConceptMap {
     }
   }
 
+  get vizBBox () {
+    return this.viz.node().getBoundingClientRect()
+  }
+
   didClickFieldOfView = (cx, cy) => {
     const scale = this.scale
     const x = scale.x.invert(cx)
     const y = scale.y.invert(cy)
     const r = this.transform.k / 10
     return { x, y, r }
-  }
-
-  get vizBBox () {
-    return this.viz.node().getBoundingClientRect()
   }
 
   translateToCenter = (x, y, k) => {
@@ -269,26 +275,20 @@ class ConceptMap {
     const fx = i => AxesScale.x(i.x)
     const fy = i => AxesScale.y(i.y)
 
-
-    const weights = (d3.scaleSqrt()
-      .domain([0, 1, 2, 5, 10, 30, 70])
-      .range( [0, 1, 3, 6, 11, 13, 15]))
-
     const contours = (d3.contourDensity()
       .size([AxesScale.x(20), AxesScale.y(20)])
       .x(fx)
       .y(fy)
-      .weight(i => weights(i.w))
-      .cellSize(1)
-      .thresholds(30))(items)
+      .weight(i => Math.max(i.w, i.w2))
+      .cellSize(Math.pow(2, 2))
+      .thresholds(80))(items)
 
     console.log(`Contours calculated in ${performance.now() - _ti}ms`)
 
     //- geojson extents -> for color map
-    const contourScale = d3.scaleQuantize()
+    const contourScale = d3.scaleQuantile()
       .domain(d3.extent(contours.map(i => i.value)))
       .range(ContourColors)
-      .nice()
 
     this.contours
       .selectAll('path')
@@ -313,35 +313,16 @@ class ConceptMap {
       .data(data)
       .join('p')
         .attr('class', 'marker interactive')
+        .classed('portal', d => d.kind === 'portal')
+        .classed('concept', d => d.kind === 'concept')
         .attr('data-priority', i => {
-          return i.n_items
+          return i.kind === 'portal' ? i.n_child : i.n_items
         })
-        .attr('id', i => `nc-${i.wikidata_id}`)
+        .attr('level', i => i.kind === 'portal' ? i.level : 0)
         .text(i => i.title)
         .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
-        .on('click', (d, i) => viewportEvent.click({ source: 'marker', data: i }))
+        .on('click', (d, i, e) => viewportEvent.click({ source: i.kind, data: i }))
     occlusion(this.viz_div, '.marker')
-  }
-
-  renderPortals = (data) => {
-    const scale = this.scale
-    const quantiles = d3.scaleSymlog()
-      .domain(d3.extent(data.map(i => i.n_child)))
-      .range([0.8, 1])
-    const interpolateColor = i =>  d3.interpolateGreys(quantiles(i.n_child))
-
-    this.portals
-      .selectAll('.portal')
-      .data(data)
-      .join('p')
-        .attr('class', 'portal interactive')
-        .attr('level', i => i.level)
-        .attr('id', i => `np-${i.wikidata_id}`)
-        .attr('data-priority', i => (10 / i.level) * i.n_child)
-        .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
-        .text(i => i.title)
-        .on('click', (d, i) => viewportEvent.click({ source: 'portal', data: i }))
-    occlusion(this.viz_div, '.portal')
   }
 
   updateTransformation = (transform, scale) => {
@@ -353,25 +334,19 @@ class ConceptMap {
     this.markers
       .selectAll('.marker')
         .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
-
-    this.portals
-      .selectAll('.portal')
-        .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
   }
 
   updateLabelVisibility = _.throttle(() => {
     // We're fixing the visibility of labels. However we need to ensure the rules
     // are respected for each layer.
     occlusion(this.viz_div, '.marker')
-    occlusion(this.viz_div, '.portal')
-  }, 500, { trailing: true, leading: false })
+  }, 200, { trailing: true, leading: true })
 
   didZoom = (d, i, e) => {
     const t = this.transform
     this.updateTransformation(t, this.scale)
-
     this.updateLabelVisibility()
-    this.didCrossZoomTrigger(t)
+    // this.didCrossZoomTrigger(t)
   }
 
   didCrossZoomTrigger = _.throttle((t) => {
@@ -395,11 +370,6 @@ class ConceptMap {
       .style('opacity', _ => t.k < TRIGGER_BREAKPOINT ? 0 : 1)
       .style('display', _ => t.k < TRIGGER_BREAKPOINT ? 'none' : 'block')
 
-    portalContainer
-      .transition(labelTransition)
-      .style('opacity', t.k < TRIGGER_BREAKPOINT ? 1 : 0.4)
-      .style('font-size', t.k >= TRIGGER_BREAKPOINT ? '1.3em' : '1em')
-
     this.maybeLoadNewLabels(t)
 
     const _tj = performance.now()
@@ -418,19 +388,6 @@ class ConceptMap {
       this.sock.emit('query.labels_fov', payload)
     }
   }, 1000)
-
-  prominentPortals = () => {
-    // Returns currently visible portal nodes. Refactor to extract visibility sensor.
-    const vizBox = this.viz.node().getBoundingClientRect()
-    const visiblePortals = []
-    this.portals.selectAll('.portal').each((d, i, e) => {
-      const nodeBox = e[i].getBoundingClientRect()
-      if (isBoxVisible(nodeBox, vizBox)) {
-        visiblePortals.push(d)
-      }
-    })
-    return visiblePortals
-  }
 
   serializeCanvas = () => {
     const saveAs = require('file-saver')
