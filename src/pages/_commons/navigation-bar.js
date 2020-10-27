@@ -103,12 +103,6 @@ export const NavigationBar = () => {
           icon='mountain'/>
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
-        <AnchorButton
-          text='Add a Resource'
-          intent='primary'
-          outlined
-          icon='mountain'/>
-        <Navbar.Divider/>
         {node.authorized
           ? <AnchorButton
             text={i18nT('links.settings.label')}
