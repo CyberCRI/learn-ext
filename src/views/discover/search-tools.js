@@ -7,18 +7,20 @@ import _ from 'lodash'
 
 import { setCursor, $cursor, $progress } from './store'
 import { userResources } from './store'
-import { Tag, Spinner } from '@blueprintjs/core'
+import { Tag, Spinner, NonIdealState } from '@blueprintjs/core'
 import { ResourceGrid, Pagination } from '~components/resources'
 
 
 const PlaceHolder = (props) => {
   return (
-    <div className='empty'>
+    <NonIdealState
+      title='Browse or Search for Resources'
+      icon='path-search'>
       <h2>Browse resources on map</h2>
       <p>Pick a region (or several) by clicking on the map. You can refine your
       selection by zooming in, and select several regions by holding <kbd>shift</kbd>
       while clicking.</p>
-    </div>
+    </NonIdealState>
   )
 }
 

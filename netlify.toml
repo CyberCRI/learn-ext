@@ -15,10 +15,6 @@
   to = "https://staging.welearn.cri-paris.org/api/:splat"
   status = 200
 [[redirects]]
-  from = "/carte/*"
-  to = "https://staging.welearn.cri-paris.org/carte/:splat"
-  status = 200
-[[redirects]]
   from = "/.meta/*"
   to = "https://staging.welearn.cri-paris.org/.meta/:splat"
   status = 200
@@ -33,4 +29,10 @@
 [[redirects]]
   from = "/textract/*"
   to = "https://welearn.cri-paris.org/textract/:splat"
+  status = 200
+
+# Use prod server for carte routes as well since it's query-read-only by design.
+[[redirects]]
+  from = "/carte/*"
+  to = "https://welearn.cri-paris.org/carte/:splat"
   status = 200

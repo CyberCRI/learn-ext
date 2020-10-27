@@ -1,4 +1,5 @@
-import { createEvent, createStore } from 'effector'
+import _ from 'lodash'
+import { createEvent, createStore, createApi } from 'effector'
 
 /**
  *
@@ -17,7 +18,17 @@ export const viewportEvent = {
   focusNode: createEvent(),
 }
 
-export const didGetResources = createEvent()
+export const NodeEvents = {
+  highlight: createEvent(),
+  focus: createEvent(),
+  clear: createEvent(),
+  undo: createEvent(),
+}
+
+export const StateEvents = {
+  ready: createEvent(),
+}
+
 export const didPickLayer = createEvent()
 
 export const setProgress = createEvent()
@@ -30,11 +41,24 @@ export const $layerSource = createStore({})
 
 export const selectedConcepts = createStore([])
 export const userResources = createStore([])
-  .on(didGetResources, (state, vals) => vals)
 
 export const setCursor = createEvent()
 
-export const $cursor = createStore({ current: 0, count: 0})
-  .on(setCursor, (state, page) => ({ ...state, ...page }))
-  .reset(didGetResources)
-  .reset(didPickLayer)
+
+
+//- These are container stores for D3 visualisation. Specifically this contains
+//- all the labels.
+export const $markerStore = createStore([])
+
+export const $markers = createApi($markerStore, {
+  appendConcepts: (state, items) => {
+    const nodes = items.map(n => ({ kind: 'concept', wikidata_id: n.index, ...n }))
+    return _.unionBy(state, nodes, 'wikidata_id')
+  },
+  appendPortals: (state, items) => {
+    const nodes = items.map(n => ({ kind: 'portal', ...n }))
+    return _.unionBy(state, nodes, 'wikidata_id')
+  },
+  clear: (state) => [],
+  clearConcepts: (state) => _.filter(state, ['kind', 'portal']),
+})
