@@ -29,7 +29,7 @@
       grid-template-columns: repeat(3, auto);
       grid-template-rows: repeat(4, auto);
       grid-template-areas:
-        "layers . sharing"
+        "search . sharing"
         "layers . ."
         ". . ."
         ". . dpad";
@@ -44,6 +44,9 @@
       .widget {
         pointer-events: all;
 
+        &.search {
+          grid-area: search;
+        }
         &.layers {
           grid-area: layers;
           align-self: flex-start;
@@ -59,141 +62,6 @@
     }
   }
 }
-
-#d3-root {
-  overflow: hidden;
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
-  @include fill-container(0);
-
-  z-index: 2;
-  width: 100%;
-  min-height: 400px;
-  height: 55vh;
-  background: #a8cff4;
-
-  cursor: grab;
-
-  &:after {
-    @include fill-container();
-    position: absolute;
-    content: '';
-    opacity: .09;
-    pointer-events: none;
-
-    background: {
-      image: url('/media/textures/whitenoise-100x100.png');
-      size: 80px;
-      color: transparent;
-    }
-  }
-
-  &:active {
-    cursor: grabbing;
-  }
-
-  .divroot {
-    position: absolute;
-    @include fill-container(0);
-    pointer-events: none;
-    overflow: hidden;
-
-    div.layer {
-      // fill the root container with the layers in here.
-      overflow: hidden;
-      position: absolute;
-      pointer-events: none;
-      @include fill-container(0);
-    }
-
-    p.marker, p.portal {
-      position: absolute;
-      display: inline;
-      padding: 5px;
-      margin: 0;
-
-      line-height: 1;
-      text-align: center;
-      text-rendering: optimizeSpeed;
-      border-radius: 4px;
-
-      transition: .1s opacity, .1s font-size;
-
-      // default state to make sure we do not crowd the map on first
-      // render.
-      visibility: hidden;
-      opacity: 0;
-
-      &.visible {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: visible;
-      }
-      &.occluded {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-      &.interactive {
-        cursor: pointer;
-        &:hover {
-          background: transparentize($white, .7);
-        }
-        &:focus {
-          background: transparentize($white, .9);
-        }
-      }
-      &.highlighted {
-        background: transparentize($white, .5);
-      }
-    }
-    .marker {
-      font-size: 1em;
-      font-weight: 500;
-
-      fill: $dark-gray2;
-      max-width: 140px;
-      text-shadow: 0 0 5px $white;
-    }
-
-    .portal {
-      font-size: 1em;
-      font-weight: 500;
-      fill: $dark-gray3;
-      max-width: 200px;
-      text-shadow: 0 0 5px $white, 1px 1px 2px $white;
-      letter-spacing: .2px;
-
-      &[level='1'] {
-        fill: $dark-gray1;
-        font-size: 1.4em;
-        font-weight: 600;
-      }
-      &[level='2'] {
-        fill: $dark-gray2;
-        font-size: 1.2em;
-        font-weight: 500;
-      }
-      &[level='3'] {
-        fill: $dark-gray4;
-        font-size: 1em;
-        font-weight: 400;
-      }
-    }
-  }
-
-  .contours {
-    pointer-events: none;
-
-    path {
-      stroke: transparentize($color: $white, $amount: .8);
-      stroke-width: 0;
-    }
-  }
-}
-
 
 .overlay.concepts {
   max-width: 30vw;
@@ -286,19 +154,161 @@
 }
 
 
-// [!todo] WILL NEED TO CLEAN THIS CSS. ITS A MESS. ANYWAY, here is search-ui override:
+// [!todo] WILL NEED TO CLEAN THIS CSS. ITS A MESS
+:root {
+  --cornerRadius: 6px;
+  --mapBackgroundColor: #9cd0f9;
 
-.search-root {
-  .top, .bottom, .results {
-    padding: 10px 20px;
+  --portal-fill-0: #3F51B5;
+  --portal-fill-1: #37474F;
+  --portal-fill-2: #37474F;
+  --portal-fill-3: #37474F;
+  --marker-fill: #042;
+}
+
+$white: #fff;
+$marker-fill: #042;
+
+@mixin fill-container($offset: 0px) {
+  // Absolutely fill the element inside the parent element.
+  // With offset it's possible to change the position evenly.
+  // [!] Note that the element needs to be positioned as absolute.
+  top: $offset;
+  left: $offset;
+  right: $offset;
+  bottom: $offset;
+}
+
+#d3-root {
+  overflow: hidden;
+  position: relative;
+  display: block;
+  text-align: left;
+  font-size: small;
+
+  z-index: 2;
+  width: 100%;
+  min-height: 400px;
+  height: 50vh;
+  background: var(--mapBackgroundColor);
+
+  cursor: grab;
+
+  &:after {
+    position: absolute;
+    content: '';
+    opacity: .09;
+    pointer-events: none;
+    @include fill-container(0);
+
+    background: {
+      image: url('/media/textures/whitenoise-100x100.png');
+      size: 80px;
+      color: transparent;
+    }
   }
 
-  .results {
-    // make this container take at least some space.
-    min-height: 100px;
+  &:active {
+    cursor: grabbing;
   }
 
-  .grid.resources > .resources {
-    margin: auto
+  svg.maproot {
+    position: relative;
+    display: block;
+    @include fill-container(0);
+  }
+
+  .divroot {
+    @include fill-container(0);
+    position: absolute;
+    pointer-events: none;
+    overflow: hidden;
+
+    div.layer {
+      // fill the root container with the layers in here.
+      @include fill-container(0);
+      overflow: hidden;
+      position: absolute;
+      pointer-events: none;
+
+      p.marker {
+        position: absolute;
+        display: inline;
+        padding: 5px;
+        margin: 0;
+        max-width: 160px;
+
+        line-height: 1;
+        text-align: center;
+        text-rendering: optimizeSpeed;
+        border-radius: 4px;
+        border: 1px solid transparent;
+
+        transition: .1s opacity, .1s font-size;
+
+        // default state to make sure we do not crowd the map on first
+        // render.
+        visibility: hidden;
+        opacity: 0;
+
+        &.visible {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: visible;
+        }
+        &.occluded {
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+        }
+        &.interactive {
+          cursor: pointer;
+          &:hover {
+            background: transparentize($white, .7);
+            border-color: $white;
+          }
+          &:focus {
+            background: transparentize($white, .9);
+            border-color: $white;
+          }
+        }
+        &.highlighted {
+          background: transparentize($white, .5);
+        }
+
+        &.portal {
+          font-size: 2em;
+          background: transparentize($color: $white, $amount: .8);
+          font-weight: 500;
+          color: var(--portal-fill-0);
+          text-shadow: 0 0 5px $white, 1px 1px 2px $white;
+          letter-spacing: .2px;
+
+          &[level='1'] {
+            color: var(--portal-fill-1);
+            font-size: 1.4em;
+            font-weight: 600;
+          }
+          &[level='2'] {
+            color: var(--portal-fill-2);
+            font-size: 1.2em;
+            font-weight: 500;
+          }
+          &[level='3'] {
+            color: var(--portal-fill-3);
+            font-size: 1em;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+  .contours {
+    pointer-events: none;
+
+    path {
+      stroke: transparentize($color: $white, $amount: .8);
+      stroke-width: 0;
+    }
   }
 }

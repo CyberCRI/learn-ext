@@ -11,6 +11,12 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.4.1
+This release brings a search bar. This brings new capabilities:
+
+- Search for Resources by text.
+- Browse resources by concepts, or portals on map.
+
 ## v0.4.0
 Release Candidate
 

@@ -66,11 +66,10 @@ const BuildTargets = {
     ],
   },
 }
-const target = BuildTargets[dotenv.flags.target || 'firefox']
+const target = BuildTargets[dotenv.flags.target || 'web']
 
 const ProdPlugins = !IS_PRODUCTION ? [] : [
-  new CleanWebpackPlugin(),
-  new MomentLocalesPlugin({ localesToKeep: ['fr', 'en-gb', 'hi', 'zh-cn'] }),
+  new MomentLocalesPlugin({ localesToKeep: ['en-gb', 'fr', 'hi'] }),
   new BundleAnalyzerPlugin({
     analyzerMode: 'static',
     openAnalyzer: false,
@@ -246,7 +245,7 @@ module.exports = {
     namedModules: true,
     moduleIds: 'named',
     splitChunks: {
-      minChunks: 3,
+      minChunks: 1,
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
@@ -287,26 +286,24 @@ module.exports = {
     assetsSort: 'type',
   },
 
-  devtool: IS_PRODUCTION ? 'cheap-source-map' : 'eval',
+  devtool: IS_PRODUCTION ? 'source-map' : 'inline-source-map',
   devServer: {
-    port: 8517,
     clientLogLevel: 'error',
     stats: 'minimal',
     inline: true,
     open: false,
     overlay: true,
-    writeToDisk: false,
+    writeToDisk: true,
+    https: true,
 
     hot: true,
-    // injectHot: (compilerConfig) => compilerConfig.name === 'only-include',
 
     index: 'pages/discover.html',
-    compress: true,
     contentBase: target.buildPath,
     proxy: [
       {
-        context: ['/api', '/carte', '/.meta'],
-        target: dotenv.sys.ILRN_NGAPI_HOST || 'https://staging.welearn.cri-paris.org',
+        context: ['/api/auth/me.js', '/.meta'],
+        target: dotenv.sys.ILRN_NGAPI_HOST || 'https://welearn.cri-paris.org',
         changeOrigin: true,
       },
       {
@@ -326,6 +323,7 @@ module.exports = {
     new WebpackBar({ name: dotenv.flags.target, profile: false, basic: false }),
     new CopyWebpackPlugin({ patterns: AssetPatterns }),
     new AssetsPlugin({ useCompilerPath: true }),
+    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
 
     dotenv.PackageEnv.webpackPlugin,
 
