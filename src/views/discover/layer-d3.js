@@ -179,7 +179,7 @@ class ConceptMap {
 
     this.viz
       .on('click', (d) => {
-        const { x, y } = d3.event
+        const { x, y } = d
         const fov = this.didClickFieldOfView(x, y)
         console.log(fov)
         this.sock.emit('query.labels_fov', { ...this.filters, ...fov, initiator: 'click' })
@@ -319,7 +319,7 @@ class ConceptMap {
         .attr('id', i => `nc-${i.wikidata_id}`)
         .text(i => i.title)
         .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
-        .on('click', data => viewportEvent.click({ source: 'marker', data }))
+        .on('click', (d, i) => viewportEvent.click({ source: 'marker', data: i }))
     occlusion(this.viz_div, '.marker')
   }
 
@@ -340,7 +340,7 @@ class ConceptMap {
         .attr('data-priority', i => (10 / i.level) * i.n_child)
         .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
         .text(i => i.title)
-        .on('click', data => viewportEvent.click({ source: 'portal', data }))
+        .on('click', (d, i) => viewportEvent.click({ source: 'portal', data: i }))
     occlusion(this.viz_div, '.portal')
   }
 
