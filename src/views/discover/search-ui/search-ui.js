@@ -115,10 +115,14 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   const onTouchAutocompleteItem = item => didTouchAutocompleteItem(item, props)
   const layer = useStore($layerSource)
 
+  console.log(layer)
+
   React.useEffect(() => {
     return viewportEvent.click.watch(event => {
       const { source, data } = event
-      onTouchAutocompleteItem({ source, ...data })
+      props.setFilter('source', source)
+      props.setSearchTerm(data.title, { shouldClearFilters: false })
+      // onTouchAutocompleteItem({ source, ...data })
     })
   })
   return (
@@ -130,10 +134,10 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
           onSelectAutocomplete={onTouchAutocompleteItem}/>
         <div className='tools'>
           <div className='available'>
-            <Facet field='user' label='Map' view={SingleLinksFacet} />
           </div>
           { false &&
             <div className='unavailable'>
+              <Facet field='user' label='Map' view={SingleLinksFacet} />
               <Facet field='portal' label='Portals' view={MultiCheckboxFacet} />
               <Facet field='n_users' label='in nUsers Library' view={SingleLinksFacet} />
               <Facet field='n_tags' label='Has n-tags' view={SingleLinksFacet} />

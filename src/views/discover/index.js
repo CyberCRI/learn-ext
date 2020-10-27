@@ -5,6 +5,7 @@ import { renderReactComponent } from '~mixins/react-helpers'
 import { OverlayTools } from './overlays'
 import { ConceptMap } from './layer-d3'
 import { SearchView } from './search-ui'
+// import { ConceptMap } from 'welearn-map'
 
 import './styles.scss'
 

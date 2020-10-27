@@ -1,6 +1,7 @@
 import _ from 'lodash'
 
 import { CarteSearchAPI } from '@ilearn/modules/api'
+import { getTagRepresentation } from '~components/concepts'
 
 // Wikidata Ids always start with "Q" and one or more digits that follow it.
 // Interesting Ids: [Q1].
@@ -63,6 +64,9 @@ async function didSearch({ searchTerm, ...args }) {
     // Assume that this is on page-load or something.
     searchTerm = ''
   }
+  const cleanSearchTerm = _(searchTerm).words().join(' ')
+
+  console.log(searchTerm, args)
 
   const limit = args.resultsPerPage
   const skip = args.resultsPerPage * (args.current - 1)
@@ -70,7 +74,7 @@ async function didSearch({ searchTerm, ...args }) {
   const filters = _(args.filters).keyBy('field')
 
   const r = await CarteSearchAPI.search({
-    q: searchTerm,
+    q: cleanSearchTerm,
     skip, limit,
     source: filters.get('source.values.0'),
     user: filters.get('user.values.0', ''),
@@ -96,9 +100,10 @@ async function didAutoComplete({ searchTerm }) {
 }
 
 export function didTouchAutocompleteItem(item, context) {
+  const repr = getTagRepresentation(item)
   console.info(item, context)
   context.setFilter('source', item.source)
-  context.setSearchTerm(item.wikidata_id, { shouldClearFilters: false })
+  context.setSearchTerm(repr.title, { shouldClearFilters: false })
 }
 
 export const searchConfig = {
