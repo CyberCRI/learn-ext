@@ -98,9 +98,6 @@ const PlaceHolder = (props) => {
 
 const ResultView = ({ results, wasSearched, isLoading }) => {
   // this shows a grid full of search results.
-  if (isLoading) {
-    return <ConceptListLoadingState/>
-  }
   return <div className='result-grid'>
     {wasSearched && results
       ? <ResourceGrid resources={results}/>

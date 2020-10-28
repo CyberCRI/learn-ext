@@ -311,4 +311,12 @@ $marker-fill: #042;
       stroke-width: 0;
     }
   }
+
+  .divroot[data-zoomed="out"] {
+    // if the zoom level is above the threshold this becomes true.
+    // concept nodes are then simply removed from visible dom tree.
+    .marker.concept {
+      display: none;
+    }
+  }
 }

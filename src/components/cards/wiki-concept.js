@@ -53,10 +53,10 @@ export const PageInfoCard = (props) => (
     {props.thumbnail && <img className='thumbnail' src={props.thumbnail}/>}
     <div className='tools'>
       <ButtonGroup fill minimal>
-        <AnchorButton
+        {false && <AnchorButton
           icon='send-to-map'
           text={i18nT('actions.locateInMap')}
-          href='#'/>
+          href='#'/>}
         <AnchorButton
           icon={<FaWikipediaW/>}
           rightIcon='arrow-top-right'

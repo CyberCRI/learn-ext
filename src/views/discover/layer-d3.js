@@ -331,6 +331,9 @@ class ConceptMap {
     this.svg.select('g.contours')
       .attr('transform', transform)
 
+    this.viz_div
+      .attr('data-zoomed', _ => transform.k >= 1.5 ? 'in' : 'out' )
+
     this.markers
       .selectAll('.marker')
         .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
