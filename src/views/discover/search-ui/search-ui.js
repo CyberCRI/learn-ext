@@ -91,9 +91,6 @@ const PlaceHolder = (props) => {
       title='Browse or Search for Resources'
       icon='path-search'>
       <div>
-        <WikiCard title='Science' lang='en'/>
-        <WikiCard title='Society' lang='en'/>
-        <WikiCard title='History' lang='en'/>
       </div>
     </NonIdealState>
   )

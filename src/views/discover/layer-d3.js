@@ -263,7 +263,7 @@ class ConceptMap {
 
   translateToNode = (node) => {
     const { ax, ay } = this.scale
-    this.translateToCenter(ax(node.x), ay(node.y), 2.5)
+    this.translateToCenter(ax(node.x), ay(node.y), Math.max(this.transform.k, 2.5))
   }
 
   renderContours = (data) => {
@@ -336,11 +336,11 @@ class ConceptMap {
         .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
   }
 
-  updateLabelVisibility = _.throttle(() => {
+  updateLabelVisibility = _.debounce(() => {
     // We're fixing the visibility of labels. However we need to ensure the rules
     // are respected for each layer.
     occlusion(this.viz_div, '.marker')
-  }, 200, { trailing: true, leading: true })
+  }, 100, { trailing: true, leading: true })
 
   didZoom = (d, i, e) => {
     const t = this.transform
