@@ -245,7 +245,7 @@ module.exports = {
     namedModules: true,
     moduleIds: 'named',
     splitChunks: {
-      minChunks: 1,
+      minChunks: 2,
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
