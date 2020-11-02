@@ -70,7 +70,7 @@ export const Pagination = ({current, totalPages, onChange, maxCells=CELL_COUNT})
   // └───┴───┴───┴───┴───┴───┴───┴───┴───┘
   const PrevPage = <Button
     icon='arrow-left'
-    disabled={current <= 1}
+    disabled={current === 1}
     onClick={() => onChange(current - 1)}
     text='Previous'/>
 
@@ -83,7 +83,7 @@ export const Pagination = ({current, totalPages, onChange, maxCells=CELL_COUNT})
   return (
     <ButtonGroup className='pagination'>
       {PrevPage}
-      {pagingCells(totalPages, current, maxCells).map(({ nr, ellipsis }) =>
+      {pagingCells(totalPages + 1, current, maxCells).map(({ nr, ellipsis }) =>
         <Button
           text={!ellipsis && nr}
           icon={ellipsis && 'more'}
