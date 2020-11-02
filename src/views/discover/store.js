@@ -49,6 +49,7 @@ export const setCursor = createEvent()
 //- These are container stores for D3 visualisation. Specifically this contains
 //- all the labels.
 export const $markerStore = createStore([])
+  .reset(didPickLayer)
 
 export const $markers = createApi($markerStore, {
   appendConcepts: (state, items) => {
