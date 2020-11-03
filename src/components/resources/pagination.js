@@ -76,7 +76,7 @@ export const Pagination = ({current, totalPages, onChange, maxCells=CELL_COUNT})
 
   const NextPage = <Button
     rightIcon='arrow-right'
-    disabled={current >= totalPages}
+    disabled={current >= totalPages + 1}
     onClick={() => onChange(current + 1)}
     text='Next'/>
 
