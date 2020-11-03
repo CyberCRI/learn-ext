@@ -75,7 +75,7 @@ async function didSearch({ searchTerm, ...args }) {
   const qids = filters.get('wikidata_id.values.0')
 
   let r
-  if (source === 'portal' || source === 'marker') {
+  if (source === 'portal' || source === 'concept') {
     r = await CarteSearchAPI.wikiq({
       q: qids,
       source, user,
