@@ -110,7 +110,8 @@ async function didAutoComplete({ searchTerm }) {
 export function didTouchAutocompleteItem(item, context) {
   const repr = getTagRepresentation(item)
 
-  context.setFilter('source', item.source)
+  context.setFilter('source', 'concept')
+  context.setFilter('wikidata_id', item.wikidata_id)
   context.setSearchTerm(repr.title, { shouldClearFilters: false })
 }
 
