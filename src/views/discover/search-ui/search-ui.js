@@ -14,7 +14,7 @@ import {
 import { NonIdealState, Button, InputGroup } from '@blueprintjs/core'
 import { viewportEvent, $layerSource, didPickLayer } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
-import { ResourceGrid, Pagination } from '~components/resources'
+import { ResourceGrid, Pagination, ResourceListView } from '~components/resources'
 import { ConceptListLoadingState, ConceptList, ConceptTag } from '~components/concepts'
 import { WikiCard } from '~components/cards'
 
@@ -100,7 +100,7 @@ const ResultView = ({ results, wasSearched, isLoading }) => {
   // this shows a grid full of search results.
   return <div className='result-grid'>
     {wasSearched && results
-      ? <ResourceGrid resources={results}/>
+      ? <ResourceListView resources={results}/>
       : <PlaceHolder/>
     }
   </div>
