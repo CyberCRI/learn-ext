@@ -2,6 +2,8 @@
 @import 'styles/mixins';
 
 .search-root {
+  display: flex;
+
   .top, .bottom, .results {
     padding: 10px 20px;
   }
@@ -10,8 +12,9 @@
     // position: absolute;
     // z-index: 42;
     // @include bg-vibrant-tint($light-gray5, .2, 8px);
-    display: flex;
+    // display: flex;
     padding: 10px 20px;
+    min-width: 100px;
   }
 
   .tools > .unavailable {
@@ -28,7 +31,7 @@
     flex-flow: column;
 
     .result-grid {
-      margin: 10px auto;
+      margin: 10px 0;
     }
   }
 

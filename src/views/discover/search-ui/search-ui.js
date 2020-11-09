@@ -11,7 +11,7 @@ import {
   MultiCheckboxFacet, SingleSelectFacet, SingleLinksFacet, BooleanFacet,
 } from '@elastic/react-search-ui-views'
 
-import { NonIdealState, Button, InputGroup } from '@blueprintjs/core'
+import { NonIdealState, Button, InputGroup, Switch } from '@blueprintjs/core'
 import { viewportEvent, $layerSource, didPickLayer } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination, ResourceListView } from '~components/resources'
@@ -96,11 +96,15 @@ const PlaceHolder = (props) => {
   )
 }
 
-const ResultView = ({ results, wasSearched, isLoading }) => {
+const ResultView = ({ results, wasSearched, isLoading, listView=true }) => {
   // this shows a grid full of search results.
+  const ItemView = listView
+    ? <ResourceListView resources={results}/>
+    : <ResourceGrid resources={results}/>
+
   return <div className='result-grid'>
     {wasSearched && results
-      ? <ResourceListView resources={results}/>
+      ? ItemView
       : <PlaceHolder/>
     }
   </div>
@@ -110,6 +114,7 @@ const ResultView = ({ results, wasSearched, isLoading }) => {
 const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   const onTouchAutocompleteItem = item => didTouchAutocompleteItem(item, props)
   const layer = useStore($layerSource)
+  const [resultViewAsList, setResultViewType] = React.useState(true)
 
   React.useEffect(() => {
     props.setFilter('user', layer.src)
@@ -131,11 +136,15 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
           onSelectAutocomplete={onTouchAutocompleteItem}/>
         <div className='tools'>
           <div className='available'>
+            <Facet field='hashtags' label='Hashtags' view={MultiCheckboxFacet} />
+            <Switch
+              label='ViewAsList'
+              checked={resultViewAsList}
+              onChange={() => setResultViewType(!resultViewAsList)}/>
           </div>
           { false &&
             <div className='unavailable'>
               <Facet field='user' label='Map' view={SingleLinksFacet} />
-              <Facet field='portal' label='Portals' view={MultiCheckboxFacet} />
               <Facet field='n_users' label='in nUsers Library' view={SingleLinksFacet} />
               <Facet field='n_tags' label='Has n-tags' view={SingleLinksFacet} />
               <Facet field='academic_discipline' label='academic_discipline' view={MultiCheckboxFacet} />
@@ -152,7 +161,11 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
               {isLoading && <ConceptListLoadingState/>}
             </div>
           </div>
-          <ResultView results={props.results} wasSearched={wasSearched} loading={isLoading}/>
+          <ResultView
+            results={props.results}
+            wasSearched={wasSearched}
+            loading={isLoading}
+            listView={resultViewAsList}/>
           {wasSearched && <Paging view={Pagination}/>}
         </div>
       </ErrorBoundary>

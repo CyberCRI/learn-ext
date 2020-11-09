@@ -29,6 +29,17 @@ const DefaultFacetValues = {
       ],
     },
   ],
+  hashtags: [
+    {
+      field: 'hashtags',
+      type: 'value',
+      data: [
+        { value: 'science', count: 123 },
+        { value: 'math', count: 34 },
+        { value: 'bio', count: 40 },
+      ],
+    },
+  ],
   academic_discipline: [
     {
       field: 'academic_discipline',
