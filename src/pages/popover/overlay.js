@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import _ from 'lodash'
 import { useToggle, useMount, useAsyncRetry, useAsyncFn, useInterval } from 'react-use'
-import { AnchorButton, Button, Callout } from '@blueprintjs/core'
+import { AnchorButton, Button, Callout, MenuItem } from '@blueprintjs/core'
+import { MultiSelect } from '@blueprintjs/select'
 import { motion } from 'framer-motion'
+import styled from 'styled-components'
 import queryStrings from 'query-string'
 import { reject, includes } from 'lodash'
 
@@ -50,9 +53,99 @@ const SignInButton = (props) => {
   </>
 }
 
+const HashTagContainer = styled.div`
+  padding: 5px 10px;
+`
+
+const HashTagsInput = (props) => {
+  const [ query, setQuery ] = useState('')
+  const [ tags, setTags ] = useState([
+    {id: 1, label: 'alpha'},
+    {id: 2, label: 'beta'},
+    {id: 3, label: 'gamma'},
+    {id: 4, label: 'delta'},
+    {id: 5, label: 'epsilon'},
+  ])
+  const [ selectedTags, setSelectedTags ] = useState([])
+
+  React.useEffect(() => {
+    props.onChange(selectedTags)
+  }, [selectedTags])
+
+  const itemRenderer = (tag, { modifiers, handleClick }) => {
+    if (!modifiers.matchesPredicate) {
+      return null
+    }
+    return (
+      <MenuItem
+        active={modifiers.active}
+        key={tag.id}
+        label={tag.label}
+        onClick={handleClick}
+        text={`${tag.label}`}
+        shouldDismissPopover={false}
+      />)
+  }
+  const createNewTagRenderer = (q, active, handleClick) => {
+    return <MenuItem
+      icon='add'
+      text={`Create "${q}"`}
+      active={active}
+      onClick={handleClick}
+      shouldDismissPopover={false}/>
+  }
+  const createNewItemFromQuery = (query) => {
+    return { id: query, label: query }
+  }
+  const itemPredicate = (query, tag) => {
+    return tag.label.indexOf(query) >= 0
+  }
+  const onTagRemove = (value) => {
+    const newSelection = _.reject(selectedTags, ['label', value])
+    setSelectedTags(newSelection)
+  }
+  const onItemSelect = (tag) => {
+    const newSelection = _.unionBy(selectedTags, [tag], 'label')
+    setSelectedTags(newSelection)
+    setQuery('')
+  }
+
+  return <HashTagContainer>
+    <MultiSelect
+      onItemSelect={onItemSelect}
+      onQueryChange={q => setQuery(q)}
+
+      itemRenderer={itemRenderer}
+      itemPredicate={itemPredicate}
+      tagRenderer={tag => `${tag.label}`}
+
+      query={query}
+      items={tags}
+      selectedItems={selectedTags}
+
+      allowCreate={true}
+      createNewItemRenderer={createNewTagRenderer}
+      createNewItemFromQuery={createNewItemFromQuery}
+
+      fill={true}
+
+      popoverProps={{ minimal: true }}
+      tagInputProps={{
+        onRemove: onTagRemove,
+        tagProps: {
+          minimal: true,
+          round: true,
+          intent: 'primary',
+        },
+      }}
+    />
+  </HashTagContainer>
+}
+
 const PageConcepts = (props) => {
   const [ url, setUrl ] = useState(props.url)
   const [ concepts, setConcepts ] = useState([])
+  const [ tags, setTags ] = useState([])
   const [ kprog, setKProg ] = useState(.5)
   const [ language, setLanguage ] = useState('en')
   const [ status, setStatus ] = useState(100)
@@ -121,8 +214,10 @@ const PageConcepts = (props) => {
 
         <ConceptList concepts={concepts} removable onRemove={didRemoveConcept}/>
         <ConceptSuggest lang={language} onSelect={didAddConcept}/>
-        <RatingPicker rating={kprog} onChange={(value) => setKProg(value)}/>
+        <h3 className='title'>Personal Hashtags</h3>
+        <HashTagsInput onChange={tags => setTags(tags)}/>
       </div>
+
 
       {(authn.loading || authn.error)
         ? <SignInButton/>
