@@ -36,7 +36,7 @@ const LogoSpan = styled.span`
   letter-spacing: .1px;
 `
 
-const CardBranding = ({ url }) => {
+export const CardBranding = ({ url }) => {
   const kind = inferredResourceType(url)
 
   if (kind === 'cri-projects') {
