@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import _ from 'lodash'
 import { useToggle, useMount, useAsyncRetry, useAsyncFn, useInterval } from 'react-use'
-import { AnchorButton, Button, Callout, MenuItem } from '@blueprintjs/core'
+import { AnchorButton, Button, Callout, MenuItem, TextArea } from '@blueprintjs/core'
 import { MultiSelect } from '@blueprintjs/select'
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
@@ -56,17 +56,14 @@ const SignInButton = (props) => {
 const HashTagContainer = styled.div`
   padding: 5px 10px;
 `
+const CommentInputContainer = styled.div`
+  padding: 5px 10px;
+`
 
 const HashTagsInput = (props) => {
   const [ query, setQuery ] = useState('')
-  const [ tags, setTags ] = useState([
-    {id: 1, label: 'alpha'},
-    {id: 2, label: 'beta'},
-    {id: 3, label: 'gamma'},
-    {id: 4, label: 'delta'},
-    {id: 5, label: 'epsilon'},
-  ])
   const [ selectedTags, setSelectedTags ] = useState([])
+  const tags = props.choices || []
 
   React.useEffect(() => {
     props.onChange(selectedTags)
@@ -120,7 +117,7 @@ const HashTagsInput = (props) => {
       tagRenderer={tag => `${tag.label}`}
 
       query={query}
-      items={tags}
+      items={tags.map(i => ({ id: i, label: i }))}
       selectedItems={selectedTags}
 
       allowCreate={true}
@@ -128,6 +125,7 @@ const HashTagsInput = (props) => {
       createNewItemFromQuery={createNewItemFromQuery}
 
       fill={true}
+      placeholder='Search or Add Hashtags'
 
       popoverProps={{ minimal: true }}
       tagInputProps={{
@@ -146,6 +144,8 @@ const PageConcepts = (props) => {
   const [ url, setUrl ] = useState(props.url)
   const [ concepts, setConcepts ] = useState([])
   const [ tags, setTags ] = useState([])
+  const [ availableTags, setAvailableTags ] = useState([])
+  const [ comment, setComment ] = useState('')
   const [ kprog, setKProg ] = useState(.5)
   const [ language, setLanguage ] = useState('en')
   const [ status, setStatus ] = useState(100)
@@ -160,6 +160,20 @@ const PageConcepts = (props) => {
     console.log('Retrying to get the token.')
   }, authn.error ? 1000 : null )
 
+  React.useEffect(() => {
+    // Do stuff in here after authn is loaded.
+    if (!(authn.error || authn.loading)) {
+      fetch(`${env.ngapi_host}/api/users/me/hashtags`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Extension-Auth': authn.value.authToken,
+        },
+      }).then(r => r.json())
+        .then(data => setAvailableTags(data))
+    }
+  }, [authn.value])
+
   const [ bookmarkState, addBookmark ] = useAsyncFn(async () => {
     const payload = {
       title: props.title,
@@ -167,6 +181,8 @@ const PageConcepts = (props) => {
       lang: language,
       readability_score: 40,
       concepts,
+      hashtags: tags.map(t => t.label),
+      notes: comment,
     }
     await fetch(`${env.ngapi_host}/api/users/resource`, {
       method: 'POST',
@@ -176,7 +192,7 @@ const PageConcepts = (props) => {
         'X-Extension-Auth': authn.value.authToken,
       }})
     setSaveCount(saveCount + 1)
-  }, [concepts, language, url, authn])
+  }, [concepts, language, url, comment, tags, authn])
 
   const didSave = (!bookmarkState.error && saveCount > 0)
 
@@ -214,8 +230,16 @@ const PageConcepts = (props) => {
 
         <ConceptList concepts={concepts} removable onRemove={didRemoveConcept}/>
         <ConceptSuggest lang={language} onSelect={didAddConcept}/>
-        <h3 className='title'>Personal Hashtags</h3>
-        <HashTagsInput onChange={tags => setTags(tags)}/>
+        <h3 className='title'>Personal Hashtags and Notes</h3>
+        <HashTagsInput onChange={tags => setTags(tags)} choices={availableTags}/>
+        <CommentInputContainer>
+          <TextArea
+            growVertically={true}
+            fill
+            onChange={e => setComment(e.target.value)}
+            placeholder='Add notes about the Resource'
+            value={comment}/>
+        </CommentInputContainer>
       </div>
 
 
