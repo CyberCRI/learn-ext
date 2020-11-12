@@ -2,6 +2,7 @@ import * as d3 from 'd3'
 import _ from 'lodash'
 
 import { viewportEvent, didPickLayer, NodeEvents, $markers, $markerStore } from './store'
+import { $markerSelectionStore, $markerSelection } from './store'
 
 import { CarteSocket } from './carte-ws'
 import { ContourColors, EXTENTS_EN } from './consts'
@@ -138,7 +139,6 @@ class ConceptMap {
 
     viewportEvent.focusNode.watch((node) => {
       this.translateToNode(node)
-      this.renderFocusNodes([node])
     })
 
     viewportEvent.export.watch(this.serializeCanvas)
@@ -191,6 +191,10 @@ class ConceptMap {
     $markerStore.watch((items) => {
       console.log('rendering n_items', items.length)
       this.renderMarkers(items)
+    })
+    $markerSelectionStore.watch(items => {
+      console.log('rendering selections:', items.length)
+      this.renderFocusNodes(items)
     })
 
     this.viz

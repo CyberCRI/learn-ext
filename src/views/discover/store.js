@@ -63,3 +63,14 @@ export const $markers = createApi($markerStore, {
   clear: (state) => [],
   clearConcepts: (state) => _.filter(state, ['kind', 'portal']),
 })
+
+export const $markerSelectionStore = createStore([])
+  .reset(didPickLayer)
+
+export const $markerSelection = createApi($markerSelectionStore, {
+  append: (state, items) => {
+    return _.unionBy(state, items, 'wikidata_id')
+  },
+  set: (state, items) => items,
+  clear: (state) => [],
+})

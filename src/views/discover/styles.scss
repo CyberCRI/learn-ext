@@ -304,8 +304,11 @@ $marker-fill: #042;
 
       &.selection {
         p.marker {
+          // These markers are on top of the marker layer, so we make them
+          // visible and interactive by default.
           visibility: visible;
           opacity: 1;
+          pointer-events: all;
 
           background: #fff;
         }
