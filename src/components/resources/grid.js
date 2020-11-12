@@ -14,7 +14,7 @@ export const ResourceGrid = ({ resources, ...props }) => {
     <div className='grid resources'>
       <Grid
         component='div'
-        columnWidth={270}
+        columnWidth={220}
         gutterWidth={10}
         gutterHeight={20}
         layout={layoutBricks}
