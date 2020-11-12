@@ -65,6 +65,7 @@ export const $markers = createApi($markerStore, {
 })
 
 export const $markerSelectionStore = createStore([])
+  .on(viewportEvent.focusNode, (state, node) => [node])
   .reset(didPickLayer)
 
 export const $markerSelection = createApi($markerSelectionStore, {

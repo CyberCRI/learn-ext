@@ -59,7 +59,7 @@ const ConceptTagItem = ({ itemProps, nodeData }) => {
   const isHighlighted = itemProps['aria-selected']
   React.useEffect(() => {
     if (isHighlighted) {
-      viewportEvent.focusNode(repr)
+      viewportEvent.focusNode({ ...nodeData, ...repr})
     }
   })
 
