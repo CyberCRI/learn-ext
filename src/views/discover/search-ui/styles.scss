@@ -4,6 +4,10 @@
 .search-root {
   display: flex;
 
+  @media(max-width: 700px) {
+    flex-flow: column;
+  }
+
   .top, .bottom, .results {
     padding: 10px 20px;
   }
@@ -14,7 +18,8 @@
     // @include bg-vibrant-tint($light-gray5, .2, 8px);
     // display: flex;
     padding: 10px 20px;
-    min-width: 100px;
+    min-width: 120px;
+    flex: 1;
   }
 
   .tools > .unavailable {
@@ -27,11 +32,13 @@
 
     display: flex;
     align-items: flex-start;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     flex-flow: column;
+    flex: 4;
 
     .result-grid {
       margin: 10px 0;
+      width: 100%;
     }
   }
 

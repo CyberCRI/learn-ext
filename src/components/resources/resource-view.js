@@ -3,8 +3,9 @@ import styled from 'styled-components'
 
 import { ResourceCard, CardBranding, Backdrop } from '~components/cards/resources'
 import { ConceptList } from '~components/concepts'
+import { DateTimePill } from '~components/pills'
 
-import { Card, Elevation, Button, Tooltip, Tag } from '@blueprintjs/core'
+import { Card, Elevation, Button, Tooltip, Tag, ButtonGroup } from '@blueprintjs/core'
 
 
 const ResourceItemContainer = styled.div`
@@ -40,10 +41,14 @@ const HashTags = ({ tags }) => {
   </HashTagList>
 }
 
+const ResourceNotes = ({ content }) => {
+  return <p>{content}</p>
+}
+
 const ResourceCardContainer = styled.div`
   display: grid;
 
-  grid-template-columns: 60px 5px auto;
+  grid-template-columns: 60px 10px auto;
   grid-template-rows: repeat(3, auto);
   grid-template-areas:
     "image . info"
@@ -58,12 +63,13 @@ const ResourceCardContainer = styled.div`
     overflow: hidden;
     border-radius: 5px;
     border: 1px solid #ccc;
+    background-color: #eee;
 
     > div {
       width: 100%;
       height: 100%;
       background-size: cover;
-      background-color: #eee;
+      background-position: center;
     }
   }
 
@@ -73,9 +79,11 @@ const ResourceCardContainer = styled.div`
 
   .actions {
     grid-area: actions;
+    margin-top: 5px;
+    justify-self: end;
   }
-
 `
+
 
 export const ResourceItem = (resource) => {
   const imageUrl = encodeURI(`/meta/resolve/image?url=${resource.url}`)
@@ -87,24 +95,20 @@ export const ResourceItem = (resource) => {
       </div>
       <div className='info'>
         <a
-          ariahidden='true'
-          role='presentation'
           href={resource.url}
           title={resource.title}
           target='_blank'
           rel='noopener,nofollow'
-          tabIndex={1}
           className='overlay-link'>
           <h3 className='title'>{resource.title}</h3>
         </a>
+        {!!resource.created_on && <DateTimePill timestamp={resource.created_on}/>}
         <CardBranding url={resource.url}/>
         <div className='concepts'>
           <ConceptList concepts={resource.concepts} noAnimation lang={resource.lang}/>
-          {resource.is_owner && <HashTags tags={resource.tags}/>}
+          {resource.is_owner && <HashTags tags={resource.hashtags}/>}
+          {resource.is_owner && resource.notes && <ResourceNotes content={resource.notes}/>}
         </div>
-      </div>
-      <div className='actions'>
-        <Button icon='more'/>
       </div>
     </ResourceCardContainer>
   </Card>
