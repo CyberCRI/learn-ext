@@ -11,7 +11,7 @@ import {
   MultiCheckboxFacet, SingleSelectFacet, SingleLinksFacet, BooleanFacet,
 } from '@elastic/react-search-ui-views'
 
-import { NonIdealState, Button, InputGroup, Switch } from '@blueprintjs/core'
+import { NonIdealState, Button, InputGroup, Switch, Spinner } from '@blueprintjs/core'
 import { viewportEvent, $layerSource, didPickLayer } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination, ResourceListView } from '~components/resources'
@@ -91,21 +91,22 @@ const PlaceHolder = (props) => {
       title='Browse or Search for Resources'
       icon='path-search'>
       <div>
+        {props.loading && <Spinner/>}
       </div>
     </NonIdealState>
   )
 }
 
-const ResultView = ({ results, wasSearched, isLoading, listView=true }) => {
+const ResultView = ({ results, wasSearched, loading, listView=true }) => {
   // this shows a grid full of search results.
   const ItemView = listView
     ? <ResourceListView resources={results}/>
     : <ResourceGrid resources={results}/>
 
   return <div className='result-grid'>
-    {wasSearched && results
+    {!loading && wasSearched && results
       ? ItemView
-      : <PlaceHolder/>
+      : <PlaceHolder loading={loading}/>
     }
   </div>
 }
@@ -160,7 +161,6 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
           <div className='search-info'>
             <div className='state'>
               {wasSearched && <PagingInfo/>}
-              {isLoading && <ConceptListLoadingState/>}
             </div>
           </div>
           <ResultView

@@ -5,7 +5,7 @@ import { ResourceCard, CardBranding, Backdrop } from '~components/cards/resource
 import { ConceptList } from '~components/concepts'
 import { DateTimePill } from '~components/pills'
 
-import { Card, Elevation, Button, Tooltip, Tag, ButtonGroup } from '@blueprintjs/core'
+import { Card, Elevation, Button, Tooltip, Tag, ButtonGroup, Callout } from '@blueprintjs/core'
 
 
 const ResourceItemContainer = styled.div`
@@ -32,7 +32,7 @@ const HashTagList = styled.ol`
 
 
 const HashTags = ({ tags }) => {
-  return <HashTagList>
+  return <HashTagList className='hashtags'>
     {tags.map(tag =>
       <li key={tag}>
         <Tag minimal round interactive intent='primary'># {tag}</Tag>
@@ -42,7 +42,9 @@ const HashTags = ({ tags }) => {
 }
 
 const ResourceNotes = ({ content }) => {
-  return <p>{content}</p>
+  return <Callout icon='comment'>
+    <p>{content}</p>
+  </Callout>
 }
 
 const ResourceCardContainer = styled.div`
@@ -75,6 +77,14 @@ const ResourceCardContainer = styled.div`
 
   .info {
     grid-area: info;
+
+    .pills {
+      margin: 5px 0;
+    }
+
+    .hashtags {
+      margin: 8px 0;
+    }
   }
 
   .actions {
@@ -102,8 +112,10 @@ export const ResourceItem = (resource) => {
           className='overlay-link'>
           <h3 className='title'>{resource.title}</h3>
         </a>
-        {!!resource.created_on && <DateTimePill timestamp={resource.created_on}/>}
-        <CardBranding url={resource.url}/>
+        <div className='pills'>
+          {!!resource.created_on && <DateTimePill timestamp={resource.created_on}/>}
+          <CardBranding url={resource.url}/>
+        </div>
         <div className='concepts'>
           <ConceptList concepts={resource.concepts} noAnimation lang={resource.lang}/>
           {resource.is_owner && <HashTags tags={resource.hashtags}/>}
