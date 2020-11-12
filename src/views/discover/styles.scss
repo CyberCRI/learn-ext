@@ -301,6 +301,15 @@ $marker-fill: #042;
           }
         }
       }
+
+      &.selection {
+        p.marker {
+          visibility: visible;
+          opacity: 1;
+
+          background: #fff;
+        }
+      }
     }
   }
   .contours {

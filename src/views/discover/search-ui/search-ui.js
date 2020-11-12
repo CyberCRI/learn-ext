@@ -117,7 +117,9 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   const [resultViewAsList, setResultViewType] = React.useState(true)
 
   React.useEffect(() => {
-    props.setFilter('user', layer.src)
+    if (layer.src !== undefined) {
+      props.setFilter('user', layer.src)
+    }
   }, [layer])
   React.useEffect(() => {
     return viewportEvent.click.watch(event => {
