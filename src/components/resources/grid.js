@@ -5,8 +5,8 @@ import measureCards from './hoc-measure-cards'
 import layoutBricks from './layout-bricks'
 
 const Grid = makeResponsive(measureCards(SpringGrid, { measureImages: true }), {
-  maxWidth: 1280,
-  minPadding: 20,
+  maxWidth: 1080,
+  minPadding: 0,
 })
 
 export const ResourceGrid = ({ resources, ...props }) => {

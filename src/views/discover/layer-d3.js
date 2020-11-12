@@ -201,6 +201,11 @@ class ConceptMap {
       .on('click', (d) => {
         const fov = this.didClickFieldOfView(d.x, d.y)
         this.sock.emit('query.labels_fov', { ...this.filters, ...fov, initiator: 'click' })
+
+        if (d.target.nodeName !== 'P') {
+          // we did not click on marker.
+          $markerSelection.clear()
+        }
       })
       .call(this.zoom)
   }

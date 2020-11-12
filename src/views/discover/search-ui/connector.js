@@ -132,10 +132,10 @@ export const searchConfig = {
   onAutocompleteResultClick: didTouchAutocompleteItem,
   searchQuery: {
     facets: AvailableFacets,
-    alwaysSearchOnInitialLoad: false,
+    alwaysSearchOnInitialLoad: true,
   },
   initialState: {
-    searchTerm: '',
+    searchTerm: ' ',
     resultsPerPage: 10,
   },
   hasA11yNotifications: false,
