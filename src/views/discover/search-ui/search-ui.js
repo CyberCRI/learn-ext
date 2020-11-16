@@ -19,6 +19,7 @@ import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination, ResourceListView } from '~components/resources'
 
 import { $globalContext } from '~page-commons/store'
+import { HashtagPicker } from './HashtagPicker'
 
 
 const AutocompleteContainer = styled.div`
@@ -131,6 +132,10 @@ class SearchComposed extends React.Component {
   }
 }
 
+const ToolDiv = styled.div`
+  margin: 5px 0;
+`
+
 const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   const onTouchAutocompleteItem = item => didTouchAutocompleteItem(item, props)
   const [resultViewAsList, setResultViewType] = React.useState(true)
@@ -173,10 +178,15 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
           onSubmit={didSubmitSearchQuery}/>
         <div className='tools'>
           <div className='available'>
-            <Switch
-              label='View as list'
-              checked={resultViewAsList}
-              onChange={() => setResultViewType(!resultViewAsList)}/>
+            <ToolDiv>
+              <HashtagPicker/>
+            </ToolDiv>
+            <ToolDiv>
+              <Switch
+                label='View as list'
+                checked={resultViewAsList}
+                onChange={() => setResultViewType(!resultViewAsList)}/>
+            </ToolDiv>
           </div>
           { false &&
             <div className='unavailable'>

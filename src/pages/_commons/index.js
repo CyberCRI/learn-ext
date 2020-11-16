@@ -13,4 +13,5 @@ export const setup = async () => {
   renderReactComponent('navbar', NavigationBar)
 
   setGlobalContext(window.jstate)
+  console.log('Setup Done.')
 }

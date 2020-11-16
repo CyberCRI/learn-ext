@@ -26,11 +26,11 @@
       z-index: 10;
 
       display: grid;
-      grid-template-columns: 180px repeat(2, auto);
+      grid-template-columns: repeat(3, auto);
       grid-template-rows: repeat(4, auto);
       grid-template-areas:
         "layers . sharing"
-        "hashtags . ."
+        ". . ."
         ". . ."
         ". . dpad";
 
@@ -44,9 +44,6 @@
       .widget {
         pointer-events: all;
 
-        &.search {
-          grid-area: search;
-        }
         &.layers {
           grid-area: layers;
           align-self: flex-start;
@@ -57,9 +54,6 @@
         &.dpad {
           grid-area: dpad;
           justify-self: end;
-        }
-        &.hashtags {
-          grid-area: hashtags;
         }
       }
     }
