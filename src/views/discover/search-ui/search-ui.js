@@ -8,7 +8,7 @@ import {
   SearchBox, Facet, ResultsPerPage, Sorting, Paging, PagingInfo,
 } from '@elastic/react-search-ui'
 import {
-  MultiCheckboxFacet, SingleSelectFacet, SingleLinksFacet, BooleanFacet,
+  MultiCheckboxFacet, SingleSelectFacet, SingleLinksFacet, BooleanFacet, SearchInput,
 } from '@elastic/react-search-ui-views'
 
 import { NonIdealState, Button, InputGroup, Switch, Spinner } from '@blueprintjs/core'
@@ -136,7 +136,8 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
         <SearchBox
           autocompleteResults={true}
           autocompleteView={AutocompleteResults}
-          onSelectAutocomplete={onTouchAutocompleteItem}/>
+          onSelectAutocomplete={onTouchAutocompleteItem}
+          onSubmit={e => props.setSearchTerm(e, { shouldClearFilters: false })}/>
         <div className='tools'>
           <div className='available'>
             <Facet field='hashtags' label='Hashtags' view={MultiCheckboxFacet} />
