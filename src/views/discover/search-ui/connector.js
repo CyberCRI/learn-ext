@@ -141,7 +141,7 @@ export const searchConfig = {
     alwaysSearchOnInitialLoad: true,
   },
   initialState: {
-    searchTerm: '',
+    searchTerm: ' ',
     resultsPerPage: 10,
   },
   hasA11yNotifications: false,

@@ -19,7 +19,7 @@ import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination, ResourceListView } from '~components/resources'
 
 import { $globalContext } from '~page-commons/store'
-import { HashtagPicker } from './HashtagPicker'
+import { HashtagPicker } from '../widgets'
 
 
 const AutocompleteContainer = styled.div`
