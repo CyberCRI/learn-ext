@@ -162,6 +162,8 @@ const PageConcepts = (props) => {
 
   React.useEffect(() => {
     // Do stuff in here after authn is loaded.
+    //
+    // Load personal hashtags in for initialising list of available tags.
     if (!(authn.error || authn.loading)) {
       fetch(`${env.ngapi_host}/api/users/me/hashtags`, {
         method: 'GET',
