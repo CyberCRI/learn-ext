@@ -130,6 +130,12 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
       props.setSearchTerm(data.title, { shouldClearFilters: false })
     })
   })
+
+  const didSubmitSearchQuery = (q) => {
+    props.setFilter('source', 'text')
+    props.setSearchTerm(q, { shouldClearFilters: false })
+  }
+
   return (
     <div className='search-root'>
       <div className='tools overlay'>
@@ -137,7 +143,7 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
           autocompleteResults={true}
           autocompleteView={AutocompleteResults}
           onSelectAutocomplete={onTouchAutocompleteItem}
-          onSubmit={e => props.setSearchTerm(e, { shouldClearFilters: false })}/>
+          onSubmit={didSubmitSearchQuery}/>
         <div className='tools'>
           <div className='available'>
             <Facet field='hashtags' label='Hashtags' view={MultiCheckboxFacet} />
