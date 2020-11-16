@@ -164,4 +164,13 @@ export const CarteSearchAPI = {
       data: payload,
     })
   },
+  hashtag: ({ q, limit, skip, ...args }) => {
+    const payload = { q, limit, skip, ...args }
+    return request({ url: `${env.ngapi_host}/carte/hashtag`, query: payload })
+  },
+  hashtagList: () => {
+    return request({
+      url: pathFor('users/me/hashtags'),
+    })
+  },
 }
