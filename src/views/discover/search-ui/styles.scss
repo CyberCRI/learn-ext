@@ -3,9 +3,9 @@
 
 .search-root {
   display: flex;
+  flex-flow: column;
 
   @media(max-width: 700px) {
-    flex-flow: column;
   }
 
   .top, .bottom, .results {
@@ -20,6 +20,9 @@
     padding: 10px 20px;
     min-width: 220px;
     flex: 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
   }
 
   .tools > .unavailable {

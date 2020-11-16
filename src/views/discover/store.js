@@ -30,6 +30,7 @@ export const StateEvents = {
 }
 
 export const didPickLayer = createEvent()
+export const didPickTag = createEvent()
 
 export const setProgress = createEvent()
 export const $progress = createStore({ loading: false, value: 0 })

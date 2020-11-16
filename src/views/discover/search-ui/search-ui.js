@@ -3,8 +3,10 @@ import styled from 'styled-components'
 import _ from 'lodash'
 import { useStore } from 'effector-react'
 
+// import { withSearch } from '@elastic/search-ui'
+
 import {
-  WithSearch, SearchProvider, ErrorBoundary,
+  withSearch, SearchProvider, ErrorBoundary,
   SearchBox, Facet, ResultsPerPage, Sorting, Paging, PagingInfo,
 } from '@elastic/react-search-ui'
 import {
@@ -12,11 +14,11 @@ import {
 } from '@elastic/react-search-ui-views'
 
 import { NonIdealState, Button, InputGroup, Switch, Spinner } from '@blueprintjs/core'
-import { viewportEvent, $layerSource, didPickLayer } from '../store'
+import { viewportEvent, $layerSource, didPickLayer, didPickTag } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination, ResourceListView } from '~components/resources'
-import { ConceptListLoadingState, ConceptList, ConceptTag } from '~components/concepts'
-import { WikiCard } from '~components/cards'
+
+import { $globalContext } from '~page-commons/store'
 
 
 const AutocompleteContainer = styled.div`
@@ -112,16 +114,41 @@ const ResultView = ({ results, wasSearched, loading, listView=true }) => {
 }
 
 
+class SearchComposed extends React.Component {
+  constructor (props) {
+    super(props)
+  }
+
+  componentDidMount () {
+    const filters = _(this.props.filters).keyBy('field')
+    const layer = filters.get('user.values.0')
+
+    console.log('mounted', layer)
+  }
+
+  render () {
+    return <SearchComposition {...this.props}/>
+  }
+}
+
 const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   const onTouchAutocompleteItem = item => didTouchAutocompleteItem(item, props)
-  const layer = useStore($layerSource)
   const [resultViewAsList, setResultViewType] = React.useState(true)
 
   React.useEffect(() => {
-    if (layer.src !== undefined) {
+    return didPickLayer.watch(layer => {
+      props.setSearchTerm('', { shouldClearFilters: true })
       props.setFilter('user', layer.src)
-    }
-  }, [layer])
+    })
+  })
+  React.useEffect(() => {
+    return didPickTag.watch(tag => {
+      props.clearFilters(['user'])
+      props.setFilter('hashtag', tag)
+      props.setFilter('source', 'hashtag')
+      props.setSearchTerm('', { shouldClearFilters: false })
+    })
+  })
   React.useEffect(() => {
     return viewportEvent.click.watch(event => {
       const { source, data } = event
@@ -146,14 +173,14 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
           onSubmit={didSubmitSearchQuery}/>
         <div className='tools'>
           <div className='available'>
-            <Facet field='hashtags' label='Hashtags' view={MultiCheckboxFacet} />
             <Switch
-              label='ViewAsList'
+              label='View as list'
               checked={resultViewAsList}
               onChange={() => setResultViewType(!resultViewAsList)}/>
           </div>
           { false &&
             <div className='unavailable'>
+              <Facet field='hashtags' label='Hashtags' view={SingleLinksFacet} />
               <Facet field='user' label='Map' view={SingleLinksFacet} />
               <Facet field='n_users' label='in nUsers Library' view={SingleLinksFacet} />
               <Facet field='n_tags' label='Has n-tags' view={SingleLinksFacet} />
@@ -183,11 +210,11 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
 }
 
 export const SearchView = (props) => {
+  const Composed = withSearch(ctx => ctx)(SearchComposed)
+
   return (
     <SearchProvider config={searchConfig}>
-      <WithSearch mapContextToProps={ctx => ctx}>
-        {(props) => <SearchComposition {...props}/>}
-      </WithSearch>
+      <Composed/>
     </SearchProvider>
   )
 }

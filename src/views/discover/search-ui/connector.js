@@ -83,19 +83,25 @@ async function didSearch({ searchTerm, ...args }) {
   const filters = _(args.filters).keyBy('field')
   const source = filters.get('source.values.0')
   const user = filters.get('user.values.0')
-  const qids = filters.get('wikidata_id.values.0')
+  const wikidata_id = filters.get('wikidata_id.values.0')
+  const hashtag = filters.get('hashtag.values.0')
 
   let r
   if (source === 'portal' || source === 'concept') {
     r = await CarteSearchAPI.wikiq({
-      q: qids,
-      source, user,
+      q: wikidata_id,
+      source, user, hashtag, wikidata_id,
       page: { skip, limit },
+    })
+  } else if (source === 'hashtag') {
+    r = await CarteSearchAPI.hashtag({
+      q: cleanSearchTerm,
+      skip, limit, source, user, hashtag, wikidata_id,
     })
   } else {
     r = await CarteSearchAPI.search({
       q: cleanSearchTerm,
-      skip, limit, source, user,
+      skip, limit, source, user, hashtag, wikidata_id,
     })
   }
   const results = r.results.map((n) => {
@@ -135,7 +141,7 @@ export const searchConfig = {
     alwaysSearchOnInitialLoad: true,
   },
   initialState: {
-    searchTerm: ' ',
+    searchTerm: '',
     resultsPerPage: 10,
   },
   hasA11yNotifications: false,
