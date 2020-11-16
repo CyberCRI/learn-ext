@@ -1,5 +1,5 @@
 import React from 'react'
-import { ShareButton, LayerPicker, HashtagPicker, ZoomButtons } from './components'
+import { ShareButton, LayerPicker, HashtagPicker, ZoomButtons } from './widgets'
 
 
 export const OverlayTools = (props) => {
