@@ -40,12 +40,6 @@ export const $progress = createStore({ loading: false, value: 0 })
 export const $layerSource = createStore({})
   .on(didPickLayer, (_, layerId) => layerId)
 
-export const selectedConcepts = createStore([])
-export const userResources = createStore([])
-
-export const setCursor = createEvent()
-
-
 
 //- These are container stores for D3 visualisation. Specifically this contains
 //- all the labels.
