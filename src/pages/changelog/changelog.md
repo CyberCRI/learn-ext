@@ -11,6 +11,13 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.5.0
+In this release:
+
+- You can now add custom #hashtags to your resources.
+- You can also add notes that will be visible only to you.
+- Searching on the map now shows the concept labels you've selected.
+
 ## v0.4.1
 This release brings a search bar. This brings new capabilities:
 
