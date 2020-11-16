@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, ButtonGroup } from '@blueprintjs/core'
 
-import { viewportEvent } from './store'
+import { viewportEvent } from '../store'
 
 
 export const useMapTransforms = () => {
@@ -19,18 +19,12 @@ export const useMapTransforms = () => {
   }
 }
 
-
-
 export const ZoomButtons = (props) => {
   const mapt = useMapTransforms()
-  return <ButtonGroup vertical>
-    <Button icon='plus' onClick={mapt.zoom.in}/>
-    <Button icon='minus' onClick={mapt.zoom.out}/>
-  </ButtonGroup>
-}
-
-export default function DPadButtons (props) {
   return <div className='widget dpad'>
-    <ZoomButtons/>
+    <ButtonGroup vertical>
+      <Button icon='plus' onClick={mapt.zoom.in}/>
+      <Button icon='minus' onClick={mapt.zoom.out}/>
+    </ButtonGroup>
   </div>
 }
