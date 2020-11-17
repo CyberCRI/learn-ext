@@ -62,7 +62,6 @@ module.exports = {
     keepProfileChanges: true,
     firefoxProfile: 'web-ext-dev',
     pref: browser_prefs,
-    noReload: false,
     startUrl: [
       'https://en.wikipedia.org/wiki/Special:Random',
       'https://en.wikipedia.org/wiki/Special:Random',
