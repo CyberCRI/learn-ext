@@ -123,6 +123,8 @@ const HashTagsInput = (props) => {
       createNewItemRenderer={createNewTagRenderer}
       createNewItemFromQuery={createNewItemFromQuery}
 
+      initialContent={tags.length ? null : <p>Type to create a hashtag.</p>}
+
       fill={true}
       placeholder='Search or Add Hashtags'
 
