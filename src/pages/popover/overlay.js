@@ -77,7 +77,6 @@ const HashTagsInput = (props) => {
       <MenuItem
         active={modifiers.active}
         key={tag.id}
-        label={tag.label}
         onClick={handleClick}
         text={`${tag.label}`}
         shouldDismissPopover={false}
