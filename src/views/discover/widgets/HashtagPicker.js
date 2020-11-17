@@ -46,6 +46,7 @@ export const HashtagPicker = (props) => {
             intent={item === selectedTag ? 'primary' : null}
             onClick={() => didClickOnTag(item)}># {item}</Tag>
         )}
+        {!tags.length && <p>Your personal hashtags will appear here.</p>}
       </div>
     </div>
   )
