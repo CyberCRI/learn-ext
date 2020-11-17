@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import _ from 'lodash'
 import { useStore } from 'effector-react'
 
-// import { withSearch } from '@elastic/search-ui'
-
 import {
   withSearch, SearchProvider, ErrorBoundary,
   SearchBox, Facet, ResultsPerPage, Sorting, Paging, PagingInfo,
@@ -219,11 +217,11 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   )
 }
 
-export const SearchView = (props) => {
+export const SearchView = ({ driver, ...props }) => {
   const Composed = withSearch(ctx => ctx)(SearchComposed)
 
   return (
-    <SearchProvider config={searchConfig}>
+    <SearchProvider driver={driver}>
       <Composed/>
     </SearchProvider>
   )
