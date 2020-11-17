@@ -41,6 +41,9 @@ export const renderView = async () => {
     // Currently we use "user" to set the filters in ConceptMap before the map
     // is initialized.
     cmap.filters.user = initialSearchState.user
+    didPickLayer({ id: initialSearchState.user, src: initialSearchState.user })
+  } else {
+    didPickLayer({ id: 'everything', src: '' })
   }
 
   window.cmap = cmap

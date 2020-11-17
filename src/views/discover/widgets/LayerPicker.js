@@ -18,7 +18,7 @@ export const LayerPicker = (props) => {
 
   if (node.authorized) {
     userLayers.push({
-      id: 'mine',
+      id: node.user.email,
       label: i18nT`user`,
       src: node.user.email,
       icon: 'layout-circle',
@@ -30,7 +30,7 @@ export const LayerPicker = (props) => {
       const group = node.user.groups[0]
 
       userLayers.push({
-        id: 'group',
+        id: `${group.guid}@group`,
         label: i18nT`group`,
         src: `${group.guid}@group`,
         icon: 'layout-group-by',
