@@ -140,7 +140,7 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
 
   React.useEffect(() => {
     return didPickLayer.watch(layer => {
-      props.setSearchTerm('', { shouldClearFilters: true })
+      // props.setSearchTerm('', { shouldClearFilters: true })
       props.setFilter('user', layer.src)
     })
   })
