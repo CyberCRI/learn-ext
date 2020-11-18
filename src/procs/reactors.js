@@ -19,5 +19,5 @@ export const ExtensionPages = {
   discover: pathReactor('pages/discover.html', urlProvider.web),
   settings: pathReactor('pages/extension-auth.html'),
   onboarding: pathReactor('pages/onboarding.html', urlProvider.web),
-  changelog: pathReactor('pages/changelog.html'),
+  changelog: pathReactor('pages/changelog.html', urlProvider.web),
 }
