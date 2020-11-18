@@ -39,7 +39,7 @@ const DownloadButton = (props) => {
 }
 
 const ChromeLink = (props) => (
-  <DownloadButton {...props} url={env.extension_url_chrome}>
+  <DownloadButton {...props} url='https://chrome.google.com/webstore/detail/aheppdfnfcfnojcaipdajboppllolgpo'>
     <FaChrome/>
     <h3>Add to <strong>Chrome</strong></h3>
   </DownloadButton>
