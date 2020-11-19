@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { useStore } from 'effector-react'
 
 import {
-  withSearch, SearchProvider, ErrorBoundary,
+  WithSearch, SearchProvider, ErrorBoundary,
   SearchBox, Facet, ResultsPerPage, Sorting, Paging, PagingInfo,
 } from '@elastic/react-search-ui'
 import {
@@ -113,23 +113,6 @@ const ResultView = ({ results, wasSearched, loading, listView=true }) => {
 }
 
 
-class SearchComposed extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
-  componentDidMount () {
-    const filters = _(this.props.filters).keyBy('field')
-    const layer = filters.get('user.values.0')
-
-    console.log('mounted', layer)
-  }
-
-  render () {
-    return <SearchComposition {...this.props}/>
-  }
-}
-
 const ToolDiv = styled.div`
   margin: 5px 0;
 `
@@ -218,11 +201,12 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
 }
 
 export const SearchView = ({ driver, ...props }) => {
-  const Composed = withSearch(ctx => ctx)(SearchComposed)
 
   return (
     <SearchProvider driver={driver}>
-      <Composed/>
+      <WithSearch mapContextToProps={ctx => ctx}>
+        {(props) => <SearchComposition {...props}/>}
+      </WithSearch>
     </SearchProvider>
   )
 }
