@@ -12,7 +12,7 @@ import {
 } from '@elastic/react-search-ui-views'
 
 import { NonIdealState, Button, InputGroup, Switch, Spinner } from '@blueprintjs/core'
-import { viewportEvent, $layerSource, didPickLayer, didPickTag } from '../store'
+import { viewportEvent, didPickTag } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination, ResourceListView } from '~components/resources'
 
@@ -120,29 +120,6 @@ const ToolDiv = styled.div`
 const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   const onTouchAutocompleteItem = item => didTouchAutocompleteItem(item, props)
   const [resultViewAsList, setResultViewType] = React.useState(true)
-
-  React.useEffect(() => {
-    return didPickLayer.watch(layer => {
-      // props.setSearchTerm('', { shouldClearFilters: true })
-      props.setFilter('user', layer.src)
-    })
-  })
-  React.useEffect(() => {
-    return didPickTag.watch(tag => {
-      props.clearFilters(['user'])
-      props.setFilter('hashtag', tag)
-      props.setFilter('source', 'hashtag')
-      props.setSearchTerm('', { shouldClearFilters: false })
-    })
-  })
-  React.useEffect(() => {
-    return viewportEvent.click.watch(event => {
-      const { source, data } = event
-      props.setFilter('source', source)
-      props.setFilter('wikidata_id', data.wikidata_id)
-      props.setSearchTerm(data.title, { shouldClearFilters: false })
-    })
-  })
 
   const didSubmitSearchQuery = (q) => {
     props.setFilter('source', 'text')
