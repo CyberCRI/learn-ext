@@ -10,10 +10,9 @@ import { reject, includes } from 'lodash'
 
 import { Port } from '~procs/portal'
 import { ConceptList, ConceptListLoadingState } from '~components/concepts'
-import { ConceptSuggest } from '~components/concepts/suggest'
 import { UrlPill, FaviconPill } from '~components/pills'
 import { ResourceCard } from '~components/cards/resources'
-import { HashTagsInput } from '~components/inputs'
+import { HashTagsInput, WikiConceptSuggest } from '~components/inputs'
 
 
 import { RatingPicker } from './rating'
@@ -150,7 +149,7 @@ const PageConcepts = (props) => {
         {status == 100 && <ConceptListLoadingState/>}
 
         <ConceptList concepts={concepts} removable onRemove={didRemoveConcept}/>
-        <ConceptSuggest lang={language} onSelect={didAddConcept}/>
+        <WikiConceptSuggest lang={language} onSelect={didAddConcept}/>
         <h3 className='title'>Personal Hashtags and Notes</h3>
         <InputContainer>
           <HashTagsInput onChange={tags => setTags(tags)} choices={availableTags}/>
