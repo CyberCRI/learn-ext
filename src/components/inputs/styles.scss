@@ -1,0 +1,77 @@
+@import 'styles/colors';
+@import 'styles/fontfaces';
+
+.wiki-concept.suggest {
+  &.root {
+    padding: 10px;
+  }
+
+  &.popover {
+    .bp3-popover-content {
+      width: 240px;
+    }
+
+    .bp3-menu {
+      height: 220px;
+      overflow: auto;
+    }
+  }
+
+  .suggestion {
+    $running-text-size: 1em;
+    $line-height: $running-text-size + 0.4;
+    $max-lines: 3;
+
+    display: block;
+    margin-bottom: 5px;
+    background: $light-gray4;
+    border-radius: 5px;
+    padding: {
+      top: 5px;
+      right: 5px;
+      bottom: 3px;
+      left: 8px;
+    }
+    cursor: pointer;
+    overflow: hidden;
+    max-height: $line-height * $max-lines;
+    box-sizing: content-box;
+
+    transition: background .2s ease;
+
+    font: {
+      family: $typeface-text;
+      size: 14px;
+    }
+    color: $dark-gray4;
+
+    p {
+      line-height: $line-height;
+      margin: 0;
+
+      strong {
+        padding: {
+          top: 5px;
+          right: 5px;
+          left: 5px;
+          bottom: 3px;
+        }
+        background: $light-gray1;
+        border-radius: 4px;
+        margin-left: -5px;
+      }
+    }
+
+    &.active, &:focus, &:active {
+      background: $blue5;
+    }
+
+    &.ambiguous {
+      // TODO - Highlight diambiguous page.
+    }
+
+    &:hover {
+      background: lighten($blue5, 2);
+    }
+  }
+}
