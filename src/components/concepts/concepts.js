@@ -11,10 +11,10 @@ const conceptVariants = {
 
 const conceptListVariants = {
   hidden: {
-    transition: { staggerChildren: .8 },
+    transition: { staggerChildren: .3 },
   },
   visible: {
-    transition: { staggerChildren: .8 },
+    transition: { staggerChildren: .3 },
   },
 }
 
