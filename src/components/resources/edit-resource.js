@@ -11,10 +11,8 @@ import { FaviconPill, UrlPill } from '~components/pills'
 import { API, CarteSearchAPI, IngressAPI } from '@ilearn/modules/api'
 
 import { ResourceCard } from '~components/cards/resources'
-import { ConceptList, ConceptListLoadingState } from '~components/concepts'
-import { ConceptSuggest } from '~components/concepts/suggest'
 
-import { HashTagsInput } from '~components/inputs'
+import { HashTagsInput, WikiConceptInput } from '~components/inputs'
 import { $EditDialog, ResourceEditorControl } from './store'
 
 
@@ -53,18 +51,6 @@ const EditorForm = ({ resource }) => {
       })
   }, [])
 
-  const didAddConcept = (concept) => {
-    const newSelection = _.unionBy(concepts, [concept], 'wikidata_id')
-    setConcepts(newSelection)
-  }
-  const didRemoveConcept = (concept) => {
-    const newSelection = _.reject(concepts, ['wikidata_id', concept.wikidata_id])
-    setConcepts(newSelection)
-  }
-  const didUpdateTags = (tags) => {
-    setTags(tags)
-  }
-
   const didDeleteResource = () => {
     setDeleteState(true)
     API
@@ -99,12 +85,19 @@ const EditorForm = ({ resource }) => {
       <div className='page-action'>
         <h3 className='title'>Concepts on this Page</h3>
 
-        <ConceptList concepts={concepts} noAnimation removable onRemove={didRemoveConcept}/>
-        <ConceptSuggest lang={resource.lang} onSelect={didAddConcept} usePortal={false}/>
+        <WikiConceptInput
+          lang={resource.lang}
+          onChange={value => setConcepts(value)}
+          value={concepts}
+          usePortal={false}/>
 
         <h3 className='title'>Personal Hashtags and Notes</h3>
 
-        <HashTagsInput onChange={didUpdateTags} choices={availableTags} value={tags}/>
+        <HashTagsInput
+          onChange={value => setTags(value)}
+          choices={availableTags}
+          value={tags}/>
+
         <CommentInputContainer>
           <TextArea
             growVertically={true}
