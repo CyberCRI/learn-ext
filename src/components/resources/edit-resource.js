@@ -100,7 +100,7 @@ const EditorForm = ({ resource }) => {
         <h3 className='title'>Concepts on this Page</h3>
 
         <ConceptList concepts={concepts} noAnimation removable onRemove={didRemoveConcept}/>
-        <ConceptSuggest lang={resource.lang} onSelect={didAddConcept}/>
+        <ConceptSuggest lang={resource.lang} onSelect={didAddConcept} usePortal={false}/>
 
         <h3 className='title'>Personal Hashtags and Notes</h3>
 
@@ -147,7 +147,7 @@ export const ResourceEditDialog = (props) => {
       title='Edit Resource'
       icon='edit'
       className='edit-resource'
-      usePortal='false'>
+      usePortal={true}>
 
       <DialogBody>
         <div className='card'>
