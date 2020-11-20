@@ -2,12 +2,7 @@ import React, { useState } from 'react'
 import _ from 'lodash'
 import { MenuItem } from '@blueprintjs/core'
 import { MultiSelect } from '@blueprintjs/select'
-import styled from 'styled-components'
 
-
-const HashTagContainer = styled.div`
-  padding: 5px 10px;
-`
 
 export const HashTagsInput = (props) => {
   const [ query, setQuery ] = useState('')
@@ -55,7 +50,7 @@ export const HashTagsInput = (props) => {
     setQuery('')
   }
 
-  return <HashTagContainer>
+  return <div className='hashtag-input'>
     <MultiSelect
       onItemSelect={onItemSelect}
       onQueryChange={q => setQuery(q)}
@@ -87,5 +82,5 @@ export const HashTagsInput = (props) => {
         },
       }}
     />
-  </HashTagContainer>
+  </div>
 }
