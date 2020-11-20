@@ -14,7 +14,7 @@ import { ResourceCard } from '~components/cards/resources'
 import { ConceptList, ConceptListLoadingState } from '~components/concepts'
 import { ConceptSuggest } from '~components/concepts/suggest'
 
-import { HashTagsInput } from './hashtag-input'
+import { HashTagsInput } from '~components/inputs'
 import { $EditDialog, ResourceEditorControl } from './store'
 
 
