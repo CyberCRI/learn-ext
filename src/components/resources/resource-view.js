@@ -7,6 +7,8 @@ import { DateTimePill } from '~components/pills'
 
 import { Card, Elevation, Button, Tooltip, Tag, ButtonGroup, Callout } from '@blueprintjs/core'
 
+import { ResourceEditorControl } from './store'
+
 
 const ResourceItemContainer = styled.div`
   margin-bottom: 10px;
@@ -122,6 +124,13 @@ export const ResourceItem = (resource) => {
           {resource.is_owner && resource.notes && <ResourceNotes content={resource.notes}/>}
         </div>
       </div>
+      {resource.is_owner && <div className='actions'>
+        <Button
+          icon='edit'
+          text='Edit'
+          minimal outlined
+          onClick={() => ResourceEditorControl.show(resource)}/>
+      </div>}
     </ResourceCardContainer>
   </Card>
 }
