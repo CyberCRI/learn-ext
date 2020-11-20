@@ -13,6 +13,9 @@ import { didPickLayer, didPickTag, viewportEvent } from './store'
 import { searchConfig } from './search-ui'
 import { $globalContext } from '~page-commons/store'
 
+import { ResourceEditDialog } from '~components/resources/edit-resource'
+import { ResourceEditorControl } from '~components/resources/store'
+
 import './styles.scss'
 
 
@@ -36,6 +39,11 @@ function wireUpEffects(driver) {
     actions.setFilter('source', source)
     actions.setFilter('wikidata_id', data.wikidata_id)
     actions.setSearchTerm(data.title, { shouldClearFilters: false })
+  })
+
+  ResourceEditorControl.hide.watch(event => {
+    const currentpage = driver.getState().current
+    actions.setCurrent(currentpage)
   })
 }
 
@@ -82,6 +90,7 @@ export const renderView = async () => {
   // [!todo] Make the overlay tools be in sync as well.
   renderReactComponent('overlay-tools', OverlayTools)
   renderReactComponent('search-ui', SearchView, { driver: searchDriver })
+  renderReactComponent('edit-ui', ResourceEditDialog)
 
   _.defer(() => {
     // didPickLayer({ id: 'everything', src: '' })
