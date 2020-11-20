@@ -76,6 +76,7 @@ const controlProps = {
   popover: {
     position: 'bottom-left',
     minimal: false,
+    usePortal: true,
     className: 'suggest target',
     portalClassName: 'suggest popover',
     modifiers: {
@@ -85,7 +86,7 @@ const controlProps = {
   },
 }
 
-export const ConceptSuggest = ({ onSelect, lang }) => {
+export const ConceptSuggest = ({ onSelect, lang, usePortal=true }) => {
   const [ query, setQuery ] = useState('')
   const [ items, setItems ] = useState([])
   const [ loading, setLoadingState ] = useBoolean(false)
@@ -124,7 +125,7 @@ export const ConceptSuggest = ({ onSelect, lang }) => {
         items={items}
 
         inputProps={({...controlProps.input, loading})}
-        popoverProps={controlProps.popover}
+        popoverProps={({...controlProps.popover, usePortal })}
 
         noResults={<ZeroResultsState loading={loading} query={query}/>}
         initialContent={<EmptyStatePlaceholder/>}
