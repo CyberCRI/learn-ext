@@ -1,3 +1,5 @@
+import './styles.scss'
+
 import * as Placeholder from './placeholders'
 import { Pagination } from './pagination'
 import { ResourceGrid } from './grid'

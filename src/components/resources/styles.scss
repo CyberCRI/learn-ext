@@ -1,0 +1,47 @@
+.dialog.edit-resource {
+  width: 600px;
+  max-width: 100%;
+  padding-bottom: 0;
+
+  .body {
+    display: flex;
+    flex-flow: row;
+
+    @media(max-width: 500px) {
+      flex-flow: column;
+    }
+  }
+
+  h3.title {
+    font-weight: 400;
+  }
+
+  .body {
+    .preview-card, .editor {
+      padding: 10px;
+    }
+  }
+
+  .editor {
+    flex: 1;
+
+    .page-action {
+      margin-bottom: 15px;
+
+      .wiki-concept.suggest.root {
+        padding: 0;
+        margin: 5px 0;
+      }
+
+      .input-container {
+        margin: 5px 0;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+}

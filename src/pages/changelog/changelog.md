@@ -11,7 +11,13 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.5.1
+In this release:
+
+- You can edit your resources from discover page when you click on "My Resources".
+
 ## v0.5.0
+Released on `2020-11-18`
 In this release:
 
 - You can now add custom #hashtags to your resources.

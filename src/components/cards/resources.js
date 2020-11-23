@@ -9,7 +9,7 @@ import { DateTimePill, ResourceLinkPill } from '~components/pills'
 
 const ResourceTypes = new Map([
   ['wikipedia',     /.*\.wikipedia\.org/],
-  ['cri-projects',  /.*projects\.cri-paris\.org/],
+  ['cri-projects',  /.*projects\.cri-paris\.(org|net)/],
   ['github',        /.*(github.com|\.github.io)/],
   ['youtube',       /.*\.youtube.com/],
 ])

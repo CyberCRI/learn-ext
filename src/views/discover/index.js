@@ -6,19 +6,51 @@ import { renderReactComponent } from '~mixins/react-helpers'
 import { OverlayTools } from './overlays'
 import { ConceptMap } from './layer-d3'
 import { SearchView } from './search-ui'
-import { didPickLayer } from './store'
+
+import { didPickLayer, didPickTag, viewportEvent } from './store'
 // import { ConceptMap } from 'welearn-map'
 
 import { searchConfig } from './search-ui'
 import { $globalContext } from '~page-commons/store'
 
+import { ResourceEditDialog } from '~components/resources/edit-resource'
+import { ResourceEditorControl } from '~components/resources/store'
+
 import './styles.scss'
 
 
-function getInitialState(driver) {
+function wireUpEffects(driver) {
+  const actions = driver.getActions()
+
+  didPickLayer.watch(layer => {
+    actions.clearFilters(['user'])
+    actions.setFilter('user', layer.src)
+  })
+
+  didPickTag.watch(tag => {
+    actions.clearFilters(['user'])
+    actions.setFilter('hashtag', tag)
+    actions.setFilter('source', 'hashtag')
+    actions.setSearchTerm('', { shouldClearFilters: false })
+  })
+
+  viewportEvent.click.watch(event => {
+    const { source, data } = event
+    actions.setFilter('source', source)
+    actions.setFilter('wikidata_id', data.wikidata_id)
+    actions.setSearchTerm(data.title, { shouldClearFilters: false })
+  })
+
+  ResourceEditorControl.hide.watch(event => {
+    const currentpage = driver.getState().current
+    actions.setCurrent(currentpage)
+  })
+}
+
+
+function getSearchStateProps(state) {
   // Since we initialise the SearchDriver manually, we get the freedom to
   // hook into its initial state to keep the UI in sync with the URL.
-  const state = driver.getState()
   const filters = _(state.filters).keyBy('field')
 
   return {
@@ -35,7 +67,7 @@ export const renderView = async () => {
     onSearchMap: console.log,
   })
   const searchDriver = new SearchDriver(searchConfig)
-  const initialSearchState = getInitialState(searchDriver)
+  const initialSearchState = getSearchStateProps(searchDriver.getState())
 
   if (initialSearchState.user) {
     // Currently we use "user" to set the filters in ConceptMap before the map
@@ -46,12 +78,19 @@ export const renderView = async () => {
     didPickLayer({ id: 'everything', src: '' })
   }
 
+  wireUpEffects(searchDriver)
+
+  searchDriver.subscribeToStateChanges((state) => {
+    console.log('state change', state, getSearchStateProps(state))
+  })
+
   window.cmap = cmap
   window.searchDriver = searchDriver
 
   // [!todo] Make the overlay tools be in sync as well.
   renderReactComponent('overlay-tools', OverlayTools)
   renderReactComponent('search-ui', SearchView, { driver: searchDriver })
+  renderReactComponent('edit-ui', ResourceEditDialog)
 
   _.defer(() => {
     // didPickLayer({ id: 'everything', src: '' })

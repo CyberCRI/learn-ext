@@ -145,5 +145,5 @@ export const searchConfig = {
     resultsPerPage: 10,
   },
   hasA11yNotifications: false,
-  debug: true,
+  debug: false,
 }

@@ -10,9 +10,10 @@ import { reject, includes } from 'lodash'
 
 import { Port } from '~procs/portal'
 import { ConceptList, ConceptListLoadingState } from '~components/concepts'
-import { ConceptSuggest } from '~components/concepts/suggest'
 import { UrlPill, FaviconPill } from '~components/pills'
 import { ResourceCard } from '~components/cards/resources'
+import { HashTagsInput, WikiConceptSuggest } from '~components/inputs'
+
 
 import { RatingPicker } from './rating'
 import { IngressAPI } from '@ilearn/modules/api'
@@ -53,93 +54,9 @@ const SignInButton = (props) => {
   </>
 }
 
-const HashTagContainer = styled.div`
+const InputContainer = styled.div`
   padding: 5px 10px;
 `
-const CommentInputContainer = styled.div`
-  padding: 5px 10px;
-`
-
-const HashTagsInput = (props) => {
-  const [ query, setQuery ] = useState('')
-  const [ selectedTags, setSelectedTags ] = useState([])
-  const tags = props.choices || []
-
-  React.useEffect(() => {
-    props.onChange(selectedTags)
-  }, [selectedTags])
-
-  const itemRenderer = (tag, { modifiers, handleClick }) => {
-    if (!modifiers.matchesPredicate) {
-      return null
-    }
-    return (
-      <MenuItem
-        active={modifiers.active}
-        key={tag.id}
-        onClick={handleClick}
-        text={`${tag.label}`}
-        shouldDismissPopover={false}
-      />)
-  }
-  const createNewTagRenderer = (q, active, handleClick) => {
-    return <MenuItem
-      icon='add'
-      text={`Create "${q}"`}
-      active={active}
-      onClick={handleClick}
-      shouldDismissPopover={false}/>
-  }
-  const createNewItemFromQuery = (query) => {
-    return { id: query, label: query }
-  }
-  const itemPredicate = (query, tag) => {
-    return tag.label.indexOf(query) >= 0
-  }
-  const onTagRemove = (value) => {
-    const newSelection = _.reject(selectedTags, ['label', value])
-    setSelectedTags(newSelection)
-  }
-  const onItemSelect = (tag) => {
-    const newSelection = _.unionBy(selectedTags, [tag], 'label')
-    setSelectedTags(newSelection)
-    setQuery('')
-  }
-
-  return <HashTagContainer>
-    <MultiSelect
-      onItemSelect={onItemSelect}
-      onQueryChange={q => setQuery(q)}
-
-      itemRenderer={itemRenderer}
-      itemPredicate={itemPredicate}
-      tagRenderer={tag => `${tag.label}`}
-
-      query={query}
-      items={tags.map(i => ({ id: i, label: i }))}
-      selectedItems={selectedTags}
-
-      allowCreate={true}
-      createNewItemRenderer={createNewTagRenderer}
-      createNewItemFromQuery={createNewItemFromQuery}
-
-      initialContent={tags.length ? undefined : <p>Type to create a hashtag.</p>}
-
-      fill={true}
-      placeholder='Search or Add Hashtags'
-
-      popoverProps={{ minimal: true }}
-      tagInputProps={{
-        onRemove: onTagRemove,
-        tagProps: {
-          minimal: true,
-          round: true,
-          intent: 'primary',
-        },
-      }}
-    />
-  </HashTagContainer>
-}
 
 const PageConcepts = (props) => {
   const [ url, setUrl ] = useState(props.url)
@@ -232,17 +149,19 @@ const PageConcepts = (props) => {
         {status == 100 && <ConceptListLoadingState/>}
 
         <ConceptList concepts={concepts} removable onRemove={didRemoveConcept}/>
-        <ConceptSuggest lang={language} onSelect={didAddConcept}/>
+        <WikiConceptSuggest lang={language} onSelect={didAddConcept}/>
         <h3 className='title'>Personal Hashtags and Notes</h3>
-        <HashTagsInput onChange={tags => setTags(tags)} choices={availableTags}/>
-        <CommentInputContainer>
+        <InputContainer>
+          <HashTagsInput onChange={tags => setTags(tags)} choices={availableTags}/>
+        </InputContainer>
+        <InputContainer>
           <TextArea
             growVertically={true}
             fill
             onChange={e => setComment(e.target.value)}
             placeholder='Add notes about the Resource'
             value={comment}/>
-        </CommentInputContainer>
+        </InputContainer>
       </div>
 
 
