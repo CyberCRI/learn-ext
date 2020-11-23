@@ -26,12 +26,6 @@ export const PageInfo = ({ title, url }) => {
   )
 }
 
-const HashTagContainer = styled.div`
-  padding: 5px 10px;
-`
-const CommentInputContainer = styled.div`
-  padding: 5px 10px;
-`
 
 const EditorForm = ({ resource }) => {
   const [ comment, setComment ] = React.useState(resource.notes)
@@ -93,21 +87,23 @@ const EditorForm = ({ resource }) => {
 
         <h3 className='title'>Personal Hashtags and Notes</h3>
 
-        <HashTagsInput
-          onChange={value => setTags(value)}
-          choices={availableTags}
-          value={tags}/>
+        <div className='input-container'>
+          <HashTagsInput
+            onChange={value => setTags(value)}
+            choices={availableTags}
+            value={tags}/>
+        </div>
 
-        <CommentInputContainer>
+        <div className='input-container'>
           <TextArea
             growVertically={true}
             fill
             onChange={e => setComment(e.target.value)}
             placeholder='Add notes about the Resource'
             value={comment}/>
-        </CommentInputContainer>
+        </div>
       </div>
-      <div>
+      <div className='action-buttons'>
         <Button text='Delete Resource' icon='trash' loading={deleting} onClick={didDeleteResource}/>
         <Button
           text='Save Changes'
@@ -122,13 +118,6 @@ const EditorForm = ({ resource }) => {
 }
 
 
-const DialogBody = styled.div`
-  display: flex;
-  align-items: start;
-
-
-`
-
 export const ResourceEditDialog = (props) => {
   const dialog = useStore($EditDialog)
   const resource = dialog.resource
@@ -139,18 +128,17 @@ export const ResourceEditDialog = (props) => {
       onClose={ResourceEditorControl.hide}
       title='Edit Resource'
       icon='edit'
-      className='edit-resource'
+      className='dialog edit-resource'
       usePortal={true}>
 
-      <DialogBody>
-        <div className='card'>
+      <div className='body'>
+        <div className='preview-card'>
           {resource && <ResourceCard url={resource.url} title={resource.title}/>}
         </div>
         <div className='editor'>
           {resource && <EditorForm resource={resource}/>}
         </div>
-      </DialogBody>
+      </div>
     </Dialog>
   )
 }
-
