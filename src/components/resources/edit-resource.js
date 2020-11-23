@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { useStore } from 'effector-react'
 import { AnchorButton } from '@blueprintjs/core'
-import { Dialog, Button, Callout, TextArea } from '@blueprintjs/core'
+import { Dialog, Button, Callout, TextArea, Popover } from '@blueprintjs/core'
 import { useAsyncFn } from 'react-use'
 import styled from 'styled-components'
 
@@ -23,6 +23,52 @@ export const PageInfo = ({ title, url }) => {
       <h3>{title}</h3>
       <UrlPill url={url}/>
     </div>
+  )
+}
+
+
+const DeletePopoverContainer = styled.div`
+  padding: 10px;
+  max-width: 400px;
+
+  .actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+`
+
+const DeleteButton = ({ onClick, loading }) => {
+  const [ isOpen, setIsOpen ] = React.useState(false)
+
+  const DeleteConfirmation = (
+    <DeletePopoverContainer>
+      <Callout title='Confirm Deletion' intent='warning' icon='warning-sign'>
+        <p>Deleting the resource will remove it from your Library.</p>
+        <p>The resource is still available for other WeLearn users and appear in global map.</p>
+      </Callout>
+
+      <div className='actions'>
+        <Button text='Cancel' icon='cross' onClick={() => setIsOpen(false)}/>
+        <Button text='Delete' onClick={onClick} loading={loading} icon='trash' intent='danger'/>
+      </div>
+    </DeletePopoverContainer>
+  )
+
+  const DeletePopoverButton = <Button
+    text='Delete Resource'
+    icon='trash'
+    outlined
+    minimal
+    active={isOpen}
+    onClick={() => setIsOpen(!isOpen)}/>
+
+  return (
+    <Popover
+      content={DeleteConfirmation}
+      target={DeletePopoverButton}
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}/>
   )
 }
 
@@ -104,7 +150,8 @@ const EditorForm = ({ resource }) => {
         </div>
       </div>
       <div className='action-buttons'>
-        <Button text='Delete Resource' icon='trash' loading={deleting} onClick={didDeleteResource}/>
+        <DeleteButton onClick={didDeleteResource} loading={deleting}/>
+
         <Button
           text='Save Changes'
           intent={didSave ? 'success' : 'primary'}
