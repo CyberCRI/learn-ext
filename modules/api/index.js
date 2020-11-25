@@ -37,6 +37,11 @@ const request = async ({ url, method = 'get', query, data, ...options }) => {
     mode: options.secure ? 'cors' : undefined,
     headers: { 'Content-Type': 'application/json' },
   })
+
+  if (!r.ok) {
+    throw new Error(`Response error`)
+  }
+
   return await r.json()
 }
 
