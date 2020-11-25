@@ -45,7 +45,6 @@ const DeleteButton = ({ onClick, loading }) => {
     <DeletePopoverContainer>
       <Callout title='Confirm Deletion' intent='warning' icon='warning-sign'>
         <p>Deleting the resource will remove it from your Library.</p>
-        <p>The resource is still available for other WeLearn users and appear in global map.</p>
       </Callout>
 
       <div className='actions'>
@@ -115,6 +114,7 @@ const EditorForm = ({ resource }) => {
       headers: {
         'Content-Type': 'application/json',
       }})
+    ResourceEditorControl.hide()
     setSaveCount(saveCount + 1)
   }, [concepts, comment, tags])
 
