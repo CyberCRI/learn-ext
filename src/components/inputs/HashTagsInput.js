@@ -72,7 +72,7 @@ export const HashTagsInput = (props) => {
       fill={true}
       placeholder='Search or Add Hashtags'
 
-      popoverProps={{ minimal: true }}
+      popoverProps={{ minimal: true, portalClassName: 'hashtag-portal' }}
       tagInputProps={{
         onRemove: onTagRemove,
         tagProps: {
