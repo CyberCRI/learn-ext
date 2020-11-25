@@ -27,6 +27,9 @@ export const HashtagPicker = (props) => {
         .then((hashtags) => {
           setTags(hashtags)
         })
+        .catch((error) => {
+          setTags([])
+        })
     }
   })
 
