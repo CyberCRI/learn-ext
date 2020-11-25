@@ -23,7 +23,7 @@ function wireUpEffects(driver) {
   const actions = driver.getActions()
 
   didPickLayer.watch(layer => {
-    actions.clearFilters(['user'])
+    // actions.clearFilters(['user'])
     actions.setFilter('user', layer.src)
   })
 
