@@ -11,7 +11,7 @@
 
 Here is what's new in this version of WeLearn App:
 
-## v0.5.1
+## v0.6.0
 In this release:
 
 - You can edit your resources from discover page when you click on "My Resources".
