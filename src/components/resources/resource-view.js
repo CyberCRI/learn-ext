@@ -25,6 +25,7 @@ const HashTagList = styled.ol`
   margin: 0;
   padding: 0;
   display: flex;
+  flex-wrap: wrap;
 
   & > li {
     padding: 2px;
