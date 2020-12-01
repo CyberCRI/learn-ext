@@ -7,7 +7,7 @@ import { DateTimePill } from '~components/pills'
 
 import { Card, Elevation, Button, Tooltip, Tag, ButtonGroup, Callout } from '@blueprintjs/core'
 
-import { ResourceEditorControl } from './store'
+import { ResourceEditorControl, didClickOnHashTag } from './store'
 
 
 const ResourceItemContainer = styled.div`
@@ -38,7 +38,11 @@ const HashTags = ({ tags }) => {
   return <HashTagList className='hashtags'>
     {tags.map(tag =>
       <li key={tag}>
-        <Tag minimal round interactive intent='primary'># {tag}</Tag>
+        <Tag minimal round interactive
+          onClick={() => didClickOnHashTag(tag)}
+          intent='primary'>
+          # {tag}
+        </Tag>
       </li>
     )}
   </HashTagList>
