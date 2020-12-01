@@ -3,6 +3,7 @@ import { Tag, Popover, PopoverInteractionKind, Position } from '@blueprintjs/cor
 import { motion, AnimatePresence } from 'framer-motion'
 
 import { WikiCard } from '~components/cards'
+import { didClickOnConcept } from './store'
 
 const conceptVariants = {
   hidden: { x: -30, opacity: 0 },
@@ -50,9 +51,9 @@ export function getTagRepresentation (props) {
   return r
 }
 
-export const ConceptTag = (props) => {
-  const { wikidata_id } = props
-  const { title, lang } = getTagRepresentation(props)
+export const ConceptTag = ({ value, ...props }) => {
+  const { wikidata_id } = value
+  const { title, lang } = getTagRepresentation(value)
   if (!title || !lang) {
     console.log(`Empty tag. Not rendering <ConceptTag ${wikidata_id}>`)
     return null
@@ -65,13 +66,20 @@ export const ConceptTag = (props) => {
 
   const onRemove = props.removable === true ? didClickRemove : null
 
+  const didClick = () => {
+    const data = { ...value, wikidata_id, title, lang }
+    didClickOnConcept(data)
+    props.onClick && props.onClick(data)
+  }
+
   return (
     <Tag
       interactive
       minimal
       large
       className='np--concept-tag concept tag'
-      onRemove={onRemove}>
+      onRemove={onRemove}
+      onClick={didClick}>
       <Popover
         content={<WikiCard title={title} lang={lang}/>}
         target={<span>{title}</span>}
@@ -103,7 +111,7 @@ export const ConceptList = (props) => {
             <ConceptTag
               removable={removable}
               onRemove={props.onRemove}
-              {...item}/>
+              value={item}/>
           </motion.li>
         )}
       </motion.ul>
