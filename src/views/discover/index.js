@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { SearchDriver } from '@elastic/search-ui'
+import { merge as mergeEvents } from 'effector'
 
 import { renderReactComponent } from '~mixins/react-helpers'
 
@@ -8,13 +9,13 @@ import { ConceptMap } from './layer-d3'
 import { SearchView } from './search-ui'
 
 import { didPickLayer, didPickTag, viewportEvent } from './store'
-// import { ConceptMap } from 'welearn-map'
 
 import { searchConfig } from './search-ui'
 import { $globalContext } from '~page-commons/store'
 
 import { ResourceEditDialog } from '~components/resources/edit-resource'
-import { ResourceEditorControl } from '~components/resources/store'
+import { ResourceEditorControl, didClickOnHashTag } from '~components/resources/store'
+import { didClickOnConcept } from '~components/concepts'
 
 import './styles.scss'
 
@@ -22,16 +23,25 @@ import './styles.scss'
 function wireUpEffects(driver) {
   const actions = driver.getActions()
 
+  // Merge the events emitted from HashTags from ResourceCard and Sidebar
+  const onPickHashTag = mergeEvents([ didClickOnHashTag, didPickTag ])
+
   didPickLayer.watch(layer => {
     // actions.clearFilters(['user'])
     actions.setFilter('user', layer.src)
   })
 
-  didPickTag.watch(tag => {
+  onPickHashTag.watch(tag => {
     actions.clearFilters(['user'])
     actions.setFilter('hashtag', tag)
     actions.setFilter('source', 'hashtag')
     actions.setSearchTerm('', { shouldClearFilters: false })
+  })
+
+  didClickOnConcept.watch(concept => {
+    actions.setFilter('source', 'concept')
+    actions.setFilter('wikidata_id', concept.wikidata_id)
+    actions.setSearchTerm(concept.title, { shouldClearFilters: false })
   })
 
   viewportEvent.click.watch(event => {
