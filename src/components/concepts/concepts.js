@@ -68,7 +68,7 @@ export const ConceptTag = ({ value, ...props }) => {
 
   const didClick = () => {
     const data = { ...value, wikidata_id, title, lang }
-    didClickOnConcept(data)
+    props.emitClick && didClickOnConcept(data)
     props.onClick && props.onClick(data)
   }
 
@@ -95,7 +95,7 @@ export const ConceptTag = ({ value, ...props }) => {
 }
 
 export const ConceptList = (props) => {
-  const { removable=false } = props
+  const { removable=false, emitClick=true } = props
   const concepts = props.concepts
 
   return (
@@ -111,6 +111,7 @@ export const ConceptList = (props) => {
             <ConceptTag
               removable={removable}
               onRemove={props.onRemove}
+              emitClick={emitClick}
               value={item}/>
           </motion.li>
         )}

@@ -148,7 +148,7 @@ const PageConcepts = (props) => {
 
         {status == 100 && <ConceptListLoadingState/>}
 
-        <ConceptList concepts={concepts} removable onRemove={didRemoveConcept}/>
+        <ConceptList concepts={concepts} removable onRemove={didRemoveConcept} emitClick={false}/>
         <WikiConceptSuggest lang={language} onSelect={didAddConcept}/>
         <h3 className='title'>Personal Hashtags and Notes</h3>
         <InputContainer>
