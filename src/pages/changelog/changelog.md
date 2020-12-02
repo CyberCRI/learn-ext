@@ -11,6 +11,11 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.6.2
+Released on `2020-12-02`
+
+- Now you can click on concepts shown with Resources to search with that concept.
+
 ## v0.6.0
 In this release:
 
@@ -18,6 +23,7 @@ In this release:
 
 ## v0.5.0
 Released on `2020-11-18`
+
 In this release:
 
 - You can now add custom #hashtags to your resources.
