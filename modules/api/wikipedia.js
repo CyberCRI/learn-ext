@@ -126,6 +126,7 @@ class WikiAPI {
       format: 'json',
       list: 'prefixsearch',
       pssearch: query,
+      pslimit: 30,
       origin: '*',
     }})
     const matches = results.query.prefixsearch

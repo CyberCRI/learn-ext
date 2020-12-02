@@ -32,11 +32,15 @@ const renderSuggestion = (item, { modifiers, handleClick }) => {
     ambiguous: item.isDisambiguation,
   })
 
+  const text = item.subtitle
+    ? item.subtitle
+    : item.extract ? item.extract : ''
+
   return (
     <div key={item.title} className={itemClasses} onClick={handleClick}>
       <p>
         <strong>{item.title}</strong>
-        {item.extract}
+        {text}
       </p>
     </div>
   )
