@@ -39,4 +39,17 @@
       margin: 2px;
     }
   }
+
+  &.toolbar {
+    display: flex;
+
+    .bp3-button {
+      margin-right: 4px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+  }
 }

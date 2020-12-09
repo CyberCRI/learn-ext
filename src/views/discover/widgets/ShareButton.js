@@ -36,17 +36,15 @@ export const ShareButton = (props) => {
   const shareUrlFragment = document.location.toString()
 
   return (
-    <div className='widget sharing'>
-      <Popover position='bottom' isOpen={visible} onClose={() => setVisibility(false)}>
-        <Button icon='share' onClick={setVisibility} active={visible}>Share</Button>
-        <SharingPopoverContainer>
-          <h4>Share your map and selections</h4>
-          <div>
-            <p>Use the link below to share your map.</p>
-            <ClipboardTextBox text={shareUrlFragment}/>
-          </div>
-        </SharingPopoverContainer>
-      </Popover>
-    </div>
+    <Popover position='bottom' isOpen={visible} onClose={() => setVisibility(false)}>
+      <Button icon='share' onClick={setVisibility} active={visible}>Share</Button>
+      <SharingPopoverContainer>
+        <h4>Share your map and selections</h4>
+        <div>
+          <p>Use the link below to share your map.</p>
+          <ClipboardTextBox text={shareUrlFragment}/>
+        </div>
+      </SharingPopoverContainer>
+    </Popover>
   )
 }
