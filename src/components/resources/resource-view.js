@@ -1,11 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
+import _ from 'lodash'
 
 import { ResourceCard, CardBranding, Backdrop } from '~components/cards/resources'
 import { ConceptList } from '~components/concepts'
 import { DateTimePill } from '~components/pills'
 
 import { Card, Elevation, Button, Tooltip, Tag, ButtonGroup, Callout } from '@blueprintjs/core'
+import { RiAnchorLine } from 'react-icons/ri'
+
+import { $globalContext } from '~page-commons/store'
 
 import { ResourceEditorControl, didClickOnHashTag } from './store'
 
@@ -33,6 +37,53 @@ const HashTagList = styled.ol`
   }
 `
 
+const CommentsListContainer = styled.ol`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  & > li {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    margin-bottom: 5px;
+  }
+
+  li.comment {
+    .user-info {
+      display: flex;
+      align-items: center;
+
+      .user-icon {
+        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        background-color: #CDDC39;
+        text-align: center;
+        margin-right: 5px;
+        padding: 2px;
+
+        span {
+          font-weight: 600;
+          text-transform: uppercase;
+          font-size: 18px;
+          line-height: 1;
+        }
+      }
+
+      .user-name {
+        font-size: smaller;
+        color: #777;
+      }
+    }
+    .notes {
+      margin-left: 25px;
+    }
+  }
+
+`
+
 
 const HashTags = ({ tags }) => {
   return <HashTagList className='hashtags'>
@@ -53,6 +104,30 @@ const ResourceNotes = ({ content }) => {
     <p>{content}</p>
   </Callout>
 }
+
+const ResourceComment = ({ comment }) => {
+  if (!comment.notes) {
+    // if comment.notes is empty, we'll skip rendering this.
+    return null
+  }
+
+  return <li className='comment'>
+    <div className='user-info'>
+      <div className='user-icon'>
+        <span>{comment.user_email[0]}</span>
+      </div>
+      <div className='user-name'>added by <strong>{comment.user_email}</strong></div>
+    </div>
+    <div className='notes'>{comment.notes}</div>
+  </li>
+}
+
+const ResourceCommentsList = ({ comments }) => {
+  return <CommentsListContainer className='comments-list'>
+    {comments.map(item => <ResourceComment key={item.uid} comment={item}/>)}
+  </CommentsListContainer>
+}
+
 
 const ResourceCardContainer = styled.div`
   display: grid;
@@ -105,6 +180,27 @@ const ResourceCardContainer = styled.div`
 export const ResourceItem = (resource) => {
   const imageUrl = encodeURI(`/meta/resolve/image?url=${resource.url}`)
 
+  // collect hashtags together if the comment list is present.
+  let allhashtags = resource.hashtags
+  if (resource.comments) {
+    allhashtags = _(resource.comments).flatMap('hashtags').uniq().value()
+  }
+
+  const openEditor = (mode) => {
+    let resource_payload = {...resource}
+    if (resource.comments && resource.is_owner && window.jstate.authorized) {
+      const user_id = window.jstate.user.uid
+      const current_user_comment = resource.comments.find(item => item.user_id == user_id)
+
+      if (current_user_comment) {
+        resource_payload.hashtags = current_user_comment.hashtags || []
+        resource_payload.notes = current_user_comment.notes || ''
+      }
+    }
+
+    ResourceEditorControl.show(resource_payload)
+  }
+
   return <Card elevation={Elevation.TWO} interactive>
     <ResourceCardContainer>
       <div className='image'>
@@ -125,18 +221,32 @@ export const ResourceItem = (resource) => {
         </div>
         <div className='concepts'>
           <ConceptList concepts={resource.concepts} noAnimation lang={resource.lang}/>
-          {resource.is_owner && <HashTags tags={resource.hashtags}/>}
-          {resource.is_owner && resource.notes && <ResourceNotes content={resource.notes}/>}
+          {allhashtags && <HashTags tags={allhashtags}/>}
         </div>
       </div>
-      {resource.is_owner && <div className='actions'>
-        <Button
-          icon='edit'
-          text='Edit'
-          minimal outlined
-          onClick={() => ResourceEditorControl.show(resource)}/>
-      </div>}
     </ResourceCardContainer>
+    <div className='comments'>
+      {resource.notes && <ResourceNotes content={resource.notes}/>}
+      {resource.comments && <ResourceCommentsList comments={resource.comments}/>}
+    </div>
+
+    <div className='card-footer'>
+      <div className='actions'>
+        {resource.is_owner &&
+          <Button
+            icon='edit'
+            text='Edit'
+            minimal outlined
+            onClick={() => openEditor('edit')}/>}
+        {!resource.is_owner && window.jstate.authorized &&
+            <Button
+              icon={<RiAnchorLine/>}
+              text='Add to my Library'
+              minimal outlined
+              intent='primary'
+              onClick={() => openEditor('add')}/>}
+      </div>
+    </div>
   </Card>
 }
 
