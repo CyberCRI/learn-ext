@@ -72,7 +72,7 @@ const DeleteButton = ({ onClick, loading }) => {
 }
 
 
-const EditorForm = ({ resource }) => {
+const EditorForm = ({ resource, mode }) => {
   const [ comment, setComment ] = React.useState(resource.notes)
   const [ concepts, setConcepts ] = React.useState(resource.concepts)
   const [ tags, setTags ] = React.useState(resource.hashtags.map((t) => ({ id: t, label: t })))
@@ -150,7 +150,8 @@ const EditorForm = ({ resource }) => {
         </div>
       </div>
       <div className='action-buttons'>
-        <DeleteButton onClick={didDeleteResource} loading={deleting}/>
+        { mode === 'edit' && <DeleteButton onClick={didDeleteResource} loading={deleting}/> }
+        <div className='spacer'/>
 
         <Button
           text='Save Changes'
@@ -168,14 +169,19 @@ const EditorForm = ({ resource }) => {
 export const ResourceEditDialog = (props) => {
   const dialog = useStore($EditDialog)
   const resource = dialog.resource
+  const mode = dialog.mode
+
+  let editorModeProps = {
+    icon: mode === 'edit' ? 'edit' : 'add',
+    title: mode === 'edit' ? 'Edit Resource' : 'Add Resource',
+  }
 
   return (
     <Dialog
       isOpen={dialog.isOpen}
       onClose={ResourceEditorControl.hide}
-      title='Edit Resource'
-      icon='edit'
       className='dialog edit-resource'
+      {...editorModeProps}
       usePortal={true}>
 
       <div className='body'>
@@ -183,7 +189,7 @@ export const ResourceEditDialog = (props) => {
           {resource && <ResourceCard url={resource.url} title={resource.title}/>}
         </div>
         <div className='editor'>
-          {resource && <EditorForm resource={resource}/>}
+          {resource && <EditorForm resource={resource} mode={mode}/>}
         </div>
       </div>
     </Dialog>

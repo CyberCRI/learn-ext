@@ -198,7 +198,7 @@ export const ResourceItem = (resource) => {
       }
     }
 
-    ResourceEditorControl.show(resource_payload)
+    ResourceEditorControl.show({ mode, resource: resource_payload })
   }
 
   return <Card elevation={Elevation.TWO} interactive>
