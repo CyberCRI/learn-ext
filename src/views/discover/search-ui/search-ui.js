@@ -98,11 +98,24 @@ const PlaceHolder = (props) => {
   )
 }
 
+const ZeroResultsPlaceHolder = (props) => {
+  return (
+    <NonIdealState
+      title='No Results'
+      icon='path-search'>
+    </NonIdealState>
+  )
+}
+
 const ResultView = ({ results, wasSearched, loading, listView=true }) => {
   // this shows a grid full of search results.
   const ItemView = listView
     ? <ResourceListView resources={results}/>
     : <ResourceGrid resources={results}/>
+
+  if (!loading && results.length === 0) {
+    return <ZeroResultsPlaceHolder/>
+  }
 
   return <div className='result-grid'>
     {!loading && wasSearched && results
@@ -110,6 +123,16 @@ const ResultView = ({ results, wasSearched, loading, listView=true }) => {
       : <PlaceHolder loading={loading}/>
     }
   </div>
+}
+
+const ErrorBoundaryView = ({ error, children }) => {
+  if (error) {
+    return <NonIdealState
+      title='An unexpected error occured'
+      icon='offline'
+    />
+  }
+  return children
 }
 
 
@@ -158,7 +181,7 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
           }
         </div>
       </div>
-      <ErrorBoundary>
+      <ErrorBoundary view={ErrorBoundaryView}>
         <div className='results'>
           <div className='search-info'>
             <div className='state'>
