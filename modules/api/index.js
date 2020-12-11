@@ -178,4 +178,7 @@ export const CarteSearchAPI = {
       url: pathFor('users/me/hashtags'),
     })
   },
+  facets: () => {
+    return request({ url: `${env.ngapi_host}/carte/facets` })
+  },
 }

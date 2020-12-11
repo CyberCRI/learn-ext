@@ -66,6 +66,8 @@ function getSearchStateProps(state) {
   return {
     source: filters.get('source.values.0'),
     user: filters.get('user.values.0'),
+    wikidata_id: filters.get('wikidata_id.values.0'),
+    hashtag: filters.get('hashtag.values.0'),
   }
 }
 
