@@ -26,14 +26,11 @@ const MapHelpDialog = (props) => {
         <iframe
           src="https://www.loom.com/embed/6922c02142db4837944e7355618a7180"
           frameborder="0"
-          webkitallowfullscreen
-          mozallowfullscreen
-          allowfullscreen
-          style={{ height: 230, width: '100%' }}/>
-      </div>
-      <Callout className='help-blurb' icon='info-sign'>
-      </Callout>
-      <div className='actions'>
+          webkitallowfullscreen="webkitallowfullscreen"
+          mozallowfullscreen="mozallowfullscreen"
+          allowfullscreen="allowfullscreen"
+          allow="fullscreen"
+          style={{ height: 380, width: '100%' }}/>
       </div>
     </Dialog>
   )
