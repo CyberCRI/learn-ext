@@ -8,7 +8,7 @@ import { OverlayTools } from './overlays'
 import { ConceptMap } from './layer-d3'
 import { SearchView } from './search-ui'
 
-import { didPickLayer, didPickTag, viewportEvent } from './store'
+import { didPickLayer, didPickTag, viewportEvent, $currentHashtag, $searchState } from './store'
 
 import { searchConfig } from './search-ui'
 import { $globalContext } from '~page-commons/store'
@@ -64,6 +64,7 @@ function getSearchStateProps(state) {
   const filters = _(state.filters).keyBy('field')
 
   return {
+    term: state.searchTerm,
     source: filters.get('source.values.0'),
     user: filters.get('user.values.0'),
     wikidata_id: filters.get('wikidata_id.values.0'),
@@ -93,7 +94,7 @@ export const renderView = async () => {
   wireUpEffects(searchDriver)
 
   searchDriver.subscribeToStateChanges((state) => {
-    console.log('state change', state, getSearchStateProps(state))
+    $searchState.set(getSearchStateProps(state))
   })
 
   window.cmap = cmap
