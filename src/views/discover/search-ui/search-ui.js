@@ -19,6 +19,8 @@ import { ResourceGrid, Pagination, ResourceListView } from '~components/resource
 import { $globalContext } from '~page-commons/store'
 import { HashtagPicker } from '../widgets'
 
+import PagingState from './PagingState'
+
 
 const AutocompleteContainer = styled.div`
   position: absolute;
@@ -149,6 +151,10 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
     props.setSearchTerm(q, { shouldClearFilters: false })
   }
 
+  const didClickReset = () => {
+    props.setSearchTerm('', { shouldClearFilters: true })
+  }
+
   return (
     <div className='search-root'>
       <div className='tools overlay'>
@@ -168,6 +174,14 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
                 checked={resultViewAsList}
                 onChange={() => setResultViewType(!resultViewAsList)}/>
             </ToolDiv>
+            <ToolDiv>
+              {wasSearched && <Button
+                text='Reset Search'
+                small minimal
+                onClick={didClickReset}
+                icon='refresh'
+              />}
+            </ToolDiv>
           </div>
           { false &&
             <div className='unavailable'>
@@ -185,7 +199,7 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
         <div className='results'>
           <div className='search-info'>
             <div className='state'>
-              {wasSearched && <PagingInfo/>}
+              {wasSearched && <PagingInfo view={PagingState}/>}
             </div>
           </div>
           <ResultView
