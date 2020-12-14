@@ -1,6 +1,9 @@
 import _ from 'lodash'
 import { createEvent, createStore, createApi } from 'effector'
 
+import { didClickOnHashTag } from '~components/resources/store'
+import { didClickOnConcept } from '~components/concepts'
+
 /**
  *
  * Bojour! We have some freshly baked _layers_, fried _filters_, and cool _items_.
@@ -40,6 +43,11 @@ export const $progress = createStore({ loading: false, value: 0 })
 export const $layerSource = createStore({})
   .on(didPickLayer, (_, layerId) => layerId)
 
+export const $currentHashtag = createStore('')
+  .on(didPickTag, (_, tag) => tag)
+  .on(didClickOnHashTag, (_, tag) => tag)
+  .reset(didClickOnConcept)
+  .reset(viewportEvent.click)
 
 //- These are container stores for D3 visualisation. Specifically this contains
 //- all the labels.
@@ -70,4 +78,9 @@ export const $markerSelection = createApi($markerSelectionStore, {
   },
   set: (state, items) => items,
   clear: (state) => [],
+})
+
+export const $searchStateInternal = createStore({})
+export const $searchState = createApi($searchStateInternal, {
+  set: (state, value) => value,
 })

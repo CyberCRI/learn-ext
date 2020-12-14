@@ -6,20 +6,15 @@ import { useStore } from 'effector-react'
 import { i18n } from '@ilearn/modules/i18n'
 import { $globalContext } from '~page-commons/store'
 
-import { didPickTag } from '../store'
+import { didPickTag, $currentHashtag } from '../store'
 import { CarteSearchAPI } from '@ilearn/modules/api'
 
 
 
 export const HashtagPicker = (props) => {
   const node = useStore($globalContext)
+  const selectedTag = useStore($currentHashtag)
   const [tags, setTags] = React.useState([])
-  const [selectedTag, setSelectedTag] = React.useState('')
-
-  const didClickOnTag = (tag) => {
-    setSelectedTag(tag)
-    didPickTag(tag)
-  }
 
   useMount(() => {
     if (node.authorized) {
@@ -47,7 +42,7 @@ export const HashtagPicker = (props) => {
             className='hashtag'
             key={item}
             intent={item === selectedTag ? 'primary' : null}
-            onClick={() => didClickOnTag(item)}># {item}</Tag>
+            onClick={() => didPickTag(item)}># {item}</Tag>
         )}
         {!tags.length && <p>Your personal hashtags will appear here.</p>}
       </div>
