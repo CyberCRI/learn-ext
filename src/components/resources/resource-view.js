@@ -238,7 +238,7 @@ export const ResourceItem = (resource) => {
             text='Edit'
             minimal outlined
             onClick={() => openEditor('edit')}/>}
-        {!resource.is_owner && window.jstate.authorized &&
+        {false && !resource.is_owner && window.jstate.authorized &&
             <Button
               icon={<RiAnchorLine/>}
               text='Add to my Library'
