@@ -11,6 +11,17 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.7.0
+Released on `2020-12-15`
+
+In this release we've improved search experience and added the ability to see
+notes in your groups.
+
+- Status bar shows the current search state.
+- Edit your Resources and Comments.
+- See other user's notes on the Resources.
+- Search with hashtags from your Group.
+
 ## v0.6.2
 Released on `2020-12-02`
 
