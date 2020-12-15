@@ -6,7 +6,7 @@ import { $layerSource, $searchStateInternal } from '../store'
 
 const LayerState = () => {
   const currentLayer = useStore($layerSource)
-  if (!currentLayer) {
+  if (!currentLayer.label) {
     return null
   }
   return <em>in {currentLayer.label}</em>
@@ -23,7 +23,7 @@ const SearchState = () => {
     element = <Tag minimal icon={<span>CONCEPT |</span>}>{state.term}</Tag>
   }
   if (state.source === 'portal') {
-    element = <Tag minimal intent='success' icon={<span>PORTAL |</span>}>{state.term}</Tag>
+    element = <Tag minimal intent='success' icon={<span>FAMILY |</span>}>{state.term}</Tag>
   }
   if (state.source === 'text') {
     element = <em>{state.term}</em>
@@ -39,7 +39,7 @@ const SearchState = () => {
 const PagingState = ({ end, start, searchTerm, totalResults, ...props }) => {
   return (
     <div>
-      Showing <strong>{start} - {end}</strong> out of <strong>{totalResults}</strong> <SearchState/>
+      Showing <strong>{start} - {end}</strong> out of <strong>{totalResults}</strong> <SearchState/> <LayerState/>
     </div>
   )
 }
