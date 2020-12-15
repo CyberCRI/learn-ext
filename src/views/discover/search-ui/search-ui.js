@@ -12,7 +12,7 @@ import {
 } from '@elastic/react-search-ui-views'
 
 import { NonIdealState, Button, InputGroup, Switch, Spinner } from '@blueprintjs/core'
-import { viewportEvent, didPickTag } from '../store'
+import { viewportEvent, didPickTag, $markerSelection } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination, ResourceListView } from '~components/resources'
 
@@ -153,6 +153,7 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
 
   const didClickReset = () => {
     props.setSearchTerm('', { shouldClearFilters: true })
+    $markerSelection.clear()
   }
 
   return (
