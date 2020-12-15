@@ -3,12 +3,15 @@ import { SearchDriver } from '@elastic/search-ui'
 import { merge as mergeEvents } from 'effector'
 
 import { renderReactComponent } from '~mixins/react-helpers'
+import { i18n } from '@ilearn/modules/i18n'
 
 import { OverlayTools } from './overlays'
 import { ConceptMap } from './layer-d3'
 import { SearchView } from './search-ui'
 
-import { didPickLayer, didPickTag, viewportEvent, $currentHashtag, $searchState } from './store'
+import { MapLayerSources } from './consts'
+
+import { didPickLayer, didPickTag, viewportEvent, setAvailableLayers, $searchState, $layerSource } from './store'
 
 import { searchConfig } from './search-ui'
 import { $globalContext } from '~page-commons/store'
@@ -72,6 +75,37 @@ function getSearchStateProps(state) {
   }
 }
 
+function initialiseLayers() {
+  const i18nT = i18n.context('pages.discover.sections.atlas.layers')
+  const layers = [...MapLayerSources]
+  const ucontext = window.jstate
+
+  if (ucontext.authorized) {
+    layers.push({
+      id: ucontext.user.email,
+      label: i18nT`user`,
+      src: ucontext.user.email,
+      icon: 'layout-circle',
+      user: true,
+    })
+
+    if (ucontext.user.groups.length > 0) {
+      // [!todo] support more than 1 group.
+      const group = ucontext.user.groups[0]
+
+      layers.push({
+        id: `${group.guid}@group`,
+        label: i18nT`group`,
+        src: `${group.guid}@group`,
+        icon: 'layout-group-by',
+        user: true,
+      })
+    }
+  }
+  setAvailableLayers(layers)
+  return layers
+}
+
 
 export const renderView = async () => {
   const cmap = new ConceptMap({
@@ -82,19 +116,38 @@ export const renderView = async () => {
   const searchDriver = new SearchDriver(searchConfig)
   const initialSearchState = getSearchStateProps(searchDriver.getState())
 
+  const layers = initialiseLayers()
+
   if (initialSearchState.user) {
     // Currently we use "user" to set the filters in ConceptMap before the map
     // is initialized.
+    const layer = _.find(layers, ['src', initialSearchState.user])
     cmap.filters.user = initialSearchState.user
-    didPickLayer({ id: initialSearchState.user, src: initialSearchState.user })
+    didPickLayer(layer)
   } else {
-    didPickLayer({ id: 'everything', src: '' })
+    const layer = _.find(layers, ['default', true])
+    didPickLayer(layer)
   }
 
   wireUpEffects(searchDriver)
 
   searchDriver.subscribeToStateChanges((state) => {
-    $searchState.set(getSearchStateProps(state))
+    const derivedState = getSearchStateProps(state)
+    $searchState.set(derivedState)
+
+    const currentLayer = $layerSource.getState()
+
+    if (currentLayer.src !== derivedState.user) {
+      // This subscription is called often, hence we add a manual check on the
+      // state change before firing the didPickLayer event.
+      //
+      // This is pretty important to avoid infinite loop of state-change--update.
+      let layer = _.find(layers, ['src', derivedState.user])
+      if (layer === undefined) {
+        layer = _.find(layers, ['default', true])
+      }
+      didPickLayer(layer)
+    }
   })
 
   window.cmap = cmap
