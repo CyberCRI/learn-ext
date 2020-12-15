@@ -145,7 +145,7 @@ class ConceptMap {
 
     didPickLayer.watch((value) => {
       // [!todo] used in welearn, this needs to get out of here.
-      if (value.user) {
+      if (value && value.src) {
         this.filters = { user: value.src }
       } else {
         this.filters = {}
