@@ -40,6 +40,11 @@ export const $progress = createStore({ loading: false, value: 0 })
   .on(setProgress, (state, value) => ({ loading: value !== 1, value }))
   .reset(didPickLayer)
 
+
+export const setAvailableLayers = createEvent()
+
+export const $layersAvailable = createStore([])
+  .on(setAvailableLayers, (_, layers) => layers)
 export const $layerSource = createStore({})
   .on(didPickLayer, (_, layerId) => layerId)
 
