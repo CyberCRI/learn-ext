@@ -35,23 +35,34 @@ function wireUpEffects(driver) {
   })
 
   onPickHashTag.watch(tag => {
-    actions.clearFilters(['user'])
+    // actions.clearFilters(['user'])
     actions.setFilter('hashtag', tag)
     actions.setFilter('source', 'hashtag')
-    actions.setSearchTerm('', { shouldClearFilters: false })
+    // actions.setSearchTerm('', { shouldClearFilters: false })
   })
 
   didClickOnConcept.watch(concept => {
+    actions.removeFilter('portal')
     actions.setFilter('source', 'concept')
+    actions.setFilter('concept', concept.title)
     actions.setFilter('wikidata_id', concept.wikidata_id)
-    actions.setSearchTerm(concept.title, { shouldClearFilters: false })
+    // actions.setSearchTerm(concept.title, { shouldClearFilters: false })
   })
 
   viewportEvent.click.watch(event => {
+    actions.removeFilter('concept')
+    actions.removeFilter('portal')
+
     const { source, data } = event
+    if (source === 'concept') {
+      actions.setFilter('concept', data.title)
+    }
+    if (source === 'portal') {
+      actions.setFilter('portal', data.title)
+    }
     actions.setFilter('source', source)
     actions.setFilter('wikidata_id', data.wikidata_id)
-    actions.setSearchTerm(data.title, { shouldClearFilters: false })
+    // actions.setSearchTerm(data.title, { shouldClearFilters: false })
   })
 
   ResourceEditorControl.hide.watch(event => {
