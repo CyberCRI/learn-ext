@@ -32,6 +32,9 @@ function wireUpEffects(driver) {
   didPickLayer.watch(layer => {
     // actions.clearFilters(['user'])
     actions.setFilter('user', layer.src)
+    if (!layer.showHashtags) {
+      actions.removeFilter('hashtag')
+    }
   })
 
   onPickHashTag.watch(tag => {
@@ -101,6 +104,7 @@ function initialiseLayers() {
       src: ucontext.user.email,
       icon: 'layout-circle',
       user: true,
+      showHashtags: true,
     })
 
     if (ucontext.user.groups.length > 0) {
@@ -113,6 +117,7 @@ function initialiseLayers() {
         src: `${group.guid}@group`,
         icon: 'layout-group-by',
         user: true,
+        showHashtags: true,
       })
     }
   }

@@ -12,7 +12,7 @@ import {
 } from '@elastic/react-search-ui-views'
 
 import { NonIdealState, Button, InputGroup, Switch, Spinner } from '@blueprintjs/core'
-import { viewportEvent, didPickTag, $markerSelection } from '../store'
+import { viewportEvent, didPickTag, $markerSelection, $layerSource } from '../store'
 import { searchConfig, didTouchAutocompleteItem } from './connector'
 import { ResourceGrid, Pagination, ResourceListView } from '~components/resources'
 
@@ -144,6 +144,7 @@ const ToolDiv = styled.div`
 
 const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
   const onTouchAutocompleteItem = item => didTouchAutocompleteItem(item, props)
+  const currentLayer = useStore($layerSource)
   const [resultViewAsList, setResultViewType] = React.useState(true)
 
   const didSubmitSearchQuery = (q) => {
@@ -167,7 +168,7 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
         <div className='tools'>
           <div className='available'>
             <ToolDiv>
-              <HashtagPicker/>
+              {currentLayer.showHashtags && <HashtagPicker/>}
             </ToolDiv>
             <ToolDiv>
               <Switch
