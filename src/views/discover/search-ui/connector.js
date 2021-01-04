@@ -75,7 +75,11 @@ async function didSearch({ searchTerm, ...args }) {
     // Assume that this is on page-load or something.
     searchTerm = ''
   }
-  const cleanSearchTerm = _(searchTerm).words().join(' ')
+  let cleanSearchTerm = _(searchTerm).words().join(' ')
+  if (!cleanSearchTerm.length) {
+    // Assume that this is on page-load or something.
+    cleanSearchTerm = ' '
+  }
 
   const limit = args.resultsPerPage
   const skip = args.resultsPerPage * (args.current - 1)
@@ -83,27 +87,39 @@ async function didSearch({ searchTerm, ...args }) {
   const filters = _(args.filters).keyBy('field')
   const source = filters.get('source.values.0')
   const user = filters.get('user.values.0')
+  const portal = filters.get('portal.values.0')
+  const concept = filters.get('concept.values.0')
   const wikidata_id = filters.get('wikidata_id.values.0')
   const hashtag = filters.get('hashtag.values.0')
 
-  let r
-  if (source === 'portal' || source === 'concept') {
-    r = await CarteSearchAPI.wikiq({
-      q: wikidata_id,
-      source, user, hashtag, wikidata_id,
-      page: { skip, limit },
-    })
-  } else if (source === 'hashtag') {
-    r = await CarteSearchAPI.hashtag({
-      q: cleanSearchTerm,
-      skip, limit, source, user, hashtag, wikidata_id,
-    })
-  } else {
-    r = await CarteSearchAPI.search({
-      q: cleanSearchTerm,
-      skip, limit, source, user, hashtag, wikidata_id,
-    })
+  const payload = { q: cleanSearchTerm, skip, limit, user, hashtag }
+
+
+  if (portal && !concept) {
+    payload.portal = wikidata_id
+  } else if (concept && !portal) {
+    payload.concept = wikidata_id
   }
+
+  const r = await CarteSearchAPI.search(payload)
+
+  // if (source === 'portal' || source === 'concept') {
+  //   r = await CarteSearchAPI.wikiq({
+  //     q: wikidata_id,
+  //     source, user, hashtag, wikidata_id,
+  //     page: { skip, limit },
+  //   })
+  // } else if (source === 'hashtag') {
+  //   r = await CarteSearchAPI.hashtag({
+  //     q: cleanSearchTerm,
+  //     skip, limit, source, user, hashtag, wikidata_id,
+  //   })
+  // } else {
+  //   r = await CarteSearchAPI.search({
+  //     q: cleanSearchTerm,
+  //     skip, limit, source, user, hashtag, wikidata_id,
+  //   })
+  // }
   const results = r.results.map((n) => {
     return { ...n, id: { raw: n.resource_id } }
   })
@@ -128,8 +144,9 @@ export function didTouchAutocompleteItem(item, context) {
   const repr = getTagRepresentation(item)
 
   context.setFilter('source', 'concept')
+  context.setFilter('concept', repr.title)
   context.setFilter('wikidata_id', item.wikidata_id)
-  context.setSearchTerm(repr.title, { shouldClearFilters: false })
+  context.setSearchTerm('', { shouldClearFilters: false })
 }
 
 export const searchConfig = {
