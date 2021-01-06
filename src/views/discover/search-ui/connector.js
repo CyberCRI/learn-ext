@@ -143,6 +143,7 @@ async function didAutoComplete({ searchTerm }) {
 export function didTouchAutocompleteItem(item, context) {
   const repr = getTagRepresentation(item)
 
+  context.removeFilter('portal')
   context.setFilter('source', 'concept')
   context.setFilter('concept', repr.title)
   context.setFilter('wikidata_id', item.wikidata_id)
