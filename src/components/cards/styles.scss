@@ -237,6 +237,12 @@ div.card {
           }
         }
       }
+
+      .actions {
+        z-index: 10;
+        position: relative;
+        margin-top: 10px;
+      }
     }
     a.overlay-link {
       position: absolute;

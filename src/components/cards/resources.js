@@ -3,9 +3,14 @@ import { Card, Elevation, Button, Tooltip } from '@blueprintjs/core'
 import { useUpdateEffect } from 'react-use'
 import styled from 'styled-components'
 import clsx from 'classnames'
+import _ from 'lodash'
+import { RiAnchorLine } from 'react-icons/ri'
 
 import { ConceptList } from '~components/concepts'
 import { DateTimePill, ResourceLinkPill } from '~components/pills'
+
+import { ResourceEditorControl } from '~components/resources/store'
+import { HashTags } from '~components/resources/hashtags'
 
 const ResourceTypes = new Map([
   ['wikipedia',     /.*\.wikipedia\.org/],
@@ -158,6 +163,26 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
     props.onRemoveConcept && props.onRemoveConcept(payload)
   }
 
+  const openEditor = (mode) => {
+    let resource_payload = {url, concepts, ...props}
+    if (props.comments && props.is_owner && window.jstate.authorized) {
+      const user_id = window.jstate.user.uid
+      const current_user_comment = props.comments.find(item => item.user_id == user_id)
+
+      if (current_user_comment) {
+        resource_payload.hashtags = current_user_comment.hashtags || []
+        resource_payload.notes = current_user_comment.notes || ''
+      }
+    }
+
+    ResourceEditorControl.show({ mode, resource: resource_payload })
+  }
+
+  let allhashtags = props.hashtags
+  if (props.comments) {
+    allhashtags = _(props.comments).flatMap('hashtags').uniq().value()
+  }
+
   return (
     <Card elevation={Elevation.TWO} interactive className='card resource'>
       {!props.skipMedia && <Backdrop url={url}/>}
@@ -183,8 +208,26 @@ export const ResourceCard = ({ url, concepts=[], onDelete, ...props}) => {
             onRemove={didRemoveConcept}
             noAnimation/>}
 
+        {allhashtags && <HashTags tags={allhashtags}/>}
+
         {isRemovable && <DeleteResourceButton onConfirm={didClickDelete}/>}
         <CardBranding url={url}/>
+
+        <div className='actions'>
+          {props.is_owner === true &&
+            <Button
+              icon='edit'
+              text='Edit'
+              minimal outlined
+              onClick={() => openEditor('edit')}/>}
+          {props.is_owner === false && window.jstate.authorized &&
+            <Button
+              icon={<RiAnchorLine/>}
+              text='Add to my Library'
+              minimal outlined
+              intent='primary'
+              onClick={() => openEditor('add')}/>}
+        </div>
       </div>
     </Card>
   )
