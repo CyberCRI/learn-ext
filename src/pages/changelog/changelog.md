@@ -11,6 +11,16 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.7.1
+Released on `2021-01-06`
+
+In this release we've further improved search functionalities.
+
+- Search for Resources by Hashtags _and_ Concept/Family together.
+- You can add resources from other users into your own library now.
+- Fix an issue which caused resource comment to not show up.
+
+
 ## v0.7.0
 Released on `2020-12-15`
 
