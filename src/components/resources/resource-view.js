@@ -2,16 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
 
-import { ResourceCard, CardBranding, Backdrop } from '~components/cards/resources'
+import { CardBranding } from '~components/cards/resources'
 import { ConceptList } from '~components/concepts'
 import { DateTimePill } from '~components/pills'
 
-import { Card, Elevation, Button, Tooltip, Tag, ButtonGroup, Callout } from '@blueprintjs/core'
+import { Card, Elevation, Button, Callout } from '@blueprintjs/core'
 import { RiAnchorLine } from 'react-icons/ri'
 
-import { $globalContext } from '~page-commons/store'
+import { ResourceEditorControl } from './store'
 
-import { ResourceEditorControl, didClickOnHashTag } from './store'
+import { HashTags } from './hashtags'
 
 
 const ResourceItemContainer = styled.div`
@@ -21,19 +21,6 @@ const ResourceItemContainer = styled.div`
 
   .bp3-card {
     padding: 10px;
-  }
-`
-
-const HashTagList = styled.ol`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-
-  & > li {
-    padding: 2px;
-    margin-right: 5px;
   }
 `
 
@@ -83,21 +70,6 @@ const CommentsListContainer = styled.ol`
   }
 
 `
-
-
-const HashTags = ({ tags }) => {
-  return <HashTagList className='hashtags'>
-    {tags.map(tag =>
-      <li key={tag}>
-        <Tag minimal round interactive
-          onClick={() => didClickOnHashTag(tag)}
-          intent='primary'>
-          # {tag}
-        </Tag>
-      </li>
-    )}
-  </HashTagList>
-}
 
 const ResourceNotes = ({ content }) => {
   return <Callout icon='comment'>
@@ -238,7 +210,7 @@ export const ResourceItem = (resource) => {
             text='Edit'
             minimal outlined
             onClick={() => openEditor('edit')}/>}
-        {false && !resource.is_owner && window.jstate.authorized &&
+        {!resource.is_owner && window.jstate.authorized &&
             <Button
               icon={<RiAnchorLine/>}
               text='Add to my Library'
