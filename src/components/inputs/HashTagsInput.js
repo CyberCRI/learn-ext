@@ -4,6 +4,11 @@ import { MenuItem } from '@blueprintjs/core'
 import { MultiSelect } from '@blueprintjs/select'
 
 
+const normaliseHashtagValue = (v) => {
+  return _.trimStart(v, '# ')
+}
+
+
 export const HashTagsInput = (props) => {
   const [ query, setQuery ] = useState('')
   const [ selectedTags, setSelectedTags ] = useState(props.value || [])
@@ -22,26 +27,27 @@ export const HashTagsInput = (props) => {
         active={modifiers.active}
         key={tag.id}
         onClick={handleClick}
-        text={`${tag.label}`}
+        text={`# ${tag.label}`}
         shouldDismissPopover={false}
       />)
   }
   const createNewTagRenderer = (q, active, handleClick) => {
     return <MenuItem
       icon='add'
-      text={`Create "${q}"`}
+      text={`Create "# ${normaliseHashtagValue(q)}"`}
       active={active}
       onClick={handleClick}
       shouldDismissPopover={false}/>
   }
   const createNewItemFromQuery = (query) => {
-    return { id: query, label: query }
+    const value = normaliseHashtagValue(query)
+    return { id: value, label: value }
   }
   const itemPredicate = (query, tag) => {
     return tag.label.indexOf(query) >= 0
   }
   const onTagRemove = (value) => {
-    const newSelection = _.reject(selectedTags, ['label', value])
+    const newSelection = _.reject(selectedTags, ['label', value.label])
     setSelectedTags(newSelection)
   }
   const onItemSelect = (tag) => {
@@ -55,9 +61,11 @@ export const HashTagsInput = (props) => {
       onItemSelect={onItemSelect}
       onQueryChange={q => setQuery(q)}
 
+      onRemove={onTagRemove}
+
       itemRenderer={itemRenderer}
       itemPredicate={itemPredicate}
-      tagRenderer={tag => `${tag.label}`}
+      tagRenderer={tag => <span>{`# ${tag.label}`}</span>}
 
       query={query}
       items={tags.map(i => ({ id: i, label: i }))}
@@ -74,7 +82,6 @@ export const HashTagsInput = (props) => {
 
       popoverProps={{ minimal: true, portalClassName: 'hashtag-portal' }}
       tagInputProps={{
-        onRemove: onTagRemove,
         tagProps: {
           minimal: true,
           round: true,
