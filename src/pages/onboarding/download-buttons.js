@@ -62,7 +62,7 @@ const AvailableDownloads = ({ boxed = false }) => (
 )
 
 const DownloadOptions = () => (
-  <Popover position={Position.LEFT} modifiers={{ offset: '10' }} flip={false}>
+  <Popover position={Position.BOTTOM} modifiers={{ offset: '10' }} flip={false}>
     <Button minimal icon='download' text={i18nT('options.label')}/>
     <AvailableDownloads/>
   </Popover>
