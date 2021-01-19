@@ -226,7 +226,7 @@ export const PopOverlay = (props) => {
         }}/>
 
       <nav className='toolbar bp3-dark'>
-        <img src='/icons/browsers/icon-round-v1.png' title='WeLearn' className='icon'/>
+        <img src='/icons/browsers/apple-touch-icon.png' title='WeLearn' className='icon'/>
         <Button
           small minimal icon='book'
           text='Dashboard'
