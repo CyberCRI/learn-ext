@@ -11,64 +11,100 @@ mixin dotbg
       circle.dotUnit(cx=5 cy=5 r=1)
     rect#bg(x=0 y=0 width='100%' height='100%' fill='url(#dots)')
 
+mixin partnerIcon(url, title, imageUrl)
+  li
+    a(href=url, title=title, rel='noopener noreferrer', target='_blank')
+      img(src=imageUrl, alt=title)
+
 append main
   div.presentation
-    section.slide.tile.blurb
-      div.tile.is-6.is-parent
-        div.align-middle
-          img.logo(src='/icons/browsers/icon-round-v1.png' height=80)
-          h1 Making the web a learner-friendly place.
-          // Let's make an over engineered solution.
-          p WeLearn will index and qualify learning resources.
-          p It lets people analyse their own learning path, and help them search for pedagogical resources.
-          span#login-button
+    section.slide.blurb
+      div.tile
+        div.tile.is-6.is-parent.opening-content
+          div.align-middle
+            div
+              img.logo(src='/icons/browsers/apple-touch-icon.png' height=80)
+            div
+              h1 Making the web a learner-friendly place.
+              // Let's make an over engineered solution.
+              p.
+                With our web extension, collect resources from across the web.
+                Organise, explore and share them in a visual and interactive way.
 
-      div.tile.is-6.is-parent
-        div.toc
+              p.
+                Thanks to our partners, it is free, open source, and you contribute to the learning of others. Enjoy!
+
+        div.tile.is-6.is-parent
+          div.align-all
+            div#download-buttons
+
+      div.tile.toc-container
+        div.toc-list
           a.ref.learn(href='#j-learn')
-            span.index 1
-            h2 Learn
+            h2 Save
             p Curate your Library
 
-          a.ref.discover(href='#j-discover')
-            span.index 2
-            h2 Discover
+          a.ref.discover(href='#j-section-organise')
+            h2 Organise
             p Efficiently find Resources
 
-          a.ref.visualise(href='#j-discover')
-            span.index 3
-            h2 Visualise
+          a.ref.visualise(href='#j-section-explore')
+            h2 Explore
             p A landscape of your learning
 
+          a.ref.visualise(href='#j-section-share')
+            h2 Share
+            p Easily share your Resource Library
 
     section#j-learn.slide.tile.whatis
       div.tile.is-6.is-parent
         div.align-middle.fadeInUp(data-trigger)
-          h1 Learn
+          h1 Save
           h2 Curate your Library with WeLearn Extension.
           p When you find a resource you like, click the anchor to add it to your library.
 
-          div#download-buttons
 
       div.tile.is-6.is-parent
         div.align-middle
           img.fit-cover(src='/media/illustrations/shot-toolbar.png' role='presentation')
 
+    section#j-section-organise.slide.tile.organise
+      div.tile.is-6.is-parent
+        img.screenshot(src='/media/illustrations/shot-extension-popup.png' role='presentation')
+
+      div.tile.is-6.is-parent
+        div.align-middle.fadeInUp(data-trigger)
+          h1 Organise
+          p.
+            Any time you add a resource, machine learning algorithms will help you annotate it with concepts.
+            These concepts are Wikipedia articles.
+          p.
+            Modify automatic annotations, add personnal hashtags and notes.
+
+    section#j-section-explore.slide.tile.explore
+      div.tile.is-6.is-parent
+        div.align-middle.fadeInUp(data-trigger)
+          h1 Explore
+          p.
+            Explore by search, and by a novel interactive map where articles tackling similar concepts are close by.
+
+      div.tile.is-6.is-parent
+        img.screenshot(src='/media/illustrations/shot-dashboard.jpg' role='presentation')
+
+    section#j-section-share.slide.tile.share
+      div.tile.is-6.is-parent
+        img.screenshot(src='/media/illustrations/shot-share-popover.jpg' role='presentation')
+
+      div.tile.is-6.is-parent
+        div.align-middle.fadeInUp(data-trigger)
+          h1 Share
+          p.
+            Share your entire library with anybody by a simple link.
+            Put your resources in a common map with a group of people and explore them altogether.
+
     section.slide.resources-demo
       div#demo-cards
       +dotbg
-
-    section#j-discover.slide.tile.discover
-      div.tile.is-6.is-parent
-        div.align-middle.fadeInUp(data-trigger)
-          h1 Discover
-          ol
-            li Browse resources on your Knowledge Map.
-            li Find qualified resources from your peers.
-            li Create your own learning path.
-
-      div.tile.is-6
-        img.screenshot(src='/media/illustrations/shot-discover-page.jpg' role='presentation')
 
     section.slide.tile.wikipedia
       div.tile.is-8.is-parent
@@ -76,10 +112,15 @@ append main
       div.tile.is-4.is-parent
         div.align-middle
           h1 Standing on the Shoulder of the Giants
-          h2 Wikipedia Integration
+          h3 Wikipedia Integration
+          p.
+            We use Wikipedia articles  as "concepts" to annotate resources.
+            We estimated how similar artlicles are based on language analyis.
+            This allows us to draw the map that you see, where similar concepts are close by.
+            And much more in close future :).
 
     section.slide.tile.close-off
-      div.tile.is-4.is-parent
+      div.tile.is-8.is-parent
         div.align-middle
           h1 Open, Inclusive, and Private.
           p.
@@ -89,40 +130,76 @@ append main
           p
             a.bp3-button(href='https://github.com/CyberCRI/learn-ext') Contribute on GitHub
 
-          p
-            a.bp3-button.bp3-minimal(href='https://www.netlify.com' style='padding: 0')
-              img(
-                alt='Deploys by Netlify'
-                src='/media/logos/netlify-dark.svg')
+          p.
+            We also have a blog where we frequently post project updates.
 
-      div.tile.is-8.is-parent
+          a.bp3-button(href='https://projects.cri-paris.org/projects/Jq2tzEMD/blogentries') Project Blog
+
+      div.tile.is-4.is-parent
         div.align-middle.fit-box
           ul.misc-features
-            li.privacy
-              img(src='/media/illustrations/ico-heart.svg')
-              h2 Privacy by design.
-              p
+            //- li.privacy
+            //-   img(src='/media/illustrations/ico-heart.svg')
+            //-   h2 Privacy by design.
+            //-   p
 
-            li.i18n
-              img(src='/media/illustrations/ico-i18n.svg')
-              h2 We speak many languages!
+            //- li.i18n
+            //-   img(src='/media/illustrations/ico-i18n.svg')
+            //-   h2 We speak many languages!
 
-            li.a11y
-              img(src='/media/illustrations/ico-a11y.svg')
-              h2 Accessible
+            //- li.a11y
+            //-   img(src='/media/illustrations/ico-a11y.svg')
+            //-   h2 Accessible
 
             li.open
               img(src='/media/illustrations/ico-star.svg')
               h2 Open source
 
-    //- Disabled these to rush a release!
-    //- section.slide.tile.callout
-    //-   div.tile.is-6.is-parent
-    //-     div.align-middle
-    //-       h1 Ready to get started?
-    //-       h2 Login or Signup.
+    section.slide.tile.partners
+      div.tile.is-12.is-parent
+        div.content
+          h1 Our Partners
 
-    //-       p Or, Browse as guest.
+          ul.partners.big
+            +partnerIcon(
+              'https://www.paris.fr/',
+              'Marie de Paris',
+              '/media/logos/marie-de-paris.png')
+            +partnerIcon(
+              'https://www.fondationbs.org/fr/',
+              'Fondation Bettencourt Schueller',
+              '/media/logos/fondation_Bettencourt_Schueller-logo.svg')
+            +partnerIcon(
+              'https://www.education.gouv.fr/',
+              "Ministère de l'Éducation Nationale et de la Jeunesse",
+              '/media/logos/Ministère-Éducation-Nationale-Jeunesse-Sports.svg')
+            +partnerIcon(
+              'https://u-paris.fr/',
+              'Université de Paris',
+              '/media/logos/UniversiteParis_logo_horizontal_couleur_RVB.png')
+            +partnerIcon(
+              'https://www.iledefrance.fr/',
+              'Région Île-de-France',
+              '/media/logos/region-ile-de-France.svg')
+            +partnerIcon(
+              'https://www.cri-paris.org/fr/about/institut-des-defis',
+              "L’Institut des Défis",
+              '/media/logos/Logo_IDD.png')
 
-    //-       //- span or, skip this, it's just to make things pretty.
-
+          ul.partners.small
+            +partnerIcon(
+              'https://www.cyu.fr/',
+              'CY Cergy Paris Université',
+              '/media/logos/CY_Cergy_Paris_Universite_coul.png')
+            +partnerIcon(
+              'https://www.dev4x.com/',
+              'Dev4X',
+              '/media/logos/Dev4-logo.png')
+            +partnerIcon(
+              'https://www.hep-education.com/',
+              'HEP Education',
+              '/media/logos/hep-logo.jpg')
+            +partnerIcon(
+              'http://nus.edu.sg/',
+              'National University of Singapore',
+              '/media/logos/National_University_of_Singapore_logo_NUS.png')

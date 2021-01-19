@@ -16,6 +16,24 @@
   }
 }
 
+@mixin tilted-div($order) {
+  z-index: $order;
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    bottom: 0;
+    left: 0;
+    transform-origin: left bottom;
+    transform: skewY(2deg);
+    z-index: -1;
+  }
+}
+
 body {
   background: $ink1;
 
@@ -24,22 +42,22 @@ body {
     width: 100%;
     position: absolute;
     display: block;
-    background: transparent;
+    // background: transparent;
 
-    #navbar {
-      margin-top: 5px;
+    // #navbar {
+    //   margin-top: 5px;
 
-      .bp3-navbar {
-        @include bg-vibrant-tint($ink1, .2, 8px);
-        border-radius: 5px;
-        padding: 0 5px;
-        height: auto;
-      }
+    //   .bp3-navbar {
+    //     @include bg-vibrant-tint($ink1, .2, 8px);
+    //     border-radius: 5px;
+    //     padding: 0 5px;
+    //     height: auto;
+    //   }
 
-      .bp3-navbar-group {
-        height: 40px;
-      }
-    }
+    //   .bp3-navbar-group {
+    //     height: 40px;
+    //   }
+    // }
   }
 
   main {
@@ -74,7 +92,7 @@ body {
     }
 
     &.slide {
-      padding: 10px 10%;
+      padding: 20px 10%;
       margin: 0;
       position: relative;
 
@@ -89,88 +107,84 @@ section.slide {
   $bg-blurb: url('/media/textures/dotatlas-basemap.png');
   $bg-texture: url('/media/textures/sunset-skies.png');
 
+  position: relative;
+  z-index: 1;
+
+
   &.blurb {
     @include bg-cover($bg-blurb, center);
     color: $ink1;
-    min-height: 50vh;
+    min-height: 100vh;
 
-    .logo {
-      margin-top: 40px;
+    display: flex;
+    flex-flow: column;
+
+    & > .tile:first-of-type {
+      flex: 1;
     }
 
-    .toc {
-      display: flex;
-      align-self: center;
-      justify-content: space-between;
-      align-items: stretch;
-      width: 100%;
-
-      a.ref {
-        @include bg-vibrant-tint($ink1, .5);
-
-        flex: 1;
-        color: $white;
-        border-radius: 5px;
-        padding: 10px;
-        display: block;
-        min-width: 100px;
-        min-height: 100px;
-        margin: 5px;
-        text-decoration: none;
-        transition: .1s all;
-
-        &:hover {
-          @include bg-vibrant-tint($ink1, .2);
-        }
-
-        &:focus, &:active {
-          @include bg-vibrant-tint($ink1, .1);
-        }
+    .opening-content {
+      @media(max-width: 769px) {
+        margin-top: 60px;
       }
 
-      span.index {
-        font-size: 1em;
-        font-weight: 600;
-        display: block;
+      & > div {
+        display: flex;
       }
 
-      h2 {
-        font-size: 1.2em;
-        margin-top: 0;
+      h1 {
+        margin: 0 0 1em 0;
       }
+    }
 
-      p {
-        font-size: .8em;
-        margin: 0;
-      }
+    .toc-container {
+      flex: 0;
+    }
+
+    .logo {
+      margin: 6px 20px 1em 0;
+      border-radius: 5px;
     }
   }
 
-  &.whatis {
+  &.toc {
     background: $white;
+  }
+
+  &.whatis {
+    background: #E3F2FD;
     color: $ink1;
+
+    @include tilted-div(8);
 
     img.ext-toolbar {
       max-width: 100%;
     }
   }
 
-  &.discover {
-    background: $white;
+  &.organise {
     color: $ink1;
-    padding-bottom: 0;
+    background: $white;
+    @include tilted-div(7);
+  }
+  &.explore {
+    color: $ink1;
+    background: #E0F2F1;
 
-    ol {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-    }
+    padding-top: 50px;
+
+    @include tilted-div(6);
+  }
+  &.share {
+    color: $ink1;
+    background: #BBDEFB;
+    @include tilted-div(5);
   }
 
   &.resources-demo {
-    background: #4f44df;
+    background: #7986CB;
     // Reset the padding here.
-    padding: 20px 0;
+    padding: 50px 0;
     overflow: hidden;
     display: flex;
     // Set a minimum height here.
@@ -183,7 +197,7 @@ section.slide {
   }
 
   &.close-off {
-    @include bg-cover($bg-texture, top);
+    background: #134551;
     color: $white;
 
     ul.misc-features {
@@ -230,12 +244,106 @@ section.slide {
     }
   }
 
+  &.partners {
+    background: $white;
+    color: $ink1;
+
+    .content {
+      width: 100%;
+    }
+
+    ul.partners {
+      list-style: none;
+      margin: 20px 0;
+      padding: 0;
+
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-around;
+
+      li {
+        text-align: center;
+      }
+
+      &.big {
+        li {
+          width: 30%;
+          margin-bottom: 30px;
+        }
+
+        img {
+          max-width: 100%;
+          max-height: 100px;
+        }
+      }
+      &.small {
+        li {
+          width: 25%;
+          margin-bottom: 10px;
+        }
+        img {
+          max-width: 100px;
+          width: 100%;
+        }
+      }
+    }
+  }
+
   img.screenshot {
-    border-radius: 10px 10px 0 0;
-    border: 5px solid $light-gray4;
-    border-bottom: 0;
+    border-radius: 10px;
+    // border: 5px solid $light-gray4;
+    // border-bottom: 0;
     width: 100%;
     height: intrinsic;
+  }
+}
+
+.toc-list {
+  display: flex;
+  align-self: center;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  overflow: auto;
+
+  a.ref {
+    @include bg-vibrant-tint($ink1, .5);
+
+    flex: 1;
+    color: $white;
+    border-radius: 5px;
+    padding: 10px;
+    display: block;
+    min-width: 100px;
+    // min-height: 100px;
+    margin: 5px;
+    text-decoration: none;
+    transition: .1s all;
+
+    &:hover {
+      @include bg-vibrant-tint($ink1, .2);
+    }
+
+    &:focus, &:active {
+      @include bg-vibrant-tint($ink1, .1);
+    }
+  }
+
+  span.index {
+    font-size: 1em;
+    font-weight: 600;
+    display: block;
+  }
+
+  h2 {
+    font-size: 1.2em;
+    margin-top: 0;
+  }
+
+  p {
+    font-size: .8em;
+    margin: 0;
   }
 }
 
@@ -326,6 +434,7 @@ section.slide {
 .download-links {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .download-options {
@@ -343,7 +452,7 @@ section.slide {
 }
 
 .np-download-link {
-  background: #0B0738;
+  background: $blue3;
   color: #fff;
   display: inline-flex;
 
@@ -361,9 +470,13 @@ section.slide {
   }
 
   border-radius: 4px;
-  padding: 5px 10px;
-  width: 150px;
+  padding: 15px 20px;
+  width: 220px;
   margin: 0 5px 0 0;
+
+  &:last-of-type {
+    margin: 0;
+  }
 
   .browser-icon {
     width: 2em;
