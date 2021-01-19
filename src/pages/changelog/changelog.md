@@ -11,6 +11,11 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.7.2
+Released on `2021-01-19`
+
+- We improved our landing page to give a better explanation about WeLearn.
+
 ## v0.7.1
 Released on `2021-01-06`
 
