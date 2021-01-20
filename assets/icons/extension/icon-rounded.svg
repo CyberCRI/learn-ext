@@ -1,57 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="0 0 48 48">
-  <defs>
-    <rect id="icon-rounded-a" width="48" height="48" x="0" y="0" rx="4"/>
-    <polygon id="icon-rounded-d" points="21.75 0 25.769 23.957 35.777 23.957"/>
-    <filter id="icon-rounded-c" width="121.4%" height="112.5%" x="-10.7%" y="-6.3%" filterUnits="objectBoundingBox">
-      <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
-      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
-      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
-    </filter>
-    <path id="icon-rounded-f" d="M12.7663043,25.375 L42.2575231,10.7042414 C42.5800098,10.5438166 42.9714868,10.6751936 43.1319116,10.9976803 C43.2158296,11.1663725 43.2226914,11.3631144 43.15073,11.5372433 L37.4320652,25.375 L37.4320652,25.375 L12.7663043,25.375 Z"/>
-    <filter id="icon-rounded-e" width="107.7%" height="114.8%" x="-4.8%" y="-5.1%" filterUnits="objectBoundingBox">
-      <feOffset in="SourceAlpha" result="shadowOffsetOuter1"/>
-      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
-      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
-    </filter>
-    <path id="icon-rounded-h" d="M0.661216575,10.7437822 L6.69836957,25.375 L6.69836957,25.375 L32.7826087,25.375 L1.55349654,9.91058389 C1.23071832,9.75074659 0.839481138,9.88283631 0.679643844,10.2056145 C0.596272647,10.3739758 0.589556775,10.5701125 0.661216575,10.7437822 Z"/>
-    <filter id="icon-rounded-g" width="110.3%" height="120.3%" x="-1.2%" y="-8%" filterUnits="objectBoundingBox">
-      <feOffset dx="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
-      <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation=".5"/>
-      <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0"/>
-    </filter>
-  </defs>
-  <g fill="none" fill-rule="evenodd">
-    <mask id="icon-rounded-b" fill="#fff">
-      <use xlink:href="#icon-rounded-a"/>
-    </mask>
-    <use fill="#D9E1E6" xlink:href="#icon-rounded-a"/>
-    <g mask="url(#icon-rounded-b)">
-      <g transform="translate(-5 -6)">
-        <polygon fill="#F6CA64" points="0 0 58 0 58 58 0 58"/>
-        <circle cx="29" cy="29" r="25.06" fill="#FCB757"/>
-        <circle cx="29" cy="29" r="13.712" fill="#FED798"/>
-        <polygon fill="#91D2C8" points="0 37.668 58 50.04 58 58 0 58 0 45.785"/>
-        <g transform="translate(7.171 20.41)">
-          <polygon fill="#FFF" stroke="#979797" stroke-width=".5" points="21.75 0 8.196 23.957 35.777 23.957"/>
-          <use fill="#000" filter="url(#icon-rounded-c)" xlink:href="#icon-rounded-d"/>
-          <use fill="#FFF" xlink:href="#icon-rounded-d"/>
-          <use fill="#000" filter="url(#icon-rounded-e)" xlink:href="#icon-rounded-f"/>
-          <use fill="#FFF" xlink:href="#icon-rounded-f"/>
-          <use fill="#000" filter="url(#icon-rounded-g)" xlink:href="#icon-rounded-h"/>
-          <use fill="#FFF" xlink:href="#icon-rounded-h"/>
-          <polygon stroke="#312F30" stroke-linejoin="round" stroke-width=".652" points="21.75 0 8.196 23.957 35.777 23.957"/>
-          <polygon stroke="#312F30" stroke-linejoin="round" stroke-width=".652" points="21.75 0 25.769 23.957 35.777 23.957"/>
-          <path fill="#FFF" stroke="#312F30" stroke-linejoin="round" stroke-width=".652" d="M12.7663043,25.375 L42.8806008,10.394284 C43.0740928,10.2980291 43.3089791,10.3768553 43.4052339,10.5703473 C43.4555847,10.6715627 43.4597018,10.7896078 43.4165249,10.8940851 L37.4320652,25.375 L37.4320652,25.375 L12.7663043,25.375 Z"/>
-          <path fill="#FFF" stroke="#312F30" stroke-linejoin="round" stroke-width=".652" d="M0.396729945,10.102791 L6.69836957,25.375 L6.69836957,25.375 L32.7826087,25.375 L0.932097926,9.60287207 C0.738430991,9.50696969 0.503688683,9.58622353 0.407786307,9.77989046 C0.357763588,9.88090722 0.353734065,9.99858926 0.396729945,10.102791 Z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>anchor-active@4x</title>
+    <defs>
+        <radialGradient cx="135.474672%" cy="38.389603%" fx="135.474672%" fy="38.389603%" r="118.693163%" gradientTransform="translate(1.354747,0.383896),scale(1.000000,0.457702),rotate(126.830745),translate(-1.354747,-0.383896)" id="radialGradient-1">
+            <stop stop-color="#000000" offset="0%"></stop>
+            <stop stop-color="#000000" stop-opacity="0" offset="100%"></stop>
+        </radialGradient>
+        <linearGradient x1="37.2872747%" y1="5.24687892%" x2="53.139166%" y2="76.5937832%" id="linearGradient-2">
+            <stop stop-color="#000000" stop-opacity="0.705911276" offset="0%"></stop>
+            <stop stop-color="#000000" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#000000" stop-opacity="0.620738636" offset="0%"></stop>
+            <stop stop-color="#000000" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="52.2588325%" y1="12.5846975%" x2="41.9515359%" y2="67.9667109%" id="linearGradient-4">
+            <stop stop-color="#000000" stop-opacity="0.773956512" offset="0%"></stop>
+            <stop stop-color="#000000" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Icon-Views" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Production-Icons" transform="translate(-437.000000, -175.000000)">
+            <g id="anchor-active@4x" transform="translate(437.000000, 175.000000)">
+                <rect id="Rectangle" fill="#021C2C" x="0" y="0" width="64" height="64" rx="6"></rect>
+                <g id="Group" transform="translate(2.000000, 2.000000)">
+                    <g id="anchor-symbol" transform="translate(2.413793, 0.000000)">
+                        <path d="M25.5176946,45.5172414 C25.5176946,51.2305319 20.8861575,55.862069 15.172867,55.862069 C9.4595765,55.862069 4.82803943,51.2305319 4.82803943,45.5172414 L4.82803943,21.3793103 C4.82803943,20.2366522 3.90173201,19.3103448 2.75907391,19.3103448 C1.61641581,19.3103448 0.690108393,20.2366522 0.690108393,21.3793103 L0.690108393,45.5172414 C0.690108393,53.5158481 7.17426029,60 15.172867,60 C23.1714737,60 29.6556256,53.5158481 29.6556256,45.5172414 L29.6556256,31.8247573 L18.3855285,37.4598058 C17.3635041,37.9708181 16.9492468,39.2135899 17.460259,40.2356143 C17.9712713,41.2576388 19.2140431,41.6718961 20.2360676,41.1608838 L25.5176946,38.5200703 L25.5176946,45.5172414 Z" id="anchor-shape-right" fill="#007AFF" fill-rule="nonzero" transform="translate(15.172867, 39.655172) scale(-1, 1) translate(-15.172867, -39.655172) "></path>
+                        <path d="M25.5249849,43.6827262 L27.5866601,43.6827262 L27.5866601,52.996385 C26.8513556,54.2201848 25.9212173,55.3343931 24.7962454,56.33901 C23.6712734,57.3436269 22.6099686,56.4396395 21.6123311,53.627048 C22.4715263,52.9117623 23.1506639,52.1807282 23.649744,51.4339456 C23.9065964,51.0496127 24.3893295,50.3829713 24.7586624,49.4143686 C25.1279953,48.4457658 25.3857929,47.3934791 25.4744824,46.5194922 C25.5338184,45.9347675 25.5506526,44.9891789 25.5249849,43.6827262 Z" id="anchor-shadow-mid" fill="url(#radialGradient-1)"></path>
+                        <path d="M29.6556256,45.5172414 C29.6556256,51.2305319 34.2871627,55.862069 40.0004532,55.862069 C45.7137437,55.862069 50.3452808,51.2305319 50.3452808,45.5172414 L50.3452808,45.5172414 L50.3452808,38.5200703 L45.0636538,41.1608838 C44.0416293,41.6718961 42.7988575,41.2576388 42.2878452,40.2356143 C41.776833,39.2135899 42.1910903,37.9708181 43.2131147,37.4598058 L43.2131147,37.4598058 L54.4832118,31.8247573 L54.4832118,45.5172414 C54.4832118,53.5158481 47.9990599,60 40.0004532,60 C32.0018465,60 25.5176946,53.5158481 25.5176946,45.5172414 L25.5176946,45.5172414 L25.5176946,5.51724138 C25.5176946,4.37458328 26.444002,3.44827586 27.5866601,3.44827586 C28.7293182,3.44827586 29.6556256,4.37458328 29.6556256,5.51724138 L29.6556256,5.51724138 Z" id="anchor-shape-left" fill="#5AC8FA" fill-rule="nonzero"></path>
+                        <polygon id="anchor-shadow" fill="url(#linearGradient-2)" points="50.3452808 38.9655172 50.3452808 43.0206476 54.4765219 43.0206476 54.4765219 34.8562919 50.3452808 34.8275862"></polygon>
+                        <path d="M55.1613455,30.7683131 L55.1670268,36.8725644 L45.3608651,41.783091 L45.2774137,41.8227352 C43.9295678,42.4342935 42.3352092,41.8712166 41.6714521,40.5437024 C40.9901025,39.1810031 41.5424455,37.523974 42.9073164,36.8415433 L55.1613455,30.7683131 Z" id="anchor-head-left" fill="#5AC8FA" fill-rule="nonzero"></path>
+                        <polygon id="arrow-shadow" fill="url(#linearGradient-3)" points="25.5176946 13.7931034 25.5176946 4.13793103 29.6556256 4.13793103 29.6556256 13.7931034"></polygon>
+                        <path d="M27.5866601,8.03920983 L38.0498138,18.5023635 C39.1271222,19.5796719 40.8737842,19.5796719 41.9510926,18.5023635 C43.028401,17.4250551 43.028401,15.6783931 41.9510926,14.6010847 L27.5866601,0.236652242 L13.2222276,14.6010847 C12.1449192,15.6783931 12.1449192,17.4250551 13.2222276,18.5023635 C14.299536,19.5796719 16.046198,19.5796719 17.1235064,18.5023635 L27.5866601,8.03920983 Z" id="arrowhead" fill="#5AC8FA" fill-rule="nonzero"></path>
+                        <polygon id="anchor-shadow" fill="url(#linearGradient-4)" points="0.690108393 34.8275862 0.697251588 43.7931034 4.82849265 43.7931034 4.82849265 34.8275862"></polygon>
+                        <path d="M12.2686287,36.8429595 C13.631328,37.5243091 14.183671,39.1813382 13.5023213,40.5440375 C12.8385642,41.8715517 11.2442057,42.4346286 9.88455857,41.8175809 L9.80086145,41.7775391 L0.00674665684,36.8728996 L0.0124279707,30.7686482 L12.2686287,36.8429595 Z" id="anchor-head-right" fill="#007AFF" fill-rule="nonzero"></path>
+                    </g>
+                </g>
+            </g>
         </g>
-        <polygon fill="#A5DDED" points="0 45.785 58 42.018 58 58 0 58"/>
-        <polygon fill="#57B5CB" fill-opacity=".66" points="0 54.78 58 45.785 58 58 0 58"/>
-      </g>
     </g>
-    <polyline stroke="#222930" stroke-linejoin="round" stroke-width="1.5" points="8.845 39.75 2.857 24.272 15 30 24 14 33.452 30.313 45.319 25.085 40.359 37.305" mask="url(#icon-rounded-b)"/>
-    <line x1="12.026" x2="33.679" y1="28.871" y2="39.037" stroke="#222930" stroke-linejoin="round" mask="url(#icon-rounded-b)"/>
-    <line x1="35.451" x2="24.524" y1="29.649" y2="34.838" stroke="#222930" stroke-linejoin="round" mask="url(#icon-rounded-b)"/>
-    <polygon fill="#A5DDED" points="3.419 39.276 44.452 36.555 39.774 41.506 4.762 44.483" mask="url(#icon-rounded-b)"/>
-    <line x1="23.935" x2="27.141" y1="14.312" y2="33.463" stroke="#222930" stroke-linejoin="round" mask="url(#icon-rounded-b)"/>
-  </g>
 </svg>
