@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 import _ from 'lodash'
 
-import { viewportEvent, didPickLayer, NodeEvents, $markers, $markerStore } from './store'
+import { viewportEvent, didPickLayer, NodeEvents, $markers, $markerStore, onPickHashTag } from './store'
 import { $markerSelectionStore, $markerSelection } from './store'
 
 import { CarteSocket } from './carte-ws'
@@ -146,15 +146,36 @@ class ConceptMap {
     didPickLayer.watch((value) => {
       // [!todo] used in welearn, this needs to get out of here.
       if (value && value.src) {
-        this.filters = { user: value.src }
+        this.filters.user = value.src
       } else {
-        this.filters = {}
+        this.filters.user = undefined
       }
+
+      if (value && !value.showHashtags) {
+        this.filters.hashtag = undefined
+      }
+
+      $markers.clear()
 
       this.sock
         .emit('markers.init', this.filters)
         .emit('markers.portals', this.filters)
         .emit('contours.density', this.filters)
+    })
+
+    onPickHashTag.watch((value) => {
+      if (value.length) {
+        this.filters.hashtag = value
+
+        $markers.clear()
+
+        this.sock
+          .emit('markers.init', this.filters)
+          .emit('markers.portals', this.filters)
+          .emit('contours.density', this.filters)
+      } else {
+        this.filters.hashtag = undefined
+      }
     })
   }
 

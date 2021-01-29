@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { createEvent, createStore, createApi } from 'effector'
+import { createEvent, createStore, createApi, merge as mergeEvents } from 'effector'
 
 import { didClickOnHashTag } from '~components/resources/store'
 import { didClickOnConcept } from '~components/concepts'
@@ -34,6 +34,7 @@ export const StateEvents = {
 
 export const didPickLayer = createEvent()
 export const didPickTag = createEvent()
+export const onPickHashTag = mergeEvents([ didClickOnHashTag, didPickTag ])
 
 export const setProgress = createEvent()
 export const $progress = createStore({ loading: false, value: 0 })

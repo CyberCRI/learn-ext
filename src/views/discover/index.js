@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import { SearchDriver } from '@elastic/search-ui'
-import { merge as mergeEvents } from 'effector'
 
 import { renderReactComponent } from '~mixins/react-helpers'
 import { i18n } from '@ilearn/modules/i18n'
@@ -11,7 +10,7 @@ import { SearchView } from './search-ui'
 
 import { MapLayerSources } from './consts'
 
-import { didPickLayer, didPickTag, viewportEvent, setAvailableLayers, $searchState, $layerSource } from './store'
+import { didPickLayer, onPickHashTag, viewportEvent, setAvailableLayers, $searchState, $layerSource } from './store'
 
 import { searchConfig } from './search-ui'
 import { $globalContext } from '~page-commons/store'
@@ -25,9 +24,6 @@ import './styles.scss'
 
 function wireUpEffects(driver) {
   const actions = driver.getActions()
-
-  // Merge the events emitted from HashTags from ResourceCard and Sidebar
-  const onPickHashTag = mergeEvents([ didClickOnHashTag, didPickTag ])
 
   didPickLayer.watch(layer => {
     // actions.clearFilters(['user'])
@@ -146,6 +142,10 @@ export const renderView = async () => {
   } else {
     const layer = _.find(layers, ['default', true])
     didPickLayer(layer)
+  }
+
+  if (initialSearchState.hashtag) {
+    cmap.filters.hashtag = initialSearchState.hashtag
   }
 
   wireUpEffects(searchDriver)
