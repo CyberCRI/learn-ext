@@ -11,6 +11,12 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.8.0
+Released on `2021-01-29`
+
+- Now when you pick a hashtag, you will see the map update to show landscape of that hashtag.
+- Bug fixes in search results.
+
 ## v0.7.2
 Released on `2021-01-19`
 
