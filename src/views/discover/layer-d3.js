@@ -319,6 +319,7 @@ class ConceptMap {
       .y(fy)
       .weight(i => Math.max(i.w, i.w2))
       .cellSize(Math.pow(2, 2))
+      .bandwidth(14)
       .thresholds(80))(items)
 
     console.log(`Contours calculated in ${performance.now() - _ti}ms`)
