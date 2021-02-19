@@ -199,12 +199,13 @@ class ConceptMap {
 
   setupDOMEventHandlers = () => {
     this.zoom = d3.zoom()
-      .scaleExtent([.2, 35])
+      .scaleExtent([.2, 55])
       .touchable(true)
       .on('zoom', this.didZoom)
 
     this.svg = d3.select('svg.maproot')
     this.vizLayers.contours = this.svg.select('.contours')
+    this.vizLayers.scatter = this.svg.select('.scatter')
     this.vizLayers.divroot = d3.select('div.divroot')
     this.vizLayers.markers = d3.select('.layer.markers')
     this.vizLayers.selection = d3.select('.layer.selection')
@@ -212,6 +213,7 @@ class ConceptMap {
     $markerStore.watch((items) => {
       console.log('rendering n_items', items.length)
       this.renderMarkers(items)
+      this.renderScatter(items)
     })
     $markerSelectionStore.watch(items => {
       console.log('rendering selections:', items.length)
@@ -383,11 +385,29 @@ class ConceptMap {
         .on('click', (d, i, e) => viewportEvent.click({ source: i.kind, data: i }))
   }
 
+  renderScatter = (nodes) => {
+    const scale = this.scale
+
+    this.vizLayers.scatter
+      .selectAll('.scatter')
+      .data(nodes)
+      .join('circle')
+        .attr('class', 'scatter')
+        .attr('r', 2)
+        .attr('cx', 0)
+        .attr('cy', 0)
+        .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
+  }
+
   updateTransformation = (transform, scale) => {
     // in-view nodes will have the transform/scale less than zero; greater than 1.
 
     this.vizLayers.contours
       .attr('transform', transform)
+
+    this.vizLayers.scatter
+      .selectAll('.scatter')
+        .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
 
     this.vizLayers.divroot
       .attr('data-zoomed', _ => transform.k >= 1.5 ? 'in' : 'out' )
