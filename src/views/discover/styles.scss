@@ -137,6 +137,13 @@ $marker-fill: #042;
     position: relative;
     display: block;
     @include fill-container(0);
+
+    .scatter {
+      opacity: .5;
+      &[data-zoomed="out"] {
+        display: none;
+      }
+    }
   }
 
   .divroot {

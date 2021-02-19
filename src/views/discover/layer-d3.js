@@ -199,7 +199,7 @@ class ConceptMap {
 
   setupDOMEventHandlers = () => {
     this.zoom = d3.zoom()
-      .scaleExtent([.2, 55])
+      .scaleExtent([.2, 85])
       .touchable(true)
       .on('zoom', this.didZoom)
 
@@ -405,6 +405,8 @@ class ConceptMap {
     this.vizLayers.contours
       .attr('transform', transform)
 
+    this.vizLayers.scatter
+      .attr('data-zoomed', _ => transform.k >= 1.5 ? 'in' : 'out' )
     this.vizLayers.scatter
       .selectAll('.scatter')
         .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
