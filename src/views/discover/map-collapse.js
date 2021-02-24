@@ -12,6 +12,7 @@ export const MapCollapseButton = () => {
     toggleVisibility()
   }
   return <Button
-    text={visible ? 'Collapse Map' : 'Show Map'}
+    text={visible ? 'Hide Map' : 'Show Map'}
+    icon={visible ? 'chevron-up' : 'chevron-down'}
     onClick={didClickOnButton}/>
 }
