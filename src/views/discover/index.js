@@ -113,7 +113,7 @@ function initialiseLayers() {
         label: i18nT`group`,
         src: `${group.guid}@group`,
         icon: 'layout-group-by',
-        user: true,
+        group: true,
         showHashtags: true,
       })
     }
