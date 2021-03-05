@@ -11,6 +11,12 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.8.1
+Released on `2021-03-02`
+
+- You can hide the map on discover page if you wish.
+- Hashtags are listed based on which filter you have selected.
+
 ## v0.8.0
 Released on `2021-01-29`
 

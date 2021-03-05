@@ -6,7 +6,7 @@ import { useStore } from 'effector-react'
 import { i18n } from '@ilearn/modules/i18n'
 import { $globalContext } from '~page-commons/store'
 
-import { didPickTag, $currentHashtag } from '../store'
+import { didPickTag, $currentHashtag, $layerSource } from '../store'
 import { CarteSearchAPI } from '@ilearn/modules/api'
 
 
@@ -14,22 +14,34 @@ import { CarteSearchAPI } from '@ilearn/modules/api'
 export const HashtagPicker = (props) => {
   const node = useStore($globalContext)
   const selectedTag = useStore($currentHashtag)
-  const [tags, setTags] = React.useState([])
+  const currentLayer = useStore($layerSource)
+  const [facets, setFacets] = React.useState({})
+  const [loading, setLoading] = React.useState(true)
+  let tags = []
 
   useMount(() => {
+    setLoading(true)
     if (node.authorized) {
-      CarteSearchAPI.hashtagList()
-        .then((hashtags) => {
-          setTags(hashtags)
+      CarteSearchAPI.facets()
+        .then((facets) => {
+          setFacets(facets)
+          setLoading(false)
         })
         .catch((error) => {
-          setTags([])
+          setFacets({})
+          setLoading(false)
         })
     }
   })
 
-  if (!node.authorized) {
+  if (loading || !node.authorized || !currentLayer.showHashtags) {
     return null
+  }
+
+  if (currentLayer.group === true) {
+    tags = facets.group_hashtags[0].data.map(i => i.value)
+  } else {
+    tags = facets.user_hashtags[0].data.map(i => i.value)
   }
 
   return (

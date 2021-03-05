@@ -4,6 +4,13 @@
 
 .visualisation-container {
   position: relative;
+  height: 50vh;
+  transition: height 0.2s ease;
+  overflow: hidden;
+
+  &.collapsed {
+    height: 0;
+  }
 
   .search-portal {
     position: absolute;
@@ -60,6 +67,13 @@
   }
 }
 
+#map-collapse {
+  padding: 0 20px;
+
+  .bp3-button {
+    border-radius: 0 0 5px 5px;
+  }
+}
 
 .progress-indicator {
   position: fixed;

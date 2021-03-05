@@ -7,6 +7,7 @@ import { i18n } from '@ilearn/modules/i18n'
 import { OverlayTools } from './overlays'
 import { ConceptMap } from './layer-d3'
 import { SearchView } from './search-ui'
+import { MapCollapseButton } from './map-collapse'
 
 import { MapLayerSources } from './consts'
 
@@ -112,7 +113,7 @@ function initialiseLayers() {
         label: i18nT`group`,
         src: `${group.guid}@group`,
         icon: 'layout-group-by',
-        user: true,
+        group: true,
         showHashtags: true,
       })
     }
@@ -176,6 +177,7 @@ export const renderView = async () => {
   renderReactComponent('overlay-tools', OverlayTools)
   renderReactComponent('search-ui', SearchView, { driver: searchDriver })
   renderReactComponent('edit-ui', ResourceEditDialog)
+  renderReactComponent('map-collapse', MapCollapseButton)
 
   _.defer(() => {
     // didPickLayer({ id: 'everything', src: '' })
