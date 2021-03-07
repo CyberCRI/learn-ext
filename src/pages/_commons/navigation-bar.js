@@ -7,6 +7,9 @@ import { Dialog, Button, Callout } from '@blueprintjs/core'
 import { i18n } from '@ilearn/modules/i18n'
 import { $globalContext } from './store'
 
+import AddToWelearnButton from '~components/ingress-button'
+
+
 const $dialogVisibility = createStore(false)
 const dialogControl = createApi($dialogVisibility, {
   show: () => true,
@@ -101,6 +104,7 @@ export const NavigationBar = () => {
           minimal
           href='/pages/discover.html'
           icon='mountain'/>
+        {node.authorized && <AddToWelearnButton/>}
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
         {node.authorized
