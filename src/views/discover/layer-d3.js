@@ -225,7 +225,7 @@ class ConceptMap {
         const fov = this.didClickFieldOfView(d.x, d.y)
         this.sock.emit('query.labels_fov', { ...this.filters, ...fov, initiator: 'click' })
 
-        if (d.target.nodeName !== 'P') {
+        if (d.target.nodeName !== 'P' && d.target.nodeName !== 'circle') {
           // we did not click on marker.
           $markerSelection.clear()
         }
@@ -397,6 +397,10 @@ class ConceptMap {
         .attr('cx', 0)
         .attr('cy', 0)
         .style('transform', i => `translate(${scale.x(i.x)}px, ${scale.y(i.y)}px)`)
+        .on('click', (d, i, e) => {
+          // this.renderFocusNodes([i])
+          viewportEvent.renderLabel(i)
+        })
   }
 
   updateTransformation = (transform, scale) => {

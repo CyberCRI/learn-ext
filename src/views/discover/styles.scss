@@ -152,10 +152,22 @@ $marker-fill: #042;
     display: block;
     @include fill-container(0);
 
-    .scatter {
+    g.scatter {
       opacity: .5;
+
       &[data-zoomed="out"] {
         display: none;
+      }
+    }
+    circle.scatter {
+      opacity: .5;
+      stroke: transparent;
+      stroke-width: 10px;
+      pointer-events: all;
+
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
       }
     }
   }
