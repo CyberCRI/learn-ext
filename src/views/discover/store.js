@@ -19,6 +19,7 @@ export const viewportEvent = {
   nudge: createEvent(),
   click: createEvent(),
   focusNode: createEvent(),
+  renderLabel: createEvent(),
 }
 
 export const NodeEvents = {
@@ -76,6 +77,7 @@ export const $markers = createApi($markerStore, {
 export const $markerSelectionStore = createStore([])
   .on(viewportEvent.click, (state, node) => [node.data])
   .on(viewportEvent.focusNode, (state, node) => [node])
+  .on(viewportEvent.renderLabel, (state, node) => [node])
   // .reset(didPickLayer)
 
 export const $markerSelection = createApi($markerSelectionStore, {
