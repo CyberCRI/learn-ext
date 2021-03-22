@@ -200,7 +200,7 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
         <div className='results'>
           <div className='search-info'>
             <div className='state'>
-              {wasSearched && <PagingInfo view={PagingState}/>}
+              {wasSearched && <PagingInfo view={PagingState} isLoading={isLoading}/>}
             </div>
           </div>
           <ResultView

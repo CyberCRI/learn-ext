@@ -67,11 +67,20 @@ const StateValues = () => {
   </>
 }
 
+const PageNumbers = ({ start, end, totalResults, isLoading }) => {
+  if (isLoading) {
+    return <strong>- - -</strong>
+  }
+  return <>
+    <strong>{start} - {end}</strong> out of <strong>{totalResults}</strong>
+  </>
+}
 
-const PagingState = ({ end, start, searchTerm, totalResults, ...props }) => {
+
+const PagingState = ({ end, start, searchTerm, totalResults, isLoading, ...props }) => {
   return (
     <div>
-      Showing <strong>{start} - {end}</strong> out of <strong>{totalResults}</strong> <StateValues/> <LayerState/>
+      Showing <PageNumbers end={end} start={start} isLoading={isLoading} totalResults={totalResults}/> <StateValues/> <LayerState/>
     </div>
   )
 }
