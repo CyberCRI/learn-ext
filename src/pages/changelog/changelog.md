@@ -11,6 +11,11 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.9.0
+Released on `2021-03-30`
+
+- You can now vote on a resource using upvote/downvote buttons.
+
 ## v0.8.1
 Released on `2021-03-02`
 
