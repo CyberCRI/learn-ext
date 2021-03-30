@@ -12,6 +12,7 @@ import { RiAnchorLine } from 'react-icons/ri'
 import { ResourceEditorControl } from './store'
 
 import { HashTags } from './hashtags'
+import { VoteButtons } from './vote-buttons'
 
 
 const ResourceItemContainer = styled.div`
@@ -147,6 +148,10 @@ const ResourceCardContainer = styled.div`
     justify-self: end;
   }
 `
+const ResourceCardActions = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
 
 
 export const ResourceItem = (resource) => {
@@ -203,7 +208,12 @@ export const ResourceItem = (resource) => {
     </div>
 
     <div className='card-footer'>
-      <div className='actions'>
+      <ResourceCardActions>
+        <VoteButtons
+          resource_id={resource.resource_id}
+          has_voted={resource.has_voted}
+          upvotes={resource.upvotes}
+          downvotes={resource.downvotes}/>
         {resource.is_owner &&
           <Button
             icon='edit'
@@ -217,7 +227,7 @@ export const ResourceItem = (resource) => {
               minimal outlined
               intent='primary'
               onClick={() => openEditor('add')}/>}
-      </div>
+      </ResourceCardActions>
     </div>
   </Card>
 }
