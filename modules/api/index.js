@@ -182,3 +182,38 @@ export const CarteSearchAPI = {
     return request({ url: `${env.ngapi_host}/carte/facets` })
   },
 }
+
+export const ResourceVotingAPI = {
+  upvote: ({ resource_id }) => {
+    return request({
+      url: pathFor(`users/resource/${resource_id}/vote`),
+      method: 'PATCH',
+      data: {
+        votetype: 'upvote',
+      },
+    })
+  },
+  downvote: ({ resource_id }) => {
+    return request({
+      url: pathFor(`users/resource/${resource_id}/vote`),
+      method: 'PATCH',
+      data: {
+        votetype: 'downvote',
+      },
+    })
+  },
+  deletevote: ({ resource_id }) => {
+    return request({
+      url: pathFor(`users/resource/${resource_id}/vote`),
+      method: 'PATCH',
+      data: {
+        votetype: 'delete',
+      },
+    })
+  },
+  getcount: ({ resource_id }) => {
+    return request({
+      url: pathFor(`users/resource/${resource_id}/vote`),
+    })
+  },
+}
