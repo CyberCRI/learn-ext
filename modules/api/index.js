@@ -136,6 +136,14 @@ export const ServiceAPI = {
       data: { guid },
     })
   },
+
+  createGroup: ({ label }) => {
+    return request({
+      url: pathFor('groups/'),
+      method: 'POST',
+      data: { label },
+    })
+  },
 }
 
 export const IngressAPI = {
