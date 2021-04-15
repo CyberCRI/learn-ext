@@ -11,6 +11,12 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.9.1
+Released on `2021-04-15`
+
+- You can create groups in settings.
+- People who added resource to WeLearn can be seen in dropdown on resource cards.
+
 ## v0.9.0
 Released on `2021-03-30`
 
