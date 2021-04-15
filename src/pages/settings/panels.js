@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { LocalStorage } from '@ilearn/modules/mixins'
 import { ConnectExtensionPrompt } from '~components/cards/auth'
 
+import { CreateGroup } from './create-group-modal'
+
 import { ServiceAPI } from '@ilearn/modules/api'
 import { i18n } from '@ilearn/modules/i18n'
 
@@ -105,6 +107,7 @@ const Account = () => {
   const [group, setGroup] = React.useState({})
   const [groups, setGroups] = React.useState([])
   const [status, setStatus] = React.useState(0)
+  const [refresh, setRefresh] = React.useState(0)
 
   React.useEffect(() => {
     if (window.jstate.user.groups.length > 0) {
@@ -120,7 +123,7 @@ const Account = () => {
       .catch((err) => {
         setStatus(-1)
       })
-  }, [])
+  }, [refresh])
 
   const handleChanges = () => {
     setStatus(0)
@@ -154,6 +157,7 @@ const Account = () => {
               value={i.guid}/>
           ))}
         </RadioGroup>
+        <CreateGroup onClose={() => setRefresh(refresh + 1)}/>
       </FormGroup>
 
       <Button
