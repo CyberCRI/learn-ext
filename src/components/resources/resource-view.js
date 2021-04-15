@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
+import ColorHash from 'color-hash'
 
 import { CardBranding } from '~components/cards/resources'
 import { ConceptList } from '~components/concepts'
 import { DateTimePill } from '~components/pills'
 
-import { Card, Elevation, Button, Callout } from '@blueprintjs/core'
+import { Card, Elevation, Button, Callout, Popover } from '@blueprintjs/core'
 import { RiAnchorLine } from 'react-icons/ri'
 
 import { ResourceEditorControl } from './store'
@@ -14,6 +15,7 @@ import { ResourceEditorControl } from './store'
 import { HashTags } from './hashtags'
 import { VoteButtons } from './vote-buttons'
 
+const colorHash = new ColorHash({ lightness: 0.5 })
 
 const ResourceItemContainer = styled.div`
   margin-bottom: 10px;
@@ -57,6 +59,7 @@ const CommentsListContainer = styled.ol`
           text-transform: uppercase;
           font-size: 18px;
           line-height: 1;
+          color: #fff;
         }
       }
 
@@ -69,8 +72,60 @@ const CommentsListContainer = styled.ol`
       margin-left: 25px;
     }
   }
-
 `
+
+const OwnersListContainer = styled.ol`
+  list-style: none;
+  margin: 0;
+  padding: 5px;
+`
+
+const OwnerItemContainer = styled.li`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .user-icon {
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    background-color: #CDDC39;
+    text-align: center;
+    padding: 2px;
+    margin-right: 5px;
+    color: #fff;
+
+    span {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 18px;
+      line-height: 1;
+    }
+  }
+
+  .owner-info {
+    display: flex;
+    align-items: baseline;
+
+    .spacer {
+      margin: 0 5px;
+    }
+  }
+`
+
+const ResourceOwnerListContainer = styled.div`
+  color: #555;
+  margin-bottom: 5px;
+
+  .owner-popover {
+    margin-left: 5px;
+  }
+`
+
 
 const ResourceNotes = ({ content }) => {
   return <Callout icon='comment'>
@@ -86,7 +141,7 @@ const ResourceComment = ({ comment }) => {
 
   return <li className='comment'>
     <div className='user-info'>
-      <div className='user-icon'>
+      <div className='user-icon' style={{backgroundColor: colorHash.hex(comment.user_email)}}>
         <span>{comment.user_email[0]}</span>
       </div>
       <div className='user-name'>added by <strong>{comment.user_email}</strong></div>
@@ -99,6 +154,36 @@ const ResourceCommentsList = ({ comments }) => {
   return <CommentsListContainer className='comments-list'>
     {comments.map(item => <ResourceComment key={item.uid} comment={item}/>)}
   </CommentsListContainer>
+}
+
+const ResourceOwner = ({ owner }) => {
+  return <OwnerItemContainer>
+    <div className='user-icon' style={{backgroundColor: colorHash.hex(owner.email)}}>
+      <span>{owner.email[0]}</span>
+    </div>
+    <div className='owner-info'>
+      <span>{owner.email}</span>
+      <span className='spacer'>|</span>
+      <DateTimePill timestamp={owner.created_on}/>
+    </div>
+  </OwnerItemContainer>
+}
+
+const ResourceOwnersList = ({ owners }) => {
+  const OwnerList = <OwnersListContainer>
+    {owners.map(owner => <ResourceOwner key={owner.uid} owner={owner}/>)}
+  </OwnersListContainer>
+
+  const lastOwner = owners.slice(-1)[0]
+
+  return <ResourceOwnerListContainer>
+    <span>
+      Added by <strong>{lastOwner.email}</strong>
+      {' '}
+      {owners.length > 1 && <span>and {owners.length - 1} others</span>}
+    </span>
+    <Popover content={OwnerList} target={<Button icon='more' small className='owner-popover'/>}/>
+  </ResourceOwnerListContainer>
 }
 
 
@@ -205,6 +290,9 @@ export const ResourceItem = (resource) => {
     <div className='comments'>
       {resource.notes && <ResourceNotes content={resource.notes}/>}
       {resource.comments && <ResourceCommentsList comments={resource.comments}/>}
+    </div>
+    <div className='owners'>
+      {(resource.owners && resource.owners.length > 0) && <ResourceOwnersList owners={resource.owners}/>}
     </div>
 
     <div className='card-footer'>
