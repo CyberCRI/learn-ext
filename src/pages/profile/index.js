@@ -5,11 +5,11 @@ import '../_commons/article-pages.scss'
 import { setup } from '../_commons'
 import { renderReactComponent } from '~mixins/react-helpers'
 
-import { UserProfileHeader } from '~views/profile'
+import { UserProfile } from '~views/profile'
 
 window.addEventListener('load', async () => {
   const queryArgs = queryStrings.parse(window.location.search)
 
   await setup()
-  renderReactComponent('profile-header', UserProfileHeader, { userId: queryArgs.user_id })
+  renderReactComponent('user-profile', UserProfile, { userId: queryArgs.user_id })
 })

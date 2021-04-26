@@ -69,7 +69,7 @@ const UserInfo = ({ profile }) => {
 }
 
 
-export const UserProfileHeader = ({ userId, ...props }) => {
+export const UserProfile = ({ userId, ...props }) => {
   const profile = useAsync(async () => {
     return await UserProfileAPI.getProfile({ userId })
   }, [userId])
