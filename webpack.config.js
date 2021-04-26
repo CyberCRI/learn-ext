@@ -63,6 +63,7 @@ const BuildTargets = {
     includePages: [
       'changelog', 'about-us', 'dashboard', 'onboarding',
       'privacy-policy', 'settings', 'support', 'discover',
+      'profile',
     ],
   },
 }
