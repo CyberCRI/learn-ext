@@ -225,3 +225,17 @@ export const ResourceVotingAPI = {
     })
   },
 }
+
+export const UserProfileAPI = {
+  getProfile: ({ userId }) => {
+    return request({
+      url: pathFor(`users/${userId}/profile`),
+    })
+  },
+  resources: ({ userId, limit=10, skip=0 }) => {
+    return request({
+      url: pathFor(`resources/user/${userId}`),
+      query: { limit, skip },
+    })
+  },
+}
