@@ -157,12 +157,13 @@ const ResourceCommentsList = ({ comments }) => {
 }
 
 const ResourceOwner = ({ owner }) => {
+  const ownerUrl = `/pages/profile.html?user_id=${owner.uid}`
   return <OwnerItemContainer>
     <div className='user-icon' style={{backgroundColor: colorHash.hex(owner.email)}}>
       <span>{owner.email[0]}</span>
     </div>
     <div className='owner-info'>
-      <span>{owner.email}</span>
+      <a href={ownerUrl}><span>{owner.email}</span></a>
       <span className='spacer'>|</span>
       <DateTimePill timestamp={owner.created_on}/>
     </div>
@@ -178,7 +179,7 @@ const ResourceOwnersList = ({ owners }) => {
 
   return <ResourceOwnerListContainer>
     <span>
-      Added by <strong>{lastOwner.email}</strong>
+      Added by <strong><a href={`/pages/profile.html?user_id=${lastOwner.uid}`}>{lastOwner.email}</a></strong>
       {' '}
       {owners.length > 1 && <span>and {owners.length - 1} others</span>}
     </span>
@@ -302,13 +303,13 @@ export const ResourceItem = (resource) => {
           has_voted={resource.has_voted}
           upvotes={resource.upvotes}
           downvotes={resource.downvotes}/>
-        {resource.is_owner &&
+        {resource.is_owner === true &&
           <Button
             icon='edit'
             text='Edit'
             minimal outlined
             onClick={() => openEditor('edit')}/>}
-        {!resource.is_owner && window.jstate.authorized &&
+        {resource.is_owner === false && window.jstate.authorized &&
             <Button
               icon={<RiAnchorLine/>}
               text='Add to my Library'
