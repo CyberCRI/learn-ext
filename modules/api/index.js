@@ -239,3 +239,11 @@ export const UserProfileAPI = {
     })
   },
 }
+
+export const RecommendedResourcesAPI = {
+  getSimilarResources: ({ resource_id }) => {
+    return request({
+      url: `${env.ngapi_host}/carte/recsys/resources/${resource_id}`,
+    })
+  },
+}
