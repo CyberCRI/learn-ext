@@ -29,6 +29,7 @@ export const UserResourceList = ({ userId }) => {
   }
 
   return <div>
+    <Pagination current={cursor} totalPages={count} onChange={didPaginate}/>
     <ResourceGrid resources={resources}/>
     <Pagination current={cursor} totalPages={count} onChange={didPaginate}/>
   </div>

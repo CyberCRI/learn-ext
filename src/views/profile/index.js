@@ -50,7 +50,7 @@ const UserInfoContainer = styled.div`
 const UserProfileContainer = styled.div`
   .resources-list {
     .pagination {
-      margin-top: 20px;
+      margin: 20px auto;
     }
   }
 
