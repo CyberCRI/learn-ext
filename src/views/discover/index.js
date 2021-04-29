@@ -19,6 +19,7 @@ import { $globalContext } from '~page-commons/store'
 import { ResourceEditDialog } from '~components/resources/edit-resource'
 import { ResourceEditorControl, didClickOnHashTag } from '~components/resources/store'
 import { didClickOnConcept } from '~components/concepts'
+import { ResourceDetailsDialog } from '~components/resources/details-view'
 
 import './styles.scss'
 
@@ -178,6 +179,7 @@ export const renderView = async () => {
   renderReactComponent('search-ui', SearchView, { driver: searchDriver })
   renderReactComponent('edit-ui', ResourceEditDialog)
   renderReactComponent('map-collapse', MapCollapseButton)
+  renderReactComponent('details-view', ResourceDetailsDialog)
 
   _.defer(() => {
     // didPickLayer({ id: 'everything', src: '' })
