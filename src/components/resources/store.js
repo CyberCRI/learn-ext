@@ -11,3 +11,12 @@ export const ResourceEditorControl = createApi($EditDialog, {
 })
 
 export const didClickOnHashTag = createEvent()
+
+export const $DetailsDialog = createStore({
+  isOpen: false,
+  resource: null,
+})
+export const ResourceDetailsDialogControl = createApi($DetailsDialog, {
+  show: (state, { resource }) => ({ resource, isOpen: true }),
+  hide: () => ({ isOpen: false }),
+})
