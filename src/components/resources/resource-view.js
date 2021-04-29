@@ -10,7 +10,7 @@ import { DateTimePill } from '~components/pills'
 import { Card, Elevation, Button, Callout, Popover } from '@blueprintjs/core'
 import { RiAnchorLine } from 'react-icons/ri'
 
-import { ResourceEditorControl } from './store'
+import { ResourceEditorControl, ResourceDetailsDialogControl } from './store'
 
 import { HashTags } from './hashtags'
 import { VoteButtons } from './vote-buttons'
@@ -191,12 +191,17 @@ const ResourceOwnersList = ({ owners }) => {
 const ResourceCardContainer = styled.div`
   display: grid;
 
-  grid-template-columns: 60px 10px auto;
+  grid-template-columns: 60px 10px auto 28px;
   grid-template-rows: repeat(3, auto);
   grid-template-areas:
-    "image . info"
-    ". . info"
-    ". actions actions";
+    "image . info more"
+    ". . info ."
+    ". actions actions actions";
+
+  .button.more {
+    grid-area: more;
+    align-self: baseline;
+  }
 
   .image {
     grid-area: image;
@@ -264,11 +269,17 @@ export const ResourceItem = (resource) => {
     ResourceEditorControl.show({ mode, resource: resource_payload })
   }
 
-  return <Card elevation={Elevation.TWO} interactive>
+  const openDetails = (e) => {
+    ResourceDetailsDialogControl.show({ resource })
+  }
+
+  return <Card elevation={Elevation.TWO} interactive className='resource-item'>
+    <div className='underlay-link' onClick={openDetails}/>
     <ResourceCardContainer>
       <div className='image'>
         <div style={{ backgroundImage: `url(${imageUrl})`}}/>
       </div>
+      <Button icon='more' className='button more' minimal onClick={openDetails}/>
       <div className='info'>
         <a
           href={resource.url}
