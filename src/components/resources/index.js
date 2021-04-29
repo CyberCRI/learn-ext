@@ -3,6 +3,6 @@ import './styles.scss'
 import * as Placeholder from './placeholders'
 import { Pagination } from './pagination'
 import { ResourceGrid } from './grid'
-import { ResourceListView } from './resource-view'
+import { ResourceListView, ResourceItem } from './resource-view'
 
-export { Placeholder, Pagination, ResourceGrid, ResourceListView }
+export { Placeholder, Pagination, ResourceGrid, ResourceListView, ResourceItem }
