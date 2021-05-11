@@ -3,7 +3,7 @@ import { useStore } from 'effector-react'
 import { useAsync } from 'react-use'
 import styled from 'styled-components'
 
-import { Dialog, NonIdealState } from '@blueprintjs/core'
+import { Dialog, NonIdealState, Button, Spinner } from '@blueprintjs/core'
 
 import { ResourceCard } from '~components/cards/resources'
 import { ResourceItem } from '~components/resources'
@@ -24,6 +24,10 @@ const SimilarResourcesListContainer = styled.div`
   }
 `
 
+const LoadingStateSpinner = () => {
+  return <NonIdealState><Spinner/></NonIdealState>
+}
+
 const SimilarResourcesList = ({ resources }) => {
   if (resources.length === 0) {
     return <NonIdealState
@@ -41,7 +45,7 @@ const SimilarResources = ({ resource_id, ...props }) => {
   }, [resource_id])
 
   return <div>
-    {resources.loading && <p>Loading</p>}
+    {resources.loading && <LoadingStateSpinner/>}
     {resources.value && <SimilarResourcesList resources={resources.value}/>}
   </div>
 }
