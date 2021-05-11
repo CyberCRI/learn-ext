@@ -61,9 +61,17 @@ export const ResourceDetailsDialog = () => {
       onClose={ResourceDetailsDialogControl.hide}
       className='dialog resource-details-view'>
       <div className='body'>
-        {resource && <ResourceItem {...resource}/>}
-        <h3 className='heading'>Similar Resources</h3>
-        {resource && <SimilarResources resource_id={resource.resource_id}/>}
+        <Button
+          onClick={ResourceDetailsDialogControl.hide}
+          icon='cross'
+          className='close-button'/>
+
+        {resource && <ResourceItem resource={resource}/>}
+
+        <div className='similar-resources'>
+          <h3 className='heading'>Similar Resources</h3>
+          {resource && <SimilarResources resource_id={resource.resource_id}/>}
+        </div>
       </div>
     </Dialog>
   )
