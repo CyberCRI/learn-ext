@@ -245,7 +245,6 @@ const ResourceCardActions = styled.div`
 `
 
 
-export const ResourceItem = (resource) => {
   const imageUrl = encodeURI(`/meta/resolve/image?url=${resource.url}`)
 
   // collect hashtags together if the comment list is present.
@@ -279,7 +278,7 @@ export const ResourceItem = (resource) => {
       <div className='image'>
         <div style={{ backgroundImage: `url(${imageUrl})`}}/>
       </div>
-      <Button icon='more' className='button more' minimal onClick={openDetails}/>
+      {props.showMoreButton && <Button icon='more' className='button more' minimal outlined onClick={openDetails} text='More'/>}
       <div className='info'>
         <a
           href={resource.url}
