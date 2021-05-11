@@ -188,10 +188,10 @@ const ResourceOwnersList = ({ owners }) => {
 }
 
 
-const ResourceCardContainer = styled.div`
+const ResourceInfoContainer = styled.div`
   display: grid;
 
-  grid-template-columns: 60px 10px auto 28px;
+  grid-template-columns: 60px 10px auto auto;
   grid-template-rows: repeat(3, auto);
   grid-template-areas:
     "image . info more"
@@ -201,6 +201,7 @@ const ResourceCardContainer = styled.div`
   .button.more {
     grid-area: more;
     align-self: baseline;
+    justify-self: end;
   }
 
   .image {
@@ -224,6 +225,14 @@ const ResourceCardContainer = styled.div`
   .info {
     grid-area: info;
 
+    .title {
+      display: inline;
+    }
+
+    .pills.resource-link .url {
+      flex: none;
+    }
+
     .pills {
       margin: 5px 0;
     }
@@ -245,6 +254,7 @@ const ResourceCardActions = styled.div`
 `
 
 
+export const ResourceItem = ({ resource, ...props }) => {
   const imageUrl = encodeURI(`/meta/resolve/image?url=${resource.url}`)
 
   // collect hashtags together if the comment list is present.
@@ -274,7 +284,7 @@ const ResourceCardActions = styled.div`
 
   return <Card elevation={Elevation.TWO} interactive className='resource-item'>
     <div className='underlay-link' onClick={openDetails}/>
-    <ResourceCardContainer>
+    <ResourceInfoContainer>
       <div className='image'>
         <div style={{ backgroundImage: `url(${imageUrl})`}}/>
       </div>
@@ -297,7 +307,7 @@ const ResourceCardActions = styled.div`
           {allhashtags && <HashTags tags={allhashtags}/>}
         </div>
       </div>
-    </ResourceCardContainer>
+    </ResourceInfoContainer>
     <div className='comments'>
       {resource.notes && <ResourceNotes content={resource.notes}/>}
       {resource.comments && <ResourceCommentsList comments={resource.comments}/>}
@@ -337,7 +347,7 @@ export const ResourceListView = ({ resources, ...props }) => {
     <div>
       {resources.map((x, i) =>
         <ResourceItemContainer key={x.resource_id}>
-          <ResourceItem {...x} {...props}/>
+          <ResourceItem resource={x} {...props}/>
         </ResourceItemContainer>
       )}
     </div>
