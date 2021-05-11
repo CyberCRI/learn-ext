@@ -59,9 +59,7 @@ export const ResourceDetailsDialog = () => {
     <Dialog
       isOpen={dialog.isOpen}
       onClose={ResourceDetailsDialogControl.hide}
-      className='dialog resource-details-view'
-      title={resource ? resource.title : ''}
-      icon='intersection'>
+      className='dialog resource-details-view'>
       <div className='body'>
         {resource && <ResourceItem {...resource}/>}
         <h3 className='heading'>Similar Resources</h3>
