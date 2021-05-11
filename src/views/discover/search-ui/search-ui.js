@@ -112,7 +112,7 @@ const ZeroResultsPlaceHolder = (props) => {
 const ResultView = ({ results, wasSearched, loading, listView=true }) => {
   // this shows a grid full of search results.
   const ItemView = listView
-    ? <ResourceListView resources={results}/>
+    ? <ResourceListView resources={results} showMoreButton={true}/>
     : <ResourceGrid resources={results}/>
 
   if (!loading && results.length === 0) {
