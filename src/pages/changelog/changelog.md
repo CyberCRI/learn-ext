@@ -11,6 +11,13 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.10.0
+Released on `2021-05-11`
+
+- Browse resources similar to given resource by clicking anywhere on resource card.
+- View all the resources from a user by visiting their profile. You can access the profile by clicking on user name.
+- A new improved scraper that allows us to process pdf, and docx files as well.
+
 ## v0.9.1
 Released on `2021-04-15`
 
