@@ -14,10 +14,8 @@ import { MapLayerSources } from './consts'
 import { didPickLayer, onPickHashTag, viewportEvent, setAvailableLayers, $searchState, $layerSource } from './store'
 
 import { searchConfig } from './search-ui'
-import { $globalContext } from '~page-commons/store'
 
-import { ResourceEditDialog } from '~components/resources/edit-resource'
-import { ResourceEditorControl, didClickOnHashTag } from '~components/resources/store'
+import { ResourceEditorControl } from '~components/resources/store'
 import { didClickOnConcept } from '~components/concepts'
 import { ResourceDetailsDialog } from '~components/resources/details-view'
 
@@ -177,7 +175,6 @@ export const renderView = async () => {
   // [!todo] Make the overlay tools be in sync as well.
   renderReactComponent('overlay-tools', OverlayTools)
   renderReactComponent('search-ui', SearchView, { driver: searchDriver })
-  renderReactComponent('edit-ui', ResourceEditDialog)
   renderReactComponent('map-collapse', MapCollapseButton)
   renderReactComponent('details-view', ResourceDetailsDialog)
 
