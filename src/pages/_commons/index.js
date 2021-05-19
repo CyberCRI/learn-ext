@@ -3,6 +3,8 @@ import { FocusStyleManager } from '@blueprintjs/core'
 import { renderReactComponent } from '~mixins/react-helpers'
 
 import { NavigationBar } from './navigation-bar'
+import { ResourceEditDialog } from '~components/resources'
+
 import { setGlobalContext } from './store'
 
 export const setup = async () => {
@@ -11,6 +13,7 @@ export const setup = async () => {
 
   FocusStyleManager.onlyShowFocusOnTabs()
   renderReactComponent('navbar', NavigationBar)
+  renderReactComponent('resource-editor', ResourceEditDialog)
 
   setGlobalContext(window.jstate)
   console.log('Setup Done.')
