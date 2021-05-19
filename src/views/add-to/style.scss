@@ -1,0 +1,28 @@
+.add-to-dialog {
+  .bp3-dialog-header {
+    background: transparent;
+  }
+
+  .body {
+    position: relative;
+    padding: 10px 20px;
+
+    .close-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 10px;
+      z-index: 10;
+    }
+
+    .intro {
+      display: flex;
+      align-items: center;
+
+      .icon {
+        margin-right: 10px;
+        font-size: 2em;
+      }
+    }
+  }
+}
