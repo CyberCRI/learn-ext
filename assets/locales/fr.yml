@@ -32,6 +32,8 @@ navigationBar:
       label: Support
     login:
       label: Login
+    addToWeLearn:
+      label: Add to WeLearn
 
   loginDialog:
     title: Login or Sign Up with Learning Planet

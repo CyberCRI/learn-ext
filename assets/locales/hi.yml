@@ -32,6 +32,8 @@ navigationBar:
       label: सहायता
     login:
       label: लॉगिन
+    addToWeLearn:
+      label: Add to WeLearn
 
   loginDialog:
     title: Learning Planet के द्वारा लॉगिन करें
