@@ -1,7 +1,5 @@
 import queryStrings from 'query-string'
 
-import '../_commons/article-pages.scss'
-
 import { setup } from '../_commons'
 import { renderReactComponent } from '~mixins/react-helpers'
 
