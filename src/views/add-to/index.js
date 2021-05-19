@@ -28,6 +28,9 @@ const AddToDialog = () => {
       if (preprocResponse.error_type !== undefined) {
         throw new Error('Cannot fetch data')
       }
+      if (preprocResponse.title === null) {
+        throw new Error('No title found')
+      }
     } catch (e) {
       setErrorState(true)
       setLoading(false)
