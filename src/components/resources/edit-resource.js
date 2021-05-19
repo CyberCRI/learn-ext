@@ -1,30 +1,18 @@
 import React from 'react'
 import _ from 'lodash'
 import { useStore } from 'effector-react'
-import { AnchorButton } from '@blueprintjs/core'
 import { Dialog, Button, Callout, TextArea, Popover } from '@blueprintjs/core'
 import { useAsyncFn } from 'react-use'
 import styled from 'styled-components'
 
 import { FaviconPill, UrlPill } from '~components/pills'
 
-import { API, CarteSearchAPI, IngressAPI } from '@ilearn/modules/api'
+import { API, CarteSearchAPI } from '@ilearn/modules/api'
 
 import { ResourceCard } from '~components/cards/resources'
 
 import { HashTagsInput, WikiConceptInput } from '~components/inputs'
 import { $EditDialog, ResourceEditorControl } from './store'
-
-
-export const PageInfo = ({ title, url }) => {
-  return (
-    <div className='page-infobox'>
-      <FaviconPill className='favicon' url={url} title={title}/>
-      <h3>{title}</h3>
-      <UrlPill url={url}/>
-    </div>
-  )
-}
 
 
 const DeletePopoverContainer = styled.div`
