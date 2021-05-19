@@ -7,6 +7,8 @@ import { Dialog, Button, Callout } from '@blueprintjs/core'
 import { i18n } from '@ilearn/modules/i18n'
 import { $globalContext } from './store'
 
+import { AddToButton } from '~views/add-to'
+
 const $dialogVisibility = createStore(false)
 const dialogControl = createApi($dialogVisibility, {
   show: () => true,
@@ -103,6 +105,7 @@ export const NavigationBar = () => {
           icon='mountain'/>
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
+        {node.authorized && <AddToButton/>}
         {node.authorized
           ? <AnchorButton
             text={i18nT('links.settings.label')}
