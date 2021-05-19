@@ -11,6 +11,11 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.11.0
+Released on `2021-05-19`
+
+- Now you can add resources to WeLearn directly from our website. Handy when you do not have the extension intalled.
+
 ## v0.10.0
 Released on `2021-05-11`
 
