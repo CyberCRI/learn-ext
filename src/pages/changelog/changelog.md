@@ -11,6 +11,11 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.11.1
+Released on `2021-06-01`
+
+- You can import multiple resources from a CSV file using the new Add-to-WeLearn button.
+
 ## v0.11.0
 Released on `2021-05-19`
 
