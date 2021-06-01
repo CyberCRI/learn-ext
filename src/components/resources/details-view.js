@@ -35,7 +35,7 @@ const SimilarResourcesList = ({ resources }) => {
       description={'No Similar Resources found.'}/>
   }
   return <SimilarResourcesListContainer>
-    {resources.map(r => <ResourceCard {...r}/>)}
+    {resources.map(r => <ResourceCard key={r.resource_id} {...r}/>)}
   </SimilarResourcesListContainer>
 }
 
