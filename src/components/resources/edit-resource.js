@@ -13,6 +13,7 @@ import { ResourceCard } from '~components/cards/resources'
 
 import { HashTagsInput, WikiConceptInput } from '~components/inputs'
 import { $EditDialog, ResourceEditorControl } from './store'
+import { didSaveEditedResource } from './store'
 
 
 const DeletePopoverContainer = styled.div`
@@ -96,6 +97,8 @@ const EditorForm = ({ resource, mode }) => {
       hashtags: tags.map(t => t.label),
       notes: comment,
     }
+    didSaveEditedResource(payload)
+
     await fetch(`${env.ngapi_host}/api/users/resource`, {
       method: 'POST',
       body: JSON.stringify(payload),

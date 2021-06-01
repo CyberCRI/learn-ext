@@ -20,3 +20,8 @@ export const ResourceDetailsDialogControl = createApi($DetailsDialog, {
   show: (state, { resource }) => ({ resource, isOpen: true }),
   hide: () => ({ isOpen: false }),
 })
+
+// This event is emitted whenever a resource object is edited in the EditResource
+// component.
+// Hook onto this to update resource state elsewhere.
+export const didSaveEditedResource = createEvent()
