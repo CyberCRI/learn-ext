@@ -304,7 +304,7 @@ const CsvPrompt = () => {
       <input {...getInputProps({ accept: '.csv,.txt', multiple: false })} />
       <Callout className='drop-area' intent={isDragActive ? 'primary' : ''} icon='import'>
         <p>{isDragActive ? 'Drop the file here...' : 'Drag and drop CSV file of resources here, or click here.'}</p>
-        <Button icon='document-open' text='Upload CSV' small/>
+        <Button icon='document-open' text='Upload CSV' small outlined intent='primary'/>
       </Callout>
     </div>
     <Divider/>
