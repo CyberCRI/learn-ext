@@ -18,6 +18,7 @@ import { searchConfig } from './search-ui'
 import { ResourceEditorControl } from '~components/resources/store'
 import { didClickOnConcept } from '~components/concepts'
 import { ResourceDetailsDialog } from '~components/resources/details-view'
+import { AddMultipleDialogControl } from '~views/add-to/store'
 
 import './styles.scss'
 
@@ -65,6 +66,10 @@ function wireUpEffects(driver) {
   })
 
   ResourceEditorControl.hide.watch(event => {
+    const currentpage = driver.getState().current
+    actions.setCurrent(currentpage)
+  })
+  AddMultipleDialogControl.hide.watch(event => {
     const currentpage = driver.getState().current
     actions.setCurrent(currentpage)
   })

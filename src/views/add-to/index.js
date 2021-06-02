@@ -12,7 +12,7 @@ import { IngressAPI } from '@ilearn/modules/api'
 import { ResourceEditorControl, didSaveEditedResource } from '~components/resources/store'
 import { ConceptList } from '~components/concepts'
 import { CardBranding } from '~components/cards/resources'
-
+import { GlobalToaster } from '~page-commons/notifications'
 
 import { $AddToDialog, AddToDialogControl } from './store'
 import { $AddMultipleDialog, AddMultipleDialogControl } from './store'
@@ -176,6 +176,12 @@ const NewResourcesPool = ({ urls }) => {
       }
       setProgress((i + 1) / items.length)
     }
+    GlobalToaster.show({
+      message: `Added ${items.length} resources.`,
+      icon: 'tick',
+      intent: 'success',
+      timeout: 10000,
+    })
   }
 
   return (
