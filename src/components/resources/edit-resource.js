@@ -11,7 +11,7 @@ import { API, CarteSearchAPI } from '@ilearn/modules/api'
 
 import { ResourceCard } from '~components/cards/resources'
 
-import { HashTagsInput, WikiConceptInput } from '~components/inputs'
+import { HashTagsInput, WikiConceptInput, LanguageSelector } from '~components/inputs'
 import { $EditDialog, ResourceEditorControl } from './store'
 import { didSaveEditedResource } from './store'
 
@@ -66,12 +66,12 @@ const EditorForm = ({ resource, mode }) => {
   const [ concepts, setConcepts ] = React.useState(resource.concepts)
   const [ tags, setTags ] = React.useState(resource.hashtags.map((t) => ({ id: t, label: t })))
   const [ availableTags, setAvailableTags ] = React.useState([])
+  const [ lang, setLang ] = React.useState(resource.lang)
+
   const [ saveCount, setSaveCount ] = React.useState(0)
   const [ deleting, setDeleteState ] = React.useState(false)
 
   React.useEffect(() => {
-    // Do stuff in here after authn is loaded.
-    //
     // Load personal hashtags in for initialising list of available tags.
     CarteSearchAPI.hashtagList()
       .then((hashtags) => {
@@ -92,7 +92,7 @@ const EditorForm = ({ resource, mode }) => {
     const payload = {
       title: resource.title,
       url: resource.url,
-      lang: resource.lang,
+      lang,
       concepts,
       hashtags: tags.map(t => t.label),
       notes: comment,
@@ -107,17 +107,21 @@ const EditorForm = ({ resource, mode }) => {
       }})
     ResourceEditorControl.hide()
     setSaveCount(saveCount + 1)
-  }, [concepts, comment, tags])
+  }, [concepts, comment, tags, lang])
 
   const didSave = (!bookmarkState.error && saveCount > 0)
 
   return (
     <div>
       <div className='page-action'>
+        <h3 className='title'>Page Language</h3>
+
+        <LanguageSelector value={lang} onChange={value => setLang(value)}/>
+
         <h3 className='title'>Concepts on this Page</h3>
 
         <WikiConceptInput
-          lang={resource.lang}
+          lang={lang}
           onChange={value => setConcepts(value)}
           value={concepts}
           usePortal={false}/>
