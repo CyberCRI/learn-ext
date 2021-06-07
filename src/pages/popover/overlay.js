@@ -12,7 +12,7 @@ import { Port } from '~procs/portal'
 import { ConceptList, ConceptListLoadingState } from '~components/concepts'
 import { UrlPill, FaviconPill } from '~components/pills'
 import { ResourceCard } from '~components/cards/resources'
-import { HashTagsInput, WikiConceptSuggest } from '~components/inputs'
+import { HashTagsInput, WikiConceptSuggest, LanguageSelector } from '~components/inputs'
 
 
 import { RatingPicker } from './rating'
@@ -144,6 +144,12 @@ const PageConcepts = (props) => {
   return (
     <div>
       <div className='page-action'>
+        <h3 className='title'>Page Language</h3>
+
+        <InputContainer>
+          <LanguageSelector value={language} onChange={v => setLanguage(v)}/>
+        </InputContainer>
+
         <h3 className='title'>Concepts on this Page</h3>
 
         {status == 100 && <ConceptListLoadingState/>}
