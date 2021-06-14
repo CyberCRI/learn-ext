@@ -80,7 +80,7 @@ export const UserProfile = ({ userId, ...props }) => {
       {!profile.loading && !profile.error && <UserInfo profile={profile.value}/>}
     </div>
     <div className='resources-list'>
-      <UserResourceList userId={userId}/>
+      <UserResourceList userId={userId} editable={props.editable}/>
     </div>
   </UserProfileContainer>
 }
