@@ -72,12 +72,14 @@ export const Pagination = ({current, totalPages, onChange, maxCells=CELL_COUNT})
     icon='arrow-left'
     disabled={current === 1}
     onClick={() => onChange(current - 1)}
+    outlined
     text='Previous'/>
 
   const NextPage = <Button
     rightIcon='arrow-right'
     disabled={current >= totalPages + 1}
     onClick={() => onChange(current + 1)}
+    outlined
     text='Next'/>
 
   return (
@@ -90,6 +92,7 @@ export const Pagination = ({current, totalPages, onChange, maxCells=CELL_COUNT})
           disabled={ellipsis}
           key={nr}
           active={nr === current}
+          outlined
           onClick={() => onChange(nr)}/>
       )}
       {NextPage}
