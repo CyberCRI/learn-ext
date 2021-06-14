@@ -1,10 +1,11 @@
 import { setup } from '../_commons'
 import { renderReactComponent } from '~mixins/react-helpers'
 
-import { DashboardView } from '~views/dashboard'
+import { UserProfile } from '~views/profile'
 
 window.addEventListener('load', async () => {
-  await setup()
-  renderReactComponent('resources', DashboardView)
-})
+  const userId = window.jstate.user.uid
 
+  await setup()
+  renderReactComponent('dashboard', UserProfile, { userId, editable: true })
+})
