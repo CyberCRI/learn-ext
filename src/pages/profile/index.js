@@ -7,7 +7,10 @@ import { UserProfile } from '~views/profile'
 
 window.addEventListener('load', async () => {
   const queryArgs = queryStrings.parse(window.location.search)
+  const userId = queryArgs.user_id
+  const currentUserId = window.jstate.user && window.jstate.user.uid
+  const editable = currentUserId === userId
 
   await setup()
-  renderReactComponent('user-profile', UserProfile, { userId: queryArgs.user_id })
+  renderReactComponent('user-profile', UserProfile, { userId, editable })
 })
