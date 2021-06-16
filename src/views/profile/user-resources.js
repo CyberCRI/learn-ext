@@ -17,6 +17,10 @@ export const UserResourceList = ({ userId, editable }) => {
       skip: (cursor - 1) * limit,
     })
     setResources(results.map(r => ({
+      // [!hack] The API is supposed to return is_owner attribute for each
+      // resource, but it doesn't.
+      // This property is hence injected into the resource items if the optional
+      // prop `editable` is set to true.
       is_owner: editable === true ? true : null,
       ...r,
     })))
