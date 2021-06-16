@@ -164,7 +164,7 @@ export const WikiConceptInput = ({ value, lang, onChange, usePortal=true }) => {
 
   return (
     <div className='wiki-concept input'>
-      <ConceptList concepts={concepts} removable onRemove={didRemoveConcept} emitClick={false}/>
+      <ConceptList concepts={concepts} lang={lang} removable onRemove={didRemoveConcept} emitClick={false}/>
       <WikiConceptSuggest onSelect={didAddConcept} lang={lang} usePortal={usePortal}/>
     </div>
   )
