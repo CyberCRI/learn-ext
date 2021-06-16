@@ -22,7 +22,7 @@ const conceptListVariants = {
 const PREF_LANG = 'en'
 
 
-export function getTagRepresentation (props) {
+export function getTagRepresentation (props, pref_lang) {
   // If we can find a representation in preferred language, great!
   // else we'd fall back to first available representation.
   // Note that if no representations are available it'd be an error.
@@ -44,7 +44,7 @@ export function getTagRepresentation (props) {
     }
     return {} // we can't do anything but ignore.
   }
-  const r = reprs.find(node => node.lang === PREF_LANG)
+  const r = reprs.find(node => node.lang === pref_lang)
   if (typeof r !== 'object') {
     return reprs[0]
   }
@@ -53,7 +53,7 @@ export function getTagRepresentation (props) {
 
 export const ConceptTag = ({ value, ...props }) => {
   const { wikidata_id } = value
-  const { title, lang } = getTagRepresentation(value)
+  const { title, lang } = getTagRepresentation(value, props.lang)
   if (!title || !lang) {
     console.log(`Empty tag. Not rendering <ConceptTag ${wikidata_id}>`)
     return null
@@ -97,6 +97,7 @@ export const ConceptTag = ({ value, ...props }) => {
 export const ConceptList = (props) => {
   const { removable=false, emitClick=true } = props
   const concepts = props.concepts
+  const lang = props.lang || PREF_LANG
 
   return (
     <AnimatePresence initial={props.noAnimation ? false : 'hidden'}>
@@ -112,7 +113,8 @@ export const ConceptList = (props) => {
               removable={removable}
               onRemove={props.onRemove}
               emitClick={emitClick}
-              value={item}/>
+              value={item}
+              lang={lang}/>
           </motion.li>
         )}
       </motion.ul>
