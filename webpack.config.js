@@ -49,6 +49,7 @@ const BuildTargets = {
     outputFmt: IS_PRODUCTION ? '[name].[hash]' : '[name]',
     chunks: {},
     assets: [
+      { from: './assets/etc', to: './etc' },
       { from: './assets/media', to: './media' },
       { from: './assets/icons/browsers/apple-touch-icon.png', to: './apple-touch-icon.png' },
       { from: './assets/media/favicons/browserconfig.xml', to: './browserconfig.xml' },
