@@ -167,6 +167,14 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
         <div className='tools'>
           <div className='available'>
             <ToolDiv>
+              {wasSearched && <Button
+                text='Reset Search'
+                small minimal
+                onClick={didClickReset}
+                icon='refresh'
+              />}
+            </ToolDiv>
+            <ToolDiv>
               <HashtagPicker/>
             </ToolDiv>
             <ToolDiv>
@@ -174,14 +182,6 @@ const SearchComposition = ({ wasSearched, isLoading, ...props }) => {
                 label='View as list'
                 checked={resultViewAsList}
                 onChange={() => setResultViewType(!resultViewAsList)}/>
-            </ToolDiv>
-            <ToolDiv>
-              {wasSearched && <Button
-                text='Reset Search'
-                small minimal
-                onClick={didClickReset}
-                icon='refresh'
-              />}
             </ToolDiv>
           </div>
           { false &&
