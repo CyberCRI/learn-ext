@@ -11,6 +11,23 @@
 
 Here is what's new in this version of WeLearn App:
 
+## v0.12.0
+Released on `2021-06-23`
+
+> Hey! This is my last release on WeLearn Project as I move on to a new opportunity.
+> Since the beginning of the project we've progressively added many features and got
+> several feedback from our testers and users. I would like to thank them for the help.
+> 
+> I wish the project to grow further under new developers hand! I had fun.
+> 
+> -- Prashant S ([@prashnts](https://github.com/prashnts))
+> 
+> :wq
+
+- A new dashboard page is now available. It provides a streamlined view and performance
+  improvements.
+- You can now change the language of annotation in add-to-welearn dialog.
+
 ## v0.11.1
 Released on `2021-06-01`
 

@@ -306,7 +306,7 @@ const CsvPrompt = () => {
   return <div className='csv-prompt'>
     <Divider/>
     <p>You can also upload a CSV file containing URLs to the resources you wish to add.</p>
-    <p><a href='/etc/welearn-add-to-sample.csv'>Click here for an example CSV file.</a></p>
+    <p><a href='/etc/welearn-add-to-sample.csv'>Click here to download an example CSV file.</a></p>
     <div {...getRootProps()} className='dropzone-body'>
       <input {...getInputProps({ accept: '.csv,.txt', multiple: false })} />
       <Callout className='drop-area' intent={isDragActive ? 'primary' : ''} icon='import'>
