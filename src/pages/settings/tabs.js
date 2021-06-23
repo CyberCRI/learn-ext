@@ -26,9 +26,6 @@ const SettingsTabs = (props) => {
       <Tab id='general'
            title={<TabTitle title={i18nT('general')} icon='wrench'/>}
            panel={<Panels.General/>}/>
-      <Tab id='privacy'
-           title={<TabTitle title={i18nT('privacy')} icon='shield'/>}
-           panel={<Panels.Privacy/>}/>
       <Divider/>
       <Tab id='support'
            title={<TabTitle title={i18nT('support')} icon='lifesaver'/>}
@@ -36,5 +33,10 @@ const SettingsTabs = (props) => {
     </Tabs>
   )
 }
+
+//- [!note] to show the privacy tab, you can use this snippet:
+//      <Tab id='privacy'
+//           title={<TabTitle title={i18nT('privacy')} icon='shield'/>}
+//           panel={<Panels.Privacy/>}/>
 
 export default SettingsTabs
