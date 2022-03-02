@@ -103,7 +103,7 @@
     "js-yaml": "^3.14.0",
     "jsdom": "^16.4.0",
     "jstransformer-markdown-it": "^2.1.0",
-    "karma": "^5.1.1",
+    "karma": "^6.3.16",
     "karma-chai": "^0.1.0",
     "karma-chai-as-promised": "^0.1.2",
     "karma-chrome-launcher": "^3.1.0",
